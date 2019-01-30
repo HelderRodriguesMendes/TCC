@@ -5,8 +5,6 @@
  */
 package View;
 
-import Controller.Fundo_tela_Inicial;
-import java.awt.GridLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -18,13 +16,11 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Interface extends javax.swing.JFrame {
 
-     Fundo_tela_Inicial tela;
+    /**
+     * Creates new form Interface
+     */
     public Interface() {
         initComponents();
-        //setResizable(false); // BLOQUIA PARA NÃO PERMITIR MAXIMIZAR A TELA
-        setLayout(new GridLayout());
-        tela = new Fundo_tela_Inicial("src/Imagens/SIRA.png");
-        getContentPane().add(tela);
     }
 
     /**
@@ -40,26 +36,31 @@ public class Interface extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu1.setText("File");
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/SALVAR 2.png"))); // NOI18N
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar_editar.png"))); // NOI18N
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("jMenu3");
-
-        jMenuItem1.setText("jMenuItem1");
-        jMenu3.add(jMenuItem1);
-
-        jMenuItem2.setText("jMenuItem2");
-        jMenu3.add(jMenuItem2);
-
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/PESQUISAR (2).png"))); // NOI18N
         jMenuBar1.add(jMenu3);
+
+        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ESCLUIR 2.png"))); // NOI18N
+        jMenuBar1.add(jMenu4);
+
+        jMenu5.setEnabled(false);
+        jMenu5.setMaximumSize(new java.awt.Dimension(1000, 32767));
+        jMenu5.setPreferredSize(new java.awt.Dimension(700, 19));
+        jMenuBar1.add(jMenu5);
+
+        jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/SAIR 2.png"))); // NOI18N
+        jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
 
@@ -67,11 +68,11 @@ public class Interface extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1184, Short.MAX_VALUE)
+            .addGap(0, 1356, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 563, Short.MAX_VALUE)
+            .addGap(0, 595, Short.MAX_VALUE)
         );
 
         pack();
@@ -104,10 +105,7 @@ public class Interface extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        
         try {
-            /* Create and display the form */
-            
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Padrao_JTattoo.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,7 +116,6 @@ public class Interface extends javax.swing.JFrame {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Padrao_JTattoo.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -131,8 +128,9 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     // End of variables declaration//GEN-END:variables
 }
