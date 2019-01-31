@@ -5,6 +5,8 @@
  */
 package View;
 
+import Controller.Fundo_tela_Inicial;
+import java.awt.GridLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -16,11 +18,12 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Interface extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Interface
-     */
+    Fundo_tela_Inicial tela;
     public Interface() {
         initComponents();
+        setLayout(new GridLayout());
+        tela = new Fundo_tela_Inicial("src/Imagens/SIRA.png");
+        getContentPane().add(tela);
     }
 
     /**
@@ -38,7 +41,7 @@ public class Interface extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
+        Menu_SAIR = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,8 +62,16 @@ public class Interface extends javax.swing.JFrame {
         jMenu5.setPreferredSize(new java.awt.Dimension(700, 19));
         jMenuBar1.add(jMenu5);
 
-        jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/SAIR 2.png"))); // NOI18N
-        jMenuBar1.add(jMenu6);
+        Menu_SAIR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/SAIR 2.png"))); // NOI18N
+        Menu_SAIR.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Menu_SAIRMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Menu_SAIRMouseEntered(evt);
+            }
+        });
+        jMenuBar1.add(Menu_SAIR);
 
         setJMenuBar(jMenuBar1);
 
@@ -72,11 +83,19 @@ public class Interface extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGap(0, 594, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void Menu_SAIRMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Menu_SAIRMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_Menu_SAIRMouseClicked
+
+    private void Menu_SAIRMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Menu_SAIRMouseEntered
+        Menu_SAIR.setToolTipText("Sair");
+    }//GEN-LAST:event_Menu_SAIRMouseEntered
 
     /**
      * @param args the command line arguments
@@ -125,12 +144,12 @@ public class Interface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu Menu_SAIR;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }
