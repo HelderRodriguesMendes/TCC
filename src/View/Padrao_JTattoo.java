@@ -331,8 +331,6 @@ public class Padrao_JTattoo extends javax.swing.JFrame {
         }
         //</editor-fold>
         try {
-            /* Create and display the form */
-            
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Padrao_JTattoo.class.getName()).log(Level.SEVERE, null, ex);

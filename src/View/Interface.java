@@ -9,6 +9,7 @@ import Controller.Fundo_tela_Inicial;
 import java.awt.GridLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -90,11 +91,14 @@ public class Interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Menu_SAIRMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Menu_SAIRMouseClicked
-        System.exit(0);
+        int opcao = JOptionPane.showConfirmDialog(null,"Deseja Sair Realmente?", "Sair",JOptionPane.YES_NO_OPTION);
+        if (opcao == JOptionPane.YES_OPTION) {  
+                        System.exit(0);  
+                    }
     }//GEN-LAST:event_Menu_SAIRMouseClicked
 
     private void Menu_SAIRMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Menu_SAIRMouseEntered
-        Menu_SAIR.setToolTipText("Sair");
+             Menu_SAIR.setToolTipText("Sair");
     }//GEN-LAST:event_Menu_SAIRMouseEntered
 
     /**
