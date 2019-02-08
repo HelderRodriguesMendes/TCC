@@ -20,6 +20,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Interface extends javax.swing.JFrame {
 
     Fundo_tela_Inicial tela;
+    
     public Interface() {
         initComponents();
         setLayout(new GridLayout());
@@ -27,6 +28,17 @@ public class Interface extends javax.swing.JFrame {
         getContentPane().add(tela);
     }
 
+    public void bloquiarMenus(boolean adm){
+        if(adm == true){
+            MENU_PESQUISAR.setVisible(false);
+        }else{
+            MENU_SALVAR.setVisible(false);
+            MENU_PE.setVisible(false);
+            MENU_EXCLUIR.setVisible(false);
+            
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,26 +49,26 @@ public class Interface extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
+        MENU_SALVAR = new javax.swing.JMenu();
+        MENU_PE = new javax.swing.JMenu();
+        MENU_PESQUISAR = new javax.swing.JMenu();
+        MENU_EXCLUIR = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         Menu_SAIR = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/SALVAR 2.png"))); // NOI18N
-        jMenuBar1.add(jMenu1);
+        MENU_SALVAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/SALVAR 2.png"))); // NOI18N
+        jMenuBar1.add(MENU_SALVAR);
 
-        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar_editar.png"))); // NOI18N
-        jMenuBar1.add(jMenu2);
+        MENU_PE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar_editar.png"))); // NOI18N
+        jMenuBar1.add(MENU_PE);
 
-        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/PESQUISAR (2).png"))); // NOI18N
-        jMenuBar1.add(jMenu3);
+        MENU_PESQUISAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/PESQUISAR (2).png"))); // NOI18N
+        jMenuBar1.add(MENU_PESQUISAR);
 
-        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ESCLUIR 2.png"))); // NOI18N
-        jMenuBar1.add(jMenu4);
+        MENU_EXCLUIR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ESCLUIR 2.png"))); // NOI18N
+        jMenuBar1.add(MENU_EXCLUIR);
 
         jMenu5.setEnabled(false);
         jMenu5.setMaximumSize(new java.awt.Dimension(1000, 32767));
@@ -148,11 +160,11 @@ public class Interface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu MENU_EXCLUIR;
+    private javax.swing.JMenu MENU_PE;
+    private javax.swing.JMenu MENU_PESQUISAR;
+    private javax.swing.JMenu MENU_SALVAR;
     private javax.swing.JMenu Menu_SAIR;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables

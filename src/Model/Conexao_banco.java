@@ -21,7 +21,7 @@ public class Conexao_banco {
         //Armazerna informações do banco:
         String url = "jdbc:mysql://localhost:3306/TCC"; // caminho onde esta o banco: jdbc:mysql:// é padrão do sql. localhost:3306/projetoFC: LOCALHOST esta indicando que o banco esta instalado nesta maquina, 3306 é a porta padrao do mysql q encaminha pro banco
         String user = "root";
-        String password = "helder@h_r_m";
+        String password = "";
         
         try {
             Class.forName(driver); // executa o drive de conexao
