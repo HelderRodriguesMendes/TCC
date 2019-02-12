@@ -7,6 +7,7 @@ package View;
 
 import Model.DAO.LoginDAO;
 import Model.Entidadades.Usuario;
+import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -97,6 +98,12 @@ public class Login extends javax.swing.JFrame {
 
         jLabel5.setText("Senha:");
 
+        TXT_SENHA.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TXT_SENHAKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -163,16 +170,23 @@ public class Login extends javax.swing.JFrame {
         abrirInterface(adm);
     }//GEN-LAST:event_BOTAO_ENTRARActionPerformed
 
+    private void TXT_SENHAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXT_SENHAKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) { // evento quando o ENTER é apertado
+            adm = ld.logar(preencherObjeto());
+            abrirInterface(adm);
+        }
+    }//GEN-LAST:event_TXT_SENHAKeyPressed
+
     public Usuario preencherObjeto() {
         usu.setLogin(TXT_LOGIN.getText());
         usu.setSenha(TXT_SENHA.getText());
 
         return usu;
     }
-    
-    public void abrirInterface(boolean perfil){
-        if (perfil == true){
-            Interface in = new Interface();            
+
+    public void abrirInterface(boolean perfil) {
+        if (perfil == true) {
+            Interface in = new Interface();
             in.bloquiarMenus(adm);
             in.setVisible(true);
             this.dispose();
@@ -180,40 +194,17 @@ public class Login extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        try {
+            /* Create and display the form */
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Padrao_JTattoo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(Padrao_JTattoo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(Padrao_JTattoo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Padrao_JTattoo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {

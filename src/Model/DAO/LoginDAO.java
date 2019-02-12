@@ -6,6 +6,7 @@ import Model.Entidadades.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import rojerusan.RSNotifyFade;
 
 /**
@@ -29,14 +30,15 @@ public class LoginDAO {
                 usu.setTipo_usuario(rs.getString("tipo_usuario"));
                 Login lo = new Login();
                 adm = lo.perfilUser(usu.getTipo_usuario());
-                
-            }else{
-                new rojerusan.RSNotifyFade("Erro", "Login ou senha incorretos",
-                        7, RSNotifyFade.PositionNotify.TopLef, RSNotifyFade.TypeNotify.ERROR).setVisible(true);
+
+            } else {
+//                new rojerusan.RSNotifyFade("Erro", "Login ou senha incorretos",
+//                        7, RSNotifyFade.PositionNotify.TopLef, RSNotifyFade.TypeNotify.ERROR).setVisible(true);
+                JOptionPane.showMessageDialog(null, "Login ou senha icorretos", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
         }
-        
+
         return adm;
     }
 }

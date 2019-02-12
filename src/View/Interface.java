@@ -33,13 +33,13 @@ public class Interface extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Padrao_JTattoo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(Padrao_JTattoo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(Padrao_JTattoo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Padrao_JTattoo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -65,6 +65,7 @@ public class Interface extends javax.swing.JFrame {
 
         jMenuBar1 = new javax.swing.JMenuBar();
         MENU_SALVAR = new javax.swing.JMenu();
+        MENU_CAD_USU = new javax.swing.JMenuItem();
         MENU_PE = new javax.swing.JMenu();
         MENU_PESQUISAR = new javax.swing.JMenu();
         MENU_EXCLUIR = new javax.swing.JMenu();
@@ -74,6 +75,29 @@ public class Interface extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         MENU_SALVAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/SALVAR 2.png"))); // NOI18N
+        MENU_SALVAR.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                MENU_SALVARMouseEntered(evt);
+            }
+        });
+
+        MENU_CAD_USU.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
+        MENU_CAD_USU.setText("Usuário");
+        MENU_CAD_USU.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MENU_CAD_USUMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                MENU_CAD_USUMouseEntered(evt);
+            }
+        });
+        MENU_CAD_USU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MENU_CAD_USUActionPerformed(evt);
+            }
+        });
+        MENU_SALVAR.add(MENU_CAD_USU);
+
         jMenuBar1.add(MENU_SALVAR);
 
         MENU_PE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar_editar.png"))); // NOI18N
@@ -128,12 +152,30 @@ public class Interface extends javax.swing.JFrame {
              Menu_SAIR.setToolTipText("Sair");
     }//GEN-LAST:event_Menu_SAIRMouseEntered
 
+    private void MENU_CAD_USUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_USUActionPerformed
+        PerfilUsu pu = new PerfilUsu();
+        pu.setVisible(true);
+    }//GEN-LAST:event_MENU_CAD_USUActionPerformed
+
+    private void MENU_CAD_USUMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_CAD_USUMouseEntered
+        MENU_CAD_USU.setToolTipText("Cadastrar usuário");
+    }//GEN-LAST:event_MENU_CAD_USUMouseEntered
+
+    private void MENU_CAD_USUMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_CAD_USUMouseClicked
+        
+    }//GEN-LAST:event_MENU_CAD_USUMouseClicked
+
+    private void MENU_SALVARMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_SALVARMouseEntered
+        MENU_SALVAR.setToolTipText("Cadastrar");
+    }//GEN-LAST:event_MENU_SALVARMouseEntered
+
     /**
      * @param args the command line arguments
      */
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem MENU_CAD_USU;
     private javax.swing.JMenu MENU_EXCLUIR;
     private javax.swing.JMenu MENU_PE;
     private javax.swing.JMenu MENU_PESQUISAR;

@@ -185,6 +185,9 @@
         <Component class="javax.swing.JTextField" name="TXT_LOGIN">
         </Component>
         <Component class="javax.swing.JPasswordField" name="TXT_SENHA">
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TXT_SENHAKeyPressed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
