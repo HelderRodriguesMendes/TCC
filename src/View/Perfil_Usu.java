@@ -62,7 +62,7 @@ public class Perfil_Usu extends javax.swing.JInternalFrame {
             }
         });
 
-        PERFIL.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Usuário", "Administrador" }));
+        PERFIL.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Sindicalizado", "Administrador" }));
 
         LBLCad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/cadUsu.png"))); // NOI18N
         LBLCad.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -116,6 +116,7 @@ public class Perfil_Usu extends javax.swing.JInternalFrame {
     private void LBLCadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LBLCadMouseClicked
         switch (PERFIL.getSelectedIndex()) {
             case 1:
+                //CHAMAR AQUI O FORMULARIO QUE CADASTRA O SINDICALIZADO COMO USUARIO DO SISTEMA
                 break;
             case 2:
                 Cad_Administrador ca = new Cad_Administrador();

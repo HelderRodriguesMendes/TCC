@@ -15,6 +15,7 @@ public class Usuario {
     private String tipo_usuario;
     private String login;
     private String senha;
+    private int id;
 
     /**
      * @return the nome
@@ -84,5 +85,19 @@ public class Usuario {
      */
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 }

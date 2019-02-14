@@ -18,27 +18,26 @@ public class LoginDAO {
     ResultSet rs;
     PreparedStatement pst = null;
     Connection con;
-    boolean adm;
 
     public boolean logar(Usuario usu) {
+        boolean adm = false;
+        String senhaTela = usu.getSenha();
         con = Conexao_banco.conector();
         try {
-            pst = con.prepareStatement("select tipo_usuario from usuario where login = " + "'" + usu.getLogin() + "'" + "and senha =  " + "'" + usu.getSenha() + "'");
+            pst = con.prepareStatement("select id_usuario, tipo_usuario from usuario where login = " + "'" + usu.getLogin() + "'" + "and senha = " + "'" + usu.getSenha() + "'");
             rs = pst.executeQuery();
 
             if (rs.next()) {
+                usu.setId(rs.getInt("id_usuario"));
                 usu.setTipo_usuario(rs.getString("tipo_usuario"));
                 Login lo = new Login();
-                adm = lo.perfilUser(usu.getTipo_usuario());
+                adm = lo.perfilUser(usu);
 
             } else {
-//                new rojerusan.RSNotifyFade("Erro", "Login ou senha incorretos",
-//                        7, RSNotifyFade.PositionNotify.TopLef, RSNotifyFade.TypeNotify.ERROR).setVisible(true);
-                JOptionPane.showMessageDialog(null, "Login ou senha icorretos", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Login ou senha incorretos", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
         }
-
         return adm;
     }
 }

@@ -23,7 +23,7 @@ public class Sindicalizado_DAO {
         con = Conexao_banco.conector();
 
         try {
-            pst = con.prepareCall("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, naturalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, naturalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, se.getNome());
             java.sql.Date DATASQL = new java.sql.Date(se.getDataNasci().getTime());
             pst.setDate(2, DATASQL);
