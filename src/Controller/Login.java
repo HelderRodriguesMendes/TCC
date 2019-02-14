@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import java.util.Base64;
+
 /**
  *
  * @author helde
@@ -21,4 +23,16 @@ public class Login {
         }
         return adm;
     }
+    
+    public String criptografar(String senha){
+        String codificado = Base64.getEncoder().encodeToString(senha.getBytes());
+        return codificado;
+    }
+    
+    public String descriptografar(String senha){
+        byte[] decodificado = Base64.getDecoder().decode(senha);
+        String senhadecodificada = new String(decodificado);       
+        return senhadecodificada;
+    }
+    
 }
