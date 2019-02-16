@@ -82,25 +82,25 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         if ("".equals(NOME.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o nome");
             NOME.requestFocus();
-        } else if ("".equals(NASCIMENTO.getText())) {
+        } else if ("  /  /    ".equals(NASCIMENTO.getText())) {
             JOptionPane.showMessageDialog(null, "Informe a data de nascimento");
             NASCIMENTO.requestFocus();
-        } else if ("".equals(CPF.getText())) {
+        } else if ("            -   ".equals(CPF.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o CPF");
             CPF.requestFocus();
-        } else if ("".equals(RG.getText())) {
+        } else if ("       ".equals(RG.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o RG");
             RG.requestFocus();
-        } else if ("".equals(DATAEXPE.getText())) {
+        } else if ("  /  /    ".equals(DATAEXPE.getText())) {
             JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG");
             DATAEXPE.requestFocus();
-        } else if ("".equals(TITULO_ELEITO.getText())) {
+        } else if ("                 ".equals(TITULO_ELEITO.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o titulo de eleitor");
             TITULO_ELEITO.requestFocus();
-        } else if ("".equals(ZONA.getText())) {
+        } else if ("   ".equals(ZONA.getText())) {
             JOptionPane.showMessageDialog(null, "Informe a zona do titulo de eleitor");
             ZONA.requestFocus();
-        } else if ("".equals(SECAO.getText())) {
+        } else if ("    ".equals(SECAO.getText())) {
             JOptionPane.showMessageDialog(null, "Informe a seção do titulo de eleitor");
             SECAO.requestFocus();
         } else if ("".equals(RESERVISTA.getText())) {
@@ -118,13 +118,13 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         } else if ("".equals(MUNICEDE.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o municipio cede da propriedade rural");
             MUNICEDE.requestFocus();
-        } else if ("".equals(CODINCRA.getText())) {
+        } else if ("   .   .   .   - ".equals(CODINCRA.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o código no INCRA da propriedade rural");
             CODINCRA.requestFocus();
         } else if (LS == false && LN == false) {
             JOptionPane.showMessageDialog(null, "Informe se a comercialização de leite na propriedade rural");
             jLabel27.requestFocus();
-        } else if ("".equals(NIRF.getText())) {
+        } else if (" .   .   - ".equals(NIRF.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o numero no NIRF da propriedade rural");
             NIRF.requestFocus();
         } else if ("".equals(AREAFAZENDA.getText())) {
@@ -472,8 +472,7 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
                         .addGap(3, 3, 3)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel14)
-                            .addComponent(jLabel15))
-                        .addGap(12, 12, 12)))
+                            .addComponent(jLabel15))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -853,25 +852,22 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel20))
                     .addComponent(NOMEFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel39)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel21))
                     .addComponent(LOGRADOURO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel40)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel22))
                     .addComponent(MUNICEDE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel41)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(CODINCRA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel23))
-                    .addComponent(jLabel42))
+                    .addComponent(jLabel42)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel22))))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1004,7 +1000,7 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jLabel30MouseClicked
 
     private void BT_ATUMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_ATUMouseClicked
-
+        limparCampus();
     }//GEN-LAST:event_BT_ATUMouseClicked
 
     private void BT_ATUMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_ATUMouseEntered
@@ -1014,7 +1010,7 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
     private void BOTAO_SALVAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_SALVAR_MouseClicked
         boolean v = false;
         v = validar_obrigatorios();
-        if(v){
+        if (v) {
             sd.SALVAR(PREENCHER_OBJETO());
             limparCampus();
         }
