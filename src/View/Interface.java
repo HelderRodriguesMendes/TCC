@@ -90,7 +90,7 @@ public class Interface extends javax.swing.JFrame {
         DESKTOP.setLayout(DESKTOPLayout);
         DESKTOPLayout.setHorizontalGroup(
             DESKTOPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1142, Short.MAX_VALUE)
+            .addGap(0, 1292, Short.MAX_VALUE)
         );
         DESKTOPLayout.setVerticalGroup(
             DESKTOPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,7 +168,7 @@ public class Interface extends javax.swing.JFrame {
             .addComponent(DESKTOP)
         );
 
-        setSize(new java.awt.Dimension(1158, 728));
+        setSize(new java.awt.Dimension(1308, 728));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -192,8 +192,10 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_MENU_SALVARMouseEntered
 
     private void MENU_CAD_SINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_SINDActionPerformed
-        Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado();
+        Cad_Sindicalizado cs = new Cad_Sindicalizado();
+        DESKTOP.add(cs);
         cs.setVisible(true);
+        cs.setPosicao();
     }//GEN-LAST:event_MENU_CAD_SINDActionPerformed
 
     private void MENU_CAD_SINDMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_CAD_SINDMouseEntered
