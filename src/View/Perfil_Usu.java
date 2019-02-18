@@ -116,7 +116,11 @@ public class Perfil_Usu extends javax.swing.JInternalFrame {
     private void LBLCadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LBLCadMouseClicked
         switch (PERFIL.getSelectedIndex()) {
             case 1:
-                //CHAMAR AQUI O FORMULARIO QUE CADASTRA O SINDICALIZADO COMO USUARIO DO SISTEMA
+                Cad_Sindicalizado_USER csu = new Cad_Sindicalizado_USER();
+                Interface.DESKTOP.add(csu);
+                csu.setVisible(true);
+                csu.setPosicao();
+                this.dispose();
                 break;
             case 2:
                 Cad_Administrador ca = new Cad_Administrador();

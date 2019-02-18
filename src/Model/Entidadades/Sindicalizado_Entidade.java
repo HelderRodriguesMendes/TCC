@@ -37,6 +37,7 @@ public class Sindicalizado_Entidade extends Pessoa {
     private String areaPropri;
     private String tempoCompra;
     private String outrasA;
+    private int id;
 
     /**
      * @return the dataNasci
@@ -358,5 +359,19 @@ public class Sindicalizado_Entidade extends Pessoa {
      */
     public void setOutrasA(String outrasA) {
         this.outrasA = outrasA;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 }
