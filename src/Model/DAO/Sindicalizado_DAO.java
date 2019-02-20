@@ -5,8 +5,10 @@
  */
 package Model.DAO;
 
-import Model.Entidadades.Sindicalizado_Entidade;
+
+
 import Model.Conexao_banco;
+import Model.Entidadades.Sindicalizado_Entidade;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +25,7 @@ public class Sindicalizado_DAO {
         con = Conexao_banco.conector();
 
         try {
-            pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, naturalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, naturalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, login, senha) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, se.getNome());
             java.sql.Date DATASQL = new java.sql.Date(se.getDataNasci().getTime());
             pst.setDate(2, DATASQL);
@@ -51,6 +53,8 @@ public class Sindicalizado_DAO {
             pst.setString(23, se.getAreaPropri());
             pst.setString(24, se.getTempoCompra());
             pst.setString(25, se.getOutrasA());
+            pst.setString(26, se.getLogin());
+            pst.setString(27, se.getSenha());
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
         } catch (Exception e) {

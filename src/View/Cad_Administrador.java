@@ -7,7 +7,7 @@ package View;
 
 import Controller.Login;
 import Model.DAO.UsuarioDAO;
-import Model.Entidadades.Usuario;
+import Model.Entidadades.Administrador;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Dimension;
 import java.util.logging.Level;
@@ -22,7 +22,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Cad_Administrador extends javax.swing.JInternalFrame {
 
-    Usuario usu = new Usuario();
+    Administrador usu = new Administrador();
     Login l = new Login();
 
     public Cad_Administrador() {
@@ -40,7 +40,7 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
         }
     }
 
-    public Usuario preencher_objeto() {
+    public Administrador preencher_objeto() {
         usu.setNome(TXTNOME.getText());
         usu.setTelefone(TXTFONE.getText());
         usu.setTipo_usuario("Administrador");

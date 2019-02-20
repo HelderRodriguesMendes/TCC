@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model.Entidadades;
 
 import Controller.Entidades.Pessoa;
@@ -12,7 +7,7 @@ import java.util.Date;
  *
  * @author helde
  */
-public class Sindicalizado_Entidade extends Pessoa {
+public class Sindicalizado_Entidade extends Pessoa{
 
     private Date dataNasci;
     private String nascionalidade;
@@ -37,6 +32,8 @@ public class Sindicalizado_Entidade extends Pessoa {
     private String areaPropri;
     private String tempoCompra;
     private String outrasA;
+    private String login;
+    private String senha;
     private int id;
 
     /**
@@ -374,4 +371,34 @@ public class Sindicalizado_Entidade extends Pessoa {
     public void setId(int id) {
         this.id = id;
     }
+
+    /**
+     * @return the login
+     */
+    public String getLogin() {
+        return login;
+    }
+
+    /**
+     * @param login the login to set
+     */
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    /**
+     * @return the senha
+     */
+    public String getSenha() {
+        return senha;
+    }
+
+    /**
+     * @param senha the senha to set
+     */
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+
 }

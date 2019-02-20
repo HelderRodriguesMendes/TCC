@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class Cad_Sindicalizado_USER extends javax.swing.JInternalFrame {
 
     Sindicalizado_Entidade se = new Sindicalizado_Entidade();
+    String escolha = "";
 
     public Cad_Sindicalizado_USER() {
         initComponents();
@@ -44,19 +45,75 @@ public class Cad_Sindicalizado_USER extends javax.swing.JInternalFrame {
         this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
     }
 
-    public void Listar_Tabela_Pesquisa(Sindicalizado_Entidade se) {
+    public void Listar_Tabela_Pesquisa(Sindicalizado_Entidade se, String ESC) {
         DefaultTableModel dtmMA = (DefaultTableModel) TABELA.getModel();
         dtmMA.setNumRows(0);
         UsuarioDAO ud = new UsuarioDAO();
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (Sindicalizado_Entidade s : ud.Pesquisar(se)) {
-            dtmMA.addRow(new Object[]{
-                s.getId(),
-                s.getNome(),
-                s.getCpf(),
-                s.getRg()
+        if ("NCR".equals(ESC)) {
+            ud.PesquisarNCR(se).forEach((s) -> {
+                dtmMA.addRow(new Object[]{
+                    s.getId(),
+                    s.getNome(),
+                    s.getCpf(),
+                    s.getRg()
+                });
             });
+//        }else if("CR".equals(ESC)){
+//            ud.PesquisarCR(se).forEach((s) -> {
+//                dtmMA.addRow(new Object[]{
+//                    s.getId(),
+//                    s.getNome(),
+//                    s.getCpf(),
+//                    s.getRg()
+//                });
+//            });
+//        }else if("NC".equals(ESC)){
+//            ud.PesquisarNC(se).forEach((s) -> {
+//                dtmMA.addRow(new Object[]{
+//                    s.getId(),
+//                    s.getNome(),
+//                    s.getCpf(),
+//                    s.getRg()
+//                });
+//            });
+//        }else if("NR".equals(ESC)){
+//            for (Sindicalizado_Entidade s : ud.PesquisarNR(se)) {
+//                dtmMA.addRow(new Object[]{
+//                    s.getId(),
+//                    s.getNome(),
+//                    s.getCpf(),
+//                    s.getRg()
+//                });
+//            }
+//        }else if("N".equals(ESC)){
+//            for (Sindicalizado_Entidade s : ud.PesquisarN(se)) {
+//                dtmMA.addRow(new Object[]{
+//                    s.getId(),
+//                    s.getNome(),
+//                    s.getCpf(),
+//                    s.getRg()
+//                });
+//            }
+//        }else if("C".equals(ESC)){
+//            for (Sindicalizado_Entidade s : ud.PesquisarC(se)) {
+//                dtmMA.addRow(new Object[]{
+//                    s.getId(),
+//                    s.getNome(),
+//                    s.getCpf(),
+//                    s.getRg()
+//                });
+//            }
+//        }else if("R".equals(ESC)){
+//            for (Sindicalizado_Entidade s : ud.PesquisarR(se)) {
+//                dtmMA.addRow(new Object[]{
+//                    s.getId(),
+//                    s.getNome(),
+//                    s.getCpf(),
+//                    s.getRg()
+//                });
+//            }
         }
     }
 
@@ -285,7 +342,40 @@ public class Cad_Sindicalizado_USER extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BT_ATUMouseEntered
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        Listar_Tabela_Pesquisa(preencherObjeto());
+//        if (!"".equals(TXT_NOME.getText())) {
+//            if (!"            -   ".equals(TXT_CPF.getText())) {
+//                if (!"       ".equals(TXT_RG.getText())) {
+//                    escolha = "NCR";
+//                    Listar_Tabela_Pesquisa(preencherObjeto(), escolha); // TEM AS 3 ESCOLHAS
+//                } else {
+//                    escolha = "NC";
+//                    Listar_Tabela_Pesquisa(preencherObjeto(), escolha);
+//                }
+//            } else {
+//                if (!"       ".equals(TXT_RG.getText())) {
+//                    escolha = "NR";
+//                    Listar_Tabela_Pesquisa(preencherObjeto(), escolha);
+//                } else {
+//                    escolha = "N";
+//                    Listar_Tabela_Pesquisa(preencherObjeto(), escolha);
+//                }
+//            }
+//        } else {
+//            if (!"            -   ".equals(TXT_CPF.getText())) {
+//                if (!"       ".equals(TXT_RG.getText())) {
+//                    escolha = "CR";
+//                    Listar_Tabela_Pesquisa(preencherObjeto(), escolha);
+//                } else {
+//                    escolha = "C";
+//                    Listar_Tabela_Pesquisa(preencherObjeto(), escolha);
+//                }
+//            } else {
+//                escolha = "R";
+//                Listar_Tabela_Pesquisa(preencherObjeto(), escolha);
+//            }
+//        }
+
+
     }//GEN-LAST:event_jLabel6MouseClicked
 
 

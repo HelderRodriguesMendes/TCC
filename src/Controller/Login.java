@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import Model.Entidadades.Usuario;
+import Model.Entidadades.Administrador;
 import View.Tela_Login;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -19,7 +19,7 @@ public class Login {
 
     boolean adm;
 
-    public boolean perfilUser(Usuario usu) {
+    public boolean perfilUser(Administrador usu) {
         if ("Administrador".equals(usu.getTipo_usuario())) {
             adm = true;
         } else if ("Sindicalizado".equals(usu.getTipo_usuario())) {

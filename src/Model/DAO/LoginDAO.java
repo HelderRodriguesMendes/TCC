@@ -2,7 +2,7 @@ package Model.DAO;
 
 import Controller.Login;
 import Model.Conexao_banco;
-import Model.Entidadades.Usuario;
+import Model.Entidadades.Administrador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +19,7 @@ public class LoginDAO {
     PreparedStatement pst = null;
     Connection con;
 
-    public boolean logar(Usuario usu) {
+    public boolean logar(Administrador usu) {
         boolean adm = false;
         String senhaTela = usu.getSenha();
         con = Conexao_banco.conector();

@@ -7,7 +7,7 @@ package View;
 
 import Controller.Login;
 import Model.DAO.LoginDAO;
-import Model.Entidadades.Usuario;
+import Model.Entidadades.Administrador;
 import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +21,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Tela_Login extends javax.swing.JFrame {
 
     boolean adm;
-    Usuario usu = new Usuario();
+    Administrador usu = new Administrador();
     LoginDAO ld = new LoginDAO();
 
     public Tela_Login() {
@@ -178,7 +178,7 @@ public class Tela_Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TXT_SENHAKeyPressed
 
-    public Usuario preencherObjeto() {
+    public Administrador preencherObjeto() {
         usu.setLogin(TXT_LOGIN.getText());
         if ("hrm".equals(usu.getLogin())) {
             usu.setSenha(TXT_SENHA.getText());
