@@ -34,6 +34,7 @@ public class Sindicalizado_Entidade extends Pessoa{
     private String outrasA;
     private String login;
     private String senha;
+    private String tipo_usuario;
     private int id;
 
     /**
@@ -398,6 +399,20 @@ public class Sindicalizado_Entidade extends Pessoa{
      */
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    /**
+     * @return the tipo_usuario
+     */
+    public String getTipo_usuario() {
+        return tipo_usuario;
+    }
+
+    /**
+     * @param tipo_usuario the tipo_usuario to set
+     */
+    public void setTipo_usuario(String tipo_usuario) {
+        this.tipo_usuario = tipo_usuario;
     }
 
 

@@ -6,27 +6,14 @@
 package Controller;
 
 import Model.Entidadades.Administrador;
-import View.Tela_Login;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author helde
  */
 public class Login {
-
-    boolean adm;
-
-    public boolean perfilUser(Administrador usu) {
-        if ("Administrador".equals(usu.getTipo_usuario())) {
-            adm = true;
-        } else if ("Sindicalizado".equals(usu.getTipo_usuario())) {
-            adm = false;
-        }
-        return adm;
-    }
 
     public static String encriptografar_senha(String senha) {
         String retorno = "";

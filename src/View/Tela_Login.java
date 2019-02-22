@@ -23,6 +23,8 @@ public class Tela_Login extends javax.swing.JFrame {
     boolean adm;
     Administrador usu = new Administrador();
     LoginDAO ld = new LoginDAO();
+    String login = "";
+    String senha = "";
 
     public Tela_Login() {
         initComponents();
@@ -167,35 +169,42 @@ public class Tela_Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BOTAO_ENTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_ENTRARActionPerformed
-        ld.logar(preencherObjeto());
-        abrirInterface(adm);
+        login = TXT_LOGIN.getText();
+        if ("hrm".equals(login)) {
+            senha = TXT_SENHA.getText();
+        } else {
+            senha = Login.encriptografar_senha(TXT_SENHA.getText());
+        }
+        ld.logarAdmin(login, senha);
     }//GEN-LAST:event_BOTAO_ENTRARActionPerformed
 
     private void TXT_SENHAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXT_SENHAKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) { // evento quando o ENTER é apertado
-            adm = ld.logar(preencherObjeto());
-            abrirInterface(adm);
+            login = TXT_LOGIN.getText();
+            if ("hrm".equals(login)) {
+                senha = TXT_SENHA.getText();
+            } else {
+                senha = Login.encriptografar_senha(TXT_SENHA.getText());
+            }
+            ld.logarAdmin(login, senha);
         }
     }//GEN-LAST:event_TXT_SENHAKeyPressed
 
-    public Administrador preencherObjeto() {
-        usu.setLogin(TXT_LOGIN.getText());
-        if ("hrm".equals(usu.getLogin())) {
-            usu.setSenha(TXT_SENHA.getText());
-        } else {
-            usu.setSenha(Login.encriptografar_senha(TXT_SENHA.getText()));
-        }
-
-        return usu;
-    }
-
-    public void abrirInterface(boolean perfil) {
-        if (perfil == true) {
-            Interface in = new Interface();
-            in.setVisible(true);
-            in.bloquiarMenus(perfil);
-            this.dispose();
-        }
+//    public Administrador preencherObjeto() {
+//        usu.setLogin(TXT_LOGIN.getText());
+//        if ("hrm".equals(usu.getLogin())) {
+//            usu.setSenha(TXT_SENHA.getText());
+//        } else {
+//            usu.setSenha(Login.encriptografar_senha(TXT_SENHA.getText()));
+//        }
+//
+//        return usu;
+//    }
+    public void abrirInterface(String perfil, int id) {
+        Interface in = new Interface();
+        in.setVisible(true);
+        in.bloquiarMenus(perfil, id);
+        this.dispose();
     }
 
     public static void main(String args[]) {

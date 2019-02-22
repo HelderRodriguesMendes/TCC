@@ -78,6 +78,7 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         se.setLogin(TXT_LOGIN.getText());
         String scrip = Login.encriptografar_senha(TXT_SENHA.getText());
         se.setSenha(scrip);
+        se.setTipo_usuario("sindicalizado");
         return se;
     }
 

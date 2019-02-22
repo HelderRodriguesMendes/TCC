@@ -21,6 +21,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Interface extends javax.swing.JFrame {
 
+    int ID = 0;
 
     public Interface() {
         initComponents();
@@ -52,12 +53,13 @@ public class Interface extends javax.swing.JFrame {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        BARRAMENU.setLayout(new GridBagLayout());     
+
+        BARRAMENU.setLayout(new GridBagLayout());
     }
 
-    public void bloquiarMenus(boolean adm) {
-        if (adm == true) {
+    public void bloquiarMenus(String perfil, int id) {
+        ID = id;
+        if ("Administrador".equals(perfil)) {
             MENU_PESQUISAR.setVisible(false);
         } else {
             MENU_SALVAR.setVisible(false);
@@ -65,7 +67,7 @@ public class Interface extends javax.swing.JFrame {
             MENU_EXCLUIR.setVisible(false);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -108,7 +110,7 @@ public class Interface extends javax.swing.JFrame {
         });
 
         MENU_CAD_USU.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
-        MENU_CAD_USU.setText("Usuário");
+        MENU_CAD_USU.setText("Administrador");
         MENU_CAD_USU.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 MENU_CAD_USUMouseClicked(evt);
@@ -173,10 +175,10 @@ public class Interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MENU_CAD_USUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_USUActionPerformed
-        Perfil_Usu pu = new Perfil_Usu();
-        DESKTOP.add(pu);
-        pu.setVisible(true);
-        pu.setPosicao();
+        Cad_Administrador ca = new Cad_Administrador();
+        Interface.DESKTOP.add(ca);
+        ca.setVisible(true);
+        ca.setPosicao();
     }//GEN-LAST:event_MENU_CAD_USUActionPerformed
 
     private void MENU_CAD_USUMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_CAD_USUMouseEntered
