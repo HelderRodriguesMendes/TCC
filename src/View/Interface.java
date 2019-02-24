@@ -5,6 +5,7 @@
  */
 package View;
 
+import Model.Entidadades.Administrador;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
@@ -57,9 +58,9 @@ public class Interface extends javax.swing.JFrame {
         BARRAMENU.setLayout(new GridBagLayout());
     }
 
-    public void bloquiarMenus(String perfil, int id) {
-        ID = id;
-        if ("Administrador".equals(perfil)) {
+    public void bloquiarMenus(Administrador a) {
+        ID = a.getId();
+        if ("Administrador".equals(a.getTipo_usuario())) {
             MENU_PESQUISAR.setVisible(false);
         } else {
             MENU_SALVAR.setVisible(false);

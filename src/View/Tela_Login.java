@@ -8,6 +8,7 @@ package View;
 import Controller.Login;
 import Model.DAO.LoginDAO;
 import Model.Entidadades.Administrador;
+import Model.Entidadades.Sindicalizado_Entidade;
 import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,10 +22,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Tela_Login extends javax.swing.JFrame {
 
     boolean adm;
-    Administrador usu = new Administrador();
+    Administrador ad = new Administrador();
+    Sindicalizado_Entidade si = new Sindicalizado_Entidade();
     LoginDAO ld = new LoginDAO();
-    String login = "";
-    String senha = "";
 
     public Tela_Login() {
         initComponents();
@@ -169,25 +169,31 @@ public class Tela_Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BOTAO_ENTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_ENTRARActionPerformed
-        login = TXT_LOGIN.getText();
-        if ("hrm".equals(login)) {
-            senha = TXT_SENHA.getText();
+        ad.setLogin(TXT_LOGIN.getText());
+
+        if ("hrm".equals(ad.getLogin()) || "hrm".equals(si.getLogin())) {
+            ad.setSenha(TXT_SENHA.getText());
         } else {
-            senha = Login.encriptografar_senha(TXT_SENHA.getText());
+            ad.setSenha(Login.encriptografar_senha(TXT_SENHA.getText()));
         }
-        ld.logarAdmin(login, senha);
+        Administrador adi;
+        adi = ld.logarAdmin(ad);
+        abrirInterface(adi);
     }//GEN-LAST:event_BOTAO_ENTRARActionPerformed
 
     private void TXT_SENHAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXT_SENHAKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) { // evento quando o ENTER é apertado
-            login = TXT_LOGIN.getText();
-            if ("hrm".equals(login)) {
-                senha = TXT_SENHA.getText();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            ad.setLogin(TXT_LOGIN.getText());
+
+            if ("hrm".equals(ad.getLogin()) || "hrm".equals(si.getLogin())) {
+                ad.setSenha(TXT_SENHA.getText());
             } else {
-                senha = Login.encriptografar_senha(TXT_SENHA.getText());
+                ad.setSenha(Login.encriptografar_senha(TXT_SENHA.getText()));
             }
-            ld.logarAdmin(login, senha);
-        }
+            Administrador adi;
+            adi = ld.logarAdmin(ad);
+            abrirInterface(adi);
+        }// evento quando o ENTER é apertado
     }//GEN-LAST:event_TXT_SENHAKeyPressed
 
 //    public Administrador preencherObjeto() {
@@ -200,10 +206,10 @@ public class Tela_Login extends javax.swing.JFrame {
 //
 //        return usu;
 //    }
-    public void abrirInterface(String perfil, int id) {
+    public void abrirInterface(Administrador ad) {
         Interface in = new Interface();
         in.setVisible(true);
-        in.bloquiarMenus(perfil, id);
+        in.bloquiarMenus(ad);
         this.dispose();
     }
 
