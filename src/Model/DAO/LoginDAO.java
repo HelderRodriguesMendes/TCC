@@ -19,7 +19,6 @@ public class LoginDAO {
     PreparedStatement pst = null;
     Connection con;
     Administrador adi = new Administrador();
-    
 
     public Administrador logarAdmin(Administrador ad) {
 
@@ -28,16 +27,16 @@ public class LoginDAO {
 
             pst = con.prepareStatement("select id_admin, tipo_usuario from admin where login = " + "'" + ad.getLogin() + "'" + "and senha = " + "'" + ad.getSenha() + "'");
             rs = pst.executeQuery();
-
-            while (rs.next()) {
+            
+            if (rs.next()) {
                 ad.setId(rs.getInt("id_admin"));
                 ad.setTipo_usuario(rs.getString("tipo_usuario"));
-
-                if (!"Administrador".equals(ad.getTipo_usuario())) {
-                    String login = ad.getLogin();
-                    String senha = ad.getSenha();
-                   ad = logarSind(login, senha);                  
-                } 
+            } else {
+                String login = ad.getLogin();
+                String senha = ad.getSenha();
+                Administrador adim;
+                adim = logarSind(login, senha);
+                ad = adim;
             }
             con.close();
         } catch (Exception e) {
@@ -53,13 +52,13 @@ public class LoginDAO {
             pst = con.prepareStatement("select id_sindicalizado, tipo_usuario from sindicalizado where login = " + "'" + login + "'" + "and senha = " + "'" + senha + "'");
             rs = pst.executeQuery();
 
-            while (rs.next()) {
+            if (rs.next()) {
                 adi.setId(rs.getInt("id_admin"));
                 adi.setTipo_usuario(rs.getString("tipo_usuario"));
-                if (!"sindicalizado".equals(adi.getTipo_usuario())) {
-                    JOptionPane.showMessageDialog(null, "Login ou senha incorretos", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
-                } 
+            } else {
+                JOptionPane.showMessageDialog(null, "Login ou senha incorretos", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
             }
+           
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao logar no sistema");

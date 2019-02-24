@@ -185,14 +185,16 @@ public class Tela_Login extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             ad.setLogin(TXT_LOGIN.getText());
 
-            if ("hrm".equals(ad.getLogin()) || "hrm".equals(si.getLogin())) {
+            if ("hrm".equals(ad.getLogin())) {
                 ad.setSenha(TXT_SENHA.getText());
             } else {
                 ad.setSenha(Login.encriptografar_senha(TXT_SENHA.getText()));
             }
             Administrador adi;
             adi = ld.logarAdmin(ad);
-            abrirInterface(adi);
+            if (adi.getId() > 0) {
+                abrirInterface(adi);
+            }
         }// evento quando o ENTER é apertado
     }//GEN-LAST:event_TXT_SENHAKeyPressed
 
