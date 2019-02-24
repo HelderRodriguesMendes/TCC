@@ -25,7 +25,7 @@ public class Sindicalizado_DAO {
         con = Conexao_banco.conector();
 
         try {
-            pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, naturalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, login, senha) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, naturalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, tipo_usuario, login, senha) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, se.getNome());
             java.sql.Date DATASQL = new java.sql.Date(se.getDataNasci().getTime());
             pst.setDate(2, DATASQL);
@@ -53,8 +53,9 @@ public class Sindicalizado_DAO {
             pst.setString(23, se.getAreaPropri());
             pst.setString(24, se.getTempoCompra());
             pst.setString(25, se.getOutrasA());
-            pst.setString(26, se.getLogin());
-            pst.setString(27, se.getSenha());
+            pst.setString(26, se.getTipo_usuario());
+            pst.setString(27, se.getLogin());
+            pst.setString(28, se.getSenha());
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
         } catch (Exception e) {

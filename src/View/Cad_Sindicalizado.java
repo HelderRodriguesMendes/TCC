@@ -81,7 +81,6 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         se.setTipo_usuario("sindicalizado");
         return se;
     }
-
     public boolean validar_obrigatorios() {
         LS = LEITE_S.isSelected();
         LN = LEITE_N.isSelected();
@@ -139,17 +138,16 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         } else if ("".equals(TEMPOCOMPRA.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural");
             TEMPOCOMPRA.requestFocus();
-        } else if("".equals(TXT_LOGIN.getText())){
+        } else if ("".equals(TXT_LOGIN.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o login de acesso ao sistema");
             TXT_LOGIN.requestFocus();
-        }else if("".equals(TXT_SENHA.getText())){
+        } else if ("".equals(TXT_SENHA.getText())) {
             JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
             TXT_SENHA.requestFocus();
-        }
-        
-        
+        } else {
             cont = true;
-       
+        }
+
         return cont;
     }
 
@@ -360,7 +358,6 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        DATAEXPE.setEnabled(false);
 
         jLabel12.setText("Data de expedição:");
 
@@ -1062,7 +1059,8 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
 
     private void SALVAR_1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SALVAR_1MouseClicked
         boolean r = validar_obrigatorios();
-        if (r == true) {
+        if (!r) {
+        } else {
             sd.SALVAR(PREENCHER_OBJETO());
         }
     }//GEN-LAST:event_SALVAR_1MouseClicked
