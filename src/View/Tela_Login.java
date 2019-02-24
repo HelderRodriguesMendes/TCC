@@ -198,16 +198,6 @@ public class Tela_Login extends javax.swing.JFrame {
         }// evento quando o ENTER é apertado
     }//GEN-LAST:event_TXT_SENHAKeyPressed
 
-//    public Administrador preencherObjeto() {
-//        usu.setLogin(TXT_LOGIN.getText());
-//        if ("hrm".equals(usu.getLogin())) {
-//            usu.setSenha(TXT_SENHA.getText());
-//        } else {
-//            usu.setSenha(Login.encriptografar_senha(TXT_SENHA.getText()));
-//        }
-//
-//        return usu;
-//    }
     public void abrirInterface(Administrador ad) {
         Interface in = new Interface();
         in.setVisible(true);
