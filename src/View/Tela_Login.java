@@ -169,16 +169,20 @@ public class Tela_Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BOTAO_ENTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_ENTRARActionPerformed
-        ad.setLogin(TXT_LOGIN.getText());
 
-        if ("hrm".equals(ad.getLogin()) || "hrm".equals(si.getLogin())) {
-            ad.setSenha(TXT_SENHA.getText());
-        } else {
-            ad.setSenha(Login.encriptografar_senha(TXT_SENHA.getText()));
-        }
-        Administrador adi;
-        adi = ld.logarAdmin(ad);
-        abrirInterface(adi);
+            ad.setLogin(TXT_LOGIN.getText());
+
+            if ("hrm".equals(ad.getLogin())) {
+                ad.setSenha(TXT_SENHA.getText());
+            } else {
+                ad.setSenha(Login.encriptografar_senha(TXT_SENHA.getText()));
+            }
+            Administrador adi;
+            adi = ld.logarAdmin(ad);
+            if (adi.getId() > 0) {
+                abrirInterface(adi);
+            }
+       
     }//GEN-LAST:event_BOTAO_ENTRARActionPerformed
 
     private void TXT_SENHAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXT_SENHAKeyPressed

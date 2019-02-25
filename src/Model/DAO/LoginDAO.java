@@ -53,7 +53,7 @@ public class LoginDAO {
             rs = pst.executeQuery();
 
             if (rs.next()) {
-                adi.setId(rs.getInt("id_admin"));
+                adi.setId(rs.getInt("id_sindicalizado"));
                 adi.setTipo_usuario(rs.getString("tipo_usuario"));
             } else {
                 JOptionPane.showMessageDialog(null, "Login ou senha incorretos", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
