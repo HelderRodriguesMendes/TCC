@@ -6,7 +6,7 @@
 package View;
 
 import Controller.Login;
-import Model.DAO.UsuarioDAO;
+import Model.DAO.AdministradorDAO;
 import Model.Entidadades.Administrador;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Dimension;
@@ -104,7 +104,7 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setIconifiable(true);
-        setTitle("Cadastrar Usuário");
+        setTitle("Cadastrar Administrador");
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);
@@ -223,7 +223,7 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
         v = validacao();
 
         if (v) {
-            UsuarioDAO ud = new UsuarioDAO();
+            AdministradorDAO ud = new AdministradorDAO();
             ud.salvar_ADMIN(preencher_objeto());
             limparCampus();
         }
@@ -240,7 +240,7 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
             v = validacao();
 
             if (v) {
-                UsuarioDAO ud = new UsuarioDAO();
+                AdministradorDAO ud = new AdministradorDAO();
                 ud.salvar_ADMIN(preencher_objeto());
                 limparCampus();
             }

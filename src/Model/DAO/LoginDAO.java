@@ -2,8 +2,6 @@ package Model.DAO;
 
 import Model.Conexao_banco;
 import Model.Entidadades.Administrador;
-import Model.Entidadades.Sindicalizado_Entidade;
-import View.Tela_Login;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

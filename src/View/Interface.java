@@ -81,6 +81,7 @@ public class Interface extends javax.swing.JFrame {
         MENU_CAD_USU = new javax.swing.JMenuItem();
         MENU_CAD_SIND = new javax.swing.JMenuItem();
         MENU_PE = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         MENU_PESQUISAR = new javax.swing.JMenu();
         MENU_EXCLUIR = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
@@ -110,7 +111,7 @@ public class Interface extends javax.swing.JFrame {
             }
         });
 
-        MENU_CAD_USU.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
+        MENU_CAD_USU.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
         MENU_CAD_USU.setText("Administrador");
         MENU_CAD_USU.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -147,6 +148,16 @@ public class Interface extends javax.swing.JFrame {
         BARRAMENU.add(MENU_SALVAR);
 
         MENU_PE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar_editar.png"))); // NOI18N
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK));
+        jMenuItem1.setText("Administrador");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        MENU_PE.add(jMenuItem1);
+
         BARRAMENU.add(MENU_PE);
 
         MENU_PESQUISAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/PESQUISAR (2).png"))); // NOI18N
@@ -209,6 +220,13 @@ public class Interface extends javax.swing.JFrame {
 
     }//GEN-LAST:event_MENU_CAD_SINDMouseClicked
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Pesquisar_Alterar_Admin paa = new Pesquisar_Alterar_Admin();
+        DESKTOP.add(paa);
+        paa.setVisible(true);
+        paa.setPosicao();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -225,5 +243,6 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
 }
