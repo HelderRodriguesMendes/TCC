@@ -5,7 +5,9 @@
  */
 package View;
 
+import Controller.Login;
 import Model.DAO.AdministradorDAO;
+import Model.Entidadades.Administrador;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,9 +22,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Pesquisar_Alterar_Admin
-     */
+    int cont = 0, con = 0;
+    Administrador adm = new Administrador();
+    AdministradorDAO ad = new AdministradorDAO();
+    Login lo = new Login();
+    
     public Pesquisar_Alterar_Admin() {
         initComponents();
         
@@ -59,7 +63,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        ALTERA_S = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         TXT_NovaSenha = new javax.swing.JLabel();
         NOVA_SENHA = new javax.swing.JTextField();
@@ -105,6 +109,11 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/home (1).png"))); // NOI18N
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -113,10 +122,11 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton3.setText("Alterar senha");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        ALTERA_S.setText("Alterar senha");
+        ALTERA_S.setEnabled(false);
+        ALTERA_S.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                ALTERA_SActionPerformed(evt);
             }
         });
 
@@ -184,7 +194,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jButton3)
+                        .addComponent(ALTERA_S)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -206,9 +216,9 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(ALTERA_S))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -219,12 +229,14 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel5MouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void ALTERA_SActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ALTERA_SActionPerformed
         jPanel1.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        con = 5;
+    }//GEN-LAST:event_ALTERA_SActionPerformed
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
-        System.out.println("clico");
+        cont  = 10;
+        ALTERA_S.setEnabled(true);
     }//GEN-LAST:event_TABELAMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -235,6 +247,15 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if(cont == 10){
+            ad.alterar_ADMIN(preencher_Objeto());
+            LISTAR_TABELA();
+            Limpar_campus();
+            jPanel1.setVisible(false);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     public void LISTAR_TABELA(){
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
@@ -242,7 +263,6 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         
         TABELA.getColumnModel().getColumn(2).setPreferredWidth(110);
         
-        AdministradorDAO ad = new AdministradorDAO();
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         
         ad.Listar_Tabela().forEach((adm)->{
@@ -261,7 +281,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         
         TABELA.getColumnModel().getColumn(2).setPreferredWidth(110);
         
-        AdministradorDAO ad = new AdministradorDAO();
+        
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         
         ad.Pesquisar_Nome(nome).forEach((adm)->{
@@ -273,9 +293,30 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             });
         });
     }
-    
+    public Administrador preencher_Objeto(){
+        adm.setId(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
+        adm.setNome(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString());        
+        if(TABELA.getValueAt(TABELA.getSelectedRow(), 2) != null){
+            adm.setTelefone(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString());
+        }else{
+            adm.setTelefone("");
+        }
+        adm.setLogin(TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString());
+        if(con == 5){
+            adm.setSenha(lo.validar_nova_senha(NOVA_SENHA.getText(), CONFIR_SENHA.getText()));
+        }else{
+            adm.setSenha("");
+        }
+        return adm;
+    }
+     public void Limpar_campus(){
+         NOVA_SENHA.setText("");
+         CONFIR_SENHA.setText("");
+         NOME.setText("");
+     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ALTERA_S;
     private javax.swing.JTextField CONFIR_SENHA;
     private javax.swing.JTextField NOME;
     private javax.swing.JTextField NOVA_SENHA;
@@ -284,7 +325,6 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
     private javax.swing.JLabel TXT_NovaSenha;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;

@@ -45,23 +45,23 @@ public class AdministradorDAO {
         }
     }
 
-    public ArrayList<Administrador>Listar_Tabela(){
+    public ArrayList<Administrador> Listar_Tabela() {
         con = Conexao_banco.conector();
-        
-        ArrayList<Administrador>AD = new ArrayList();
-        
+
+        ArrayList<Administrador> AD = new ArrayList();
+
         try {
             pst = con.prepareStatement("select id_admin, nome, telefone, login from admin");
             rs = pst.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Administrador ad = new Administrador();
-                
+
                 ad.setId(rs.getInt("id_admin"));
                 ad.setNome(rs.getString("nome"));
                 ad.setTelefone(rs.getString("telefone"));
                 ad.setLogin(rs.getString("login"));
-                
+
                 AD.add(ad);
             }
             con.close();
@@ -71,24 +71,25 @@ public class AdministradorDAO {
         }
         return AD;
     }
-    public ArrayList<Administrador>Pesquisar_Nome(String nome){
+
+    public ArrayList<Administrador> Pesquisar_Nome(String nome) {
         con = Conexao_banco.conector();
-        
-        ArrayList<Administrador>AD = new ArrayList();
-        
+
+        ArrayList<Administrador> AD = new ArrayList();
+
         try {
             pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where nome like ?");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Administrador ad = new Administrador();
-                
+
                 ad.setId(rs.getInt("id_admin"));
                 ad.setNome(rs.getString("nome"));
                 ad.setTelefone(rs.getString("telefone"));
                 ad.setLogin(rs.getString("login"));
-                
+
                 AD.add(ad);
             }
             con.close();
@@ -97,5 +98,42 @@ public class AdministradorDAO {
             System.out.println(e);
         }
         return AD;
+    }
+
+    public void alterar_ADMIN(Administrador adm) {
+        con = Conexao_banco.conector();
+
+        if (!"".equals(adm.getSenha())) {
+            try {
+                pst = con.prepareStatement("update admin set nome = ?, telefone = ?, login = ?, senha = ? where id_admin = ?");
+                pst.setString(1, adm.getNome());
+                pst.setString(2, adm.getTelefone());
+                pst.setString(3, adm.getLogin());
+                pst.setString(4, adm.getSenha());
+                pst.setInt(5, adm.getId());
+                pst.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
+                con.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao alterar dados administrador");
+                System.out.println(e);
+            }
+        }else{
+            try {
+                pst = con.prepareStatement("update admin set nome = ?, telefone = ?, login = ? where id_admin = ?");
+                pst.setString(1, adm.getNome());
+                pst.setString(2, adm.getTelefone());
+                pst.setString(3, adm.getLogin());
+                pst.setInt(4, adm.getId());
+                pst.executeUpdate();
+
+                JOptionPane.showMessageDialog(null , "Dados alterados com sucesso");
+                con.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao alterar dados administrador");
+                System.out.println(e);
+            }
+        }
     }
 }

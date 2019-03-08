@@ -8,6 +8,7 @@ package Controller;
 import Model.Entidadades.Administrador;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,6 +29,16 @@ public class Login {
         }
 
         return retorno;
+    }
+    
+    public String validar_nova_senha(String s1, String s2){
+        String se = "";
+        if(s1.equals(s2)){
+            se = encriptografar_senha(s1);
+        }else{
+            JOptionPane.showMessageDialog(null, "Erro", "As senhas não correspondem", JOptionPane.ERROR_MESSAGE);
+        }
+        return se;
     }
 
 }
