@@ -6,7 +6,6 @@
 package Model.DAO;
 
 import Model.Conexao_banco;
-import Model.Entidadades.Sindicalizado_Entidade;
 import Model.Entidadades.Administrador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,6 +25,7 @@ public class AdministradorDAO {
     Connection con;
 
     public void salvar_ADMIN(Administrador usu) {
+        
         con = Conexao_banco.conector();
 
         try {
