@@ -24,7 +24,7 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
 
     Sindicalizado_Entidade se = new Sindicalizado_Entidade();
     Sindicalizado_DAO sd = new Sindicalizado_DAO();
-    Conversao conv = new Conversao();
+
 
     boolean cont = false, LS, LN;
 
@@ -46,14 +46,14 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
 
     public Sindicalizado_Entidade PREENCHER_OBJETO() {
         se.setNome(NOME.getText());
-        se.setDataNasci(conv.STRING_DATE(NASCIMENTO.getText()));
+        se.setDataNasci(Conversao.STRING_DATE(NASCIMENTO.getText()));
         se.setCelular(CELULAR.getText());
         se.setNascionalidade(NASCIONALIDADE.getText());
         se.setNaturalidade(NATURALIDADE.getText());
         se.setEstadoCivil(String.valueOf(ESTADOCIVI.getSelectedItem()));
         se.setCpf(CPF.getText());
         se.setRg(RG.getText());
-        se.setDataExpedicao(conv.STRING_DATE(DATAEXPE.getText()));
+        se.setDataExpedicao(Conversao.STRING_DATE(DATAEXPE.getText()));
         se.setTituloEleito(TITULO_ELEITO.getText());
         se.setZona(Integer.parseInt(ZONA.getText()));
         se.setSecao(Integer.parseInt(SECAO.getText()));
@@ -67,9 +67,9 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         se.setCodINCRA(CODINCRA.getText());
         LS = LEITE_S.isSelected();
         if (LS == true) {
-            se.setTiraLeite(1);
+            se.setTiraLeite("Sim");
         } else {
-            se.setTiraLeite(0);
+            se.setTiraLeite("Não");
         }
         se.setNIRF(NIRF.getText());
         se.setAreaPropri(AREAFAZENDA.getText());
@@ -1024,8 +1024,8 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
                 .addGap(26, 26, 26))
             .addGroup(layout.createSequentialGroup()
                 .addGap(488, 488, 488)
-                .addComponent(BT_ATU, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addComponent(BT_ATU)
+                .addGap(41, 41, 41)
                 .addComponent(BOTAO_SALVAR_)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

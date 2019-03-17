@@ -27,7 +27,7 @@ public class Sindicalizado_Entidade extends Pessoa{
     private String logradouro;
     private String municiSede;
     private String codINCRA;
-    private int tiraLeite;
+    private String tiraLeite;
     private String NIRF;
     private String areaPropri;
     private String tempoCompra;
@@ -292,14 +292,14 @@ public class Sindicalizado_Entidade extends Pessoa{
     /**
      * @return the tiraLeite
      */
-    public int getTiraLeite() {
+    public String getTiraLeite() {
         return tiraLeite;
     }
 
     /**
      * @param tiraLeite the tiraLeite to set
      */
-    public void setTiraLeite(int tiraLeite) {
+    public void setTiraLeite(String tiraLeite) {
         this.tiraLeite = tiraLeite;
     }
 

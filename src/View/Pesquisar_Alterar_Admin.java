@@ -43,6 +43,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         }
 
         jPanel1.setVisible(false);
+        ALTERA_S.setVisible(false);
         LISTAR_TABELA();
     }
 
@@ -123,7 +124,6 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         });
 
         ALTERA_S.setText("Alterar senha");
-        ALTERA_S.setEnabled(false);
         ALTERA_S.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ALTERA_SActionPerformed(evt);
@@ -236,7 +236,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
         cont  = 10;
-        ALTERA_S.setEnabled(true);
+        ALTERA_S.setVisible(true);
     }//GEN-LAST:event_TABELAMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -265,12 +265,12 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         
-        ad.Listar_Tabela().forEach((adm)->{
+        ad.Listar_Tabela().forEach((admin)->{
             dtma.addRow(new Object[]{
-                adm.getId(),
-                adm.getNome(),
-                adm.getTelefone(),
-                adm.getLogin()
+                admin.getId(),
+                admin.getNome(),
+                admin.getTelefone(),
+                admin.getLogin()
             });
         });
     }

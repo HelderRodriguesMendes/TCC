@@ -7,11 +7,11 @@ package View;
 
 import Model.Entidadades.Administrador;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -22,6 +22,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Interface extends javax.swing.JFrame {
 
+    JFrame JRM;
     int ID = 0;
 
     public Interface() {
@@ -33,9 +34,9 @@ public class Interface extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent we) {
                 String ObjButtons[] = {"Yes", "No"};
-                int PromptResult = JOptionPane.showOptionDialog(null,
+                int PromptResult = JOptionPane.showOptionDialog(JRM,
                         "Deseja realmente sair do sistema?", "ATENÇÃO",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                         ObjButtons, ObjButtons[1]);
                 if (PromptResult == 0) {
                     System.exit(0);
@@ -82,6 +83,7 @@ public class Interface extends javax.swing.JFrame {
         MENU_CAD_SIND = new javax.swing.JMenuItem();
         MENU_PE = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         MENU_PESQUISAR = new javax.swing.JMenu();
         MENU_EXCLUIR = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
@@ -158,6 +160,15 @@ public class Interface extends javax.swing.JFrame {
         });
         MENU_PE.add(jMenuItem1);
 
+        jMenuItem2.setText("Sindicalizado");
+        jMenuItem2.setToolTipText("");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        MENU_PE.add(jMenuItem2);
+
         BARRAMENU.add(MENU_PE);
 
         MENU_PESQUISAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/PESQUISAR (2).png"))); // NOI18N
@@ -227,6 +238,13 @@ public class Interface extends javax.swing.JFrame {
         paa.setPosicao();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+        DESKTOP.add(pas);
+        pas.setVisible(true);
+        pas.setPosicao();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -244,5 +262,6 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     // End of variables declaration//GEN-END:variables
 }

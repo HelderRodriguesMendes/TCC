@@ -37,8 +37,8 @@
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="488" max="-2" attributes="0"/>
-              <Component id="BT_ATU" min="-2" pref="31" max="-2" attributes="0"/>
-              <EmptySpace min="33" pref="33" max="-2" attributes="0"/>
+              <Component id="BT_ATU" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
               <Component id="BOTAO_SALVAR_" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
