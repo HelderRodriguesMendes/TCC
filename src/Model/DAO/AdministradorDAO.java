@@ -6,7 +6,7 @@
 package Model.DAO;
 
 import Model.Conexao_banco;
-import Model.Entidadades.Administrador;
+import Model.Entidadades.Administrador_Entidade;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +24,7 @@ public class AdministradorDAO {
     PreparedStatement pst = null;
     Connection con;
 
-    public void salvar_ADMIN(Administrador usu) {
+    public void salvar_ADMIN(Administrador_Entidade usu) {
         
         con = Conexao_banco.conector();
 
@@ -45,17 +45,17 @@ public class AdministradorDAO {
         }
     }
 
-    public ArrayList<Administrador> Listar_Tabela() {
+    public ArrayList<Administrador_Entidade> Listar_Tabela() {
         con = Conexao_banco.conector();
 
-        ArrayList<Administrador> AD = new ArrayList();
+        ArrayList<Administrador_Entidade> AD = new ArrayList();
 
         try {
             pst = con.prepareStatement("select id_admin, nome, telefone, login from admin");
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Administrador ad = new Administrador();
+                Administrador_Entidade ad = new Administrador_Entidade();
 
                 ad.setId(rs.getInt("id_admin"));
                 ad.setNome(rs.getString("nome"));
@@ -72,10 +72,10 @@ public class AdministradorDAO {
         return AD;
     }
 
-    public ArrayList<Administrador> Pesquisar_Nome(String nome) {
+    public ArrayList<Administrador_Entidade> Pesquisar_Nome(String nome) {
         con = Conexao_banco.conector();
 
-        ArrayList<Administrador> AD = new ArrayList();
+        ArrayList<Administrador_Entidade> AD = new ArrayList();
 
         try {
             pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where nome like ?");
@@ -83,7 +83,7 @@ public class AdministradorDAO {
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Administrador ad = new Administrador();
+                Administrador_Entidade ad = new Administrador_Entidade();
 
                 ad.setId(rs.getInt("id_admin"));
                 ad.setNome(rs.getString("nome"));
@@ -100,7 +100,7 @@ public class AdministradorDAO {
         return AD;
     }
 
-    public void alterar_ADMIN(Administrador adm) {
+    public void alterar_ADMIN(Administrador_Entidade adm) {
         con = Conexao_banco.conector();
 
         if (!"".equals(adm.getSenha())) {

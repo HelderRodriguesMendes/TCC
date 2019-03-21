@@ -1,7 +1,7 @@
 package Model.DAO;
 
 import Model.Conexao_banco;
-import Model.Entidadades.Administrador;
+import Model.Entidadades.Administrador_Entidade;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,9 +16,9 @@ public class LoginDAO {
     ResultSet rs;
     PreparedStatement pst = null;
     Connection con;
-    Administrador adi = new Administrador();
+    Administrador_Entidade adi = new Administrador_Entidade();
 
-    public Administrador logarAdmin(Administrador ad) {
+    public Administrador_Entidade logarAdmin(Administrador_Entidade ad) {
 
         con = Conexao_banco.conector();
         try {
@@ -32,7 +32,7 @@ public class LoginDAO {
             } else {
                 String login = ad.getLogin();
                 String senha = ad.getSenha();
-                Administrador adim;
+                Administrador_Entidade adim;
                 adim = logarSind(login, senha);
                 ad = adim;
             }
@@ -44,7 +44,7 @@ public class LoginDAO {
         return ad;
     }
 
-    public Administrador logarSind(String login, String senha) {
+    public Administrador_Entidade logarSind(String login, String senha) {
         con = Conexao_banco.conector();
         try {
             pst = con.prepareStatement("select id_sindicalizado, tipo_usuario from sindicalizado where login = " + "'" + login + "'" + "and senha = " + "'" + senha + "'");

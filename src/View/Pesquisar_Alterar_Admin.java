@@ -7,7 +7,7 @@ package View;
 
 import Controller.Login;
 import Model.DAO.AdministradorDAO;
-import Model.Entidadades.Administrador;
+import Model.Entidadades.Administrador_Entidade;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
     int cont = 0, con = 0;
-    Administrador adm = new Administrador();
+    Administrador_Entidade adm = new Administrador_Entidade();
     AdministradorDAO ad = new AdministradorDAO();
     Login lo = new Login();
     
@@ -293,7 +293,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             });
         });
     }
-    public Administrador preencher_Objeto(){
+    public Administrador_Entidade preencher_Objeto(){
         adm.setId(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
         adm.setNome(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString());        
         if(TABELA.getValueAt(TABELA.getSelectedRow(), 2) != null){

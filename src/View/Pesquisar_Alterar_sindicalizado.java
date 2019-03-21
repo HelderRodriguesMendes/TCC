@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.Conversao;
+import Controller.Controlar_DATA;
 import Controller.Login;
 import Model.DAO.Sindicalizado_DAO;
 import Model.Entidadades.Sindicalizado_Entidade;
@@ -28,8 +28,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     Sindicalizado_Entidade se = new Sindicalizado_Entidade();
     Login lo = new Login();
 
-    int cont = 0;
-    int con = 0;
+    int cont = 0, con = 0, id = 0;
 
     public Pesquisar_Alterar_sindicalizado() {
         initComponents();
@@ -71,7 +70,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         TXT_CONFIR_SENHA = new javax.swing.JLabel();
         CONFIR_SENHA = new javax.swing.JTextField();
         ALTERA_S = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        ATUALIZAR = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -176,10 +175,10 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        ATUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
+        ATUALIZAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                ATUALIZARActionPerformed(evt);
             }
         });
 
@@ -231,7 +230,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                         .addGap(27, 27, 27)
                         .addComponent(ALTERA_S)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2))
+                        .addComponent(ATUALIZAR))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
@@ -283,7 +282,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
+                    .addComponent(ATUALIZAR)
                     .addComponent(ALTERA_S))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -311,17 +310,19 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         con = 5;
     }//GEN-LAST:event_ALTERA_SActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void ATUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATUALIZARActionPerformed
         if (cont == 10) {
-            sd.alterar_sind(PREENCHER_OBJETO());
-            listar_Tabela();
-            limparCampus();
-            jPanel1.setVisible(false);
-            ALTERA_S.setVisible(false);
-        }else{
+            if (validar_Campus()) {
+                sd.alterar_sind(PREENCHER_OBJETO());
+                listar_Tabela();
+                limparCampus();
+                jPanel1.setVisible(false);
+                ALTERA_S.setVisible(false);
+            }
+        } else {
             JOptionPane.showMessageDialog(null, "Selecione um sindicalizado na tabela para a alteração de dados", "Informação", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_ATUALIZARActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         this.dispose();
@@ -362,8 +363,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         sd.listar_Tabela().forEach((sin) -> {
-            String dn = Conversao.DATE_STRING(sin.getDataNasci());
-            String de = Conversao.DATE_STRING(sin.getDataExpedicao());
+            String dn = Controlar_DATA.DATE_STRING(sin.getDataNasci());
+            String de = Controlar_DATA.DATE_STRING(sin.getDataExpedicao());
             dtma.addRow(new Object[]{
                 sin.getId(),
                 sin.getNome(),
@@ -440,10 +441,11 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     public Sindicalizado_Entidade PREENCHER_OBJETO() {
         se.setId(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
+        id = se.getId();
         se.setNome(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString());
         String da = TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString();
-        String daVe = Conversao.verificar_Data(da);        
-        se.setDataNasci(Conversao.STRING_DATE(daVe));        
+        String daVe = Controlar_DATA.verificar_Data(da);
+        se.setDataNasci(Controlar_DATA.STRING_DATE(daVe));
         se.setCelular(TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString());
         se.setNascionalidade(TABELA.getValueAt(TABELA.getSelectedRow(), 4).toString());
         se.setNaturalidade(TABELA.getValueAt(TABELA.getSelectedRow(), 5).toString());
@@ -451,8 +453,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         se.setCpf(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString());
         se.setRg(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString());
         String dat = TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString();
-        String datVe = Conversao.verificar_Data(dat);
-        se.setDataExpedicao(Conversao.STRING_DATE(datVe));
+        String datVe = Controlar_DATA.verificar_Data(dat);
+        se.setDataExpedicao(Controlar_DATA.STRING_DATE(datVe));
         se.setTituloEleito(TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString());
         se.setZona(Integer.parseInt((TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString())));
         se.setSecao(Integer.parseInt((TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString())));
@@ -486,8 +488,56 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         CONFIR_SENHA.setText("");
     }
 
+    public boolean validar_Campus() {
+        boolean va = false;
+
+        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe o nome do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe a data de nascimento do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe o CPF do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe o RG do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe o titulo de eleitor do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe a zona do titulo de eleitor do sindicalizado " + id);
+        } else if ("".equals((TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString()))) {
+            JOptionPane.showMessageDialog(null, "Informe a seção do titulo de eleitor do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe a reservista do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 14).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe a categoria da reservista do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 17).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 18).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe o logradouro da propriedade rural do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 19).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe o municipio cede da propriedade rural do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 20).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe o código no INCRA da propriedade rural do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 26).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe se a comercialização de leite na propriedade rural do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 21).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe o numero no NIRF da propriedade rural do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 22).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe a area da propriedade rural do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 23).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural do sindicalizado " + id);
+        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 25).toString())) {
+            JOptionPane.showMessageDialog(null, "Informe o login de acesso ao sistema do sindicalizado " + id);
+        } else {
+            va = true;
+        }
+        return va;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ALTERA_S;
+    private javax.swing.JButton ATUALIZAR;
     private javax.swing.JButton BOTAO_PESQUISAR_;
     private javax.swing.JTextField CONFIR_SENHA;
     private javax.swing.JTextField CPF;
@@ -497,7 +547,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     private javax.swing.JTable TABELA;
     private javax.swing.JLabel TXT_CONFIR_SENHA;
     private javax.swing.JLabel TXT_NovaSenha;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

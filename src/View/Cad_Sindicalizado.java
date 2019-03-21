@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.Conversao;
+import Controller.Controlar_DATA;
 import Controller.Login;
 import Model.DAO.Sindicalizado_DAO;
 import Model.Entidadades.Sindicalizado_Entidade;
@@ -25,12 +25,11 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
     Sindicalizado_Entidade se = new Sindicalizado_Entidade();
     Sindicalizado_DAO sd = new Sindicalizado_DAO();
 
-
     boolean cont = false, LS, LN;
 
-    public Cad_Sindicalizado() {
+    public Cad_Sindicalizado(Controlar_DATA ulti) {
         initComponents();
-
+        
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         } catch (ClassNotFoundException ex) {
@@ -44,16 +43,22 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         }
     }
 
+    Cad_Sindicalizado() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+   
+
     public Sindicalizado_Entidade PREENCHER_OBJETO() {
         se.setNome(NOME.getText());
-        se.setDataNasci(Conversao.STRING_DATE(NASCIMENTO.getText()));
+        se.setDataNasci(Controlar_DATA.STRING_DATE(NASCIMENTO.getText()));
         se.setCelular(CELULAR.getText());
         se.setNascionalidade(NASCIONALIDADE.getText());
         se.setNaturalidade(NATURALIDADE.getText());
         se.setEstadoCivil(String.valueOf(ESTADOCIVI.getSelectedItem()));
         se.setCpf(CPF.getText());
         se.setRg(RG.getText());
-        se.setDataExpedicao(Conversao.STRING_DATE(DATAEXPE.getText()));
+        se.setDataExpedicao(Controlar_DATA.STRING_DATE(DATAEXPE.getText()));
         se.setTituloEleito(TITULO_ELEITO.getText());
         se.setZona(Integer.parseInt(ZONA.getText()));
         se.setSecao(Integer.parseInt(SECAO.getText()));
@@ -82,8 +87,10 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         return se;
     }
     public boolean validar_obrigatorios() {
+        
         LS = LEITE_S.isSelected();
         LN = LEITE_N.isSelected();
+        
         if ("".equals(NOME.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o nome");
             NOME.requestFocus();

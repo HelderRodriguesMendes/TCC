@@ -7,7 +7,7 @@ package View;
 
 import Controller.Login;
 import Model.DAO.LoginDAO;
-import Model.Entidadades.Administrador;
+import Model.Entidadades.Administrador_Entidade;
 import Model.Entidadades.Sindicalizado_Entidade;
 import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
@@ -22,7 +22,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Tela_Login extends javax.swing.JFrame {
 
     boolean adm;
-    Administrador ad = new Administrador();
+    Administrador_Entidade ad = new Administrador_Entidade();
     Sindicalizado_Entidade si = new Sindicalizado_Entidade();
     LoginDAO ld = new LoginDAO();
 
@@ -177,7 +177,7 @@ public class Tela_Login extends javax.swing.JFrame {
             } else {
                 ad.setSenha(Login.encriptografar_senha(TXT_SENHA.getText()));
             }
-            Administrador adi;
+            Administrador_Entidade adi;
             adi = ld.logarAdmin(ad);
             if (adi.getId() > 0) {
                 abrirInterface(adi);
@@ -194,7 +194,7 @@ public class Tela_Login extends javax.swing.JFrame {
             } else {
                 ad.setSenha(Login.encriptografar_senha(TXT_SENHA.getText()));
             }
-            Administrador adi;
+            Administrador_Entidade adi;
             adi = ld.logarAdmin(ad);
             if (adi.getId() > 0) {
                 abrirInterface(adi);
@@ -202,7 +202,7 @@ public class Tela_Login extends javax.swing.JFrame {
         }// evento quando o ENTER é apertado
     }//GEN-LAST:event_TXT_SENHAKeyPressed
 
-    public void abrirInterface(Administrador ad) {
+    public void abrirInterface(Administrador_Entidade ad) {
         Interface in = new Interface();
         in.setVisible(true);
         in.bloquiarMenus(ad);

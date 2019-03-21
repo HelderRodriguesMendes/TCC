@@ -5,13 +5,13 @@
  */
 package View;
 
-import Model.Entidadades.Administrador;
+import Controller.Controlar_DATA;
+import Model.Entidadades.Administrador_Entidade;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -21,8 +21,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author helde
  */
 public class Interface extends javax.swing.JFrame {
-
-    JFrame JRM;
+    
     int ID = 0;
 
     public Interface() {
@@ -34,7 +33,7 @@ public class Interface extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent we) {
                 String ObjButtons[] = {"Yes", "No"};
-                int PromptResult = JOptionPane.showOptionDialog(JRM,
+                int PromptResult = JOptionPane.showOptionDialog(null,
                         "Deseja realmente sair do sistema?", "ATENÇÃO",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                         ObjButtons, ObjButtons[1]);
@@ -59,7 +58,7 @@ public class Interface extends javax.swing.JFrame {
         BARRAMENU.setLayout(new GridBagLayout());
     }
 
-    public void bloquiarMenus(Administrador a) {
+    public void bloquiarMenus(Administrador_Entidade a) {
         ID = a.getId();
         if ("Administrador".equals(a.getTipo_usuario())) {
             MENU_PESQUISAR.setVisible(false);

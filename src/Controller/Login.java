@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import Model.Entidadades.Administrador;
+import Model.Entidadades.Administrador_Entidade;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import javax.swing.JOptionPane;
