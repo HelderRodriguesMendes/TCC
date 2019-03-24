@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.Controlar_DATA;
+import Controller.DATE;
 import Model.Entidadades.Administrador_Entidade;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;

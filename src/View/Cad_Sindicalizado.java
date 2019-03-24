@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.Controlar_DATA;
+import Controller.DATE;
 import Controller.Login;
 import Model.DAO.Sindicalizado_DAO;
 import Model.Entidadades.Sindicalizado_Entidade;
@@ -27,7 +27,7 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
 
     boolean cont = false, LS, LN;
 
-    public Cad_Sindicalizado(Controlar_DATA ulti) {
+    public Cad_Sindicalizado() {
         initComponents();
         
         try {
@@ -42,23 +42,18 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
             Logger.getLogger(Cad_Sindicalizado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    Cad_Sindicalizado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
    
 
     public Sindicalizado_Entidade PREENCHER_OBJETO() {
         se.setNome(NOME.getText());
-        se.setDataNasci(Controlar_DATA.STRING_DATE(NASCIMENTO.getText()));
+        se.setDataNasci(DATE.STRING_DATE(NASCIMENTO.getText()));
         se.setCelular(CELULAR.getText());
         se.setNascionalidade(NASCIONALIDADE.getText());
         se.setNaturalidade(NATURALIDADE.getText());
         se.setEstadoCivil(String.valueOf(ESTADOCIVI.getSelectedItem()));
         se.setCpf(CPF.getText());
         se.setRg(RG.getText());
-        se.setDataExpedicao(Controlar_DATA.STRING_DATE(DATAEXPE.getText()));
+        se.setDataExpedicao(DATE.STRING_DATE(DATAEXPE.getText()));
         se.setTituloEleito(TITULO_ELEITO.getText());
         se.setZona(Integer.parseInt(ZONA.getText()));
         se.setSecao(Integer.parseInt(SECAO.getText()));
@@ -308,7 +303,7 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         jLabel3.setText("CPF:");
 
         try {
-            CPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("### ### ### - ##")));
+            CPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.### - ##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -686,7 +681,7 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
                             .addComponent(PAI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)
                             .addComponent(MAE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(24, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
