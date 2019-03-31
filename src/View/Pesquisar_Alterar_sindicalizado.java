@@ -31,6 +31,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     Sindicalizado si = new Sindicalizado();
 
     int cont = 0, con = 0, id = 0;
+    boolean niver;
 
     public Pesquisar_Alterar_sindicalizado() {
         initComponents();
@@ -451,10 +452,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         se.setNaturalidade(TABELA.getValueAt(TABELA.getSelectedRow(), 5).toString());
         se.setEstadoCivil(TABELA.getValueAt(TABELA.getSelectedRow(), 6).toString());
         se.setCpf(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString());
-        se.setRg(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString());
-        String dat = TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString();
-        String datVe = DATE.verificar_Data(dat);
-        se.setDataExpedicao(DATE.STRING_DATE(datVe));
+        se.setRg(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString());   
+        se.setDataExpedicao(DATE.STRING_DATE(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString()));
         se.setTituloEleito(TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString());
         se.setZona(Integer.parseInt((TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString())));
         se.setSecao(Integer.parseInt((TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString())));
@@ -492,75 +491,100 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         boolean va = false, v = false;
         id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
         String cpf = "", dataNas = null, dataExp = null;
-        int i = 0;
+        int invalido = 0;
         if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o nome do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a data de nascimento do sindicalizado " + id);
         } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString())) {
             String dat = TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString();
-            dataNas = DATE.verificar_Data(dat);
+            niver = true;
+            dataNas = DATE.verificar_Data(dat, niver);
             if ("//".equals(dataNas)) {
                 dataNas = "";
             }
             TABELA.setValueAt(dataNas, TABELA.getSelectedRow(), 2);
         }
         if ("".equals(dataNas)) {
-            System.out.println("helder");
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString()) || "..-".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o CPF do sindicalizado " + id);
         } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString()) || !"..-".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString())) {
             cpf = si.verificar_CPF(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString(), id);
-            if ("".equals(cpf)) {
-                i = 1;
-
+            if ("..-".equals(cpf)) {
+                cpf = "";
             }
             TABELA.setValueAt(cpf, TABELA.getSelectedRow(), 7);
         }
-        if ("".equals(cpf) && i == 1) {
+        if ("".equals(cpf) && invalido == 1) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "O CPF do sindicalizado " + id + "\n" + "deve conter 14 caracteres", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o RG do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG do sindicalizado " + id);
+            invalido = 2;
         } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString())) {
-            dataExp = DATE.verificar_Data(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString());
+            String dat = TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString();
+             niver = false;
+            dataExp = DATE.verificar_Data(dat, niver);
             if ("//".equals(dataExp)) {
                 dataExp = "";
             }
             TABELA.setValueAt(dataExp, TABELA.getSelectedRow(), 9);
-        } else if ("".equals(dataExp)) {
+        }
+        if ("".equals(dataExp)) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "A data de expedição do RG do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o titulo de eleitor do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a zona do titulo de eleitor do sindicalizado " + id);
         } else if ("".equals((TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString()))) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a seção do titulo de eleitor do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a reservista do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 14).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a categoria da reservista do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 17).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 18).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o logradouro da propriedade rural do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 19).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o municipio cede da propriedade rural do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 20).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o código no INCRA da propriedade rural do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 26).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe se a comercialização de leite na propriedade rural do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 21).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o numero no NIRF da propriedade rural do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 22).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a area da propriedade rural do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 23).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 25).toString())) {
+            invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o login de acesso ao sistema do sindicalizado " + id);
-        } else {
+        } else if(invalido == 0) {
             va = true;
         }
         return va;

@@ -21,6 +21,8 @@ public abstract class DATE {
 
     Controle_de_Caixa_ENTIDADES fc = new Controle_de_Caixa_ENTIDADES();
 
+    private static String dia, ano, mes;
+
     public static Date STRING_DATE(String dt) {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date daS = null;
@@ -39,49 +41,96 @@ public abstract class DATE {
         return dat;
     }
 
-    public static String verificar_Data(String data) {
+    public static String verificar_Data(String data, boolean niver) {
         System.out.println("DTA NASC: " + data);
-        String dia, ano, mes;
-
+        boolean ok;
+        
         switch (data.length()) {
-            case 8:
-                {
-                    String[] array = new String[8];
-                    for (int i = 0; i < 8; i++) {
-                        array[i] = "" + data.charAt(i);
-                    }       dia = array[0];
-                    dia += array[1];
-                    mes = array[2];
-                    mes += array[3];
-                    ano = array[4];
-                    ano += array[5];
-                    ano += array[6];
-                    ano += array[7];
+            case 8: {
+                String[] array = new String[8];
+                for (int i = 0; i < 8; i++) {
+                    array[i] = "" + data.charAt(i);
+                }
+                dia = array[0];
+                dia += array[1];
+                System.out.println("DIAA: " + dia);
+                mes = array[2];
+                mes += array[3];
+                ano = array[4];
+                ano += array[5];
+                ano += array[6];
+                ano += array[7];
+                
+                System.out.println("dia: " + dia + " mes: " + mes + " ano: " + ano);
+                ok = validar_Data(dia, mes, ano, niver);
+                if(ok){
                     data = dia + "/" + mes + "/" + ano;
-                    break;
+                }else{
+                    data = "//";
                 }
-            case 10:
-                {
-                    String[] array = new String[10];
-                    for (int i = 0; i < 10; i++) {
-                        array[i] = "" + data.charAt(i);
-                    }       if (!"/".equals(array[2]) && !"/".equals(array[5])) {
-                        dia = array[0];
-                        dia += array[1];
-                        mes = array[3];
-                        mes += array[4];
-                        ano = array[6];
-                        ano += array[7];
-                        ano += array[8];
-                        ano += array[9];
-                        
+                break;
+            }
+            case 10: {
+                String[] array = new String[10];
+                for (int i = 0; i < 10; i++) {
+                    array[i] = "" + data.charAt(i);
+                }
+                if (!"/".equals(array[2]) && !"/".equals(array[5])) {
+                    dia = array[0];
+                    dia += Integer.parseInt(array[1]);
+                    mes = array[3];
+                    mes += array[4];
+                    ano = array[6];
+                    ano += array[7];
+                    ano += array[8];
+                    ano += array[9];
+                    
+                    ok = validar_Data(dia, mes, dia, niver);
+                    if(ok){
                         data = dia + "/" + mes + "/" + ano;
-                    }       break;
+                    }else{
+                        data = "//";
+                    }
                 }
+                break;
+            }
             default:
-                data = "";
                 break;
         }
+        if(data.length() == 9 ||data.length() < 8 || data.length() > 10){
+            data = "//";
+        }
         return data;
+    }
+
+        public static boolean validar_Data(String di, String me, String an, boolean niver) {
+            int d, m, a;
+            d = Integer.parseInt(di);
+            m = Integer.parseInt(me);
+            a = Integer.parseInt(an);
+        System.out.println("RODRIGUES");
+        boolean ok;    
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        int ANO_Atual = Integer.valueOf(sdf.format(new Date()));
+
+        if(d > 31){
+            ok = false;
+        }else if(m > 12) {
+            ok = false;
+        }else{
+            ok = a <= ANO_Atual;
+        }
+        
+        if(ok){
+            int idade;
+            if(niver){
+                idade = ANO_Atual - a;
+                if(idade < 18){
+                    ok = false;
+                }
+            }
+        }
+        return ok;
     }
 }
