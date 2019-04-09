@@ -30,8 +30,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     Login lo = new Login();
     Sindicalizado si = new Sindicalizado();
 
-    int cont = 0, con = 0, id = 0;
-    boolean niver;
+    int cont = 0, con = 0, id = 0, idade;
+    boolean niver, ok;
 
     public Pesquisar_Alterar_sindicalizado() {
         initComponents();
@@ -452,7 +452,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         se.setNaturalidade(TABELA.getValueAt(TABELA.getSelectedRow(), 5).toString());
         se.setEstadoCivil(TABELA.getValueAt(TABELA.getSelectedRow(), 6).toString());
         se.setCpf(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString());
-        se.setRg(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString());   
+        se.setRg(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString());
         se.setDataExpedicao(DATE.STRING_DATE(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString()));
         se.setTituloEleito(TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString());
         se.setZona(Integer.parseInt((TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString())));
@@ -492,16 +492,21 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
         String cpf = "", dataNas = null, dataExp = null;
         int invalido = 0;
+        
+        
         if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString())) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o nome do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString())) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a data de nascimento do sindicalizado " + id);
-        } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString())) {
+        } else{
             String dat = TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString();
             niver = true;
             dataNas = DATE.verificar_Data(dat, niver);
+            idade = DATE.idade;
+            ok = DATE.ok;
+            System.out.println("IDADE " + idade);
             if ("//".equals(dataNas)) {
                 dataNas = "";
             }
@@ -509,7 +514,13 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         }
         if ("".equals(dataNas)) {
             invalido = 2;
-            JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+            if (idade < 18&& idade > 0 && !ok) {
+                JOptionPane.showMessageDialog(null, "Com base a data de nascimento informada, o sindicalizado " + id + "\n" + " se torna menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
+                DATE.idade = 0;
+            } else if(!ok && idade == 0) {
+                JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+                DATE.idade = 0;
+            }
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString()) || "..-".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString())) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o CPF do sindicalizado " + id);
@@ -520,7 +531,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             }
             TABELA.setValueAt(cpf, TABELA.getSelectedRow(), 7);
         }
-        if ("".equals(cpf) && invalido == 1) {
+        if ("".equals(cpf) && invalido == 0) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "O CPF do sindicalizado " + id + "\n" + "deve conter 14 caracteres", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString())) {
@@ -532,14 +543,14 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             invalido = 2;
         } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString())) {
             String dat = TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString();
-             niver = false;
+            niver = false;
             dataExp = DATE.verificar_Data(dat, niver);
             if ("//".equals(dataExp)) {
                 dataExp = "";
             }
             TABELA.setValueAt(dataExp, TABELA.getSelectedRow(), 9);
         }
-        if ("".equals(dataExp)) {
+        if ("".equals(dataExp) && invalido == 0) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "A data de expedição do RG do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString())) {
@@ -584,7 +595,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 25).toString())) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o login de acesso ao sistema do sindicalizado " + id);
-        } else if(invalido == 0) {
+        } else if (invalido == 0) {
             va = true;
         }
         return va;

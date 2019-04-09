@@ -1,10 +1,6 @@
 package Controller;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 import Controller.Entidades.Controle_de_Caixa_ENTIDADES;
 import View.FluxoCaixa;
 import java.text.ParseException;
@@ -22,6 +18,8 @@ public abstract class DATE {
     Controle_de_Caixa_ENTIDADES fc = new Controle_de_Caixa_ENTIDADES();
 
     private static String dia, ano, mes;
+    public static int idade = 0;
+    public static boolean ok;
 
     public static Date STRING_DATE(String dt) {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -46,6 +44,7 @@ public abstract class DATE {
         boolean ok;
         
         switch (data.length()) {
+            //29101996
             case 8: {
                 String[] array = new String[8];
                 for (int i = 0; i < 8; i++) {
@@ -77,7 +76,7 @@ public abstract class DATE {
                 }
                 if (!"/".equals(array[2]) && !"/".equals(array[5])) {
                     dia = array[0];
-                    dia += Integer.parseInt(array[1]);
+                    dia += array[1];
                     mes = array[3];
                     mes += array[4];
                     ano = array[6];
@@ -85,7 +84,22 @@ public abstract class DATE {
                     ano += array[8];
                     ano += array[9];
                     
-                    ok = validar_Data(dia, mes, dia, niver);
+                    ok = validar_Data(dia, mes, ano, niver);
+                    if(ok){
+                        data = dia + "/" + mes + "/" + ano;
+                    }else{
+                        data = "//";
+                    }
+                }else{
+                    dia = array[0];
+                    dia += array[1];
+                    mes = array[3];
+                    mes += array[4];
+                    ano = array[6];
+                    ano += array[7];
+                    ano += array[8];
+                    ano += array[9];
+                    ok = validar_Data(dia, mes, ano, niver);
                     if(ok){
                         data = dia + "/" + mes + "/" + ano;
                     }else{
@@ -109,7 +123,7 @@ public abstract class DATE {
             m = Integer.parseInt(me);
             a = Integer.parseInt(an);
         System.out.println("RODRIGUES");
-        boolean ok;    
+            
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         int ANO_Atual = Integer.valueOf(sdf.format(new Date()));
@@ -122,15 +136,18 @@ public abstract class DATE {
             ok = a <= ANO_Atual;
         }
         
-        if(ok){
-            int idade;
+        if(ok){            
             if(niver){
                 idade = ANO_Atual - a;
+                System.out.println("IDADE: " + idade);
+                System.out.println("ano atual: " + ANO_Atual);
+                System.out.println("ano nascimento: " + a);
                 if(idade < 18){
                     ok = false;
                 }
             }
         }
+            System.out.println("OK final: " + ok);
         return ok;
     }
 }

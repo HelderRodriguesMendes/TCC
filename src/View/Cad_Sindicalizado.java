@@ -26,10 +26,11 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
     Sindicalizado_DAO sd = new Sindicalizado_DAO();
 
     boolean cont = false, LS, LN;
+    int idade;
 
     public Cad_Sindicalizado() {
         initComponents();
-        
+
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         } catch (ClassNotFoundException ex) {
@@ -42,7 +43,6 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
             Logger.getLogger(Cad_Sindicalizado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
 
     public Sindicalizado_Entidade PREENCHER_OBJETO() {
         se.setNome(NOME.getText());
@@ -81,18 +81,34 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         se.setTipo_usuario("sindicalizado");
         return se;
     }
+
     public boolean validar_obrigatorios() {
-        
+
         LS = LEITE_S.isSelected();
         LN = LEITE_N.isSelected();
-        
+
         if ("".equals(NOME.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o nome");
             NOME.requestFocus();
         } else if ("  /  /    ".equals(NASCIMENTO.getText())) {
             JOptionPane.showMessageDialog(null, "Informe a data de nascimento");
             NASCIMENTO.requestFocus();
-        } else if ("            -   ".equals(CPF.getText())) {
+        } else {
+            String data = DATE.verificar_Data(NASCIMENTO.getText(), true);
+            idade = DATE.idade;
+            System.out.println("IDADE: " + idade);
+            if ("//".equals(data)) {
+                if (idade < 18) {
+                    JOptionPane.showMessageDialog(null, "Não é permitido o cadastramento de sindicalizado menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+                }
+                NASCIMENTO.setText("  /  /    ");
+            } else {
+                NASCIMENTO.setText(data);
+            }
+        }
+        if ("            -   ".equals(CPF.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o CPF");
             CPF.requestFocus();
         } else if ("       ".equals(RG.getText())) {
