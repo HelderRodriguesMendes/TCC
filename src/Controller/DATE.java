@@ -128,12 +128,12 @@ public abstract class DATE {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         int ANO_Atual = Integer.valueOf(sdf.format(new Date()));
 
-        if(d > 31){
+        if(d > 31 || d == 0 || d == 00){
             ok = false;
-        }else if(m > 12) {
+        }else if(m > 12 || m == 0 || m == 00) {
             ok = false;
         }else{
-            ok = a <= ANO_Atual;
+            ok = a <= ANO_Atual && a != 0 && a != 00;
         }
         
         if(ok){            
