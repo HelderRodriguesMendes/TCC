@@ -520,22 +520,45 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
                 DATE.idade = 0;
             }
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString()) || "..-".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString())) {
+        } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString())) {
+            String tel = TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString();
+            System.out.println("TEL DA TABELA: " + tel);
+            String TEL = si.validadar_Telefone(tel);
+            if ("".equals(TEL)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "O telefone do sindicalizado " + id + "\n" + "é invalido", "Atenção", JOptionPane.ERROR_MESSAGE);
+                TABELA.setValueAt("", TABELA.getSelectedRow(), 3);
+            } else if ("falto DD".equals(TEL)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "Informe o DDD do telefone do sindicalizado " + id);
+            }else{
+                TABELA.setValueAt(TEL, TABELA.getSelectedRow(), 3);
+            }
+        }
+        if ((invalido == 0) && "".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString()) || "..-".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString())) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o CPF do sindicalizado " + id);
         } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString()) || !"..-".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString())) {
             cpf = si.verificar_CPF(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString(), id);
-            if ("..-".equals(cpf)) {
-                cpf = "";
-            } else if ("..- ok".equals(cpf)) {
-                cpf = "";
-                v = true;
-            }else if("..- ok2".equals(cpf)){
-                cpf = "";
-                v = false;
+            if (null != cpf) {
+                switch (cpf) {
+                    case "..-":
+                        cpf = "";
+                        break;
+                    case "..- ok":
+                        cpf = "";
+                        v = true;
+                        break;
+                    case "..- ok2":
+                        cpf = "";
+                        v = false;
+                        break;
+                    default:
+                        break;
+                }
             }
             TABELA.setValueAt(cpf, TABELA.getSelectedRow(), 7);
-    }
+        }
         if ("".equals(cpf) && invalido == 0 && !v) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "O CPF do sindicalizado " + id + "\n" + "deve conter 11 ou 14 caracteres", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
