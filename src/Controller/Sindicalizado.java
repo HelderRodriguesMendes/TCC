@@ -8,9 +8,8 @@ public class Sindicalizado {
 
     public String verificar_CPF(String CPF, int id) {
         boolean ok;
-        System.out.println("CPF SIND " + CPF);
-
         String a, b, c, d;
+
         switch (CPF.length()) {
             case 11: {
                 String[] array = new String[11];
@@ -72,12 +71,10 @@ public class Sindicalizado {
                 CPF = "..- ok2";
                 break;
         }
-        System.out.println("CPF HELDER: " + CPF);
         return CPF;
     }
 
     public String validadar_Telefone(String tel) {
-        System.out.println("TELEFONE INICIAL: " + tel);
         String TELEFONE = "";
 
         switch (tel.length()) {
@@ -181,7 +178,6 @@ public class Sindicalizado {
                 String[] array = new String[17];
                 for (int i = 0; i < 17; i++) {
                     array[i] = "" + tel.charAt(i);
-                    System.out.println(array[i]);
                 }
                 TELEFONE = array[0];
                 TELEFONE += array[1];
@@ -205,7 +201,6 @@ public class Sindicalizado {
                 String[] array = new String[14];
                 for (int i = 0; i < 14; i++) {
                     array[i] = "" + tel.charAt(i);
-                    System.out.println(array[i]);
                 }
                 if ("(".equals(array[0]) && ")".equals(array[3]) && " ".equals(array[4])) {
                     TELEFONE = array[0];
@@ -225,12 +220,25 @@ public class Sindicalizado {
                     TELEFONE += array[11];
                     TELEFONE += array[12];
                     TELEFONE += array[13];
-                }else{
+                } else {
                     TELEFONE = "";
                 }
             }
         }
-        System.out.println("TELEFONE FINAL: " + TELEFONE);
         return TELEFONE;
+    }
+
+    public String validadar_RG(String rg) {
+        String RG = "";
+        if (rg.length() == 7) {
+            if (!"0000000".equals(rg)) {
+                RG = rg;
+            }
+        } else if(rg.length() > 7){
+            RG = "+7";             
+        }else{
+            RG = "-7";
+        }
+        return RG;
     }
 }

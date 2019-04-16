@@ -505,7 +505,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             dataNas = DATE.verificar_Data(dat, niver);
             idade = DATE.idade;
             ok = DATE.ok;
-            System.out.println("IDADE " + idade);
             if ("//".equals(dataNas)) {
                 dataNas = "";
             }
@@ -522,7 +521,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             }
         } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString())) {
             String tel = TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString();
-            System.out.println("TEL DA TABELA: " + tel);
             String TEL = si.validadar_Telefone(tel);
             if ("".equals(TEL)) {
                 invalido = 2;
@@ -531,7 +529,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             } else if ("falto DD".equals(TEL)) {
                 invalido = 2;
                 JOptionPane.showMessageDialog(null, "Informe o DDD do telefone do sindicalizado " + id);
-            }else{
+            } else {
                 TABELA.setValueAt(TEL, TABELA.getSelectedRow(), 3);
             }
         }
@@ -568,8 +566,24 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString())) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o RG do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString())) {
-            invalido = 2;
+        } else {
+            String rg = TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString();
+            String R_G = si.validadar_RG(rg);
+            if ("".equals(R_G)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "O RG do sindicalizado " + id + "\n" + "é invalido", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+                TABELA.setValueAt("", TABELA.getSelectedRow(), 8);
+            } else if ("-7".equals(R_G)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "O RG do sindicalizado " + id + "\n" + "deve conter 7 números", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+            } else if ("+7".equals(R_G)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "O RG do sindicalizado " + id + "\n" + "deve conter apenas 7 números", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+            } else {
+                TABELA.setValueAt(R_G, TABELA.getSelectedRow(), 8);
+            }
+        }
+        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString()) && invalido == 0) {
             JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG do sindicalizado " + id);
             invalido = 2;
         } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString())) {

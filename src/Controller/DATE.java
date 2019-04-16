@@ -40,7 +40,6 @@ public abstract class DATE {
     }
 
     public static String verificar_Data(String data, boolean niver) {
-        System.out.println("DTA NASC: " + data);
         boolean ok;
         
         switch (data.length()) {
@@ -52,7 +51,6 @@ public abstract class DATE {
                 }
                 dia = array[0];
                 dia += array[1];
-                System.out.println("DIAA: " + dia);
                 mes = array[2];
                 mes += array[3];
                 ano = array[4];
@@ -60,7 +58,6 @@ public abstract class DATE {
                 ano += array[6];
                 ano += array[7];
                 
-                System.out.println("dia: " + dia + " mes: " + mes + " ano: " + ano);
                 ok = validar_Data(dia, mes, ano, niver);
                 if(ok){
                     data = dia + "/" + mes + "/" + ano;
@@ -121,9 +118,7 @@ public abstract class DATE {
             int d, m, a;
             d = Integer.parseInt(di);
             m = Integer.parseInt(me);
-            a = Integer.parseInt(an);
-        System.out.println("RODRIGUES");
-            
+            a = Integer.parseInt(an);          
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         int ANO_Atual = Integer.valueOf(sdf.format(new Date()));
@@ -139,15 +134,12 @@ public abstract class DATE {
         if(ok){            
             if(niver){
                 idade = ANO_Atual - a;
-                System.out.println("IDADE: " + idade);
-                System.out.println("ano atual: " + ANO_Atual);
-                System.out.println("ano nascimento: " + a);
+
                 if(idade < 18){
                     ok = false;
                 }
             }
         }
-            System.out.println("OK final: " + ok);
         return ok;
     }
 }
