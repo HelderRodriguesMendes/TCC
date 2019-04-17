@@ -426,7 +426,7 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         jLabel13.setText("Titulo de eleitor:");
 
         try {
-            TITULO_ELEITO.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#### #### #### ##")));
+            TITULO_ELEITO.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#### #### ####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }

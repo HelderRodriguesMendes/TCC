@@ -601,7 +601,18 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString())) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o titulo de eleitor do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString())) {
+        } else {
+            String tito = TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString();
+            String TITO = si.validar_Titulo_Eleitor(tito);
+            if ("".equals(TITO)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "Titulo de eleitor do sindicalizado " + id + " é invalido" + "\n" + "O titulo deve conter 12 números", "Atenção", JOptionPane.ERROR_MESSAGE);
+                TABELA.setValueAt("", TABELA.getSelectedRow(), 10);
+            } else {
+                TABELA.setValueAt(TITO, TABELA.getSelectedRow(), 10);
+            }
+        }
+        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString()) && invalido == 0) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a zona do titulo de eleitor do sindicalizado " + id);
         } else if ("".equals((TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString()))) {

@@ -6,6 +6,8 @@ package Controller;
  */
 public class Sindicalizado {
 
+    boolean z = false;
+
     public String verificar_CPF(String CPF, int id) {
         boolean ok;
         String a, b, c, d;
@@ -33,9 +35,7 @@ public class Sindicalizado {
                 d += array[10];
 
                 CPF = a + "." + b + "." + c + "-" + d;
-                if ("000.000.000-00".equals(CPF)) {
-                    CPF = "..- ok";
-                }
+                z = true;
                 break;
             }
             case 14: {
@@ -61,15 +61,18 @@ public class Sindicalizado {
                     d += array[13];
 
                     CPF = a + "." + b + "." + c + "-" + d;
-                    if ("000.000.000-00".equals(CPF)) {
-                        CPF = "..- ok";
-                    }
+                    z = true;
                 }
                 break;
             }
             default:
                 CPF = "..- ok2";
                 break;
+        }
+        if (z) {
+            if ("000.000.000-00".equals(CPF)) {
+                CPF = "..- ok";
+            }
         }
         return CPF;
     }
@@ -101,9 +104,7 @@ public class Sindicalizado {
                 TELEFONE += array[8];
                 TELEFONE += array[9];
                 TELEFONE += array[10];
-                if ("(00) 00000 - 0000".equals(TELEFONE)) {
-                    TELEFONE = "";
-                }
+                z = true;
                 break;
             }
             case 9: {
@@ -134,9 +135,7 @@ public class Sindicalizado {
                     TELEFONE += array[10];
                     TELEFONE += array[11];
                     TELEFONE += array[12];
-                    if ("(00) 00000 - 0000".equals(TELEFONE)) {
-                        TELEFONE = "";
-                    }
+                    z = true;
                 } else {
                     TELEFONE = "";
                 }
@@ -166,9 +165,7 @@ public class Sindicalizado {
                     TELEFONE += array[9];
                     TELEFONE += array[10];
                     TELEFONE += array[11];
-                    if ("(00) 00000 - 0000".equals(TELEFONE)) {
-                        TELEFONE = "";
-                    }
+                    z = true;
                 } else {
                     TELEFONE = "";
                 }
@@ -196,6 +193,7 @@ public class Sindicalizado {
                 TELEFONE += array[14];
                 TELEFONE += array[15];
                 TELEFONE += array[16];
+                z = true;
             }
             case 14: {     //(64) 981235651
                 String[] array = new String[14];
@@ -220,9 +218,15 @@ public class Sindicalizado {
                     TELEFONE += array[11];
                     TELEFONE += array[12];
                     TELEFONE += array[13];
+                    z = true;
                 } else {
                     TELEFONE = "";
                 }
+            }
+        }
+        if (z) {
+            if ("(00) 00000 - 0000".equals(TELEFONE)) {
+                TELEFONE = "";
             }
         }
         return TELEFONE;
@@ -234,11 +238,67 @@ public class Sindicalizado {
             if (!"0000000".equals(rg)) {
                 RG = rg;
             }
-        } else if(rg.length() > 7){
-            RG = "+7";             
-        }else{
+        } else if (rg.length() > 7) {
+            RG = "+7";
+        } else {
             RG = "-7";
         }
         return RG;
+    }
+
+    public String validar_Titulo_Eleitor(String titulo) {
+        //1234 1234 1234
+        String TITULO = "";
+        if (titulo.length() == 14) {
+            String[] array = new String[14];
+            for (int i = 0; i < 14; i++) {
+                array[i] = "" + titulo.charAt(i);
+            }
+            if (" ".equals(array[4]) && " ".equals(array[9])) {
+                TITULO = array[0];
+                TITULO += array[1];
+                TITULO += array[2];
+                TITULO += array[3];
+                TITULO += " ";
+                TITULO += array[5];
+                TITULO += array[6];
+                TITULO += array[7];
+                TITULO += array[8];
+                TITULO += " ";
+                TITULO += array[10];
+                TITULO += array[11];
+                TITULO += array[12];
+                TITULO += array[13];
+                z = true;
+
+            }
+        } else if (titulo.length() == 12) {
+            //123412341234
+            String[] array = new String[12];
+            for (int i = 0; i < 12; i++) {
+                array[i] = "" + titulo.charAt(i);
+            }
+            TITULO = array[0];
+            TITULO += array[1];
+            TITULO += array[2];
+            TITULO += array[3];
+            TITULO += " ";
+            TITULO += array[4];
+            TITULO += array[5];
+            TITULO += array[6];
+            TITULO += array[7];
+            TITULO += " ";
+            TITULO += array[8];
+            TITULO += array[9];
+            TITULO += array[10];
+            TITULO += array[11];
+            z = true;
+        }
+        if (z) {
+            if ("0000 0000 0000".equals(TITULO)) {
+                TITULO = "";
+            }
+        }
+        return TITULO;
     }
 }
