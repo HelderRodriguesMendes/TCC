@@ -615,10 +615,40 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString()) && invalido == 0) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a zona do titulo de eleitor do sindicalizado " + id);
-        } else if ("".equals((TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString()))) {
+        } else {
+            String zona = TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString();
+            String ZONA = si.validar_zona(zona);
+            if ("".equals(ZONA)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "A zona do titulo de eleitor do sindicalizado " + id + " é invalida." + "\n" + " Deve conter 3 números", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            } else if ("invalida".equals(ZONA)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "A zona do titulo de eleitor do sindicalizado " + id + " é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+                TABELA.setValueAt("", TABELA.getSelectedRow(), 11);
+            } else {
+                TABELA.setValueAt(ZONA, TABELA.getSelectedRow(), 11);
+            }
+        }
+
+        if ("".equals((TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString())) && invalido == 0) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a seção do titulo de eleitor do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString())) {
+        } else {
+            String secao = TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString();
+            String SECAO = si.validar_secao(secao);
+            if ("".equals(SECAO)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "A seção do titulo de eleitor do sindicalizado " + id + " é invalida." + "\n" + " Deve conter 4 números", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            } else if ("invalida".equals(SECAO)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "A seção do titulo de eleitor do sindicalizado " + id + " é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+                TABELA.setValueAt("", TABELA.getSelectedRow(), 12);
+            } else {
+                TABELA.setValueAt(SECAO, TABELA.getSelectedRow(), 12);
+            }
+        }
+
+        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString()) && invalido == 0) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a reservista do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 14).toString())) {

@@ -301,4 +301,31 @@ public class Sindicalizado {
         }
         return TITULO;
     }
+    
+    public String validar_zona(String zona){
+        String ZONA = "";
+           if(zona.length() == 3){
+               z = true;
+               ZONA = zona;
+           }
+           if(z){
+               if("000".equals(ZONA)){
+                   ZONA = "invalida";
+               }
+           }
+        return ZONA;
+    }
+    public String validar_secao(String secao){
+        String SECAO = "";
+           if(secao.length() == 4){
+               z = true;
+               SECAO = secao;
+           }
+           if(z){
+               if("0000".equals(SECAO)){
+                   SECAO = "invalida";
+               }
+           }
+        return SECAO;
+    }
 }
