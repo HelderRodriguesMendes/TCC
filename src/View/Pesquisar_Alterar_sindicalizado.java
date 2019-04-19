@@ -506,20 +506,23 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             idade = DATE.idade;
             ok = DATE.ok;
             if ("//".equals(dataNas)) {
-                dataNas = "";
+                invalido = 2;
+                if (idade < 18 && idade > 0 && !ok) {
+                    JOptionPane.showMessageDialog(null, "Com base a data de nascimento informada, o sindicalizado " + id + "\n" + " se torna menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
+                    DATE.idade = 0;
+                    TABELA.setValueAt("", TABELA.getSelectedRow(), 2);
+                } else if (!ok && idade == 0) {
+                    invalido = 2;
+                    JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+                    DATE.idade = 0;
+                    TABELA.setValueAt("", TABELA.getSelectedRow(), 2);
+                }
+            } else {
+                TABELA.setValueAt(dataNas, TABELA.getSelectedRow(), 2);
             }
-            TABELA.setValueAt(dataNas, TABELA.getSelectedRow(), 2);
         }
-        if ("".equals(dataNas)) {
-            invalido = 2;
-            if (idade < 18 && idade > 0 && !ok) {
-                JOptionPane.showMessageDialog(null, "Com base a data de nascimento informada, o sindicalizado " + id + "\n" + " se torna menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
-                DATE.idade = 0;
-            } else if (!ok && idade == 0) {
-                JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-                DATE.idade = 0;
-            }
-        } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString())) {
+
+        if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString()) && invalido == 0) {
             String tel = TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString();
             String TEL = si.validadar_Telefone(tel);
             if ("".equals(TEL)) {
@@ -586,19 +589,19 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString()) && invalido == 0) {
             JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG do sindicalizado " + id);
             invalido = 2;
-        } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString())) {
+        } else {
             String dat = TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString();
             niver = false;
             dataExp = DATE.verificar_Data(dat, niver);
             if ("//".equals(dataExp)) {
-                dataExp = "";
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "A data de expedição do RG do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+                TABELA.setValueAt("", TABELA.getSelectedRow(), 9);
+            } else {
+                TABELA.setValueAt(dataExp, TABELA.getSelectedRow(), 9);
             }
-            TABELA.setValueAt(dataExp, TABELA.getSelectedRow(), 9);
         }
-        if ("".equals(dataExp) && invalido == 0) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "A data de expedição do RG do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString())) {
+        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString()) && invalido == 0) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o titulo de eleitor do sindicalizado " + id);
         } else {
@@ -651,7 +654,21 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString()) && invalido == 0) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a reservista do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 14).toString())) {
+        } else {
+            String reser = TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString();
+            String RESER = si.validarReservista(reser); 
+            if("".equals(RESER)){
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado " + id + " é invalido." , "Atenção", JOptionPane.ERROR_MESSAGE);
+                TABELA.setValueAt("", TABELA.getSelectedRow(), 13);
+            }else if("6n".equals(RESER)){
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado " + id + " é invalido." + "\n" + "Deve conter 6 números" , "Atenção", JOptionPane.ERROR_MESSAGE);                
+            }else{
+                TABELA.setValueAt(RESER, TABELA.getSelectedRow(), 13);
+            }
+        }
+        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 14).toString()) && invalido == 0) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe a categoria da reservista do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 17).toString())) {

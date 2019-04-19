@@ -328,4 +328,19 @@ public class Sindicalizado {
            }
         return SECAO;
     }
+    public String validarReservista(String reser){
+        String RESER = "";
+        if(reser.length() == 6){
+            RESER = reser;
+            z = true;
+        }else{
+            RESER = "6n";
+        }
+        if(z){
+            if("000000".equals(RESER)){
+                RESER = "";
+            }
+        }
+        return RESER;
+    }
 }

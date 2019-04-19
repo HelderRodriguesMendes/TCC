@@ -231,7 +231,6 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         DATAEXPE = new javax.swing.JFormattedTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        RESERVISTA = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         CATEGORIA = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
@@ -254,6 +253,7 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
         ZONA = new javax.swing.JFormattedTextField();
         jLabel35 = new javax.swing.JLabel();
         jLabel47 = new javax.swing.JLabel();
+        RESERVISTA = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         NOMEFAZENDA = new javax.swing.JTextField();
@@ -520,6 +520,12 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
 
         jLabel47.setText("FILIAÇÃO");
 
+        try {
+            RESERVISTA.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("######")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -538,8 +544,9 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel19))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
-                                .addGap(4, 4, 4)
-                                .addComponent(RESERVISTA, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(RESERVISTA, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(8, 8, 8)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(86, 86, 86)
@@ -689,9 +696,10 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
                                 .addComponent(CATEGORIA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel17))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel16))
-                            .addComponent(RESERVISTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(1, 1, 1)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel16)
+                                    .addComponent(RESERVISTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel37)
                             .addComponent(jLabel5)
                             .addComponent(PAI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1148,7 +1156,7 @@ public class Cad_Sindicalizado extends javax.swing.JInternalFrame {
     private javax.swing.JTextField NOMEFAZENDA;
     private javax.swing.JTextPane OUTRASATIVI;
     private javax.swing.JTextField PAI;
-    private javax.swing.JTextField RESERVISTA;
+    private javax.swing.JFormattedTextField RESERVISTA;
     private javax.swing.JFormattedTextField RG;
     private javax.swing.JLabel SALVAR_1;
     private javax.swing.JFormattedTextField SECAO;
