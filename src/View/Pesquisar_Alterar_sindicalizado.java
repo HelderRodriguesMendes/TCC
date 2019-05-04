@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.DATE;
+import Controller.Util;
 import Controller.Login;
 import Controller.Sindicalizado;
 import Model.DAO.Sindicalizado_DAO;
@@ -107,11 +107,11 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
             },
             new String [] {
-                "ID", "Nome", "Data de nascimento", "Telefone", "Nascionalidade", "Naturalidade", "Estado civil", "CPF", "RG", "Data de Expedição", "Titulo de Eleitor", "Zona", "Seção", "Reservistal", "Categoria", "Nome do pai", "Nome da mãe", "Nome da propriedade rural", "Logradouro", "Municipio cede", "Código no INCRA", "Número no NIRF", "Area da propriedade rural", "Tempo de compra da propriedade", "Outras atividades", "Login", "Comercialização de leite"
+                "ID", "Nome", "Data de nascimento", "Telefone", "Nascionalidade", "Estado civil", "CPF", "RG", "Data de Expedição", "Titulo de Eleitor", "Zona", "Seção", "Reservistal", "Categoria", "Nome do pai", "Nome da mãe", "Nome da propriedade rural", "Logradouro", "Municipio cede", "Código no INCRA", "Número no NIRF", "Area da propriedade rural", "Tempo de compra da propriedade", "Outras atividades", "Login", "Comercialização de leite", "Residência atual"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true
@@ -306,6 +306,16 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
         cont = 10;
         ALTERA_S.setVisible(true);
+        
+        id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
+
+        Cadastrar_Sindi cs = new Cadastrar_Sindi();
+        cs.preencher_campus_alteracao(PREENCHER_OBJETO());
+        cs.setVisible(true);
+        Interface.DESKTOP.add(cs);
+        cs.setPosicao();
+        cs.id = this.id;
+        this.dispose();
     }//GEN-LAST:event_TABELAMouseClicked
 
     private void ALTERA_SActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ALTERA_SActionPerformed
@@ -366,15 +376,14 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         sd.listar_Tabela().forEach((sin) -> {
-            String dn = DATE.DATE_STRING(sin.getDataNasci());
-            String de = DATE.DATE_STRING(sin.getDataExpedicao());
+            String dn = Util.DATE_STRING(sin.getDataNasci());
+            String de = Util.DATE_STRING(sin.getDataExpedicao());
             dtma.addRow(new Object[]{
                 sin.getId(),
                 sin.getNome(),
                 dn,
                 sin.getCelular(),
                 sin.getNascionalidade(),
-                sin.getNaturalidade(),
                 sin.getEstadoCivil(),
                 sin.getCpf(),
                 sin.getRg(),
@@ -395,7 +404,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 sin.getTempoCompra(),
                 sin.getOutrasA(),
                 sin.getLogin(),
-                sin.getTiraLeite()
+                sin.getTiraLeite(),
+                sin.getResidenciaAtual()
             });
         });
 
@@ -415,7 +425,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 sin.getDataNasci(),
                 sin.getCelular(),
                 sin.getNascionalidade(),
-                sin.getNaturalidade(),
                 sin.getEstadoCivil(),
                 sin.getCpf(),
                 sin.getRg(),
@@ -436,7 +445,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 sin.getTempoCompra(),
                 sin.getOutrasA(),
                 sin.getLogin(),
-                sin.getTiraLeite()
+                sin.getTiraLeite(),
+                sin.getResidenciaAtual()
             });
         });
 
@@ -446,31 +456,31 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         se.setId(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
         id = se.getId();
         se.setNome(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString());
-        se.setDataNasci(DATE.STRING_DATE(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString()));
+        se.setDataNasci(Util.STRING_DATE(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString()));
         se.setCelular(TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString());
         se.setNascionalidade(TABELA.getValueAt(TABELA.getSelectedRow(), 4).toString());
-        se.setNaturalidade(TABELA.getValueAt(TABELA.getSelectedRow(), 5).toString());
-        se.setEstadoCivil(TABELA.getValueAt(TABELA.getSelectedRow(), 6).toString());
-        se.setCpf(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString());
-        se.setRg(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString());
-        se.setDataExpedicao(DATE.STRING_DATE(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString()));
-        se.setTituloEleito(TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString());
-        se.setZona(Integer.parseInt((TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString())));
-        se.setSecao(Integer.parseInt((TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString())));
-        se.setReservista(TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString());
-        se.setCategoria(TABELA.getValueAt(TABELA.getSelectedRow(), 14).toString());
-        se.setPai(TABELA.getValueAt(TABELA.getSelectedRow(), 15).toString());
-        se.setMae(TABELA.getValueAt(TABELA.getSelectedRow(), 16).toString());
-        se.setNomeFazenda(TABELA.getValueAt(TABELA.getSelectedRow(), 17).toString());
-        se.setLogradouro(TABELA.getValueAt(TABELA.getSelectedRow(), 18).toString());
-        se.setMuniciSede(TABELA.getValueAt(TABELA.getSelectedRow(), 19).toString());
-        se.setCodINCRA(TABELA.getValueAt(TABELA.getSelectedRow(), 20).toString());
-        se.setNIRF(TABELA.getValueAt(TABELA.getSelectedRow(), 21).toString());
-        se.setAreaPropri(TABELA.getValueAt(TABELA.getSelectedRow(), 22).toString());
-        se.setTempoCompra(TABELA.getValueAt(TABELA.getSelectedRow(), 23).toString());
-        se.setOutrasA(TABELA.getValueAt(TABELA.getSelectedRow(), 24).toString());
-        se.setLogin(TABELA.getValueAt(TABELA.getSelectedRow(), 25).toString());
-        se.setTiraLeite(TABELA.getValueAt(TABELA.getSelectedRow(), 26).toString());
+        se.setEstadoCivil(TABELA.getValueAt(TABELA.getSelectedRow(), 5).toString());
+        se.setCpf(TABELA.getValueAt(TABELA.getSelectedRow(), 6).toString());
+        se.setRg(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString());
+        se.setDataExpedicao(Util.STRING_DATE(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString()));
+        se.setTituloEleito(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString());
+        se.setZona(Integer.parseInt((TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString())));
+        se.setSecao(Integer.parseInt((TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString())));
+        se.setReservista(TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString());
+        se.setCategoria(TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString());
+        se.setPai(TABELA.getValueAt(TABELA.getSelectedRow(), 14).toString());
+        se.setMae(TABELA.getValueAt(TABELA.getSelectedRow(), 15).toString());
+        se.setNomeFazenda(TABELA.getValueAt(TABELA.getSelectedRow(), 16).toString());
+        se.setLogradouro(TABELA.getValueAt(TABELA.getSelectedRow(), 17).toString());
+        se.setMuniciSede(TABELA.getValueAt(TABELA.getSelectedRow(), 18).toString());
+        se.setCodINCRA(TABELA.getValueAt(TABELA.getSelectedRow(), 19).toString());
+        se.setNIRF(TABELA.getValueAt(TABELA.getSelectedRow(), 20).toString());
+        se.setAreaPropri(TABELA.getValueAt(TABELA.getSelectedRow(), 21).toString());
+        se.setTempoCompra(TABELA.getValueAt(TABELA.getSelectedRow(), 22).toString());
+        se.setOutrasA(TABELA.getValueAt(TABELA.getSelectedRow(), 23).toString());
+        se.setLogin(TABELA.getValueAt(TABELA.getSelectedRow(), 24).toString());
+        se.setTiraLeite(TABELA.getValueAt(TABELA.getSelectedRow(), 25).toString());
+
         if (con == 5) {
             se.setSenha(lo.validar_nova_senha(NOVA_SENHA.getText(), CONFIR_SENHA.getText()));
         } else {
@@ -488,9 +498,9 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     }
 
     public boolean validar_Campus() {
-        boolean va = false, v = false;
-        id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
-        String cpf = "", dataNas = null, dataExp = null;
+        boolean va = false;
+        
+        String dataNas, dataExp;
         int invalido = 0;
 
         if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString())) {
@@ -502,19 +512,19 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } else {
             String dat = TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString();
             niver = true;
-            dataNas = DATE.verificar_Data(dat, niver);
-            idade = DATE.idade;
-            ok = DATE.ok;
+            dataNas = Util.verificar_Data(dat, niver);
+            idade = Util.idade;
+            ok = Util.ok;
             if ("//".equals(dataNas)) {
                 invalido = 2;
                 if (idade < 18 && idade > 0 && !ok) {
                     JOptionPane.showMessageDialog(null, "Com base a data de nascimento informada, o sindicalizado " + id + "\n" + " se torna menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
-                    DATE.idade = 0;
+                    Util.idade = 0;
                     TABELA.setValueAt("", TABELA.getSelectedRow(), 2);
                 } else if (!ok && idade == 0) {
                     invalido = 2;
                     JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-                    DATE.idade = 0;
+                    Util.idade = 0;
                     TABELA.setValueAt("", TABELA.getSelectedRow(), 2);
                 }
             } else {
@@ -536,37 +546,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 TABELA.setValueAt(TEL, TABELA.getSelectedRow(), 3);
             }
         }
-        if ((invalido == 0) && "".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString()) || "..-".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe o CPF do sindicalizado " + id);
-        } else if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString()) || !"..-".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString())) {
-            cpf = si.verificar_CPF(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString(), id);
-            if (null != cpf) {
-                switch (cpf) {
-                    case "..-":
-                        cpf = "";
-                        break;
-                    case "..- ok":
-                        cpf = "";
-                        v = true;
-                        break;
-                    case "..- ok2":
-                        cpf = "";
-                        v = false;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            TABELA.setValueAt(cpf, TABELA.getSelectedRow(), 7);
-        }
-        if ("".equals(cpf) && invalido == 0 && !v) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "O CPF do sindicalizado " + id + "\n" + "deve conter 11 ou 14 caracteres", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
-        } else if ("".equals(cpf) && invalido == 0 && v) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "O CPF do sindicalizado " + id + "\n" + "é invalido", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString())) {
+        
+        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString())) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o RG do sindicalizado " + id);
         } else {
@@ -592,7 +573,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } else {
             String dat = TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString();
             niver = false;
-            dataExp = DATE.verificar_Data(dat, niver);
+            dataExp = Util.verificar_Data(dat, niver);
             if ("//".equals(dataExp)) {
                 invalido = 2;
                 JOptionPane.showMessageDialog(null, "A data de expedição do RG do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
@@ -656,15 +637,15 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             JOptionPane.showMessageDialog(null, "Informe a reservista do sindicalizado " + id);
         } else {
             String reser = TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString();
-            String RESER = si.validarReservista(reser); 
-            if("".equals(RESER)){
+            String RESER = si.validarReservista(reser);
+            if ("".equals(RESER)) {
                 invalido = 2;
-                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado " + id + " é invalido." , "Atenção", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado " + id + " é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
                 TABELA.setValueAt("", TABELA.getSelectedRow(), 13);
-            }else if("6n".equals(RESER)){
+            } else if ("6n".equals(RESER)) {
                 invalido = 2;
-                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado " + id + " é invalido." + "\n" + "Deve conter 6 números" , "Atenção", JOptionPane.ERROR_MESSAGE);                
-            }else{
+                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado " + id + " é invalido." + "\n" + "Deve conter 6 números", "Atenção", JOptionPane.ERROR_MESSAGE);
+            } else {
                 TABELA.setValueAt(RESER, TABELA.getSelectedRow(), 13);
             }
         }
@@ -683,7 +664,22 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 20).toString())) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o código no INCRA da propriedade rural do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 26).toString())) {
+        } else {
+            String codincra = TABELA.getValueAt(TABELA.getSelectedRow(), 20).toString();
+            String CODINCRA = si.validaCodIncra(codincra);
+            if ("".equals(CODINCRA)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "O código do INCRA do sindicalizado " + id + " é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                TABELA.setValueAt("", TABELA.getSelectedRow(), 20);
+            } else if ("invalido".equals(CODINCRA)) {
+                invalido = 2;
+                JOptionPane.showMessageDialog(null, "O código do INCRA do sindicalizado " + id + " deve conter 13 números.", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                TABELA.setValueAt(CODINCRA, TABELA.getSelectedRow(), 20);
+            }
+        }
+
+        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 26).toString()) && invalido == 0) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe se a comercialização de leite na propriedade rural do sindicalizado " + id);
         } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 21).toString())) {
@@ -703,6 +699,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         }
         return va;
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ALTERA_S;

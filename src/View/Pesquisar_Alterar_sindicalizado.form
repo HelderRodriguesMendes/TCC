@@ -147,7 +147,6 @@
                 <Column editable="true" title="Data de nascimento" type="java.lang.String"/>
                 <Column editable="true" title="Telefone" type="java.lang.Object"/>
                 <Column editable="true" title="Nascionalidade" type="java.lang.Object"/>
-                <Column editable="true" title="Naturalidade" type="java.lang.Object"/>
                 <Column editable="true" title="Estado civil" type="java.lang.Object"/>
                 <Column editable="true" title="CPF" type="java.lang.Object"/>
                 <Column editable="true" title="RG" type="java.lang.Object"/>
@@ -169,6 +168,7 @@
                 <Column editable="true" title="Outras atividades" type="java.lang.Object"/>
                 <Column editable="true" title="Login" type="java.lang.Object"/>
                 <Column editable="true" title="Comercializa&#xe7;&#xe3;o de leite" type="java.lang.Object"/>
+                <Column editable="true" title="Resid&#xea;ncia atual" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

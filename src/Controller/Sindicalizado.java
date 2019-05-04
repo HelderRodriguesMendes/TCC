@@ -8,37 +8,13 @@ public class Sindicalizado {
 
     boolean z = false;
 
-    public String verificar_CPF(String CPF, int id) {
+    public String verificar_CPF(String CPF) {
         boolean ok;
         String a, b, c, d;
 
         switch (CPF.length()) {
-            case 11: {
-                String[] array = new String[11];
-                for (int i = 0; i < 11; i++) {
-                    array[i] = "" + CPF.charAt(i);
-                }
-
-                a = array[0];
-                a += array[1];
-                a += array[2];
-
-                b = array[3];
-                b += array[4];
-                b += array[5];
-
-                c = array[6];
-                c += array[7];
-                c += array[8];
-
-                d = array[9];
-                d += array[10];
-
-                CPF = a + "." + b + "." + c + "-" + d;
-                z = true;
-                break;
-            }
-            case 14: {
+            
+            case 14: {  //045.434.611-50
                 String[] array = new String[14];
                 for (int i = 0; i < 14; i++) {
                     array[i] = "" + CPF.charAt(i);
@@ -66,12 +42,11 @@ public class Sindicalizado {
                 break;
             }
             default:
-                CPF = "..- ok2";
                 break;
         }
         if (z) {
             if ("000.000.000-00".equals(CPF)) {
-                CPF = "..- ok";
+                CPF = "";
             }
         }
         return CPF;
@@ -301,46 +276,108 @@ public class Sindicalizado {
         }
         return TITULO;
     }
-    
-    public String validar_zona(String zona){
+
+    public String validar_zona(String zona) {
         String ZONA = "";
-           if(zona.length() == 3){
-               z = true;
-               ZONA = zona;
-           }
-           if(z){
-               if("000".equals(ZONA)){
-                   ZONA = "invalida";
-               }
-           }
+        if (zona.length() == 3) {
+            z = true;
+            ZONA = zona;
+        }
+        if (z) {
+            if ("000".equals(ZONA)) {
+                ZONA = "invalida";
+            }
+        }
         return ZONA;
     }
-    public String validar_secao(String secao){
+
+    public String validar_secao(String secao) {
         String SECAO = "";
-           if(secao.length() == 4){
-               z = true;
-               SECAO = secao;
-           }
-           if(z){
-               if("0000".equals(SECAO)){
-                   SECAO = "invalida";
-               }
-           }
+        if (secao.length() == 4) {
+            z = true;
+            SECAO = secao;
+        }
+        if (z) {
+            if ("0000".equals(SECAO)) {
+                SECAO = "invalida";
+            }
+        }
         return SECAO;
     }
-    public String validarReservista(String reser){
+
+    public String validarReservista(String reser) {
         String RESER = "";
-        if(reser.length() == 6){
+        if (reser.length() == 6) {
             RESER = reser;
             z = true;
-        }else{
+        } else {
             RESER = "6n";
         }
-        if(z){
-            if("000000".equals(RESER)){
+        if (z) {
+            if ("000000".equals(RESER)) {
                 RESER = "";
             }
         }
         return RESER;
+    }
+
+    public String validaCodIncra(String codin) {
+        String CODINCRA = "";
+        if (codin.length() == 13) {
+            String[] array = new String[13];
+            for (int i = 0; i < 13; i++) {
+                array[i] = "" + codin.charAt(i);
+            }
+            CODINCRA = array[0];
+            CODINCRA += array[1];
+            CODINCRA += array[2];
+            CODINCRA += ".";
+            CODINCRA += array[3];
+            CODINCRA += array[4];
+            CODINCRA += array[5];
+            CODINCRA += ".";
+            CODINCRA += array[6];
+            CODINCRA += array[7];
+            CODINCRA += array[8];
+            CODINCRA += ".";
+            CODINCRA += array[9];
+            CODINCRA += array[10];
+            CODINCRA += array[11];
+            CODINCRA += "-";
+            CODINCRA += array[13];
+        } else if (CODINCRA.length() == 17) {
+            String[] array = new String[17];
+            for (int i = 0; i < 17; i++) {
+                array[i] = "" + codin.charAt(i);
+            }
+            if (".".equals(array[3]) && ".".equals(array[7]) && ".".equals(array[11]) && "-".equals(array[15])) {
+                
+                CODINCRA = array[0];
+                CODINCRA += array[1];
+                CODINCRA += array[2];
+                CODINCRA += array[3];
+                CODINCRA += array[4];
+                CODINCRA += array[5];
+                CODINCRA += array[6];
+                CODINCRA += array[7];
+                CODINCRA += array[8];
+                CODINCRA += array[9];
+                CODINCRA += array[10];
+                CODINCRA += array[11];
+                CODINCRA += array[12];
+                CODINCRA += array[13];
+                CODINCRA += array[14];
+                CODINCRA += array[15];
+                CODINCRA += array[16];
+            }else{
+                CODINCRA = "";
+            }
+        }else if(CODINCRA.length() != 17 && CODINCRA.length() != 13){
+            CODINCRA = "invalido";
+        }
+        if ("000.000.000.000-0".equals(CODINCRA)) {
+            CODINCRA = "";
+        }
+        return CODINCRA;
     }
 }

@@ -11,7 +11,6 @@ public class Sindicalizado_Entidade extends Pessoa{
 
     private Date dataNasci;
     private String nascionalidade;
-    private String naturalidade;
     private String estadoCivil;
     private String cpf;
     private String rg;
@@ -35,6 +34,7 @@ public class Sindicalizado_Entidade extends Pessoa{
     private String login;
     private String senha;
     private String tipo_usuario;
+    private String residenciaAtual;
     private int id;
 
     /**
@@ -63,20 +63,6 @@ public class Sindicalizado_Entidade extends Pessoa{
      */
     public void setNascionalidade(String nascionalidade) {
         this.nascionalidade = nascionalidade;
-    }
-
-    /**
-     * @return the naturalidade
-     */
-    public String getNaturalidade() {
-        return naturalidade;
-    }
-
-    /**
-     * @param naturalidade the naturalidade to set
-     */
-    public void setNaturalidade(String naturalidade) {
-        this.naturalidade = naturalidade;
     }
 
     /**
@@ -413,6 +399,20 @@ public class Sindicalizado_Entidade extends Pessoa{
      */
     public void setTipo_usuario(String tipo_usuario) {
         this.tipo_usuario = tipo_usuario;
+    }
+
+    /**
+     * @return the residenciaAtual
+     */
+    public String getResidenciaAtual() {
+        return residenciaAtual;
+    }
+
+    /**
+     * @param residenciaAtual the residenciaAtual to set
+     */
+    public void setResidenciaAtual(String residenciaAtual) {
+        this.residenciaAtual = residenciaAtual;
     }
 
 

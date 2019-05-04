@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.DATE;
+import Controller.Util;
 import Model.Entidadades.Administrador_Entidade;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
@@ -32,7 +32,7 @@ public class Interface extends javax.swing.JFrame {
         addWindowListener(new WindowAdapter() { // para confirna se deseja ralmente sair do sistema
             @Override
             public void windowClosing(WindowEvent we) {
-                String ObjButtons[] = {"Yes", "No"};
+                String ObjButtons[] = {"Sim", "Não"};
                 int PromptResult = JOptionPane.showOptionDialog(null,
                         "Deseja realmente sair do sistema?", "ATENÇÃO",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
@@ -216,7 +216,7 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_MENU_SALVARMouseEntered
 
     private void MENU_CAD_SINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_SINDActionPerformed
-        Cad_Sindicalizado cs = new Cad_Sindicalizado();
+        Cadastrar_Sindi cs = new Cadastrar_Sindi();
         DESKTOP.add(cs);
         cs.setVisible(true);
         cs.setPosicao();
