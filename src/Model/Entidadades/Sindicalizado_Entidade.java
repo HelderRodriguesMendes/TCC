@@ -250,6 +250,7 @@ public class Sindicalizado_Entidade extends Pessoa{
     /**
      * @return the municiSede
      */
+    
     public String getMuniciSede() {
         return municiSede;
     }
@@ -279,6 +280,7 @@ public class Sindicalizado_Entidade extends Pessoa{
      * @return the tiraLeite
      */
     public String getTiraLeite() {
+    
         return tiraLeite;
     }
 

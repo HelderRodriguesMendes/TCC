@@ -7,6 +7,7 @@ package View;
 
 import Controller.Util;
 import Controller.Login;
+import Controller.Receptor;
 import Controller.Sindicalizado;
 import Model.DAO.Sindicalizado_DAO;
 import Model.Entidadades.Sindicalizado_Entidade;
@@ -22,7 +23,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author helde
  */
-public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
+public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame implements Receptor {
 
     Sindicalizado_Entidade se = new Sindicalizado_Entidade();
     Sindicalizado_DAO sd = new Sindicalizado_DAO();
@@ -30,7 +31,8 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     Sindicalizado si = new Sindicalizado();
 
     boolean cont = false, LS, LN, alterar = false;
-    int idade, id = 0;
+    int idade, id = 0, t = 0;
+    String senhaC = "", senha = "";
 
     public Cadastrar_Sindi() {
         initComponents();
@@ -46,11 +48,13 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Cadastrar_Sindi.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         validaNumerosLetras();
+        LBL_ALTERAR.setVisible(false);
     }
 
     public Sindicalizado_Entidade PREENCHER_OBJETO() {
+        int n = 0;
         se.setNome(NOME.getText());
         String dtn = df.format(NASCIMENTO.getDate());
         se.setDataNasci(Util.STRING_DATE(dtn));
@@ -83,10 +87,27 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         se.setTempoCompra(TEMPOCOMPRA.getText());
         se.setOutrasA(OUTRASATIVI.getText());
         se.setLogin(TXT_LOGIN.getText());
-        String scrip = Login.encriptografar_senha(TXT_SENHA.getText());
-        se.setSenha(scrip);
+        if (alterar) {
+            se.setId(this.id);
+            if (t == 100) {
+                if (TXT_SENHA.getText().equals(this.senha)) {
+                    se.setSenha(this.senhaC);
+
+                } else {
+                    TXT_SENHA.setText("");
+                    TXT_SENHA.setEnabled(false);
+                    n = 1;
+                }
+            }
+        } else {
+            String scrip = Login.encriptografar_senha(TXT_SENHA.getText());
+            se.setSenha(scrip);
+        }
         se.setTipo_usuario("sindicalizado");
         se.setResidenciaAtual(RESIDEN_ATUAL.getText());
+        if (n == 1) {
+            se = null;
+        }
         return se;
     }
 
@@ -108,7 +129,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         } else {
             String data = Util.verificar_Data(df.format(NASCIMENTO.getDate()), true);
             idade = Util.idade;
-            System.out.println("IDADE: " + idade);
+
             if ("//".equals(data)) {
                 if (idade < 18) {
                     JOptionPane.showMessageDialog(null, "Não é permitido o cadastramento de sindicalizado menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
@@ -120,7 +141,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 NASCIMENTO.setDate(null);
             }
         }
-        if (erro == 0 && "   .   .   -  ".equals(CPF.getText())) {
+        if (erro == 0 && "   .   .    -   ".equals(CPF.getText()) || "".equals(CPF.getText())) {
             erro = 1;
             JOptionPane.showMessageDialog(null, "Informe o CPF do sindicalizado ");
             CPF.requestFocus();
@@ -128,51 +149,104 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             cpf = si.verificar_CPF(CPF.getText());
             if ("".equals(cpf) && erro == 0) {
                 erro = 1;
-                JOptionPane.showMessageDialog(null, "O CPF do sindicalizado " + id + "é invalido", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O CPF do sindicalizado é invalido", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
+                CPF.setText("   .   .    -   ");
                 CPF.requestFocus();
             }
         }
 
-        if ("       ".equals(RG.getText()) && erro == 0) {
+        if ((erro == 0) && "       ".equals(RG.getText()) || "".equals(RG.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o RG");
             RG.requestFocus();
-        } else if (DATAEXPE.getDate() == null && erro == 0) {
+            erro = 1;
+        } else {
+            String R_G = si.validadar_RG(RG.getText());
+            if ("".equals(R_G)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "O RG do sindicalizado é invalido", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+                RG.setText("       ");
+                RG.requestFocus();
+            } else if ("-7".equals(R_G)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "O RG do sindicalizado deve conter 7 números", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+            } else if ("+7".equals(R_G)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "O RG do sindicalizado deve conter apenas 7 números", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        if (DATAEXPE.getDate() == null && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG");
             DATAEXPE.requestFocus();
-        } else if ("".equals(NASCIONALIDADE.getText()) && erro == 0) {
+            erro = 1;
+        } else {
+            String data = Util.verificar_Data(df.format(DATAEXPE.getDate()), false);
+            if ("//".equals(data)) {
+                JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+                erro = 1;
+                NASCIMENTO.setDate(null);
+                NASCIMENTO.requestFocus();
+            }
+        }
+        if ("".equals(NASCIONALIDADE.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe a nascionalidade");
             NASCIONALIDADE.requestFocus();
+            erro = 1;
         } else if ("".equals(PAI.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe a filiação paterna");
             PAI.requestFocus();
+            erro = 1;
         } else if ("".equals(MAE.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe a filiação materna");
             MAE.requestFocus();
+            erro = 1;
         } else if ("".equals(NOMEFAZENDA.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural");
             NOMEFAZENDA.requestFocus();
+            erro = 1;
         } else if ("".equals(LOGRADOURO.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe o logradouro da propriedade rural");
             LOGRADOURO.requestFocus();
+            erro = 1;
         } else if ("".equals(MUNICEDE.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe o municipio cede da propriedade rural");
             MUNICEDE.requestFocus();
+            erro = 1;
         } else if (LS == false && LN == false && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe se a comercialização de leite na propriedade rural");
             jLabel27.requestFocus();
+            erro = 1;
         } else if ("".equals(AREAFAZENDA.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe a area da propriedade rural");
             AREAFAZENDA.requestFocus();
+            erro = 1;
         } else if ("".equals(TEMPOCOMPRA.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural");
             TEMPOCOMPRA.requestFocus();
+            erro = 1;
         } else if ("".equals(TXT_LOGIN.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe o login de acesso ao sistema");
             TXT_LOGIN.requestFocus();
+            erro = 1;
         } else if ("".equals(TXT_SENHA.getText()) && erro == 0 && !alterar) {
             JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
-            TXT_SENHA.requestFocus();
-        } else if (erro == 0) {
+            erro = 1;
+        } else if (!"(  ) 9     -     ".equals(CELULAR.getText())) {        // DAQUI PRA BAIXO COMEÇA A VALIDAÇÃO DOS QUE NÃO SÃO OBRIGATÓRIOS 
+            String TEL = si.validadar_Telefone(CELULAR.getText());
+            if ("".equals(TEL)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "O telefone do sindicalizado é invalido", "Atenção", JOptionPane.ERROR_MESSAGE);
+                CELULAR.setText("(  ) 9     -     ");
+            }
+        } else if (!"".equals(RESERVISTA.getText())) {
+            String RESER = si.validarReservista(RESERVISTA.getText());
+            if ("".equals(RESER)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                RESERVISTA.setText("");
+            }
+        }
+
+        if (erro == 0) {
             cont = true;
         }
 
@@ -267,6 +341,18 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         RESIDEN_ATUAL.setText(si.getResidenciaAtual());
 
         this.alterar = true;
+        LBL_ALTERAR.setVisible(true);
+        TXT_SENHA.setEnabled(false);
+        this.id = si.getId();
+    }
+
+    @Override
+    public void receber(String senhaC, String senha) {
+        TXT_SENHA.setText(senha);
+        TXT_SENHA.setEnabled(true);
+        this.senhaC = senhaC;
+        System.out.println("senha crip: " + senhaC);
+        this.senha = senha;
     }
 
     @SuppressWarnings("unchecked")
@@ -351,6 +437,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         TXT_LOGIN = new javax.swing.JTextField();
         jLabel49 = new javax.swing.JLabel();
         TXT_SENHA = new javax.swing.JTextField();
+        LBL_ALTERAR = new javax.swing.JLabel();
         RESIDEN_ATUAL = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         BT_ATU = new javax.swing.JLabel();
@@ -800,10 +887,33 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(OUTRASATIVI);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel5MouseExited(evt);
+            }
+        });
 
         jLabel48.setText("Login:");
 
         jLabel49.setText("Senha:");
+
+        TXT_SENHA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TXT_SENHAMouseClicked(evt);
+            }
+        });
+        TXT_SENHA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TXT_SENHAActionPerformed(evt);
+            }
+        });
+
+        LBL_ALTERAR.setText("Alterar");
+        LBL_ALTERAR.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LBL_ALTERARMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -814,10 +924,12 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 .addComponent(jLabel48)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TXT_LOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(21, 21, 21)
                 .addComponent(jLabel49)
                 .addGap(2, 2, 2)
                 .addComponent(TXT_SENHA, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LBL_ALTERAR)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -828,8 +940,9 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                     .addComponent(jLabel48)
                     .addComponent(TXT_LOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel49)
-                    .addComponent(TXT_SENHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(TXT_SENHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LBL_ALTERAR))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jLabel10.setText("Residência atual:");
@@ -866,11 +979,11 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(4, 4, 4)))
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(70, 70, 70)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(31, 31, 31)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(MUNICEDE)
@@ -919,7 +1032,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                                         .addGap(0, 0, 0)
                                         .addComponent(jLabel46))))
                             .addComponent(RESIDEN_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -965,26 +1078,23 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel27)
                                     .addComponent(LEITE_S))))))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jLabel28)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(SALVAR_1, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(RESIDEN_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10))
                         .addGap(31, 31, 31)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(78, 78, 78)
-                                .addComponent(jLabel28))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(SALVAR_1, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
 
         BT_ATU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
@@ -1057,12 +1167,12 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1151, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1231, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
         );
 
         pack();
@@ -1092,7 +1202,12 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         boolean r = validar_obrigatorios();
         if (!r) {
         } else {
-            sd.SALVAR(PREENCHER_OBJETO());
+            if (PREENCHER_OBJETO() != null) {
+                sd.SALVAR(PREENCHER_OBJETO());
+            } else {
+                validar_obrigatorios();
+            }
+
         }
     }//GEN-LAST:event_SALVAR_1MouseClicked
 
@@ -1116,7 +1231,12 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         boolean v = false;
         v = validar_obrigatorios();
         if (v) {
-            sd.SALVAR(PREENCHER_OBJETO());
+            System.out.println("ALTERAR: " + alterar);
+            if (!alterar) {
+                sd.SALVAR(PREENCHER_OBJETO());
+            } else {
+                sd.alterar_sind(PREENCHER_OBJETO());
+            }
             limparCampus();
         }
     }//GEN-LAST:event_BOTAO_SALVAR_MouseClicked
@@ -1129,6 +1249,27 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_SECAOActionPerformed
 
+    private void TXT_SENHAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXT_SENHAActionPerformed
+
+
+    }//GEN-LAST:event_TXT_SENHAActionPerformed
+
+    private void TXT_SENHAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TXT_SENHAMouseClicked
+
+    }//GEN-LAST:event_TXT_SENHAMouseClicked
+
+    private void LBL_ALTERARMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LBL_ALTERARMouseClicked
+        Alterar_senha as = new Alterar_senha(this);
+        Interface.DESKTOP.add(as);
+        as.setVisible(true);
+        as.setPosicao();
+        t = 100;
+    }//GEN-LAST:event_LBL_ALTERARMouseClicked
+
+    private void jPanel5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseExited
+
+    }//GEN-LAST:event_jPanel5MouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AREAFAZENDA;
@@ -1140,6 +1281,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField CPF;
     private com.toedter.calendar.JDateChooser DATAEXPE;
     private javax.swing.JComboBox<String> ESTADOCIVI;
+    private javax.swing.JLabel LBL_ALTERAR;
     private javax.swing.JCheckBox LEITE_N;
     private javax.swing.JCheckBox LEITE_S;
     private javax.swing.JTextField LOGRADOURO;
@@ -1160,7 +1302,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     private javax.swing.JTextField TEMPOCOMPRA;
     private javax.swing.JFormattedTextField TITULO_ELEITO;
     private javax.swing.JTextField TXT_LOGIN;
-    private javax.swing.JTextField TXT_SENHA;
+    public javax.swing.JTextField TXT_SENHA;
     private javax.swing.JFormattedTextField ZONA;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

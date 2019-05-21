@@ -51,6 +51,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         jPanel1.setVisible(false);
         ALTERA_S.setVisible(false);
         listar_Tabela();
+
     }
 
     public void setPosicao() { // faz o formulario aparecer centralizado na tela
@@ -309,7 +310,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         
         id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
 
-        Cadastrar_Sindi cs = new Cadastrar_Sindi();
+        Cadastrar_Sindi cs = new Cadastrar_Sindi() {};
         cs.preencher_campus_alteracao(PREENCHER_OBJETO());
         cs.setVisible(true);
         Interface.DESKTOP.add(cs);
@@ -566,7 +567,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             } else {
                 TABELA.setValueAt(R_G, TABELA.getSelectedRow(), 8);
             }
-        }
+        }  
         if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString()) && invalido == 0) {
             JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG do sindicalizado " + id);
             invalido = 2;

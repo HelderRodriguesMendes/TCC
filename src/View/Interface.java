@@ -216,7 +216,12 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_MENU_SALVARMouseEntered
 
     private void MENU_CAD_SINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_SINDActionPerformed
-        Cadastrar_Sindi cs = new Cadastrar_Sindi();
+        Cadastrar_Sindi cs = new Cadastrar_Sindi() {
+            @Override
+            public void receber(String senhaC, String senha) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        };
         DESKTOP.add(cs);
         cs.setVisible(true);
         cs.setPosicao();

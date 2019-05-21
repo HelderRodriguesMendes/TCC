@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
  * @author helde
  */
 public class Login {
+    public String senha = "";
 
     public static String encriptografar_senha(String senha) {
         String retorno = "";
@@ -34,6 +35,7 @@ public class Login {
     public String validar_nova_senha(String s1, String s2){
         String se = "";
         if(s1.equals(s2)){
+            this.senha = s1;
             se = encriptografar_senha(s1);
         }else{
             JOptionPane.showMessageDialog(null, "Erro", "As senhas não correspondem", JOptionPane.ERROR_MESSAGE);

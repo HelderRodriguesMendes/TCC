@@ -42,75 +42,15 @@ public abstract class Util {
     }
 
     public static String verificar_Data(String data, boolean niver) {
-        boolean ok;
+        String[] da = data.split("/");
+        dia = da[0];
+        mes = da[1];
+        ano = da[2];
 
-        switch (data.length()) {
-            //29101996
-            case 8: {
-                String[] array = new String[8];
-                for (int i = 0; i < 8; i++) {
-                    array[i] = "" + data.charAt(i);
-                }
-                dia = array[0];
-                dia += array[1];
-                mes = array[2];
-                mes += array[3];
-                ano = array[4];
-                ano += array[5];
-                ano += array[6];
-                ano += array[7];
-
-                ok = validar_Data(dia, mes, ano, niver);
-                if (ok) {
-                    data = dia + "/" + mes + "/" + ano;
-                } else {
-                    data = "//";
-                }
-                break;
-            }
-            case 10: {  //  29/10/1996
-                String[] array = new String[10];
-                for (int i = 0; i < 10; i++) {
-                    array[i] = "" + data.charAt(i);
-                }
-                if (!"/".equals(array[2]) && !"/".equals(array[5])) {
-                    dia = array[0];
-                    dia += array[1];
-                    mes = array[3];
-                    mes += array[4];
-                    ano = array[6];
-                    ano += array[7];
-                    ano += array[8];
-                    ano += array[9];
-
-                    ok = validar_Data(dia, mes, ano, niver);
-                    if (ok) {
-                        data = dia + "/" + mes + "/" + ano;
-                    } else {
-                        data = "//";
-                    }
-                } else {
-                    dia = array[0];
-                    dia += array[1];
-                    mes = array[3];
-                    mes += array[4];
-                    ano = array[6];
-                    ano += array[7];
-                    ano += array[8];
-                    ano += array[9];
-                    ok = validar_Data(dia, mes, ano, niver);
-                    if (ok) {
-                        data = dia + "/" + mes + "/" + ano;
-                    } else {
-                        data = "//";
-                    }
-                }
-                break;
-            }
-            default:
-                break;
-        }
-        if (data.length() == 9 || data.length() < 8 || data.length() > 10) {
+        ok = validar_Data(dia, mes, ano, niver);
+        if (ok) {
+            data = dia + "/" + mes + "/" + ano;
+        } else {
             data = "//";
         }
         return data;
@@ -148,23 +88,23 @@ public abstract class Util {
     public static void soLetras(JTextField campo) {
         campo.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e){   // evento de teclas pressionadas no teclado
-               char c = e.getKeyChar();         // captura a letra ou o numero digitado
-               if(Character.isDigit(c)){        // verifica si o que foi digitado é numeros
-                   e.consume();                 // não permite digitar numeros
-               }
+            public void keyTyped(KeyEvent e) {   // evento de teclas pressionadas no teclado
+                char c = e.getKeyChar();         // captura a letra ou o numero digitado
+                if (Character.isDigit(c)) {        // verifica si o que foi digitado é numeros
+                    e.consume();                 // não permite digitar numeros
+                }
             }
         });
     }
-    
+
     public static void soNumeros(JTextField campo) {
         campo.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e){   // evento de teclas pressionadas no teclado
-               char c = e.getKeyChar();         // captura a letra ou o numero digitado
-               if(!Character.isDigit(c)){        // verifica si o que foi digitado é letras
-                   e.consume();                 // não permite digitar letras
-               }
+            public void keyTyped(KeyEvent e) {   // evento de teclas pressionadas no teclado
+                char c = e.getKeyChar();         // captura a letra ou o numero digitado
+                if (!Character.isDigit(c)) {        // verifica si o que foi digitado é letras
+                    e.consume();                 // não permite digitar letras
+                }
             }
         });
     }

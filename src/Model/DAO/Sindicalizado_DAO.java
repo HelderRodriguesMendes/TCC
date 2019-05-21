@@ -206,8 +206,8 @@ public class Sindicalizado_DAO {
                 pst.setString(23, se.getTempoCompra());
                 pst.setString(24, se.getOutrasA());
                 pst.setString(25, se.getLogin());
-                pst.setInt(26, se.getId());
-                pst.setString(27, se.getResidenciaAtual());
+                pst.setString(26, se.getResidenciaAtual());
+                pst.setInt(27, se.getId());
                 pst.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
@@ -249,8 +249,8 @@ public class Sindicalizado_DAO {
             pst.setString(25, se.getTipo_usuario());
             pst.setString(26, se.getLogin());
             pst.setString(27, se.getSenha());
-            pst.setInt(28, se.getId());
-            pst.setString(29, se.getResidenciaAtual());
+            pst.setString(28, se.getResidenciaAtual());
+            pst.setInt(29, se.getId());
             pst.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
