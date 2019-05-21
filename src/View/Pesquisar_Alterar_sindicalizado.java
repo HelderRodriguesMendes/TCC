@@ -48,8 +48,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             Logger.getLogger(Pesquisar_Alterar_sindicalizado.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        jPanel1.setVisible(false);
-        ALTERA_S.setVisible(false);
         listar_Tabela();
 
     }
@@ -68,13 +66,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         BOTAO_PESQUISAR_ = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TABELA = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        TXT_NovaSenha = new javax.swing.JLabel();
-        NOVA_SENHA = new javax.swing.JTextField();
-        TXT_CONFIR_SENHA = new javax.swing.JLabel();
-        CONFIR_SENHA = new javax.swing.JTextField();
-        ALTERA_S = new javax.swing.JButton();
-        ATUALIZAR = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -133,59 +124,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         });
         jScrollPane1.setViewportView(TABELA);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        TXT_NovaSenha.setText("Nova senha:");
-
-        TXT_CONFIR_SENHA.setText("Confirma senha:");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(TXT_NovaSenha)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(NOVA_SENHA))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(TXT_CONFIR_SENHA)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CONFIR_SENHA, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(TXT_NovaSenha))
-                    .addComponent(NOVA_SENHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CONFIR_SENHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TXT_CONFIR_SENHA))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        ALTERA_S.setText("Alterar senha");
-        ALTERA_S.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ALTERA_SActionPerformed(evt);
-            }
-        });
-
-        ATUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
-        ATUALIZAR.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ATUALIZARActionPerformed(evt);
-            }
-        });
-
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/home (1).png"))); // NOI18N
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -224,20 +162,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(524, 524, 524)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(ALTERA_S)
-                        .addGap(18, 18, 18)
-                        .addComponent(ATUALIZAR))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(100, 100, 100)
                 .addComponent(jLabel1)
                 .addGap(9, 9, 9)
@@ -252,51 +176,44 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
                 .addComponent(BOTAO_PESQUISAR_)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jLabel8))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(NOME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(NOME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(4, 4, 4)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel3)
-                                            .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(1, 1, 1)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel4)
-                                            .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(BOTAO_PESQUISAR_)
-                        .addGap(18, 18, 18)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(4, 4, 4)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BOTAO_PESQUISAR_))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ATUALIZAR)
-                    .addComponent(ALTERA_S))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void BOTAO_PESQUISAR_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_ActionPerformed
-        jPanel1.setVisible(false);
-        ALTERA_S.setVisible(false);
+
         if ("".equals(NOME.getText()) && "".equals(CPF.getText()) && "".equals(RG.getText())) {
             listar_Tabela();
         } else {
@@ -306,7 +223,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
         cont = 10;
-        ALTERA_S.setVisible(true);
         
         id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
 
@@ -318,25 +234,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         cs.id = this.id;
         this.dispose();
     }//GEN-LAST:event_TABELAMouseClicked
-
-    private void ALTERA_SActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ALTERA_SActionPerformed
-        jPanel1.setVisible(true);
-        con = 5;
-    }//GEN-LAST:event_ALTERA_SActionPerformed
-
-    private void ATUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ATUALIZARActionPerformed
-        if (cont == 10) {
-            if (validar_Campus()) {
-                sd.alterar_sind(PREENCHER_OBJETO());
-                listar_Tabela();
-                limparCampus();
-                jPanel1.setVisible(false);
-                ALTERA_S.setVisible(false);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Selecione um sindicalizado na tabela para a alteração de dados", "Informação", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_ATUALIZARActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         this.dispose();
@@ -355,18 +252,15 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     }//GEN-LAST:event_RGActionPerformed
 
     private void NOMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOMEMouseClicked
-        jPanel1.setVisible(false);
-        ALTERA_S.setVisible(false);
+        
     }//GEN-LAST:event_NOMEMouseClicked
 
     private void CPFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CPFMouseClicked
-        jPanel1.setVisible(false);
-        ALTERA_S.setVisible(false);
+
     }//GEN-LAST:event_CPFMouseClicked
 
     private void RGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RGMouseClicked
-        jPanel1.setVisible(false);
-        ALTERA_S.setVisible(false);
+
     }//GEN-LAST:event_RGMouseClicked
 
     public void listar_Tabela() {
@@ -481,12 +375,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         se.setOutrasA(TABELA.getValueAt(TABELA.getSelectedRow(), 23).toString());
         se.setLogin(TABELA.getValueAt(TABELA.getSelectedRow(), 24).toString());
         se.setTiraLeite(TABELA.getValueAt(TABELA.getSelectedRow(), 25).toString());
-
-        if (con == 5) {
-            se.setSenha(lo.validar_nova_senha(NOVA_SENHA.getText(), CONFIR_SENHA.getText()));
-        } else {
-            se.setSenha("");
-        }
+        
         return se;
     }
 
@@ -494,8 +383,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         NOME.setText("");
         RG.setText("");
         CPF.setText("");
-        NOVA_SENHA.setText("");
-        CONFIR_SENHA.setText("");
+
     }
 
     public boolean validar_Campus() {
@@ -703,22 +591,15 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ALTERA_S;
-    private javax.swing.JButton ATUALIZAR;
     private javax.swing.JButton BOTAO_PESQUISAR_;
-    private javax.swing.JTextField CONFIR_SENHA;
     private javax.swing.JTextField CPF;
     private javax.swing.JTextField NOME;
-    private javax.swing.JTextField NOVA_SENHA;
     private javax.swing.JTextField RG;
     private javax.swing.JTable TABELA;
-    private javax.swing.JLabel TXT_CONFIR_SENHA;
-    private javax.swing.JLabel TXT_NovaSenha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

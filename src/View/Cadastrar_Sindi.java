@@ -98,6 +98,8 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                     TXT_SENHA.setEnabled(false);
                     n = 1;
                 }
+            }else{
+                se.setSenha("");
             }
         } else {
             String scrip = Login.encriptografar_senha(TXT_SENHA.getText());
