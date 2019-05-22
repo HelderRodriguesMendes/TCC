@@ -96,7 +96,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 } else {
                     TXT_SENHA.setText("");
                     TXT_SENHA.setEnabled(false);
-                    n = 1;
+                    se.setSenha("");
                 }
             } else {
                 se.setSenha("");
@@ -107,14 +107,11 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         }
         se.setTipo_usuario("sindicalizado");
         se.setResidenciaAtual(RESIDEN_ATUAL.getText());
-        if (n == 1) {
-            se = null;
-        }
+
         return se;
     }
 
     public boolean validar_obrigatorios() {
-        System.out.println("HELDER");
 
         int erro = 0;
         String cpf = "";
@@ -230,7 +227,14 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             JOptionPane.showMessageDialog(null, "Informe o login de acesso ao sistema");
             TXT_LOGIN.requestFocus();
             erro = 1;
-        } else if ("".equals(TXT_SENHA.getText()) && erro == 0 ) {
+        } else if (alterar) {
+            if (t == 100) {
+                if ("".equals(TXT_SENHA.getText()) && erro == 0) {
+                    JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
+                    erro = 1;
+                }
+            }
+        } else if ("".equals(TXT_SENHA.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
             erro = 1;
         } else if (!"(  ) 9     -     ".equals(CELULAR.getText())) {        // DAQUI PRA BAIXO COMEÇA A VALIDAÇÃO DOS QUE NÃO SÃO OBRIGATÓRIOS 
@@ -251,7 +255,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
 
         if (erro == 0) {
             cont = true;
-            System.out.println("CAIO");
         }
 
         return cont;
@@ -1235,16 +1238,21 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             if (!alterar) {
                 if (PREENCHER_OBJETO() != null) {
                     sd.SALVAR(PREENCHER_OBJETO());
-                     limparCampus();
+                    limparCampus();
                 } else {
                     validar_obrigatorios();
                 }
             } else {
-                if (PREENCHER_OBJETO() != null) {
-                    sd.alterar_sind(PREENCHER_OBJETO());
-                     limparCampus();
+                if ("".equals(PREENCHER_OBJETO().getSenha())) {
+                    if (t != 100) {
+                        sd.alterar_sind(PREENCHER_OBJETO());
+                        limparCampus();
+                    } else {
+                        validar_obrigatorios();
+                    }
                 } else {
-                    validar_obrigatorios();
+                    sd.alterar_sind(PREENCHER_OBJETO());
+                    limparCampus();
                 }
             }
         }
