@@ -116,7 +116,6 @@ public class Sindicalizado_DAO {
     }
 
     public ArrayList<Sindicalizado_Entidade> pesquisar_Sind(String nome, String cpf, String rg) {
-        System.out.println("RG: " + rg);
         con = Conexao_banco.conector();
 
         ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();

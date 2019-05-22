@@ -98,7 +98,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                     TXT_SENHA.setEnabled(false);
                     n = 1;
                 }
-            }else{
+            } else {
                 se.setSenha("");
             }
         } else {
@@ -114,6 +114,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
     }
 
     public boolean validar_obrigatorios() {
+        System.out.println("HELDER");
 
         int erro = 0;
         String cpf = "";
@@ -229,11 +230,11 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             JOptionPane.showMessageDialog(null, "Informe o login de acesso ao sistema");
             TXT_LOGIN.requestFocus();
             erro = 1;
-        } else if ("".equals(TXT_SENHA.getText()) && erro == 0 && !alterar) {
+        } else if ("".equals(TXT_SENHA.getText()) && erro == 0 ) {
             JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
             erro = 1;
         } else if (!"(  ) 9     -     ".equals(CELULAR.getText())) {        // DAQUI PRA BAIXO COMEÇA A VALIDAÇÃO DOS QUE NÃO SÃO OBRIGATÓRIOS 
-            String TEL = si.validadar_Telefone(CELULAR.getText());
+            String TEL = si.validadar_Telefone(CELULAR.getText());          //falta termina essas validações (NÃO OBRIGATÓRIAS) pra finaliza a alteração nesse formulario
             if ("".equals(TEL)) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O telefone do sindicalizado é invalido", "Atenção", JOptionPane.ERROR_MESSAGE);
@@ -250,6 +251,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
 
         if (erro == 0) {
             cont = true;
+            System.out.println("CAIO");
         }
 
         return cont;
@@ -353,7 +355,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         TXT_SENHA.setText(senha);
         TXT_SENHA.setEnabled(true);
         this.senhaC = senhaC;
-        System.out.println("senha crip: " + senhaC);
         this.senha = senha;
     }
 
@@ -1202,14 +1203,12 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
 
     private void SALVAR_1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SALVAR_1MouseClicked
         boolean r = validar_obrigatorios();
-        if (!r) {
-        } else {
+        if (r) {
             if (PREENCHER_OBJETO() != null) {
                 sd.SALVAR(PREENCHER_OBJETO());
             } else {
                 validar_obrigatorios();
             }
-
         }
     }//GEN-LAST:event_SALVAR_1MouseClicked
 
@@ -1233,13 +1232,21 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         boolean v = false;
         v = validar_obrigatorios();
         if (v) {
-            System.out.println("ALTERAR: " + alterar);
             if (!alterar) {
-                sd.SALVAR(PREENCHER_OBJETO());
+                if (PREENCHER_OBJETO() != null) {
+                    sd.SALVAR(PREENCHER_OBJETO());
+                     limparCampus();
+                } else {
+                    validar_obrigatorios();
+                }
             } else {
-                sd.alterar_sind(PREENCHER_OBJETO());
+                if (PREENCHER_OBJETO() != null) {
+                    sd.alterar_sind(PREENCHER_OBJETO());
+                     limparCampus();
+                } else {
+                    validar_obrigatorios();
+                }
             }
-            limparCampus();
         }
     }//GEN-LAST:event_BOTAO_SALVAR_MouseClicked
 

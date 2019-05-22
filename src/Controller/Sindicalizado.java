@@ -24,7 +24,6 @@ public class Sindicalizado {
     }
 
     public String validadar_RG(String rg) {       
-        System.out.println("RG entrada " + rg);
         String RG;
         if (rg.length() == 7) {
             if ("0000000".equals(rg)) {
@@ -37,7 +36,6 @@ public class Sindicalizado {
         } else {
             RG = "-7";
         }
-        System.out.println("RG saida " + RG);
         return RG;
     }
 
