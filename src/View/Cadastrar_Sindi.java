@@ -110,7 +110,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
 
         return se;
     }
-
+ 
     public boolean validar_obrigatorios() {
 
         int erro = 0;
@@ -238,11 +238,13 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
             erro = 1;
         } else if (!"(  ) 9     -     ".equals(CELULAR.getText())) {        // DAQUI PRA BAIXO COMEÇA A VALIDAÇÃO DOS QUE NÃO SÃO OBRIGATÓRIOS 
-            String TEL = si.validadar_Telefone(CELULAR.getText());          //falta termina essas validações (NÃO OBRIGATÓRIAS) pra finaliza a alteração nesse formulario
+            
+            String TEL = si.validadar_Telefone(CELULAR.getText());
             if ("".equals(TEL)) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O telefone do sindicalizado é invalido", "Atenção", JOptionPane.ERROR_MESSAGE);
                 CELULAR.setText("(  ) 9     -     ");
+                CELULAR.requestFocus();
             }
         } else if (!"".equals(RESERVISTA.getText())) {
             String RESER = si.validarReservista(RESERVISTA.getText());
@@ -250,7 +252,48 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
                 RESERVISTA.setText("");
+                RESERVISTA.requestFocus();
             }
+        }else if(!"              ".equals(TITULO_ELEITO)){
+            String titu = si.validar_Titulo_Eleitor(TITULO_ELEITO.getText());
+            if ("".equals(titu)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "O titulo de eleitor do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                TITULO_ELEITO.setText("              ");
+                TITULO_ELEITO.requestFocus();
+            }
+        }else if(!"   ".equals(ZONA.getText())){
+            String zona = si.validar_zona(ZONA.getText());
+            if ("".equals(zona)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "A zona do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                ZONA.setText("   ");
+                ZONA.requestFocus();
+            }
+        }else if(!"    ".equals(SECAO.getText())){
+            String secao = si.validar_secao(SECAO.getText());
+            if ("".equals(secao)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "A seção do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                SECAO.setText("   ");
+                SECAO.requestFocus();
+            }
+        }else if(!"   .   .   .   - ".equals(CODINCRA.getText())){
+            String codI = si.validaCodIncra(CODINCRA.getText());
+            if ("".equals(codI)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "O código do INCRA do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                CODINCRA.setText("   .   .   .   - ");
+                CODINCRA.requestFocus();
+            }
+        }else if(!" .   .   - ".equals(NIRF.getText())){
+            String nirf = si.validarNIRF(NIRF.getText());
+            if ("".equals(nirf)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "O número do NIRF do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                NIRF.setText(" .   .   - ");
+                NIRF.requestFocus();
+            }            
         }
 
         if (erro == 0) {

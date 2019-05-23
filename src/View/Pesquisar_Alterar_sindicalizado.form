@@ -116,32 +116,32 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="27" rowCount="0">
                 <Column editable="false" title="ID" type="java.lang.Object"/>
-                <Column editable="true" title="Nome" type="java.lang.Object"/>
-                <Column editable="true" title="Data de nascimento" type="java.lang.String"/>
-                <Column editable="true" title="Telefone" type="java.lang.Object"/>
-                <Column editable="true" title="Nascionalidade" type="java.lang.Object"/>
-                <Column editable="true" title="Estado civil" type="java.lang.Object"/>
-                <Column editable="true" title="CPF" type="java.lang.Object"/>
-                <Column editable="true" title="RG" type="java.lang.Object"/>
-                <Column editable="true" title="Data de Expedi&#xe7;&#xe3;o" type="java.lang.String"/>
-                <Column editable="true" title="Titulo de Eleitor" type="java.lang.Object"/>
-                <Column editable="true" title="Zona" type="java.lang.Object"/>
-                <Column editable="true" title="Se&#xe7;&#xe3;o" type="java.lang.Object"/>
-                <Column editable="true" title="Reservistal" type="java.lang.Object"/>
-                <Column editable="true" title="Categoria" type="java.lang.Object"/>
-                <Column editable="true" title="Nome do pai" type="java.lang.Object"/>
-                <Column editable="true" title="Nome da m&#xe3;e" type="java.lang.Object"/>
-                <Column editable="true" title="Nome da propriedade rural" type="java.lang.Object"/>
-                <Column editable="true" title="Logradouro" type="java.lang.Object"/>
-                <Column editable="true" title="Municipio cede" type="java.lang.Object"/>
-                <Column editable="true" title="C&#xf3;digo no INCRA" type="java.lang.Object"/>
-                <Column editable="true" title="N&#xfa;mero no NIRF" type="java.lang.Object"/>
-                <Column editable="true" title="Area da propriedade rural" type="java.lang.Object"/>
-                <Column editable="true" title="Tempo de compra da propriedade" type="java.lang.Object"/>
-                <Column editable="true" title="Outras atividades" type="java.lang.Object"/>
-                <Column editable="true" title="Login" type="java.lang.Object"/>
-                <Column editable="true" title="Comercializa&#xe7;&#xe3;o de leite" type="java.lang.Object"/>
-                <Column editable="true" title="Resid&#xea;ncia atual" type="java.lang.Object"/>
+                <Column editable="false" title="Nome" type="java.lang.Object"/>
+                <Column editable="false" title="Data de nascimento" type="java.lang.String"/>
+                <Column editable="false" title="Telefone" type="java.lang.Object"/>
+                <Column editable="false" title="Nascionalidade" type="java.lang.Object"/>
+                <Column editable="false" title="Estado civil" type="java.lang.Object"/>
+                <Column editable="false" title="CPF" type="java.lang.Object"/>
+                <Column editable="false" title="RG" type="java.lang.Object"/>
+                <Column editable="false" title="Data de Expedi&#xe7;&#xe3;o" type="java.lang.String"/>
+                <Column editable="false" title="Titulo de Eleitor" type="java.lang.Object"/>
+                <Column editable="false" title="Zona" type="java.lang.Object"/>
+                <Column editable="false" title="Se&#xe7;&#xe3;o" type="java.lang.Object"/>
+                <Column editable="false" title="Reservistal" type="java.lang.Object"/>
+                <Column editable="false" title="Categoria" type="java.lang.Object"/>
+                <Column editable="false" title="Nome do pai" type="java.lang.Object"/>
+                <Column editable="false" title="Nome da m&#xe3;e" type="java.lang.Object"/>
+                <Column editable="false" title="Nome da propriedade rural" type="java.lang.Object"/>
+                <Column editable="false" title="Logradouro" type="java.lang.Object"/>
+                <Column editable="false" title="Municipio cede" type="java.lang.Object"/>
+                <Column editable="false" title="C&#xf3;digo no INCRA" type="java.lang.Object"/>
+                <Column editable="false" title="N&#xfa;mero no NIRF" type="java.lang.Object"/>
+                <Column editable="false" title="Area da propriedade rural" type="java.lang.Object"/>
+                <Column editable="false" title="Tempo de compra da propriedade" type="java.lang.Object"/>
+                <Column editable="false" title="Outras atividades" type="java.lang.Object"/>
+                <Column editable="false" title="Login" type="java.lang.Object"/>
+                <Column editable="false" title="Comercializa&#xe7;&#xe3;o de leite" type="java.lang.Object"/>
+                <Column editable="false" title="Resid&#xea;ncia atual" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
