@@ -6,6 +6,7 @@
 package View;
 
 import Controller.Login;
+import Controller.Receptor;
 import Model.DAO.AdministradorDAO;
 import Model.Entidadades.Administrador_Entidade;
 import com.sun.glass.events.KeyEvent;
@@ -20,10 +21,13 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author helde
  */
-public class Cad_Administrador extends javax.swing.JInternalFrame {
+public abstract class Cad_Administrador extends javax.swing.JInternalFrame implements Receptor {
 
     Administrador_Entidade usu = new Administrador_Entidade();
     Login l = new Login();
+    String senha = "", senhaC = "";
+    boolean alterar = false, login = true;
+    int id = 0, cont = 0;
 
     public Cad_Administrador() {
         initComponents();
@@ -45,9 +49,26 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
         usu.setTelefone(TXTFONE.getText());
         usu.setTipo_usuario("Administrador");
         usu.setLogin(TXTLOGIN.getText());
-        String s = Login.encriptografar_senha(TXTSENHA.getText());
-        System.out.println("senha cripitografada: " + s);
-        usu.setSenha(s);
+        if (alterar) {
+            usu.setId(this.id);
+            if (cont == 1) {
+                if (TXTSENHA.getText().equals(senha)) {
+                    usu.setSenha(senhaC);
+                } else {
+                    TXTSENHA.setText("");
+                    usu.setSenha("");
+                }
+            } else {
+                usu.setSenha("");
+            }
+        } else {
+            if (TXTSENHA.getText().equals(this.senha)) {
+                usu.setSenha(senhaC);
+            } else {
+                TXTSENHA.setText("");
+                usu.setSenha("");
+            }
+        }
 
         return usu;
     }
@@ -66,9 +87,10 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
         } else if ("".equals(TXTLOGIN.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o LOGIN", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
             TXTLOGIN.requestFocus();
-        } else if ("".equals(TXTSENHA.getText())) {
-            JOptionPane.showMessageDialog(null, "Informe a SENHA", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
-            TXTSENHA.requestFocus();
+        } else if (!alterar) {
+            if ("".equals(TXTSENHA.getText())) {
+                JOptionPane.showMessageDialog(null, "Informe a SENHA", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+            }
         } else {
             v = true;
         }
@@ -80,6 +102,21 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
         TXTFONE.setText("");
         TXTLOGIN.setText("");
         TXTSENHA.setText("");
+    }
+
+    public void preencherCampus(Administrador_Entidade adm) {
+        TXTNOME.setText(adm.getNome());
+        TXTFONE.setText(adm.getTelefone());
+        TXTLOGIN.setText(adm.getLogin());
+        this.id = adm.getId();
+        alterar = true;
+    }
+
+    @Override
+    public void receber(String senhaC, String senha) {
+        TXTSENHA.setText(senha);
+        this.senha = senha;
+        this.senhaC = senhaC;
     }
 
     @SuppressWarnings("unchecked")
@@ -112,6 +149,19 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        TXTSENHA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TXTSENHAFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                TXTSENHAFocusLost(evt);
+            }
+        });
+        TXTSENHA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TXTSENHAMouseClicked(evt);
+            }
+        });
         TXTSENHA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TXTSENHAActionPerformed(evt);
@@ -135,6 +185,17 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Nome:");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 38, -1, -1));
+
+        TXTLOGIN.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                TXTLOGINFocusLost(evt);
+            }
+        });
+        TXTLOGIN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TXTLOGINKeyPressed(evt);
+            }
+        });
         getContentPane().add(TXTLOGIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 118, 160, -1));
 
         try {
@@ -154,9 +215,19 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, -1, 20));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/user.png"))); // NOI18N
+        jLabel6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jLabel6KeyTyped(evt);
+            }
+        });
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 38, 139, 145));
 
         BOTAO_SALVAR_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/salvar_1.png"))); // NOI18N
+        BOTAO_SALVAR_.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                BOTAO_SALVAR_FocusGained(evt);
+            }
+        });
         BOTAO_SALVAR_.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BOTAO_SALVAR_MouseClicked(evt);
@@ -202,7 +273,7 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void TXTSENHAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTSENHAActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_TXTSENHAActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -219,13 +290,73 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
 
     private void BOTAO_SALVAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_SALVAR_MouseClicked
         boolean v;
-
+        AdministradorDAO ud = new AdministradorDAO();
         v = validacao();
 
         if (v) {
-            AdministradorDAO ud = new AdministradorDAO();
-            ud.salvar_ADMIN(preencher_objeto());
-            limparCampus();
+            if (!alterar) {
+                if ("".equals(preencher_objeto().getSenha()) && cont == 1 && "".equals(TXTSENHA.getText())) {
+                    validacao();
+                } else {
+                    login = ud.salvar_ADMIN(preencher_objeto());
+                    if (login) {
+                        limparCampus();
+                        TXTNOME.requestFocus();
+                    } else {
+                        TXTLOGIN.setText("");
+                        TXTLOGIN.requestFocus();
+                    }
+                }
+            } else {
+                if ("".equals(preencher_objeto().getSenha())) {
+                    if (cont != 1) {        // NÃO CLICOU PARA ALTERAR SENHA
+                        login = ud.alterar_ADMIN(preencher_objeto(), this.id);
+                        if (login) {
+                            Pesquisar_Alterar_Admin paa = new Pesquisar_Alterar_Admin();
+                            paa.setVisible(true);
+                            Interface.DESKTOP.add(paa);
+                            paa.setPosicao();
+                            this.dispose();
+                        } else {
+                            TXTLOGIN.setText("");
+                            TXTLOGIN.requestFocus();
+                        }
+                    } else {
+                        String ObjButtons[] = {"Sim", "Não"};
+                        int PromptResult = JOptionPane.showOptionDialog(null,
+                                "Tem certeza que não deseja alterar a senha?", "ATENÇÃO",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                ObjButtons, ObjButtons[1]);
+                        if (PromptResult == 0) {
+                            login = ud.alterar_ADMIN(preencher_objeto(), this.id);
+                            if (login) {
+                                Pesquisar_Alterar_Admin paa = new Pesquisar_Alterar_Admin();
+                                paa.setVisible(true);
+                                Interface.DESKTOP.add(paa);
+                                paa.setPosicao();
+                                this.dispose();
+                            } else {
+                                TXTLOGIN.setText("");
+                                TXTLOGIN.requestFocus();
+                            }
+                        } else {
+                            validacao();
+                        }
+                    }
+                } else {
+                    login = ud.alterar_ADMIN(preencher_objeto(), this.id);
+                    if (login) {
+                        Pesquisar_Alterar_Admin paa = new Pesquisar_Alterar_Admin();
+                        paa.setVisible(true);
+                        Interface.DESKTOP.add(paa);
+                        paa.setPosicao();
+                        this.dispose();
+                    } else {
+                        TXTLOGIN.setText("");
+                        TXTLOGIN.requestFocus();
+                    }
+                }
+            }
         }
     }//GEN-LAST:event_BOTAO_SALVAR_MouseClicked
 
@@ -234,6 +365,7 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BT_ATUMouseClicked
 
     private void TXTSENHAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXTSENHAKeyPressed
+
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             boolean v;
 
@@ -245,7 +377,91 @@ public class Cad_Administrador extends javax.swing.JInternalFrame {
                 limparCampus();
             }
         }// evento quando o ENTER é apertado
+
     }//GEN-LAST:event_TXTSENHAKeyPressed
+
+    private void TXTSENHAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TXTSENHAMouseClicked
+
+        if (evt.getSource() == TXTSENHA) {
+            //System.out.println("ganho foco");
+
+            Alterar_senha as = new Alterar_senha(this);
+            Interface.DESKTOP.add(as);
+            as.setVisible(true);
+            as.setPosicao();
+            cont = 1;
+
+        }
+
+
+    }//GEN-LAST:event_TXTSENHAMouseClicked
+
+    private void TXTLOGINKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXTLOGINKeyPressed
+
+    }//GEN-LAST:event_TXTLOGINKeyPressed
+
+    private void jLabel6KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel6KeyTyped
+
+    }//GEN-LAST:event_jLabel6KeyTyped
+
+    private void TXTSENHAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TXTSENHAFocusGained
+        if (!"".equals(TXTLOGIN.getText())) {
+            if (evt.getSource() == TXTSENHA) {
+                //System.out.println("ganho foco");
+
+                Alterar_senha as = new Alterar_senha(this);
+                Interface.DESKTOP.add(as);
+                as.setVisible(true);
+                as.setPosicao();
+                cont = 1;
+                TXTNOME.requestFocus();
+            }
+        }
+
+    }//GEN-LAST:event_TXTSENHAFocusGained
+
+    private void TXTSENHAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TXTSENHAFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TXTSENHAFocusLost
+
+    private void TXTLOGINFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TXTLOGINFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TXTLOGINFocusLost
+
+    private void BOTAO_SALVAR_FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_BOTAO_SALVAR_FocusGained
+        if (evt.getSource() == BOTAO_SALVAR_) {
+            boolean v, t;
+            AdministradorDAO ud = new AdministradorDAO();
+            v = validacao();
+
+            if (v) {
+                if (!alterar) {
+                    if ("".equals(preencher_objeto().getSenha()) && cont == 1 && "".equals(TXTSENHA.getText())) {
+                        validacao();
+                    } else {
+                        t = ud.salvar_ADMIN(preencher_objeto());
+                        if (!t) {
+                            limparCampus();
+                        } else {
+                            TXTLOGIN.setText("");
+                        }
+                    }
+                } else {
+                    if ("".equals(preencher_objeto().getSenha())) {
+                        if (cont != 1) {
+                            ud.alterar_ADMIN(preencher_objeto(), this.id);
+                            limparCampus();
+                        } else {
+                            validacao();
+                        }
+                    } else {
+                        ud.alterar_ADMIN(preencher_objeto(), this.id);
+                        limparCampus();
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_BOTAO_SALVAR_FocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

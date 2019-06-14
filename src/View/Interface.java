@@ -197,7 +197,7 @@ public class Interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MENU_CAD_USUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_USUActionPerformed
-        Cad_Administrador ca = new Cad_Administrador();
+        Cad_Administrador ca = new Cad_Administrador() {};
         Interface.DESKTOP.add(ca);
         ca.setVisible(true);
         ca.setPosicao();

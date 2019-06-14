@@ -47,7 +47,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Pesquisar_Alterar_sindicalizado.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+ 
         listar_Tabela();
 
     }

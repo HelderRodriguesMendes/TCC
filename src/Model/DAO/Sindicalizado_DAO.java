@@ -20,47 +20,52 @@ public class Sindicalizado_DAO {
     PreparedStatement pst = null;
     Connection con;
 
-    public void SALVAR(Sindicalizado_Entidade se) {
-        con = Conexao_banco.conector();
-
-        try {
-            pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, tipo_usuario, login, senha, residenciaAtual) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            pst.setString(1, se.getNome());
-            java.sql.Date DATASQL = new java.sql.Date(se.getDataNasci().getTime());
-            pst.setDate(2, DATASQL);
-            pst.setString(3, se.getCelular());
-            pst.setString(4, se.getNascionalidade());
-            pst.setString(5, se.getEstadoCivil());
-            pst.setString(6, se.getCpf());
-            pst.setString(7, se.getRg());
-            java.sql.Date DATA = new java.sql.Date(se.getDataExpedicao().getTime());
-            pst.setDate(8, DATA);
-            pst.setString(9, se.getTituloEleito());
-            pst.setInt(10, se.getZona());
-            pst.setInt(11, se.getSecao());
-            pst.setString(12, se.getReservista());
-            pst.setString(13, se.getCategoria());
-            pst.setString(14, se.getPai());
-            pst.setString(15, se.getMae());
-            pst.setString(16, se.getNomeFazenda());
-            pst.setString(17, se.getLogradouro());
-            pst.setString(18, se.getMuniciSede());
-            pst.setString(19, se.getCodINCRA());
-            pst.setString(20, se.getTiraLeite());
-            pst.setString(21, se.getNIRF());
-            pst.setString(22, se.getAreaPropri());
-            pst.setString(23, se.getTempoCompra());
-            pst.setString(24, se.getOutrasA());
-            pst.setString(25, se.getTipo_usuario());
-            pst.setString(26, se.getLogin());
-            pst.setString(27, se.getSenha());
-            pst.setString(28, se.getResidenciaAtual());
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
-            System.out.println(e);
+    public boolean SALVAR(Sindicalizado_Entidade se) {
+        boolean lo = verificar_login(se);
+        if (!lo) {
+            con = Conexao_banco.conector();
+            try {
+                pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, tipo_usuario, login, senha, residenciaAtual) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                pst.setString(1, se.getNome());
+                java.sql.Date DATASQL = new java.sql.Date(se.getDataNasci().getTime());
+                pst.setDate(2, DATASQL);
+                pst.setString(3, se.getCelular());
+                pst.setString(4, se.getNascionalidade());
+                pst.setString(5, se.getEstadoCivil());
+                pst.setString(6, se.getCpf());
+                pst.setString(7, se.getRg());
+                java.sql.Date DATA = new java.sql.Date(se.getDataExpedicao().getTime());
+                pst.setDate(8, DATA);
+                pst.setString(9, se.getTituloEleito());
+                pst.setInt(10, se.getZona());
+                pst.setInt(11, se.getSecao());
+                pst.setString(12, se.getReservista());
+                pst.setString(13, se.getCategoria());
+                pst.setString(14, se.getPai());
+                pst.setString(15, se.getMae());
+                pst.setString(16, se.getNomeFazenda());
+                pst.setString(17, se.getLogradouro());
+                pst.setString(18, se.getMuniciSede());
+                pst.setString(19, se.getCodINCRA());
+                pst.setString(20, se.getTiraLeite());
+                pst.setString(21, se.getNIRF());
+                pst.setString(22, se.getAreaPropri());
+                pst.setString(23, se.getTempoCompra());
+                pst.setString(24, se.getOutrasA());
+                pst.setString(25, se.getTipo_usuario());
+                pst.setString(26, se.getLogin());
+                pst.setString(27, se.getSenha());
+                pst.setString(28, se.getResidenciaAtual());
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
+                System.out.println(e);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "O login desejado ja existe no sistema", "Atenção", JOptionPane.INFORMATION_MESSAGE);
         }
+        return lo;
     }
 
     public ArrayList<Sindicalizado_Entidade> listar_Tabela() {
@@ -216,50 +221,67 @@ public class Sindicalizado_DAO {
                 JOptionPane.showMessageDialog(null, "Erro ao alterar dados sindicalizado");
                 System.out.println(e);
             }
-        }else{
+        } else {
             try {
-            pst = con.prepareStatement("update sindicalizado set nome = ?, dataNasci = ?, celular = ?, nascionalidade = ?, estadoCivil = ?, cpf = ?, rg = ?, dataExpedi = ?, tituloEleito = ?, zona = ?, secao = ?, reservista = ?, categoria = ?, pai = ?, mae = ?, nomeFazenda = ?, logradouro = ?, municipioCede = ?, codigoINCRA = ?, tiraLeite = ?, NIRF = ?, areaPropriedade = ?, tempoCompraPropriedade = ?, outrasAtividade = ?, tipo_usuario = ?, login = ?, senha = ?, residenciaAtual = ? where id_sindicalizado = ?");
-            pst.setString(1, se.getNome());
-            java.sql.Date DATASQL = new java.sql.Date(se.getDataNasci().getTime());
-            pst.setDate(2, DATASQL);
-            pst.setString(3, se.getCelular());
-            pst.setString(4, se.getNascionalidade());
-            pst.setString(5, se.getEstadoCivil());
-            pst.setString(6, se.getCpf());
-            pst.setString(7, se.getRg());
-            java.sql.Date DATA = new java.sql.Date(se.getDataExpedicao().getTime());
-            pst.setDate(8, DATA);
-            pst.setString(9, se.getTituloEleito());
-            pst.setInt(10, se.getZona());
-            pst.setInt(11, se.getSecao());
-            pst.setString(12, se.getReservista());
-            pst.setString(13, se.getCategoria());
-            pst.setString(14, se.getPai());
-            pst.setString(15, se.getMae());
-            pst.setString(16, se.getNomeFazenda());
-            pst.setString(17, se.getLogradouro());
-            pst.setString(18, se.getMuniciSede());
-            pst.setString(19, se.getCodINCRA());
-            pst.setString(20, se.getTiraLeite());
-            pst.setString(21, se.getNIRF());
-            pst.setString(22, se.getAreaPropri());
-            pst.setString(23, se.getTempoCompra());
-            pst.setString(24, se.getOutrasA());
-            pst.setString(25, se.getTipo_usuario());
-            pst.setString(26, se.getLogin());
-            pst.setString(27, se.getSenha());
-            pst.setString(28, se.getResidenciaAtual());
-            pst.setInt(29, se.getId());
-            pst.executeUpdate();
+                pst = con.prepareStatement("update sindicalizado set nome = ?, dataNasci = ?, celular = ?, nascionalidade = ?, estadoCivil = ?, cpf = ?, rg = ?, dataExpedi = ?, tituloEleito = ?, zona = ?, secao = ?, reservista = ?, categoria = ?, pai = ?, mae = ?, nomeFazenda = ?, logradouro = ?, municipioCede = ?, codigoINCRA = ?, tiraLeite = ?, NIRF = ?, areaPropriedade = ?, tempoCompraPropriedade = ?, outrasAtividade = ?, tipo_usuario = ?, login = ?, senha = ?, residenciaAtual = ? where id_sindicalizado = ?");
+                pst.setString(1, se.getNome());
+                java.sql.Date DATASQL = new java.sql.Date(se.getDataNasci().getTime());
+                pst.setDate(2, DATASQL);
+                pst.setString(3, se.getCelular());
+                pst.setString(4, se.getNascionalidade());
+                pst.setString(5, se.getEstadoCivil());
+                pst.setString(6, se.getCpf());
+                pst.setString(7, se.getRg());
+                java.sql.Date DATA = new java.sql.Date(se.getDataExpedicao().getTime());
+                pst.setDate(8, DATA);
+                pst.setString(9, se.getTituloEleito());
+                pst.setInt(10, se.getZona());
+                pst.setInt(11, se.getSecao());
+                pst.setString(12, se.getReservista());
+                pst.setString(13, se.getCategoria());
+                pst.setString(14, se.getPai());
+                pst.setString(15, se.getMae());
+                pst.setString(16, se.getNomeFazenda());
+                pst.setString(17, se.getLogradouro());
+                pst.setString(18, se.getMuniciSede());
+                pst.setString(19, se.getCodINCRA());
+                pst.setString(20, se.getTiraLeite());
+                pst.setString(21, se.getNIRF());
+                pst.setString(22, se.getAreaPropri());
+                pst.setString(23, se.getTempoCompra());
+                pst.setString(24, se.getOutrasA());
+                pst.setString(25, se.getTipo_usuario());
+                pst.setString(26, se.getLogin());
+                pst.setString(27, se.getSenha());
+                pst.setString(28, se.getResidenciaAtual());
+                pst.setInt(29, se.getId());
+                pst.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
-            con.close();
+                JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
+                con.close();
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao alterar dados sindicalizado");
-            System.out.println(e);
-        }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao alterar dados sindicalizado");
+                System.out.println(e);
+            }
         }
     }
 
+    public boolean verificar_login(Sindicalizado_Entidade se) {
+        con = Conexao_banco.conector();
+        boolean lo = false;
+        try {
+            pst = con.prepareStatement("select sindicalizado from admin where login = ?");
+            pst.setString(1, se.getLogin());
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                lo = true;
+            }
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return lo;
+    }
 }

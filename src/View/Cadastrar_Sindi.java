@@ -24,19 +24,19 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author helde
  */
 public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame implements Receptor {
-
+    
     Sindicalizado_Entidade se = new Sindicalizado_Entidade();
     Sindicalizado_DAO sd = new Sindicalizado_DAO();
     DateFormat df = DateFormat.getDateInstance();
     Sindicalizado si = new Sindicalizado();
-
+    
     boolean cont = false, LS, LN, alterar = false;
     int idade, id = 0, t = 0;
     String senhaC = "", senha = "";
-
+    
     public Cadastrar_Sindi() {
         initComponents();
-
+        
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         } catch (ClassNotFoundException ex) {
@@ -48,11 +48,10 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Cadastrar_Sindi.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         validaNumerosLetras();
-        LBL_ALTERAR.setVisible(false);
     }
-
+    
     public Sindicalizado_Entidade PREENCHER_OBJETO() {
         int n = 0;
         se.setNome(NOME.getText());
@@ -92,7 +91,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             if (t == 100) {
                 if (TXT_SENHA.getText().equals(this.senha)) {
                     se.setSenha(this.senhaC);
-
+                    
                 } else {
                     TXT_SENHA.setText("");
                     TXT_SENHA.setEnabled(false);
@@ -102,22 +101,26 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 se.setSenha("");
             }
         } else {
-            String scrip = Login.encriptografar_senha(TXT_SENHA.getText());
-            se.setSenha(scrip);
+            if (TXT_SENHA.getText().equals(this.senha)) {
+                se.setSenha(this.senhaC);
+            } else {
+                se.setSenha("");
+                TXT_SENHA.setText("");
+            }
         }
         se.setTipo_usuario("sindicalizado");
         se.setResidenciaAtual(RESIDEN_ATUAL.getText());
-
+        
         return se;
     }
- 
+    
     public boolean validar_obrigatorios() {
-
+        
         int erro = 0;
         String cpf = "";
         LS = LEITE_S.isSelected();
         LN = LEITE_N.isSelected();
-
+        
         if ("".equals(NOME.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o nome");
             erro = 1;
@@ -129,7 +132,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         } else {
             String data = Util.verificar_Data(df.format(NASCIMENTO.getDate()), true);
             idade = Util.idade;
-
+            
             if ("//".equals(data)) {
                 if (idade < 18) {
                     JOptionPane.showMessageDialog(null, "Não é permitido o cadastramento de sindicalizado menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
@@ -154,7 +157,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 CPF.requestFocus();
             }
         }
-
+        
         if ((erro == 0) && "       ".equals(RG.getText()) || "".equals(RG.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o RG");
             RG.requestFocus();
@@ -238,7 +241,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
             erro = 1;
         } else if (!"(  ) 9     -     ".equals(CELULAR.getText())) {        // DAQUI PRA BAIXO COMEÇA A VALIDAÇÃO DOS QUE NÃO SÃO OBRIGATÓRIOS 
-            
+
             String TEL = si.validadar_Telefone(CELULAR.getText());
             if ("".equals(TEL)) {
                 erro = 1;
@@ -254,7 +257,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 RESERVISTA.setText("");
                 RESERVISTA.requestFocus();
             }
-        }else if(!"              ".equals(TITULO_ELEITO)){
+        } else if (!"              ".equals(TITULO_ELEITO)) {
             String titu = si.validar_Titulo_Eleitor(TITULO_ELEITO.getText());
             if ("".equals(titu)) {
                 erro = 1;
@@ -262,7 +265,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 TITULO_ELEITO.setText("              ");
                 TITULO_ELEITO.requestFocus();
             }
-        }else if(!"   ".equals(ZONA.getText())){
+        } else if (!"   ".equals(ZONA.getText())) {
             String zona = si.validar_zona(ZONA.getText());
             if ("".equals(zona)) {
                 erro = 1;
@@ -270,7 +273,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 ZONA.setText("   ");
                 ZONA.requestFocus();
             }
-        }else if(!"    ".equals(SECAO.getText())){
+        } else if (!"    ".equals(SECAO.getText())) {
             String secao = si.validar_secao(SECAO.getText());
             if ("".equals(secao)) {
                 erro = 1;
@@ -278,7 +281,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 SECAO.setText("   ");
                 SECAO.requestFocus();
             }
-        }else if(!"   .   .   .   - ".equals(CODINCRA.getText())){
+        } else if (!"   .   .   .   - ".equals(CODINCRA.getText())) {
             String codI = si.validaCodIncra(CODINCRA.getText());
             if ("".equals(codI)) {
                 erro = 1;
@@ -286,28 +289,28 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 CODINCRA.setText("   .   .   .   - ");
                 CODINCRA.requestFocus();
             }
-        }else if(!" .   .   - ".equals(NIRF.getText())){
+        } else if (!" .   .   - ".equals(NIRF.getText())) {
             String nirf = si.validarNIRF(NIRF.getText());
             if ("".equals(nirf)) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O número do NIRF do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
                 NIRF.setText(" .   .   - ");
                 NIRF.requestFocus();
-            }            
+            }
         }
-
+        
         if (erro == 0) {
             cont = true;
         }
-
+        
         return cont;
     }
-
+    
     public void setPosicao() { // faz o formulario aparecer centralizado na tela
         Dimension d = this.getDesktopPane().getSize();
         this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
     }
-
+    
     public void limparCampus() {
         NOME.setText("");
         NASCIMENTO.setDate(null);
@@ -337,9 +340,9 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         TXT_LOGIN.setText("");
         TXT_SENHA.setText("");
         RESIDEN_ATUAL.setText("");
-
+        
     }
-
+    
     public void validaNumerosLetras() {
         Util.soLetras(NOME);
         Util.soNumeros(RG);
@@ -354,9 +357,9 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         Util.soLetras(MUNICEDE);
         Util.soLetras(RESIDEN_ATUAL);
     }
-
+    
     public void preencher_campus_alteracao(Sindicalizado_Entidade si) {
-
+        
         NOME.setText(si.getNome());
         NASCIMENTO.setDate(si.getDataNasci());
         ESTADOCIVI.setSelectedItem(si.getEstadoCivil());
@@ -389,13 +392,12 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         OUTRASATIVI.setText(si.getOutrasA());
         TXT_LOGIN.setText(si.getLogin());
         RESIDEN_ATUAL.setText(si.getResidenciaAtual());
-
+        
         this.alterar = true;
-        LBL_ALTERAR.setVisible(true);
         TXT_SENHA.setEnabled(false);
         this.id = si.getId();
     }
-
+    
     @Override
     public void receber(String senhaC, String senha) {
         TXT_SENHA.setText(senha);
@@ -403,7 +405,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         this.senhaC = senhaC;
         this.senha = senha;
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -465,7 +467,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         jLabel26 = new javax.swing.JLabel();
         TEMPOCOMPRA = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
-        SALVAR_1 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
@@ -486,7 +487,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         TXT_LOGIN = new javax.swing.JTextField();
         jLabel49 = new javax.swing.JLabel();
         TXT_SENHA = new javax.swing.JTextField();
-        LBL_ALTERAR = new javax.swing.JLabel();
         RESIDEN_ATUAL = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         BT_ATU = new javax.swing.JLabel();
@@ -855,12 +855,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
 
         jLabel28.setText("Outras atividades:");
 
-        SALVAR_1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                SALVAR_1MouseClicked(evt);
-            }
-        });
-
         jLabel29.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel29MouseClicked(evt);
@@ -946,6 +940,11 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
 
         jLabel49.setText("Senha:");
 
+        TXT_SENHA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TXT_SENHAFocusGained(evt);
+            }
+        });
         TXT_SENHA.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TXT_SENHAMouseClicked(evt);
@@ -954,13 +953,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         TXT_SENHA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TXT_SENHAActionPerformed(evt);
-            }
-        });
-
-        LBL_ALTERAR.setText("Alterar");
-        LBL_ALTERAR.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                LBL_ALTERARMouseClicked(evt);
             }
         });
 
@@ -977,8 +969,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 .addComponent(jLabel49)
                 .addGap(2, 2, 2)
                 .addComponent(TXT_SENHA, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LBL_ALTERAR)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -989,8 +979,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                     .addComponent(jLabel48)
                     .addComponent(TXT_LOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel49)
-                    .addComponent(TXT_SENHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LBL_ALTERAR))
+                    .addComponent(TXT_SENHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -1005,9 +994,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(786, 786, 786)
-                        .addComponent(SALVAR_1))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(804, 804, 804)
                         .addComponent(jLabel29))
@@ -1028,11 +1014,11 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(4, 4, 4)))
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(MUNICEDE)
@@ -1131,9 +1117,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                         .addGap(78, 78, 78)
                         .addComponent(jLabel28)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(SALVAR_1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1247,17 +1231,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         DATAEXPE.setEnabled(true);
     }//GEN-LAST:event_RGActionPerformed
 
-    private void SALVAR_1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SALVAR_1MouseClicked
-        boolean r = validar_obrigatorios();
-        if (r) {
-            if (PREENCHER_OBJETO() != null) {
-                sd.SALVAR(PREENCHER_OBJETO());
-            } else {
-                validar_obrigatorios();
-            }
-        }
-    }//GEN-LAST:event_SALVAR_1MouseClicked
-
     private void jLabel29MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel29MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel29MouseClicked
@@ -1279,11 +1252,17 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         v = validar_obrigatorios();
         if (v) {
             if (!alterar) {
-                if (PREENCHER_OBJETO() != null) {
-                    sd.SALVAR(PREENCHER_OBJETO());
-                    limparCampus();
-                } else {
+                if ("".equals(PREENCHER_OBJETO().getSenha()) && t == 100 && "".equals(TXT_SENHA.getText())) {
                     validar_obrigatorios();
+                } else {
+                    boolean login = sd.SALVAR(PREENCHER_OBJETO());
+                    if (login) {                        
+                        limparCampus();
+                        NOME.requestFocus();
+                    } else {
+                        TXT_LOGIN.setText("");
+                        TXT_LOGIN.requestFocus();
+                    }
                 }
             } else {
                 if ("".equals(PREENCHER_OBJETO().getSenha())) {
@@ -1310,25 +1289,35 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
     }//GEN-LAST:event_SECAOActionPerformed
 
     private void TXT_SENHAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXT_SENHAActionPerformed
-
+        
 
     }//GEN-LAST:event_TXT_SENHAActionPerformed
 
     private void TXT_SENHAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TXT_SENHAMouseClicked
-
+        if ("".equals(TXT_SENHA.getText())) {
+            Alterar_senha as = new Alterar_senha(this);
+            Interface.DESKTOP.add(as);
+            as.setVisible(true);
+            as.setPosicao();
+            t = 100;
+        }
     }//GEN-LAST:event_TXT_SENHAMouseClicked
-
-    private void LBL_ALTERARMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LBL_ALTERARMouseClicked
-        Alterar_senha as = new Alterar_senha(this);
-        Interface.DESKTOP.add(as);
-        as.setVisible(true);
-        as.setPosicao();
-        t = 100;
-    }//GEN-LAST:event_LBL_ALTERARMouseClicked
 
     private void jPanel5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseExited
 
     }//GEN-LAST:event_jPanel5MouseExited
+
+    private void TXT_SENHAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TXT_SENHAFocusGained
+        if (evt.getSource() == TXT_SENHA) {
+            if ("".equals(TXT_SENHA.getText())) {
+                Alterar_senha as = new Alterar_senha(this);
+                Interface.DESKTOP.add(as);
+                as.setVisible(true);
+                as.setPosicao();
+                t = 100;
+            }
+        }
+    }//GEN-LAST:event_TXT_SENHAFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1341,7 +1330,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
     private javax.swing.JFormattedTextField CPF;
     private com.toedter.calendar.JDateChooser DATAEXPE;
     private javax.swing.JComboBox<String> ESTADOCIVI;
-    private javax.swing.JLabel LBL_ALTERAR;
     private javax.swing.JCheckBox LEITE_N;
     private javax.swing.JCheckBox LEITE_S;
     private javax.swing.JTextField LOGRADOURO;
@@ -1357,7 +1345,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
     private javax.swing.JFormattedTextField RESERVISTA;
     private javax.swing.JTextField RESIDEN_ATUAL;
     private javax.swing.JFormattedTextField RG;
-    private javax.swing.JLabel SALVAR_1;
     private javax.swing.JFormattedTextField SECAO;
     private javax.swing.JTextField TEMPOCOMPRA;
     private javax.swing.JFormattedTextField TITULO_ELEITO;

@@ -628,10 +628,6 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="786" max="-2" attributes="0"/>
-                                  <Component id="SALVAR_1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="804" max="-2" attributes="0"/>
                                   <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -659,11 +655,11 @@
                                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Component id="jScrollPane1" min="-2" pref="463" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                                          <Component id="jPanel5" pref="488" max="32767" attributes="0"/>
+                                          <EmptySpace pref="73" max="32767" attributes="0"/>
+                                          <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -792,10 +788,7 @@
                                   <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
                                   <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel29" alignment="1" min="-2" pref="70" max="-2" attributes="0"/>
-                                      <Component id="SALVAR_1" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="jLabel29" min="-2" pref="70" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
@@ -865,11 +858,6 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Outras atividades:"/>
                   </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="SALVAR_1">
-                  <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="SALVAR_1MouseClicked"/>
-                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel29">
                   <Events>
@@ -1029,8 +1017,6 @@
                               <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                               <Component id="TXT_SENHA" min="-2" pref="161" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="LBL_ALTERAR" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -1044,7 +1030,6 @@
                                   <Component id="TXT_LOGIN" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel49" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="TXT_SENHA" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="LBL_ALTERAR" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="26" max="32767" attributes="0"/>
                           </Group>
@@ -1066,20 +1051,13 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="TXT_SENHA">
                       <Events>
+                        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="TXT_SENHAFocusGained"/>
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="TXT_SENHAMouseClicked"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TXT_SENHAActionPerformed"/>
                       </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                       </AuxValues>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="LBL_ALTERAR">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Alterar"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="LBL_ALTERARMouseClicked"/>
-                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
