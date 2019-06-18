@@ -6,7 +6,6 @@
 package View;
 
 import Controller.Util;
-import Controller.Login;
 import Controller.Receptor;
 import Controller.Sindicalizado;
 import DAO.Sindicalizado_DAO;
