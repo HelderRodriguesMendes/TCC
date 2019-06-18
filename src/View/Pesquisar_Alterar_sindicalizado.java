@@ -8,8 +8,8 @@ package View;
 import Controller.Util;
 import Controller.Login;
 import Controller.Sindicalizado;
-import Model.DAO.Sindicalizado_DAO;
-import Model.Entidadades.Sindicalizado_Entidade;
+import DAO.Sindicalizado_DAO;
+import Model.Sindicalizado_Entidade;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +47,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Pesquisar_Alterar_sindicalizado.class.getName()).log(Level.SEVERE, null, ex);
         }
- 
+
         listar_Tabela();
 
     }
@@ -223,10 +223,11 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
         cont = 10;
-        
+
         id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
 
-        Cadastrar_Sindi cs = new Cadastrar_Sindi() {};
+        Cadastrar_Sindi cs = new Cadastrar_Sindi() {
+        };
         cs.preencher_campus_alteracao(PREENCHER_OBJETO());
         cs.setVisible(true);
         Interface.DESKTOP.add(cs);
@@ -252,7 +253,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     }//GEN-LAST:event_RGActionPerformed
 
     private void NOMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOMEMouseClicked
-        
+
     }//GEN-LAST:event_NOMEMouseClicked
 
     private void CPFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CPFMouseClicked
@@ -375,7 +376,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         se.setOutrasA(TABELA.getValueAt(TABELA.getSelectedRow(), 23).toString());
         se.setLogin(TABELA.getValueAt(TABELA.getSelectedRow(), 24).toString());
         se.setTiraLeite(TABELA.getValueAt(TABELA.getSelectedRow(), 25).toString());
-        
+
         return se;
     }
 
@@ -388,7 +389,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     public boolean validar_Campus() {
         boolean va = false;
-        
+
         String dataNas, dataExp;
         int invalido = 0;
 
@@ -435,7 +436,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 TABELA.setValueAt(TEL, TABELA.getSelectedRow(), 3);
             }
         }
-        
+
         if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString())) {
             invalido = 2;
             JOptionPane.showMessageDialog(null, "Informe o RG do sindicalizado " + id);
@@ -455,7 +456,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             } else {
                 TABELA.setValueAt(R_G, TABELA.getSelectedRow(), 8);
             }
-        }  
+        }
         if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString()) && invalido == 0) {
             JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG do sindicalizado " + id);
             invalido = 2;

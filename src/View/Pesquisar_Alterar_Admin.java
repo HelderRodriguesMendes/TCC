@@ -6,8 +6,8 @@
 package View;
 
 import Controller.Login;
-import Model.DAO.AdministradorDAO;
-import Model.Entidadades.Administrador_Entidade;
+import DAO.AdministradorDAO;
+import Model.Administrador_Entidade;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;

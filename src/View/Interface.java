@@ -6,7 +6,7 @@
 package View;
 
 import Controller.Util;
-import Model.Entidadades.Administrador_Entidade;
+import Model.Administrador_Entidade;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

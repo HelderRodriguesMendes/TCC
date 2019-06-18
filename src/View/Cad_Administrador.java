@@ -7,8 +7,8 @@ package View;
 
 import Controller.Login;
 import Controller.Receptor;
-import Model.DAO.AdministradorDAO;
-import Model.Entidadades.Administrador_Entidade;
+import DAO.AdministradorDAO;
+import Model.Administrador_Entidade;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Dimension;
 import java.util.logging.Level;
@@ -90,6 +90,12 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
         } else if (!alterar) {
             if ("".equals(TXTSENHA.getText())) {
                 JOptionPane.showMessageDialog(null, "Informe a SENHA", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                TXTSENHA.requestFocus();
+            }
+        } else if (cont == 5) {
+            if ("".equals(TXTSENHA.getText())) {
+                JOptionPane.showMessageDialog(null, "Informe a SENHA", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                TXTSENHA.requestFocus();
             }
         } else {
             v = true;
@@ -232,6 +238,9 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BOTAO_SALVAR_MouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                BOTAO_SALVAR_MouseEntered(evt);
+            }
         });
         getContentPane().add(BOTAO_SALVAR_, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 201, -1, -1));
 
@@ -339,7 +348,8 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
                                 TXTLOGIN.setText("");
                                 TXTLOGIN.requestFocus();
                             }
-                        } else {
+                        } else if (PromptResult == 1) {
+                            cont = 5;
                             validacao();
                         }
                     }
@@ -429,39 +439,12 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
     }//GEN-LAST:event_TXTLOGINFocusLost
 
     private void BOTAO_SALVAR_FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_BOTAO_SALVAR_FocusGained
-        if (evt.getSource() == BOTAO_SALVAR_) {
-            boolean v, t;
-            AdministradorDAO ud = new AdministradorDAO();
-            v = validacao();
 
-            if (v) {
-                if (!alterar) {
-                    if ("".equals(preencher_objeto().getSenha()) && cont == 1 && "".equals(TXTSENHA.getText())) {
-                        validacao();
-                    } else {
-                        t = ud.salvar_ADMIN(preencher_objeto());
-                        if (!t) {
-                            limparCampus();
-                        } else {
-                            TXTLOGIN.setText("");
-                        }
-                    }
-                } else {
-                    if ("".equals(preencher_objeto().getSenha())) {
-                        if (cont != 1) {
-                            ud.alterar_ADMIN(preencher_objeto(), this.id);
-                            limparCampus();
-                        } else {
-                            validacao();
-                        }
-                    } else {
-                        ud.alterar_ADMIN(preencher_objeto(), this.id);
-                        limparCampus();
-                    }
-                }
-            }
-        }
     }//GEN-LAST:event_BOTAO_SALVAR_FocusGained
+
+    private void BOTAO_SALVAR_MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_SALVAR_MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BOTAO_SALVAR_MouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

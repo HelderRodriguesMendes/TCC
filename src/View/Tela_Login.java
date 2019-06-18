@@ -2,9 +2,9 @@
 package View;
 
 import Controller.Login;
-import Model.DAO.LoginDAO;
-import Model.Entidadades.Administrador_Entidade;
-import Model.Entidadades.Sindicalizado_Entidade;
+import DAO.LoginDAO;
+import Model.Administrador_Entidade;
+import Model.Sindicalizado_Entidade;
 import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;

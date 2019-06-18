@@ -9,8 +9,8 @@ import Controller.Util;
 import Controller.Login;
 import Controller.Receptor;
 import Controller.Sindicalizado;
-import Model.DAO.Sindicalizado_DAO;
-import Model.Entidadades.Sindicalizado_Entidade;
+import DAO.Sindicalizado_DAO;
+import Model.Sindicalizado_Entidade;
 import java.awt.Dimension;
 import java.text.DateFormat;
 import java.util.logging.Level;
@@ -24,19 +24,19 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author helde
  */
 public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame implements Receptor {
-    
+
     Sindicalizado_Entidade se = new Sindicalizado_Entidade();
-    Sindicalizado_DAO sd = new Sindicalizado_DAO();
+
     DateFormat df = DateFormat.getDateInstance();
     Sindicalizado si = new Sindicalizado();
-    
-    boolean cont = false, LS, LN, alterar = false;
-    int idade, id = 0, t = 0;
+
+    boolean cont = false, LS, LN, alterar = false, login = true;
+    int idade, id = 0, t = 0, erro = 0;;
     String senhaC = "", senha = "";
-    
+
     public Cadastrar_Sindi() {
         initComponents();
-        
+
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         } catch (ClassNotFoundException ex) {
@@ -48,10 +48,10 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Cadastrar_Sindi.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         validaNumerosLetras();
     }
-    
+
     public Sindicalizado_Entidade PREENCHER_OBJETO() {
         int n = 0;
         se.setNome(NOME.getText());
@@ -91,10 +91,8 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             if (t == 100) {
                 if (TXT_SENHA.getText().equals(this.senha)) {
                     se.setSenha(this.senhaC);
-                    
                 } else {
                     TXT_SENHA.setText("");
-                    TXT_SENHA.setEnabled(false);
                     se.setSenha("");
                 }
             } else {
@@ -110,17 +108,17 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         }
         se.setTipo_usuario("sindicalizado");
         se.setResidenciaAtual(RESIDEN_ATUAL.getText());
-        
+
         return se;
     }
-    
+
     public boolean validar_obrigatorios() {
+
         
-        int erro = 0;
         String cpf = "";
         LS = LEITE_S.isSelected();
         LN = LEITE_N.isSelected();
-        
+
         if ("".equals(NOME.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o nome");
             erro = 1;
@@ -132,7 +130,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         } else {
             String data = Util.verificar_Data(df.format(NASCIMENTO.getDate()), true);
             idade = Util.idade;
-            
+
             if ("//".equals(data)) {
                 if (idade < 18) {
                     JOptionPane.showMessageDialog(null, "Não é permitido o cadastramento de sindicalizado menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
@@ -157,7 +155,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 CPF.requestFocus();
             }
         }
-        
+
         if ((erro == 0) && "       ".equals(RG.getText()) || "".equals(RG.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o RG");
             RG.requestFocus();
@@ -227,21 +225,22 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             TEMPOCOMPRA.requestFocus();
             erro = 1;
         } else if ("".equals(TXT_LOGIN.getText()) && erro == 0) {
+            erro = 1;
             JOptionPane.showMessageDialog(null, "Informe o login de acesso ao sistema");
             TXT_LOGIN.requestFocus();
-            erro = 1;
-        } else if (alterar) {
-            if (t == 100) {
-                if ("".equals(TXT_SENHA.getText()) && erro == 0) {
-                    JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
-                    erro = 1;
-                }
+        } else if (!alterar && erro == 0) {
+            if ("".equals(TXT_SENHA.getText()) && erro == 0) {
+                JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
+                TXT_SENHA.requestFocus();
+                erro = 1;
             }
-        } else if ("".equals(TXT_SENHA.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
-            erro = 1;
-        } else if (!"(  ) 9     -     ".equals(CELULAR.getText())) {        // DAQUI PRA BAIXO COMEÇA A VALIDAÇÃO DOS QUE NÃO SÃO OBRIGATÓRIOS 
-
+        } else if (t == 5 && erro == 0) {
+            if ("".equals(TXT_SENHA.getText()) && erro == 0) {
+                JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
+                TXT_SENHA.requestFocus();
+                erro = 1;
+            }
+        } else if (!"(  ) 9     -     ".equals(CELULAR.getText()) && erro == 0) {        // DAQUI PRA BAIXO COMEÇA A VALIDAÇÃO DOS QUE NÃO SÃO OBRIGATÓRIOS 
             String TEL = si.validadar_Telefone(CELULAR.getText());
             if ("".equals(TEL)) {
                 erro = 1;
@@ -249,7 +248,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 CELULAR.setText("(  ) 9     -     ");
                 CELULAR.requestFocus();
             }
-        } else if (!"".equals(RESERVISTA.getText())) {
+        } else if (!"".equals(RESERVISTA.getText()) && erro == 0) {
             String RESER = si.validarReservista(RESERVISTA.getText());
             if ("".equals(RESER)) {
                 erro = 1;
@@ -257,7 +256,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 RESERVISTA.setText("");
                 RESERVISTA.requestFocus();
             }
-        } else if (!"              ".equals(TITULO_ELEITO)) {
+        } else if (!"              ".equals(TITULO_ELEITO.getText()) && erro == 0) {
             String titu = si.validar_Titulo_Eleitor(TITULO_ELEITO.getText());
             if ("".equals(titu)) {
                 erro = 1;
@@ -265,7 +264,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 TITULO_ELEITO.setText("              ");
                 TITULO_ELEITO.requestFocus();
             }
-        } else if (!"   ".equals(ZONA.getText())) {
+        } else if (!"   ".equals(ZONA.getText()) && erro == 0) {
             String zona = si.validar_zona(ZONA.getText());
             if ("".equals(zona)) {
                 erro = 1;
@@ -273,7 +272,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 ZONA.setText("   ");
                 ZONA.requestFocus();
             }
-        } else if (!"    ".equals(SECAO.getText())) {
+        } else if (!"    ".equals(SECAO.getText()) && erro == 0) {
             String secao = si.validar_secao(SECAO.getText());
             if ("".equals(secao)) {
                 erro = 1;
@@ -281,7 +280,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 SECAO.setText("   ");
                 SECAO.requestFocus();
             }
-        } else if (!"   .   .   .   - ".equals(CODINCRA.getText())) {
+        } else if (!"   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
             String codI = si.validaCodIncra(CODINCRA.getText());
             if ("".equals(codI)) {
                 erro = 1;
@@ -289,7 +288,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 CODINCRA.setText("   .   .   .   - ");
                 CODINCRA.requestFocus();
             }
-        } else if (!" .   .   - ".equals(NIRF.getText())) {
+        } else if (!" .   .   - ".equals(NIRF.getText()) && erro == 0) {
             String nirf = si.validarNIRF(NIRF.getText());
             if ("".equals(nirf)) {
                 erro = 1;
@@ -298,19 +297,20 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 NIRF.requestFocus();
             }
         }
-        
         if (erro == 0) {
             cont = true;
-        }
-        
+        }else if(erro == 1){
+            cont = false;
+        } 
+
         return cont;
     }
-    
+
     public void setPosicao() { // faz o formulario aparecer centralizado na tela
         Dimension d = this.getDesktopPane().getSize();
         this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
     }
-    
+
     public void limparCampus() {
         NOME.setText("");
         NASCIMENTO.setDate(null);
@@ -340,9 +340,9 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         TXT_LOGIN.setText("");
         TXT_SENHA.setText("");
         RESIDEN_ATUAL.setText("");
-        
+
     }
-    
+
     public void validaNumerosLetras() {
         Util.soLetras(NOME);
         Util.soNumeros(RG);
@@ -357,9 +357,9 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         Util.soLetras(MUNICEDE);
         Util.soLetras(RESIDEN_ATUAL);
     }
-    
+
     public void preencher_campus_alteracao(Sindicalizado_Entidade si) {
-        
+
         NOME.setText(si.getNome());
         NASCIMENTO.setDate(si.getDataNasci());
         ESTADOCIVI.setSelectedItem(si.getEstadoCivil());
@@ -392,12 +392,12 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         OUTRASATIVI.setText(si.getOutrasA());
         TXT_LOGIN.setText(si.getLogin());
         RESIDEN_ATUAL.setText(si.getResidenciaAtual());
-        
+
         this.alterar = true;
         TXT_SENHA.setEnabled(false);
         this.id = si.getId();
     }
-    
+
     @Override
     public void receber(String senhaC, String senha) {
         TXT_SENHA.setText(senha);
@@ -405,7 +405,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         this.senhaC = senhaC;
         this.senha = senha;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -1248,15 +1248,19 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
     }//GEN-LAST:event_BT_ATUMouseEntered
 
     private void BOTAO_SALVAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_SALVAR_MouseClicked
-        boolean v = false;
+        boolean v;
+        Sindicalizado_DAO sd = new Sindicalizado_DAO();
+        if(erro == 1){
+            erro = 0;
+        }
         v = validar_obrigatorios();
         if (v) {
             if (!alterar) {
                 if ("".equals(PREENCHER_OBJETO().getSenha()) && t == 100 && "".equals(TXT_SENHA.getText())) {
                     validar_obrigatorios();
                 } else {
-                    boolean login = sd.SALVAR(PREENCHER_OBJETO());
-                    if (login) {                        
+                    login = sd.SALVAR(PREENCHER_OBJETO());
+                    if (login) {
                         limparCampus();
                         NOME.requestFocus();
                     } else {
@@ -1266,15 +1270,54 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 }
             } else {
                 if ("".equals(PREENCHER_OBJETO().getSenha())) {
-                    if (t != 100) {
-                        sd.alterar_sind(PREENCHER_OBJETO());
-                        limparCampus();
+                    if (t != 100) {                // NÃO CLICOU PARA ALTERAR SENHA
+                        login = sd.alterar_sind(PREENCHER_OBJETO(), this.id);
+                        if (login) {
+                            Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+                            pas.setVisible(true);
+                            Interface.DESKTOP.add(pas);
+                            pas.setPosicao();
+                            this.dispose();
+                        } else {
+                            TXT_LOGIN.setText("");
+                            TXT_LOGIN.requestFocus();
+                        }
                     } else {
-                        validar_obrigatorios();
+                        String ObjButtons[] = {"Sim", "Não"};
+                        int PromptResult = JOptionPane.showOptionDialog(null,
+                                "Tem certeza que não deseja alterar a senha?", "ATENÇÃO",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                ObjButtons, ObjButtons[1]);
+                        if (PromptResult == 0) {
+                            login = sd.alterar_sind(PREENCHER_OBJETO(), this.id);
+                            if (!login) {
+                                Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+                                pas.setVisible(true);
+                                Interface.DESKTOP.add(pas);
+                                pas.setPosicao();
+                                this.dispose();
+                            } else {
+                                TXT_LOGIN.setText("");
+                                TXT_LOGIN.requestFocus();
+                            }
+                        } else if (PromptResult == 1) {
+                            t = 5;
+                            validar_obrigatorios();
+                        }
                     }
                 } else {
-                    sd.alterar_sind(PREENCHER_OBJETO());
-                    limparCampus();
+                    
+                    login = sd.alterar_sind(PREENCHER_OBJETO(), this.id);
+                    if (login) {
+                        Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+                        pas.setVisible(true);
+                        Interface.DESKTOP.add(pas);
+                        pas.setPosicao();
+                        this.dispose();
+                    } else {
+                        TXT_LOGIN.setText("");
+                        TXT_LOGIN.requestFocus();
+                    }
                 }
             }
         }
@@ -1289,7 +1332,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
     }//GEN-LAST:event_SECAOActionPerformed
 
     private void TXT_SENHAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXT_SENHAActionPerformed
-        
+
 
     }//GEN-LAST:event_TXT_SENHAActionPerformed
 

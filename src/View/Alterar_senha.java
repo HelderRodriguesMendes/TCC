@@ -10,6 +10,7 @@ import Controller.Receptor;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -151,18 +152,31 @@ public class Alterar_senha extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        senhaC = lo.validar_nova_senha(NOVA_SENHA.getText(), CONFIR_SENHA.getText());
-        this.senha = lo.senha;
-        rec.receber(senhaC, senha);
-        this.dispose();
-
-
+        if (validarcampus()) {
+            senhaC = lo.validar_nova_senha(NOVA_SENHA.getText(), CONFIR_SENHA.getText());
+            this.senha = lo.senha;
+            rec.receber(senhaC, senha);
+            this.dispose();
+        }
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         this.dispose();
     }//GEN-LAST:event_jLabel5MouseClicked
 
+    public boolean validarcampus() {
+        boolean v = false;
+        if ("".equals(NOVA_SENHA.getText())) {
+            JOptionPane.showMessageDialog(null, "Informe a senha", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            NOVA_SENHA.requestFocus();
+        } else if ("".equals(CONFIR_SENHA.getText())) {
+            JOptionPane.showMessageDialog(null, "Confirme a senha escolhida", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            CONFIR_SENHA.requestFocus();
+        } else {
+            v = true;
+        }
+        return v;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField CONFIR_SENHA;
