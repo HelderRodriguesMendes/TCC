@@ -27,7 +27,11 @@ public class Sindicalizado_DAO {
         if (login) {
             con = Conexao_banco.conector();
             try {
-                pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, tipo_usuario, login, senha, residenciaAtual) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, "
+                        + "estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, "
+                        + "pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, "
+                        + "areaPropriedade, tempoCompraPropriedade, outrasAtividade, tipo_usuario, login, senha, "
+                        + "residenciaAtual) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 pst.setString(1, se.getNome());
                 java.sql.Date DATASQL = new java.sql.Date(se.getDataNasci().getTime());
                 pst.setDate(2, DATASQL);
@@ -350,6 +354,7 @@ public class Sindicalizado_DAO {
                     pst.executeUpdate();
 
                     JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
+                    login = true;
                     con.close();
 
                 } catch (Exception e) {

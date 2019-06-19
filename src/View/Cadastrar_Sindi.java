@@ -178,13 +178,13 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG");
             DATAEXPE.requestFocus();
             erro = 1;
-        } else {
+        } else {           
             String data = Util.verificar_Data(df.format(DATAEXPE.getDate()), false);
             if ("//".equals(data)) {
-                JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "A data de Expedição do RG do sindicalizado é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
                 erro = 1;
-                NASCIMENTO.setDate(null);
-                NASCIMENTO.requestFocus();
+                DATAEXPE.setDate(null);
+                DATAEXPE.requestFocus();
             }
         }
         if ("".equals(NASCIONALIDADE.getText()) && erro == 0) {
@@ -1170,7 +1170,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel8)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(215, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1350,15 +1350,15 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
     }//GEN-LAST:event_jPanel5MouseExited
 
     private void TXT_SENHAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TXT_SENHAFocusGained
-        if (evt.getSource() == TXT_SENHA) {
-            if ("".equals(TXT_SENHA.getText())) {
-                Alterar_senha as = new Alterar_senha(this);
-                Interface.DESKTOP.add(as);
-                as.setVisible(true);
-                as.setPosicao();
-                t = 100;
-            }
-        }
+//        if (evt.getSource() == TXT_SENHA) {
+//            if ("".equals(TXT_SENHA.getText())) {
+//                Alterar_senha as = new Alterar_senha(this);
+//                Interface.DESKTOP.add(as);
+//                as.setVisible(true);
+//                as.setPosicao();
+//                t = 100;
+//            }
+//        }
     }//GEN-LAST:event_TXT_SENHAFocusGained
 
 

@@ -62,15 +62,25 @@ public abstract class Util {
         m = Integer.parseInt(me);
         a = Integer.parseInt(an);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-        int ANO_Atual = Integer.valueOf(sdf.format(new Date()));
+        SimpleDateFormat ANO = new SimpleDateFormat("yyyy");
+        SimpleDateFormat MES = new SimpleDateFormat("MM");
+        SimpleDateFormat DIA = new SimpleDateFormat("dd");
+        int ANO_Atual = Integer.valueOf(ANO.format(new Date()));
+        int MES_Atual = Integer.valueOf(MES.format(new Date()));
+        int DIA_Atual = Integer.valueOf(DIA.format(new Date()));
 
         if (d > 31 || d == 0 || d == 00) {
             ok = false;
         } else if (m > 12 || m == 0 || m == 00) {
             ok = false;
-        } else {
-            ok = a <= ANO_Atual && a != 0 && a != 00;
+        } else if(a > ANO_Atual || a == 0 || a == 00){
+            ok = false;
+        }else if(m > MES_Atual || m == 0 || m == 00){
+            ok = false;
+        }else if(d > DIA_Atual || a == 0 || a == 00){
+            ok = false;
+        }else{
+            ok = true;
         }
 
         if (ok) {

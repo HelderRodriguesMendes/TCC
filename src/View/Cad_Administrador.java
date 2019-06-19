@@ -91,6 +91,8 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
             if ("".equals(TXTSENHA.getText())) {
                 JOptionPane.showMessageDialog(null, "Informe a SENHA", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
                 TXTSENHA.requestFocus();
+            }else{
+                v = true;
             }
         } else if (cont == 5) {
             if ("".equals(TXTSENHA.getText())) {

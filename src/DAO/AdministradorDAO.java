@@ -27,7 +27,6 @@ public class AdministradorDAO {
     int id = 0;
 
     public boolean salvar_ADMIN(Administrador_Entidade usu) {
-
         login = verificar_login(usu);
         if (login) {
             con = Conexao_banco.conector();
