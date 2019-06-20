@@ -362,6 +362,7 @@ public class Sindicalizado_DAO {
                     System.out.println(e);
                 }
             }
+            login = true;
         }else {
             JOptionPane.showMessageDialog(null, "O login desejado ja existe no sistema", "Atenção", JOptionPane.INFORMATION_MESSAGE);
         }

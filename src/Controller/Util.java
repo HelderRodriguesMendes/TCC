@@ -57,7 +57,7 @@ public abstract class Util {
     }
 
     public static boolean validar_Data(String di, String me, String an, boolean niver) {
-        int d, m, a;
+        int d, m, a, cont = 0;
         d = Integer.parseInt(di);
         m = Integer.parseInt(me);
         a = Integer.parseInt(an);
@@ -68,17 +68,20 @@ public abstract class Util {
         int ANO_Atual = Integer.valueOf(ANO.format(new Date()));
         int MES_Atual = Integer.valueOf(MES.format(new Date()));
         int DIA_Atual = Integer.valueOf(DIA.format(new Date()));
-
-        if (d > 31 || d == 0 || d == 00) {
+        
+        
+        if(d == 0 || d == 00){
             ok = false;
-        } else if (m > 12 || m == 0 || m == 00) {
+        }else if(m == 0 || m == 00){
             ok = false;
-        } else if(a > ANO_Atual || a == 0 || a == 00){
+        }else if(a == 0 || a == 00){
             ok = false;
-        }else if(m > MES_Atual || m == 0 || m == 00){
+        }else if(a > ANO_Atual){
             ok = false;
-        }else if(d > DIA_Atual || a == 0 || a == 00){
-            ok = false;
+        }else if(a == ANO_Atual){
+            if(d > DIA_Atual || m > MES_Atual){
+                ok = false;
+            }
         }else{
             ok = true;
         }
