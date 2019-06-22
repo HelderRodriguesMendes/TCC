@@ -5,7 +5,6 @@
  */
 package View;
 
-import Controller.Util;
 import Model.Administrador_Entidade;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
@@ -26,8 +25,6 @@ public class Interface extends javax.swing.JFrame {
 
     public Interface() {
         initComponents();
-
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); // não reconhece o clique no botao de fechar a janela toda
 
         addWindowListener(new WindowAdapter() { // para confirna se deseja ralmente sair do sistema
             @Override

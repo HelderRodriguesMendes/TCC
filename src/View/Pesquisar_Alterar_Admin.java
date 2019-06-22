@@ -59,8 +59,8 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TABELA = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
 
+        setClosable(true);
         setIconifiable(true);
         setTitle("Pesquisar - Alterar Administrador");
 
@@ -99,13 +99,6 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/home (1).png"))); // NOI18N
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -122,15 +115,11 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
                         .addGap(21, 66, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel5))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addGroup(layout.createSequentialGroup()
@@ -145,10 +134,6 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        this.dispose();
-    }//GEN-LAST:event_jLabel5MouseClicked
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
         Cad_Administrador cadm = new Cad_Administrador() {};
@@ -225,7 +210,6 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
     private javax.swing.JTable TABELA;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

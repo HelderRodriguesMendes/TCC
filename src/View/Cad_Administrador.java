@@ -42,6 +42,7 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
+        VOLTAR.setVisible(false);
     }
 
     public Administrador_Entidade preencher_objeto() {
@@ -118,6 +119,7 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
         TXTLOGIN.setText(adm.getLogin());
         this.id = adm.getId();
         alterar = true;
+        VOLTAR.setVisible(true);
     }
 
     @Override
@@ -139,14 +141,14 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
         TXTLOGIN = new javax.swing.JTextField();
         TXTFONE = new javax.swing.JFormattedTextField();
         TXTNOME = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         BOTAO_SALVAR_ = new javax.swing.JLabel();
         BT_ATU = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        VOLTAR = new javax.swing.JLabel();
 
+        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setIconifiable(true);
         setTitle("Cadastrar Administrador");
@@ -155,7 +157,6 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
                 formMouseEntered(evt);
             }
         });
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         TXTSENHA.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -180,19 +181,14 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
                 TXTSENHAKeyPressed(evt);
             }
         });
-        getContentPane().add(TXTSENHA, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 163, 160, -1));
 
         jLabel4.setText("Senha:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 158, -1, -1));
 
         jLabel3.setText("Login:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 118, -1, -1));
 
         jLabel2.setText("Telefone:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 78, -1, -1));
 
         jLabel1.setText("Nome:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 38, -1, -1));
 
         TXTLOGIN.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -204,31 +200,12 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
                 TXTLOGINKeyPressed(evt);
             }
         });
-        getContentPane().add(TXTLOGIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 118, 160, -1));
 
         try {
             TXTFONE.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ##### - #### ")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        getContentPane().add(TXTFONE, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 78, 150, -1));
-        getContentPane().add(TXTNOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 38, 160, -1));
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/home (1).png"))); // NOI18N
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, -1, 20));
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/user.png"))); // NOI18N
-        jLabel6.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jLabel6KeyTyped(evt);
-            }
-        });
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 38, 139, 145));
 
         BOTAO_SALVAR_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/salvar_1.png"))); // NOI18N
         BOTAO_SALVAR_.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -244,7 +221,6 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
                 BOTAO_SALVAR_MouseEntered(evt);
             }
         });
-        getContentPane().add(BOTAO_SALVAR_, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 201, -1, -1));
 
         BT_ATU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
         BT_ATU.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -255,13 +231,11 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
                 BT_ATUMouseEntered(evt);
             }
         });
-        getContentPane().add(BT_ATU, new org.netbeans.lib.awtextra.AbsoluteConstraints(68, 201, 31, 30));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 51, 51));
         jLabel8.setText("*");
         jLabel8.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 41, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 51, 51));
@@ -269,7 +243,6 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
         jLabel9.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jLabel9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 166, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 51, 51));
@@ -278,7 +251,91 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
         jLabel10.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         jLabel10.setVerifyInputWhenFocusTarget(false);
         jLabel10.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 121, -1, -1));
+
+        VOLTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/voltar.png"))); // NOI18N
+        VOLTAR.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                VOLTARMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(VOLTAR, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(TXTNOME, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(TXTLOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(TXTSENHA, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(TXTFONE, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel9)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addComponent(BT_ATU, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(BOTAO_SALVAR_))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(VOLTAR, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(TXTNOME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
+                        .addComponent(TXTLOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(125, 125, 125)
+                        .addComponent(TXTSENHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(TXTFONE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel8)
+                        .addGap(63, 63, 63)
+                        .addComponent(jLabel10)
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel9)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BT_ATU, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BOTAO_SALVAR_))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -286,10 +343,6 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
     private void TXTSENHAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTSENHAActionPerformed
 
     }//GEN-LAST:event_TXTSENHAActionPerformed
-
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        this.dispose();
-    }//GEN-LAST:event_jLabel5MouseClicked
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
 
@@ -412,10 +465,6 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
 
     }//GEN-LAST:event_TXTLOGINKeyPressed
 
-    private void jLabel6KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel6KeyTyped
-
-    }//GEN-LAST:event_jLabel6KeyTyped
-
     private void TXTSENHAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TXTSENHAFocusGained
         if (!"".equals(TXTLOGIN.getText())) {
             if (evt.getSource() == TXTSENHA) {
@@ -448,6 +497,14 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
         // TODO add your handling code here:
     }//GEN-LAST:event_BOTAO_SALVAR_MouseEntered
 
+    private void VOLTARMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VOLTARMouseClicked
+        Pesquisar_Alterar_Admin paa = new Pesquisar_Alterar_Admin();
+            Interface.DESKTOP.add(paa);
+            paa.setVisible(true);
+            paa.setPosicao();
+            this.dispose();
+    }//GEN-LAST:event_VOLTARMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BOTAO_SALVAR_;
@@ -456,13 +513,12 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
     private javax.swing.JTextField TXTLOGIN;
     private javax.swing.JTextField TXTNOME;
     private javax.swing.JTextField TXTSENHA;
+    private javax.swing.JLabel VOLTAR;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     // End of variables declaration//GEN-END:variables

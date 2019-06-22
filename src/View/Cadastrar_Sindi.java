@@ -10,7 +10,10 @@ import Controller.Receptor;
 import Controller.Sindicalizado;
 import DAO.Sindicalizado_DAO;
 import Model.Sindicalizado_Entidade;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +52,23 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         }
 
         validaNumerosLetras();
+        
+        addWindowListener(new WindowAdapter() { // para confirna se deseja ralmente sair do sistema
+            @Override
+            public void windowClosing(WindowEvent we) {
+                String ObjButtons[] = {"Sim", "Não"};
+                int PromptResult = JOptionPane.showOptionDialog(null,
+                        "Deseja realmente sair do sistema?", "ATENÇÃO",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                        ObjButtons, ObjButtons[1]);
+                if (PromptResult == 0) {
+                    dispose();
+                }
+            }
+        });
+        
+        VOLTAR.setVisible(false);
+        
     }
 
     public Sindicalizado_Entidade PREENCHER_OBJETO() {
@@ -395,6 +415,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         this.alterar = true;
         TXT_SENHA.setEnabled(false);
         this.id = si.getId();
+        VOLTAR.setVisible(true);
     }
 
     @Override
@@ -490,8 +511,9 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         jLabel10 = new javax.swing.JLabel();
         BT_ATU = new javax.swing.JLabel();
         BOTAO_SALVAR_ = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        VOLTAR = new javax.swing.JLabel();
 
+        setClosable(true);
         setIconifiable(true);
         setTitle("Cadastrar sindicalizado");
 
@@ -1146,10 +1168,10 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             }
         });
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/home (1).png"))); // NOI18N
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+        VOLTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/voltar.png"))); // NOI18N
+        VOLTAR.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
+                VOLTARMouseClicked(evt);
             }
         });
 
@@ -1160,32 +1182,36 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(553, 553, 553)
                         .addComponent(BT_ATU)
                         .addGap(41, 41, 41)
                         .addComponent(BOTAO_SALVAR_))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel8)))
-                .addContainerGap(215, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(103, 103, 103))
+                        .addComponent(VOLTAR, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(72, 72, 72))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(VOLTAR)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 263, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BT_ATU, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BOTAO_SALVAR_))
@@ -1199,12 +1225,12 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1231, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1249, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
         );
 
         pack();
@@ -1322,10 +1348,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         }
     }//GEN-LAST:event_BOTAO_SALVAR_MouseClicked
 
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        this.dispose();
-    }//GEN-LAST:event_jLabel8MouseClicked
-
     private void SECAOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SECAOActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SECAOActionPerformed
@@ -1361,6 +1383,14 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
 //        }
     }//GEN-LAST:event_TXT_SENHAFocusGained
 
+    private void VOLTARMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VOLTARMouseClicked
+        Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+        Interface.DESKTOP.add(pas);
+        pas.setVisible(true);
+        pas.setPosicao();
+        this.dispose();
+    }//GEN-LAST:event_VOLTARMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AREAFAZENDA;
@@ -1392,6 +1422,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
     private javax.swing.JFormattedTextField TITULO_ELEITO;
     private javax.swing.JTextField TXT_LOGIN;
     public javax.swing.JTextField TXT_SENHA;
+    private javax.swing.JLabel VOLTAR;
     private javax.swing.JFormattedTextField ZONA;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1436,7 +1467,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
