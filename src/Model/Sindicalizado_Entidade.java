@@ -1,6 +1,5 @@
 package Model;
 
-import Model.Entidadades.Pessoa;
 import java.util.Date;
 
 /**
