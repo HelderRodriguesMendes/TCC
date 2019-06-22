@@ -1,14 +1,10 @@
 package Controller;
 
-import Controller.Entidades.Controle_de_Caixa_ENTIDADES;
-import View.FluxoCaixa;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTextField;
 
 /**
@@ -16,8 +12,6 @@ import javax.swing.JTextField;
  * @author helde_000
  */
 public abstract class Util {
-
-    Controle_de_Caixa_ENTIDADES fc = new Controle_de_Caixa_ENTIDADES();
 
     private static String dia, ano, mes;
     public static int idade = 0;
@@ -29,7 +23,7 @@ public abstract class Util {
         try {
             daS = new java.util.Date(format.parse(dt).getTime());
         } catch (ParseException ex) {
-            Logger.getLogger(FluxoCaixa.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return daS;
     }

@@ -1,6 +1,6 @@
 package Model;
 
-import Controller.Entidades.Pessoa;
+import Model.Entidadades.Pessoa;
 import java.util.Date;
 
 /**

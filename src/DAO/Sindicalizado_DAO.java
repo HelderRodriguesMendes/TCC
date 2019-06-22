@@ -5,7 +5,6 @@
  */
 package DAO;
 
-import DAO.Conexao_banco;
 import Model.Sindicalizado_Entidade;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

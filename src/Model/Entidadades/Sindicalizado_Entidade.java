@@ -1,8 +1,7 @@
 package Model.Entidadades;
 
-import Controller.Entidades.Pessoa;
-import java.util.Date;
 
+import java.util.Date;
 /**
  *
  * @author helde
@@ -36,6 +35,7 @@ public class Sindicalizado_Entidade extends Pessoa{
     private String tipo_usuario;
     private String residenciaAtual;
     private int id;
+
 
     /**
      * @return the dataNasci
