@@ -8,9 +8,12 @@ package View;
 import Controller.Util;
 import Controller.Login;
 import Controller.Sindicalizado;
+import DAO.Conexao_banco;
 import DAO.Sindicalizado_DAO;
 import Model.Sindicalizado_Entidade;
 import java.awt.Dimension;
+import java.sql.Connection;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -18,6 +21,9 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -29,12 +35,14 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     Sindicalizado_Entidade se = new Sindicalizado_Entidade();
     Login lo = new Login();
     Sindicalizado si = new Sindicalizado();
+    Connection conexao = null;
 
     int cont = 0, con = 0, id = 0, idade;
     boolean niver, ok;
 
     public Pesquisar_Alterar_sindicalizado() {
         initComponents();
+        conexao = Conexao_banco.conector(); 
 
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
@@ -188,12 +196,13 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                             .addComponent(NOME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel3)
-                                        .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel4)
+                                        .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addComponent(BOTAO_PESQUISAR_))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,14 +226,23 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
         id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
 
-        Cadastrar_Sindi cs = new Cadastrar_Sindi() {
-        };
-        cs.preencher_campus_alteracao(PREENCHER_OBJETO());
-        cs.setVisible(true);
-        Interface.DESKTOP.add(cs);
-        cs.setPosicao();
-        cs.id = this.id;
-        this.dispose();
+        String ObjButtons[] = {"Alterar", "Relatório"};
+        int escolha = JOptionPane.showOptionDialog(null,
+                "Escolha uma das opções abaixo:", "ATENÇÃO",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                ObjButtons, ObjButtons[0]);
+        if (escolha == 0) {
+            Cadastrar_Sindi cs = new Cadastrar_Sindi() {
+            };
+            cs.preencher_campus_alteracao(PREENCHER_OBJETO());
+            cs.setVisible(true);
+            Interface.DESKTOP.add(cs);
+            cs.setPosicao();
+            cs.id = this.id;
+            this.dispose();
+        }else if(escolha == 1){
+            Relatorio(id);
+        }
     }//GEN-LAST:event_TABELAMouseClicked
 
     private void NOMEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NOMEActionPerformed
@@ -575,6 +593,18 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             va = true;
         }
         return va;
+    }
+    
+    public void Relatorio(int ID){
+        try {
+            HashMap filtro = new HashMap();
+            filtro.put("id",ID); // o "id" é o id que criei como parametro la no select do Ireport
+            JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\Associado.jasper", filtro, conexao);
+            JasperViewer.viewReport(print, false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório");
+            System.out.println(e);
+        }
     }
 
 
