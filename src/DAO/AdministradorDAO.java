@@ -5,7 +5,6 @@
  */
 package DAO;
 
-import DAO.Conexao_banco;
 import Model.Administrador_Entidade;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,7 +33,7 @@ public class AdministradorDAO {
             try {
                 pst = con.prepareStatement("insert into admin(nome, telefone, tipo_usuario, login, senha) values (?, ?, ?, ?, ?)");
                 pst.setString(1, usu.getNome());
-                pst.setString(2, usu.getTelefone());
+                pst.setString(2, usu.getCelular());
                 pst.setString(3, usu.getTipo_usuario());
                 pst.setString(4, usu.getLogin());
                 pst.setString(5, usu.getSenha());
@@ -66,7 +65,7 @@ public class AdministradorDAO {
 
                 ad.setId(rs.getInt("id_admin"));
                 ad.setNome(rs.getString("nome"));
-                ad.setTelefone(rs.getString("telefone"));
+                ad.setCelular(rs.getString("telefone"));
                 ad.setLogin(rs.getString("login"));
 
                 AD.add(ad);
@@ -94,7 +93,7 @@ public class AdministradorDAO {
 
                 ad.setId(rs.getInt("id_admin"));
                 ad.setNome(rs.getString("nome"));
-                ad.setTelefone(rs.getString("telefone"));
+                ad.setCelular(rs.getString("telefone"));
                 ad.setLogin(rs.getString("login"));
 
                 AD.add(ad);
@@ -118,7 +117,7 @@ public class AdministradorDAO {
                 try {
                     pst = con.prepareStatement("update admin set nome = ?, telefone = ?, login = ?, senha = ? where id_admin = ?");
                     pst.setString(1, adm.getNome());
-                    pst.setString(2, adm.getTelefone());
+                    pst.setString(2, adm.getCelular());
                     pst.setString(3, adm.getLogin());
                     pst.setString(4, adm.getSenha());
                     pst.setInt(5, adm.getId());
@@ -134,7 +133,7 @@ public class AdministradorDAO {
                 try {
                     pst = con.prepareStatement("update admin set nome = ?, telefone = ?, login = ? where id_admin = ?");
                     pst.setString(1, adm.getNome());
-                    pst.setString(2, adm.getTelefone());
+                    pst.setString(2, adm.getCelular());
                     pst.setString(3, adm.getLogin());
                     pst.setInt(4, adm.getId());
                     pst.executeUpdate();
@@ -154,7 +153,7 @@ public class AdministradorDAO {
                 try {
                     pst = con.prepareStatement("update admin set nome = ?, telefone = ?, login = ?, senha = ? where id_admin = ?");
                     pst.setString(1, adm.getNome());
-                    pst.setString(2, adm.getTelefone());
+                    pst.setString(2, adm.getCelular());
                     pst.setString(3, adm.getLogin());
                     pst.setString(4, adm.getSenha());
                     pst.setInt(5, adm.getId());
@@ -170,7 +169,7 @@ public class AdministradorDAO {
                 try {
                     pst = con.prepareStatement("update admin set nome = ?, telefone = ?, login = ? where id_admin = ?");
                     pst.setString(1, adm.getNome());
-                    pst.setString(2, adm.getTelefone());
+                    pst.setString(2, adm.getCelular());
                     pst.setString(3, adm.getLogin());
                     pst.setInt(4, adm.getId());
                     pst.executeUpdate();

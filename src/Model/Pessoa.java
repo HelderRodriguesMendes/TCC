@@ -11,8 +11,7 @@ package Model;
  */
 public class Pessoa {
 
-    private String nome;
-    private String telefone;
+    private String nome; 
     private String celular;
 
     /**
@@ -28,21 +27,6 @@ public class Pessoa {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    /**
-     * @return the telefone
-     */
-    public String getTelefone() {
-        return telefone;
-    }
-
-    /**
-     * @param telefone the telefone to set
-     */
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
     /**
      * @return the celular
      */

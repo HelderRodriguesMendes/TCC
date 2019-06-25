@@ -164,7 +164,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             dtma.addRow(new Object[]{
                 admin.getId(),
                 admin.getNome(),
-                admin.getTelefone(),
+                admin.getCelular(),
                 admin.getLogin()
             });
         });
@@ -182,7 +182,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             dtma.addRow(new Object[]{
                 adm.getId(),
                 adm.getNome(),
-                adm.getTelefone(),
+                adm.getCelular(),
                 adm.getLogin()
             });
         });
@@ -192,9 +192,9 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         adm.setId(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
         adm.setNome(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString());
         if (TABELA.getValueAt(TABELA.getSelectedRow(), 2) != null) {
-            adm.setTelefone(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString());
+            adm.setCelular(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString());
         } else {
-            adm.setTelefone("");
+            adm.setCelular("");
         }
         adm.setLogin(TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString());
         

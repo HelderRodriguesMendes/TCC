@@ -47,7 +47,7 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
 
     public Administrador_Entidade preencher_objeto() {
         usu.setNome(TXTNOME.getText());
-        usu.setTelefone(TXTFONE.getText());
+        usu.setCelular(TXTFONE.getText());
         usu.setTipo_usuario("Administrador");
         usu.setLogin(TXTLOGIN.getText());
         if (alterar) {
@@ -115,7 +115,7 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
 
     public void preencherCampus(Administrador_Entidade adm) {
         TXTNOME.setText(adm.getNome());
-        TXTFONE.setText(adm.getTelefone());
+        TXTFONE.setText(adm.getCelular());
         TXTLOGIN.setText(adm.getLogin());
         this.id = adm.getId();
         alterar = true;

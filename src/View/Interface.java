@@ -33,9 +33,12 @@ public class Interface extends javax.swing.JFrame {
                 int PromptResult = JOptionPane.showOptionDialog(null,
                         "Deseja realmente sair do sistema?", "ATENÇÃO",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                        ObjButtons, ObjButtons[1]);
+                        ObjButtons, ObjButtons[0]);
                 if (PromptResult == 0) {
+                    System.out.println("AQUII");
                     System.exit(0);
+                }else if(PromptResult == 1){
+                    System.out.println("HELDER");
                 }
             }
         });
