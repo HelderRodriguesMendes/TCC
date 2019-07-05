@@ -20,6 +20,7 @@ public class Sindicalizado_DAO {
     Connection con;
     boolean login = true;
     int id = 0;
+    public boolean sind = true;
 
     public boolean SALVAR(Sindicalizado_Entidade se) {
         login = verificar_login(se);
@@ -30,7 +31,7 @@ public class Sindicalizado_DAO {
                         + "estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, "
                         + "pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, "
                         + "areaPropriedade, tempoCompraPropriedade, outrasAtividade, tipo_usuario, login, senha, "
-                        + "residenciaAtual) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                        + "residenciaAtual, excluido) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 pst.setString(1, se.getNome());
                 java.sql.Date DATASQL = new java.sql.Date(se.getDataNasci().getTime());
                 pst.setDate(2, DATASQL);
@@ -61,6 +62,7 @@ public class Sindicalizado_DAO {
                 pst.setString(26, se.getLogin());
                 pst.setString(27, se.getSenha());
                 pst.setString(28, se.getResidenciaAtual());
+                pst.setInt(29, se.getExcluido());
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
             } catch (Exception e) {
@@ -79,7 +81,7 @@ public class Sindicalizado_DAO {
         ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select * from sindicalizado");
+            pst = con.prepareStatement("select * from sindicalizado where excluido = '0'");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -131,11 +133,48 @@ public class Sindicalizado_DAO {
         ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select * from sindicalizado where nome like ? and cpf like ? and rg like ?");
-            pst.setString(1, "%" + nome + "%");
-            pst.setString(2, "%" + cpf + "%");
-            pst.setString(3, "%" + rg + "%");
-            rs = pst.executeQuery();
+            if (!"".equals(nome) && !"".equals(cpf)) {
+                if (!"".equals(rg)) {
+                    pst = con.prepareStatement("select * from sindicalizado where nome like ? and cpf like ? and rg like ? and excluido = '0'");
+                    pst.setString(1, "%" + nome + "%");
+                    pst.setString(2, "%" + cpf + "%");
+                    pst.setString(3, "%" + rg + "%");
+                    rs = pst.executeQuery();
+                } else {
+                    pst = con.prepareStatement("select * from sindicalizado where nome like ? and cpf like ?");
+                    pst.setString(1, "%" + nome + "%");
+                    pst.setString(2, "%" + cpf + "%");
+                    rs = pst.executeQuery();
+                }
+            } else if (!"".equals(nome) && !"".equals(rg)) {
+                pst = con.prepareStatement("select * from sindicalizado where nome like ? and rg like ?");
+                pst.setString(1, "%" + nome + "%");
+                pst.setString(2, "%" + rg + "%");
+                rs = pst.executeQuery();
+            } else if (!"".equals(rg) && !"".equals(cpf)) {
+                pst = con.prepareStatement("select * from sindicalizado where cpf like ? and rg like ?");
+                pst.setString(1, "%" + cpf + "%");
+                pst.setString(2, "%" + rg + "%");
+                rs = pst.executeQuery();
+            } else if (!"".equals(nome)) {
+                System.out.println("nome aqui: " + nome);
+                pst = con.prepareStatement("select * from sindicalizado where nome like ?");
+                pst.setString(1, "%" + nome + "%");
+                rs = pst.executeQuery();
+            } else if (!"".equals(cpf)) {
+                pst = con.prepareStatement("select * from sindicalizado where cpf like ?");
+                pst.setString(1, "%" + cpf + "%");
+                rs = pst.executeQuery();
+            } else {
+                pst = con.prepareStatement("select * from sindicalizado where rg like ? ");
+                pst.setString(1, "%" + rg + "%");
+                rs = pst.executeQuery();
+            }
+
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(null, "Dados não encontrados no sistema", "Atençãoo", JOptionPane.ERROR_MESSAGE);
+                sind = false;
+            }
 
             while (rs.next()) {
                 Sindicalizado_Entidade si = new Sindicalizado_Entidade();
@@ -362,7 +401,7 @@ public class Sindicalizado_DAO {
                 }
             }
             login = true;
-        }else {
+        } else {
             JOptionPane.showMessageDialog(null, "O login desejado ja existe no sistema", "Atenção", JOptionPane.INFORMATION_MESSAGE);
         }
         return login;

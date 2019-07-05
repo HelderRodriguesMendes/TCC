@@ -23,7 +23,7 @@ public abstract class Util {
         try {
             daS = new java.util.Date(format.parse(dt).getTime());
         } catch (ParseException ex) {
-            
+
         }
         return daS;
     }
@@ -62,21 +62,16 @@ public abstract class Util {
         int ANO_Atual = Integer.valueOf(ANO.format(new Date()));
         int MES_Atual = Integer.valueOf(MES.format(new Date()));
         int DIA_Atual = Integer.valueOf(DIA.format(new Date()));
-        
-        
-        if(d == 0 || d == 00){
+
+        if (a > ANO_Atual) {
             ok = false;
-        }else if(m == 0 || m == 00){
-            ok = false;
-        }else if(a == 0 || a == 00){
-            ok = false;
-        }else if(a > ANO_Atual){
-            ok = false;
-        }else if(a == ANO_Atual){
-            if(d > DIA_Atual || m > MES_Atual){
-                ok = false;
+        } else if (a == ANO_Atual) {
+            if (m == MES_Atual) {
+                ok = d <= DIA_Atual;
+            } else {
+                ok = m < MES_Atual;
             }
-        }else{
+        } else {
             ok = true;
         }
 

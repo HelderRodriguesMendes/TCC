@@ -35,6 +35,7 @@ public class Sindicalizado_Entidade extends Pessoa{
     private String tipo_usuario;
     private String residenciaAtual;
     private int id;
+    private int excluido;
 
     /**
      * @return the dataNasci
@@ -414,6 +415,20 @@ public class Sindicalizado_Entidade extends Pessoa{
      */
     public void setResidenciaAtual(String residenciaAtual) {
         this.residenciaAtual = residenciaAtual;
+    }
+
+    /**
+     * @return the excluido
+     */
+    public int getExcluido() {
+        return excluido;
+    }
+
+    /**
+     * @param excluido the excluido to set
+     */
+    public void setExcluido(int excluido) {
+        this.excluido = excluido;
     }
 
 

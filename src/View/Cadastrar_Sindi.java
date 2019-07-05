@@ -33,7 +33,8 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
     Sindicalizado si = new Sindicalizado();
 
     boolean cont = false, LS, LN, alterar = false, login = true;
-    int idade, id = 0, t = 0, erro = 0;;
+    int idade, id = 0, t = 0, erro = 0;
+    ;
     String senhaC = "", senha = "";
 
     public Cadastrar_Sindi() {
@@ -52,7 +53,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         }
 
         validaNumerosLetras();
-        
+
         addWindowListener(new WindowAdapter() { // para confirna se deseja ralmente sair do sistema
             @Override
             public void windowClosing(WindowEvent we) {
@@ -66,9 +67,9 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                 }
             }
         });
-        
+
         VOLTAR.setVisible(false);
-        
+
     }
 
     public Sindicalizado_Entidade PREENCHER_OBJETO() {
@@ -84,8 +85,12 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         String dte = df.format(DATAEXPE.getDate());
         se.setDataExpedicao(Util.STRING_DATE(dte));
         se.setTituloEleito(TITULO_ELEITO.getText());
-        se.setZona(Integer.parseInt(ZONA.getText()));
-        se.setSecao(Integer.parseInt(SECAO.getText()));
+        if (!"   ".equals(ZONA.getText())) {
+            se.setZona(Integer.parseInt(ZONA.getText()));
+        }
+        if (!"    ".equals(SECAO.getText())) {
+            se.setSecao(Integer.parseInt(SECAO.getText()));
+        }
         se.setReservista(RESERVISTA.getText());
         se.setCategoria(CATEGORIA.getText());
         se.setPai(PAI.getText());
@@ -133,7 +138,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
 
     public boolean validar_obrigatorios() {
 
-        
         String cpf = "";
         LS = LEITE_S.isSelected();
         LN = LEITE_N.isSelected();
@@ -198,7 +202,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
             JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG");
             DATAEXPE.requestFocus();
             erro = 1;
-        } else {           
+        } else if (erro == 0) {
             String data = Util.verificar_Data(df.format(DATAEXPE.getDate()), false);
             if ("//".equals(data)) {
                 JOptionPane.showMessageDialog(null, "A data de Expedição do RG do sindicalizado é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
@@ -250,7 +254,6 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         } else if (!alterar && erro == 0) {
             if ("".equals(TXT_SENHA.getText()) && erro == 0) {
                 JOptionPane.showMessageDialog(null, "Informe a senha de acesso ao sistema");
-                TXT_SENHA.requestFocus();
                 erro = 1;
             }
         } else if (t == 5 && erro == 0) {
@@ -318,9 +321,9 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         }
         if (erro == 0) {
             cont = true;
-        }else if(erro == 1){
+        } else if (erro == 1) {
             cont = false;
-        } 
+        }
 
         return cont;
     }
@@ -390,8 +393,16 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         RESERVISTA.setText(si.getReservista());
         CATEGORIA.setText(si.getCategoria());
         TITULO_ELEITO.setText(si.getTituloEleito());
-        ZONA.setText(String.valueOf(si.getZona()));
-        SECAO.setText(String.valueOf(si.getSecao()));
+        if (si.getZona() == 0) {
+            ZONA.setText("");
+        } else {
+            ZONA.setText(String.valueOf(si.getZona()));
+        }
+        if (si.getSecao() == 0) {
+            SECAO.setText("");
+        } else {
+            SECAO.setText(String.valueOf(si.getSecao()));
+        }
         PAI.setText(si.getPai());
         MAE.setText(si.getMae());
         NOMEFAZENDA.setText(si.getNomeFazenda());
@@ -416,6 +427,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         TXT_SENHA.setEnabled(false);
         this.id = si.getId();
         VOLTAR.setVisible(true);
+        BT_ATU.setVisible(false);
     }
 
     @Override
@@ -749,9 +761,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                         .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(4, 4, 4)
                         .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
-                        .addComponent(jLabel12)
-                        .addGap(148, 148, 148)
+                        .addGap(311, 311, 311)
                         .addComponent(jLabel9)
                         .addGap(6, 6, 6)
                         .addComponent(NASCIONALIDADE, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -769,16 +779,19 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addGap(3, 3, 3)
-                                .addComponent(RESERVISTA, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(130, 130, 130)
-                                .addComponent(jLabel13)
-                                .addGap(4, 4, 4)
-                                .addComponent(TITULO_ELEITO, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(NASCIMENTO, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(102, 102, 102)
-                        .addComponent(jLabel14)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel16)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(RESERVISTA, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(130, 130, 130)
+                                        .addComponent(jLabel13)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(TITULO_ELEITO, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(NASCIMENTO, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(102, 102, 102)
+                                .addComponent(jLabel14))
+                            .addComponent(jLabel12))
                         .addGap(4, 4, 4)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -1286,7 +1299,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
     private void BOTAO_SALVAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_SALVAR_MouseClicked
         boolean v;
         Sindicalizado_DAO sd = new Sindicalizado_DAO();
-        if(erro == 1){
+        if (erro == 1) {
             erro = 0;
         }
         v = validar_obrigatorios();
@@ -1342,7 +1355,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
                         }
                     }
                 } else {
-                    
+
                     login = sd.alterar_sind(PREENCHER_OBJETO(), this.id);
                     if (login) {
                         Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();

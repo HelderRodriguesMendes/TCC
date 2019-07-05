@@ -10,6 +10,7 @@ import Controller.Login;
 import Controller.Sindicalizado;
 import DAO.Conexao_banco;
 import DAO.Sindicalizado_DAO;
+import DAO.Util_DAO;
 import Model.Sindicalizado_Entidade;
 import java.awt.Dimension;
 import java.sql.Connection;
@@ -39,10 +40,11 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     int cont = 0, con = 0, id = 0, idade;
     boolean niver, ok;
+    public boolean excluir = false;
 
     public Pesquisar_Alterar_sindicalizado() {
         initComponents();
-        conexao = Conexao_banco.conector(); 
+        conexao = Conexao_banco.conector();
 
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
@@ -57,7 +59,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         }
 
         listar_Tabela();
-
+        maximizaTabela();
     }
 
     public void setPosicao() { // faz o formulario aparecer centralizado na tela
@@ -81,6 +83,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
         setClosable(true);
         setIconifiable(true);
+        setMaximizable(true);
 
         jLabel1.setText("Nome:");
 
@@ -163,26 +166,25 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(jLabel1)
-                        .addGap(9, 9, 9)
-                        .addComponent(NOME, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(175, 175, 175)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(180, 180, 180)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BOTAO_PESQUISAR_)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(62, 62, 62)
+                .addComponent(jLabel1)
+                .addGap(9, 9, 9)
+                .addComponent(NOME, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(175, 175, 175)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(180, 180, 180)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79)
+                .addComponent(BOTAO_PESQUISAR_)
+                .addContainerGap(12, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,9 +206,9 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                                         .addComponent(jLabel4)
                                         .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addComponent(BOTAO_PESQUISAR_))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -225,24 +227,37 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         cont = 10;
 
         id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
-
-        String ObjButtons[] = {"Alterar", "Relatório"};
-        int escolha = JOptionPane.showOptionDialog(null,
-                "Escolha uma das opções abaixo:", "ATENÇÃO",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                ObjButtons, ObjButtons[0]);
-        if (escolha == 0) {
-            Cadastrar_Sindi cs = new Cadastrar_Sindi() {
-            };
-            cs.preencher_campus_alteracao(PREENCHER_OBJETO());
-            cs.setVisible(true);
-            Interface.DESKTOP.add(cs);
-            cs.setPosicao();
-            cs.id = this.id;
-            this.dispose();
-        }else if(escolha == 1){
-            Relatorio(id);
+        if (!excluir) {
+            String ObjButtons[] = {"Alterar", "Relatório"};
+            int escolha = JOptionPane.showOptionDialog(null,
+                    "Escolha uma das opções abaixo:", "ATENÇÃO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    ObjButtons, ObjButtons[0]);
+            if (escolha == 0) {
+                Cadastrar_Sindi cs = new Cadastrar_Sindi() {
+                };
+                cs.preencher_campus_alteracao(PREENCHER_OBJETO());
+                cs.setVisible(true);
+                Interface.DESKTOP.add(cs);
+                cs.setPosicao();
+                cs.id = this.id;
+                this.dispose();
+            } else if (escolha == 1) {
+                Relatorio(id);
+            }
+        } else {
+            String ObjButtons[] = {"Sim", "Não"};
+            int escolha = JOptionPane.showOptionDialog(null,
+                    "Tem certeza que deseja excluir esses dados?", "ATENÇÃO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    ObjButtons, ObjButtons[1]);
+            if (escolha == 0) {
+                Util_DAO ud = new Util_DAO();
+                ud.excluir(id, "sind");
+                listar_Tabela();
+            }
         }
+
     }//GEN-LAST:event_TABELAMouseClicked
 
     private void NOMEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NOMEActionPerformed
@@ -279,19 +294,45 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         sd.listar_Tabela().forEach((sin) -> {
             String dn = Util.DATE_STRING(sin.getDataNasci());
             String de = Util.DATE_STRING(sin.getDataExpedicao());
+            String zona, secao, fone, incra, nirf;
+            if (sin.getZona() == 0) {
+                zona = "   ";
+            } else {
+                zona = String.valueOf(sin.getZona());
+            }
+            if (sin.getSecao() == 0) {
+                secao = "    ";
+            } else {
+                secao = String.valueOf(sin.getZona());
+            }
+            if ("(  ) 9     -     ".equals(sin.getCelular())) {
+                fone = "";
+            } else {
+                fone = sin.getCelular();
+            }
+            if ("   .   .   .   - ".equals(sin.getCodINCRA())) {
+                incra = "";
+            } else {
+                incra = sin.getCelular();
+            }
+            if (" .   .   - ".equals(sin.getNIRF())) {
+                nirf = "";
+            } else {
+                nirf = sin.getCelular();
+            }
             dtma.addRow(new Object[]{
                 sin.getId(),
                 sin.getNome(),
                 dn,
-                sin.getCelular(),
+                fone,
                 sin.getNascionalidade(),
                 sin.getEstadoCivil(),
                 sin.getCpf(),
                 sin.getRg(),
                 de,
                 sin.getTituloEleito(),
-                sin.getZona(),
-                sin.getSecao(),
+                zona,
+                secao,
                 sin.getReservista(),
                 sin.getCategoria(),
                 sin.getPai(),
@@ -299,8 +340,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 sin.getNomeFazenda(),
                 sin.getLogradouro(),
                 sin.getMuniciSede(),
-                sin.getCodINCRA(),
-                sin.getNIRF(),
+                incra,
+                nirf,
                 sin.getAreaPropri(),
                 sin.getTempoCompra(),
                 sin.getOutrasA(),
@@ -350,6 +391,9 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 sin.getResidenciaAtual()
             });
         });
+        if (!sd.sind) {
+            listar_Tabela();
+        }
 
     }
 
@@ -365,8 +409,19 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         se.setRg(TABELA.getValueAt(TABELA.getSelectedRow(), 7).toString());
         se.setDataExpedicao(Util.STRING_DATE(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString()));
         se.setTituloEleito(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString());
-        se.setZona(Integer.parseInt((TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString())));
-        se.setSecao(Integer.parseInt((TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString())));
+        String zo = (TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString());
+        if ("   ".equals(zo)) {
+            se.setZona(0);
+        } else {
+            se.setZona(Integer.parseInt(zo));
+        }
+
+        String sec = (TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString());
+        if ("    ".equals(sec)) {
+            se.setSecao(0);
+        } else {
+            se.setSecao(Integer.parseInt(sec));
+        }
         se.setReservista(TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString());
         se.setCategoria(TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString());
         se.setPai(TABELA.getValueAt(TABELA.getSelectedRow(), 14).toString());
@@ -594,11 +649,11 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         }
         return va;
     }
-    
-    public void Relatorio(int ID){
+
+    public void Relatorio(int ID) {
         try {
             HashMap filtro = new HashMap();
-            filtro.put("id",ID); // o "id" é o id que criei como parametro la no select do Ireport
+            filtro.put("id", ID); // o "id" é o id que criei como parametro la no select do Ireport
             JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\Associado.jasper", filtro, conexao);
             JasperViewer.viewReport(print, false);
         } catch (Exception e) {
@@ -607,6 +662,15 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         }
     }
 
+    public void maximizaTabela() {
+        int largura = this.getWidth();
+        int altura = this.getHeight();
+        altura -= 5;
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        System.out.println("largura " + largura);
+        System.out.println("altura " + altura);
+        TABELA.setSize(largura, altura);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BOTAO_PESQUISAR_;

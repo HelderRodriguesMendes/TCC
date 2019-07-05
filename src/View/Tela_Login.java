@@ -8,6 +8,7 @@ import Model.Sindicalizado_Entidade;
 import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -202,6 +203,8 @@ public class Tela_Login extends javax.swing.JFrame {
         Interface in = new Interface();
         in.setVisible(true);
         in.bloquiarMenus(ad);
+        in.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        in.show();
         this.dispose();
     }
 

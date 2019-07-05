@@ -6,9 +6,11 @@
 package DAO;
 
 import Model.Administrador_Entidade;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -31,12 +33,13 @@ public class AdministradorDAO {
             con = Conexao_banco.conector();
 
             try {
-                pst = con.prepareStatement("insert into admin(nome, telefone, tipo_usuario, login, senha) values (?, ?, ?, ?, ?)");
+                pst = con.prepareStatement("insert into admin(nome, telefone, tipo_usuario, login, senha, excluido) values (?, ?, ?, ?, ?,?)");
                 pst.setString(1, usu.getNome());
                 pst.setString(2, usu.getCelular());
                 pst.setString(3, usu.getTipo_usuario());
                 pst.setString(4, usu.getLogin());
                 pst.setString(5, usu.getSenha());
+                pst.setInt(6, usu.getExcluido());
                 pst.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Dados salvos com sucesso");
@@ -57,7 +60,7 @@ public class AdministradorDAO {
         ArrayList<Administrador_Entidade> AD = new ArrayList();
 
         try {
-            pst = con.prepareStatement("select id_admin, nome, telefone, login from admin");
+            pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where excluido = '0'");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -67,7 +70,10 @@ public class AdministradorDAO {
                 ad.setNome(rs.getString("nome"));
                 ad.setCelular(rs.getString("telefone"));
                 ad.setLogin(rs.getString("login"));
-
+                if("(  )       -      ".equals(ad.getCelular())){
+                    ad.setCelular("");
+                }
+                
                 AD.add(ad);
             }
             con.close();
@@ -84,7 +90,7 @@ public class AdministradorDAO {
         ArrayList<Administrador_Entidade> AD = new ArrayList();
 
         try {
-            pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where nome like ?");
+            pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where excluido = '0' and nome like ?");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
 
@@ -125,7 +131,7 @@ public class AdministradorDAO {
 
                     JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
                     con.close();
-                } catch (Exception e) {
+                } catch (HeadlessException | SQLException e) {
                     JOptionPane.showMessageDialog(null, "Erro ao alterar dados administrador");
                     System.out.println(e);
                 }
@@ -140,7 +146,7 @@ public class AdministradorDAO {
 
                     JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
                     con.close();
-                } catch (Exception e) {
+                } catch (HeadlessException | SQLException e) {
                     JOptionPane.showMessageDialog(null, "Erro ao alterar dados administrador");
                     System.out.println(e);
                 }
@@ -206,4 +212,6 @@ public class AdministradorDAO {
         }
         return lo;
     }
+    
+    
 }

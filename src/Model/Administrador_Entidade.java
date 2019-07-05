@@ -14,6 +14,7 @@ public class Administrador_Entidade extends Pessoa{
     private String login;
     private String senha;
     private int id;
+    private int excluido;
 
     /**
      * @return the tipo_usuario
@@ -69,5 +70,19 @@ public class Administrador_Entidade extends Pessoa{
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * @return the excluido
+     */
+    public int getExcluido() {
+        return excluido;
+    }
+
+    /**
+     * @param excluido the excluido to set
+     */
+    public void setExcluido(int excluido) {
+        this.excluido = excluido;
     }
 }

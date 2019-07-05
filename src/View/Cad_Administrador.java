@@ -7,6 +7,7 @@ package View;
 
 import Controller.Login;
 import Controller.Receptor;
+import Controller.Util;
 import DAO.AdministradorDAO;
 import Model.Administrador_Entidade;
 import com.sun.glass.events.KeyEvent;
@@ -43,6 +44,7 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
         VOLTAR.setVisible(false);
+        Util.soLetras(TXTNOME);
     }
 
     public Administrador_Entidade preencher_objeto() {
@@ -69,6 +71,7 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
                 TXTSENHA.setText("");
                 usu.setSenha("");
             }
+            usu.setExcluido(0);
         }
 
         return usu;

@@ -74,6 +74,7 @@ public class Interface extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         DESKTOP = new javax.swing.JDesktopPane();
         BARRAMENU = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
@@ -85,9 +86,13 @@ public class Interface extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         MENU_PESQUISAR = new javax.swing.JMenu();
         MENU_EXCLUIR = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
 
         jMenu1.setText("jMenu1");
+
+        jMenuItem3.setText("jMenuItem3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,6 +179,23 @@ public class Interface extends javax.swing.JFrame {
         BARRAMENU.add(MENU_PESQUISAR);
 
         MENU_EXCLUIR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ESCLUIR 2.png"))); // NOI18N
+
+        jMenuItem4.setText("Administrador");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        MENU_EXCLUIR.add(jMenuItem4);
+
+        jMenuItem5.setText("Sindicalizado");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        MENU_EXCLUIR.add(jMenuItem5);
+
         BARRAMENU.add(MENU_EXCLUIR);
 
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/siraICO.png"))); // NOI18N
@@ -246,6 +268,23 @@ public class Interface extends javax.swing.JFrame {
         pas.setPosicao();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+       DESKTOP.add(pas);
+       pas.setVisible(true);
+       pas.setPosicao();
+       pas.excluir = true;
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        Pesquisar_Alterar_Admin caa = new Pesquisar_Alterar_Admin(){};
+        DESKTOP.add(caa);
+        caa.setVisible(true);
+        caa.setPosicao();
+        caa.excluir = true;
+        
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -264,5 +303,8 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     // End of variables declaration//GEN-END:variables
 }

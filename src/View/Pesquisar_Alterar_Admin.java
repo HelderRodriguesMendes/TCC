@@ -7,10 +7,12 @@ package View;
 
 import Controller.Login;
 import DAO.AdministradorDAO;
+import DAO.Util_DAO;
 import Model.Administrador_Entidade;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -21,15 +23,16 @@ import javax.swing.table.DefaultTableModel;
  * @author helde
  */
 public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
-    
+
     int cont = 0, con = 0;
     Administrador_Entidade adm = new Administrador_Entidade();
     AdministradorDAO ad = new AdministradorDAO();
     Login lo = new Login();
-    
+    public boolean excluir = false;
+
     public Pesquisar_Alterar_Admin() {
         initComponents();
-        
+
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         } catch (ClassNotFoundException ex) {
@@ -41,15 +44,15 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Pesquisar_Alterar_Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         LISTAR_TABELA();
     }
-    
+
     public void setPosicao() { // faz o formulario aparecer centralizado na tela
         Dimension d = this.getDesktopPane().getSize();
         this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -136,12 +139,28 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
-        Cad_Administrador cadm = new Cad_Administrador() {};
-        cadm.preencherCampus(preencher_Objeto());
-        cadm.setVisible(true);
-        Interface.DESKTOP.add(cadm);
-        cadm.setPosicao();
-        this.dispose();
+        if (!excluir) {
+            Cad_Administrador cadm = new Cad_Administrador() {
+            };
+            cadm.preencherCampus(preencher_Objeto());
+            cadm.setVisible(true);
+            Interface.DESKTOP.add(cadm);
+            cadm.setPosicao();
+            this.dispose();
+        } else {
+
+            String ObjButtons[] = {"Sim", "Não"};
+            int escolha = JOptionPane.showOptionDialog(null,
+                    "Tem certeza que deseja excluir esses dados?", "ATENÇÃO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    ObjButtons, ObjButtons[1]);
+            if (escolha == 0) {
+                int id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
+                Util_DAO ud = new Util_DAO();
+                ud.excluir(id, "adm");
+                LISTAR_TABELA();
+            }
+        }
     }//GEN-LAST:event_TABELAMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -151,15 +170,15 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             LISTAR_TABELA();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-    
+
     public void LISTAR_TABELA() {
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
-        
+
         TABELA.getColumnModel().getColumn(2).setPreferredWidth(110);
-        
+
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        
+
         ad.Listar_Tabela().forEach((admin) -> {
             dtma.addRow(new Object[]{
                 admin.getId(),
@@ -169,15 +188,15 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             });
         });
     }
-    
+
     public void Pesquisar_Nome(String nome) {
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
-        
+
         TABELA.getColumnModel().getColumn(2).setPreferredWidth(110);
-        
+
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        
+
         ad.Pesquisar_Nome(nome).forEach((adm) -> {
             dtma.addRow(new Object[]{
                 adm.getId(),
@@ -187,7 +206,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             });
         });
     }
-    
+
     public Administrador_Entidade preencher_Objeto() {
         adm.setId(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
         adm.setNome(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString());
@@ -197,10 +216,10 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             adm.setCelular("");
         }
         adm.setLogin(TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString());
-        
+
         return adm;
     }
-    
+
     public void Limpar_campus() {
         NOME.setText("");
     }
