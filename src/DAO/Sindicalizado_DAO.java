@@ -7,6 +7,8 @@ package DAO;
 
 import Controller.Sindicalizado;
 import Model.Sindicalizado_Entidade;
+import java.awt.Desktop;
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -454,6 +456,15 @@ public class Sindicalizado_DAO {
                 niver = false;
             }
         } catch (Exception e) {
+        }
+    }
+    
+    public void Acessar_Facebook(){
+        try {
+            URI link = new URI("https://www.facebook.com/Sindicato-Rural-de-Aren%C3%B3polis-395277340679811/");
+            Desktop.getDesktop().browse(link);
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 }

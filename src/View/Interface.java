@@ -216,6 +216,11 @@ public class Interface extends javax.swing.JFrame {
         BARRAMENU.add(MENU_EXCLUIR);
 
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/siraICO.png"))); // NOI18N
+        jMenu7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu7MouseClicked(evt);
+            }
+        });
         BARRAMENU.add(jMenu7);
 
         setJMenuBar(BARRAMENU);
@@ -320,6 +325,10 @@ public class Interface extends javax.swing.JFrame {
         tl.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
+        sd.Acessar_Facebook();
+    }//GEN-LAST:event_jMenu7MouseClicked
 
     /**
      * @param args the command line arguments
