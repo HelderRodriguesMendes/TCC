@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import Controller.Sindicalizado;
 import Model.Sindicalizado_Entidade;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,8 +20,8 @@ public class Sindicalizado_DAO {
     PreparedStatement pst = null;
     Connection con;
     boolean login = true;
-    int id = 0;
-    public boolean sind = true;
+    int id = 0, dia = 0, mes = 0;
+    public boolean sind = true, niver = true;
 
     public boolean SALVAR(Sindicalizado_Entidade se) {
         login = verificar_login(se);
@@ -424,5 +425,35 @@ public class Sindicalizado_DAO {
             System.out.println(e);
         }
         return lo;
+    }
+
+    public void niver() {
+        con = Conexao_banco.conector();
+        Sindicalizado_Entidade se = new Sindicalizado_Entidade();
+
+        Sindicalizado si = new Sindicalizado();
+        si.aniversario(se, false);
+        dia = si.DIA_Atual;
+        mes = si.MES_Atual;
+        try {
+            pst = con.prepareStatement("select nome, dataNasci, celular from  sindicalizado where day(dataNasci) = ? and month(dataNasci) = ?");
+            pst.setInt(1, dia);
+            pst.setInt(2, mes);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                se.setNome(rs.getString("nome"));
+                java.util.Date DATA_U = rs.getDate("dataNasci");
+                se.setDataNasci(DATA_U);
+                se.setCelular(rs.getString("celular"));
+                int idade = si.aniversario(se, true);
+                if("(  ) 9     -     ".equals(se.getCelular())){
+                    se.setCelular("");
+                }
+                JOptionPane.showMessageDialog(null, "Os sindicalizados aniversariantes de hoje são:" + "\n" + se.getNome() + "\n" + "Telefone: " + se.getCelular() + "\n" + "Idade: " + idade);
+                niver = false;
+            }
+        } catch (Exception e) {
+        }
     }
 }

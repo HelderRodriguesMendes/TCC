@@ -51,7 +51,7 @@ public abstract class Util {
     }
 
     public static boolean validar_Data(String di, String me, String an, boolean niver) {
-        int d, m, a, cont = 0;
+        int d, m, a;
         d = Integer.parseInt(di);
         m = Integer.parseInt(me);
         a = Integer.parseInt(an);
@@ -65,25 +65,32 @@ public abstract class Util {
 
         if (a > ANO_Atual) {
             ok = false;
+            System.out.println("ok 1 " + ok);
         } else if (a == ANO_Atual) {
             if (m == MES_Atual) {
                 ok = d <= DIA_Atual;
+                System.out.println("ok 2 " + ok);
             } else {
                 ok = m < MES_Atual;
+                System.out.println("ok 3 " + ok);
             }
         } else {
             ok = true;
         }
 
-        if (ok) {
-            if (niver) {
-                idade = ANO_Atual - a;
-
-                if (idade < 18) {
-                    ok = false;
-                }
-            }
+        if (ok && niver) {
+            ok = IDADE(a);
         }
+        return ok;
+    }
+
+    public static boolean IDADE(int ANO) {
+        SimpleDateFormat ANOO = new SimpleDateFormat("yyyy");
+        int ANO_Atual = Integer.valueOf(ANOO.format(new Date()));
+
+         idade = ANO_Atual - ANO;
+
+        ok = idade >= 18;
         return ok;
     }
 

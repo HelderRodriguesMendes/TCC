@@ -548,6 +548,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        CELULAR.setToolTipText("");
         CELULAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CELULARActionPerformed(evt);

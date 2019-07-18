@@ -24,6 +24,9 @@
               <Image iconType="3" name="/Imagens/logoSiteMenu.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu2MouseClicked"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="MENU_SALVAR">
           <Properties>
@@ -33,6 +36,7 @@
           </Properties>
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="MENU_SALVARMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="MENU_SALVARMouseExited"/>
           </Events>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="MENU_CAD_USU">
@@ -170,6 +174,9 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JDesktopPane" name="DESKTOP">
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="DESKTOPMouseEntered"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
       </AuxValues>

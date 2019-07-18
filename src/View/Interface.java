@@ -5,6 +5,7 @@
  */
 package View;
 
+import DAO.Sindicalizado_DAO;
 import Model.Administrador_Entidade;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
@@ -20,8 +21,9 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author helde
  */
 public class Interface extends javax.swing.JFrame {
-    
+
     int ID = 0;
+    Sindicalizado_DAO sd = new Sindicalizado_DAO();
 
     public Interface() {
         initComponents();
@@ -37,7 +39,7 @@ public class Interface extends javax.swing.JFrame {
                 if (PromptResult == 0) {
                     System.out.println("AQUII");
                     System.exit(0);
-                }else if(PromptResult == 1){
+                } else if (PromptResult == 1) {
                     System.out.println("HELDER");
                 }
             }
@@ -56,6 +58,7 @@ public class Interface extends javax.swing.JFrame {
         }
 
         BARRAMENU.setLayout(new GridBagLayout());
+
     }
 
     public void bloquiarMenus(Administrador_Entidade a) {
@@ -96,6 +99,12 @@ public class Interface extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        DESKTOP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                DESKTOPMouseEntered(evt);
+            }
+        });
+
         javax.swing.GroupLayout DESKTOPLayout = new javax.swing.GroupLayout(DESKTOP);
         DESKTOP.setLayout(DESKTOPLayout);
         DESKTOPLayout.setHorizontalGroup(
@@ -108,12 +117,20 @@ public class Interface extends javax.swing.JFrame {
         );
 
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/logoSiteMenu.png"))); // NOI18N
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
         BARRAMENU.add(jMenu2);
 
         MENU_SALVAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/SALVAR 2.png"))); // NOI18N
         MENU_SALVAR.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 MENU_SALVARMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                MENU_SALVARMouseExited(evt);
             }
         });
 
@@ -219,7 +236,8 @@ public class Interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MENU_CAD_USUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_USUActionPerformed
-        Cad_Administrador ca = new Cad_Administrador() {};
+        Cad_Administrador ca = new Cad_Administrador() {
+        };
         Interface.DESKTOP.add(ca);
         ca.setVisible(true);
         ca.setPosicao();
@@ -239,7 +257,7 @@ public class Interface extends javax.swing.JFrame {
 
     private void MENU_CAD_SINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_SINDActionPerformed
         Cadastrar_Sindi cs = new Cadastrar_Sindi() {
-            
+
         };
         DESKTOP.add(cs);
         cs.setVisible(true);
@@ -270,20 +288,38 @@ public class Interface extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
-       DESKTOP.add(pas);
-       pas.setVisible(true);
-       pas.setPosicao();
-       pas.excluir = true;
+        DESKTOP.add(pas);
+        pas.setVisible(true);
+        pas.setPosicao();
+        pas.excluir = true;
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        Pesquisar_Alterar_Admin caa = new Pesquisar_Alterar_Admin(){};
+        Pesquisar_Alterar_Admin caa = new Pesquisar_Alterar_Admin() {
+        };
         DESKTOP.add(caa);
         caa.setVisible(true);
         caa.setPosicao();
         caa.excluir = true;
-        
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void MENU_SALVARMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_SALVARMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MENU_SALVARMouseExited
+
+    private void DESKTOPMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DESKTOPMouseEntered
+        boolean n = sd.niver;
+        if (n) {
+            sd.niver();
+        }
+    }//GEN-LAST:event_DESKTOPMouseEntered
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        Tela_Login tl = new Tela_Login();
+        tl.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenu2MouseClicked
 
     /**
      * @param args the command line arguments

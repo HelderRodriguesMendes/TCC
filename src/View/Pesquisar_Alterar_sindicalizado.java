@@ -303,7 +303,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             if (sin.getSecao() == 0) {
                 secao = "    ";
             } else {
-                secao = String.valueOf(sin.getZona());
+                secao = String.valueOf(sin.getSecao());
             }
             if ("(  ) 9     -     ".equals(sin.getCelular())) {
                 fone = "";
