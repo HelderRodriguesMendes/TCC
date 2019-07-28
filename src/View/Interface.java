@@ -6,6 +6,7 @@
 package View;
 
 import DAO.Sindicalizado_DAO;
+import DAO.Util_DAO;
 import Model.Administrador_Entidade;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
@@ -37,10 +38,8 @@ public class Interface extends javax.swing.JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                         ObjButtons, ObjButtons[0]);
                 if (PromptResult == 0) {
-                    System.out.println("AQUII");
                     System.exit(0);
                 } else if (PromptResult == 1) {
-                    System.out.println("HELDER");
                 }
             }
         });
@@ -78,6 +77,7 @@ public class Interface extends javax.swing.JFrame {
 
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         DESKTOP = new javax.swing.JDesktopPane();
         BARRAMENU = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
@@ -91,11 +91,14 @@ public class Interface extends javax.swing.JFrame {
         MENU_EXCLUIR = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
 
         jMenu1.setText("jMenu1");
 
         jMenuItem3.setText("jMenuItem3");
+
+        jMenuItem6.setText("jMenuItem6");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -213,6 +216,14 @@ public class Interface extends javax.swing.JFrame {
         });
         MENU_EXCLUIR.add(jMenuItem5);
 
+        jMenuItem7.setText("Restaurar");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        MENU_EXCLUIR.add(jMenuItem7);
+
         BARRAMENU.add(MENU_EXCLUIR);
 
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/siraICO.png"))); // NOI18N
@@ -327,8 +338,16 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
-        sd.Acessar_Facebook();
+        Util_DAO ud = new Util_DAO();
+        ud.Acessar_Facebook();
     }//GEN-LAST:event_jMenu7MouseClicked
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        Restaurar r = new Restaurar();
+        DESKTOP.add(r);
+        r.setVisible(true);
+        r.setPosicao();
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -351,5 +370,7 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     // End of variables declaration//GEN-END:variables
 }

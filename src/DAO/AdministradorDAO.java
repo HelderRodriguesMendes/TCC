@@ -58,7 +58,7 @@ public class AdministradorDAO {
         con = Conexao_banco.conector();
 
         ArrayList<Administrador_Entidade> AD = new ArrayList();
-
+        
         try {
             pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where excluido = '0'");
             rs = pst.executeQuery();
@@ -70,10 +70,10 @@ public class AdministradorDAO {
                 ad.setNome(rs.getString("nome"));
                 ad.setCelular(rs.getString("telefone"));
                 ad.setLogin(rs.getString("login"));
-                if("(  )       -      ".equals(ad.getCelular())){
+                if ("(  )       -      ".equals(ad.getCelular())) {
                     ad.setCelular("");
                 }
-                
+
                 AD.add(ad);
             }
             con.close();
@@ -88,7 +88,7 @@ public class AdministradorDAO {
         con = Conexao_banco.conector();
 
         ArrayList<Administrador_Entidade> AD = new ArrayList();
-
+        
         try {
             pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where excluido = '0' and nome like ?");
             pst.setString(1, "%" + nome + "%");
@@ -212,6 +212,45 @@ public class AdministradorDAO {
         }
         return lo;
     }
+
+    public ArrayList<Administrador_Entidade> pesquisar_restaurar(String nome) {
+        con = Conexao_banco.conector();
+        
+        ArrayList<Administrador_Entidade> AD = new ArrayList();
+        
+        try {
+            pst = con.prepareStatement("select id_admin, nome, telefone from admin where excluido = '1' and nome like ?");
+            pst.setString(1, "%" + nome + "%");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Administrador_Entidade ad = new Administrador_Entidade();
+                ad.setId(rs.getInt("id_admin"));
+                ad.setNome(rs.getString("nome"));
+                ad.setCelular(rs.getString("telefone"));
+                AD.add(ad);
+            }
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao restaturar Administrador");
+            System.out.println(e);
+        }
+        return AD;
+    }
     
-    
+    public void restaurar(int id){
+        int a = 0;
+            con = Conexao_banco.conector();
+            
+            try {
+            pst = con.prepareStatement("update admin set excluido = ? where id_admin = ?");
+            pst.setInt(1, a);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Restautação realizada com sucesso");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao restaurar administrador");
+                System.out.println(e);
+        }
+    }
 }

@@ -5,6 +5,8 @@
  */
 package DAO;
 
+import java.awt.Desktop;
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,6 +40,14 @@ public class Util_DAO {
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao excluir os dados");
+            System.out.println(e);
+        }
+    }
+    public void Acessar_Facebook(){
+        try {
+            URI link = new URI("https://www.facebook.com/Sindicato-Rural-de-Aren%C3%B3polis-395277340679811/");
+            Desktop.getDesktop().browse(link);
+        } catch (Exception e) {
             System.out.println(e);
         }
     }

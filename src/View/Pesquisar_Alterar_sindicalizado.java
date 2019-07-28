@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -59,7 +60,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         }
 
         listar_Tabela();
-        maximizaTabela();
+
     }
 
     public void setPosicao() { // faz o formulario aparecer centralizado na tela
@@ -215,12 +216,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     }// </editor-fold>//GEN-END:initComponents
 
     private void BOTAO_PESQUISAR_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_ActionPerformed
-
-        if ("".equals(NOME.getText()) && "".equals(CPF.getText()) && "".equals(RG.getText())) {
-            listar_Tabela();
-        } else {
-            pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
-        }
+        pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
     }//GEN-LAST:event_BOTAO_PESQUISAR_ActionPerformed
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
@@ -285,7 +281,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     }//GEN-LAST:event_RGMouseClicked
 
     public void listar_Tabela() {
-        String leite;
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
 
@@ -294,83 +289,17 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         sd.listar_Tabela().forEach((sin) -> {
             String dn = Util.DATE_STRING(sin.getDataNasci());
             String de = Util.DATE_STRING(sin.getDataExpedicao());
-            String zona, secao, fone, incra, nirf;
-            if (sin.getZona() == 0) {
-                zona = "   ";
-            } else {
-                zona = String.valueOf(sin.getZona());
-            }
-            if (sin.getSecao() == 0) {
-                secao = "    ";
-            } else {
-                secao = String.valueOf(sin.getSecao());
-            }
-            if ("(  ) 9     -     ".equals(sin.getCelular())) {
-                fone = "";
-            } else {
-                fone = sin.getCelular();
-            }
-            if ("   .   .   .   - ".equals(sin.getCodINCRA())) {
-                incra = "";
-            } else {
-                incra = sin.getCelular();
-            }
-            if (" .   .   - ".equals(sin.getNIRF())) {
-                nirf = "";
-            } else {
-                nirf = sin.getCelular();
-            }
+
             dtma.addRow(new Object[]{
                 sin.getId(),
                 sin.getNome(),
                 dn,
-                fone,
-                sin.getNascionalidade(),
-                sin.getEstadoCivil(),
-                sin.getCpf(),
-                sin.getRg(),
-                de,
-                sin.getTituloEleito(),
-                zona,
-                secao,
-                sin.getReservista(),
-                sin.getCategoria(),
-                sin.getPai(),
-                sin.getMae(),
-                sin.getNomeFazenda(),
-                sin.getLogradouro(),
-                sin.getMuniciSede(),
-                incra,
-                nirf,
-                sin.getAreaPropri(),
-                sin.getTempoCompra(),
-                sin.getOutrasA(),
-                sin.getLogin(),
-                sin.getTiraLeite(),
-                sin.getResidenciaAtual()
-            });
-        });
-
-    }
-
-    public void pesquisar_Sind(String nome, String cpf, String rg) {
-        String leite;
-        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
-        dtma.setNumRows(0);
-
-        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-        sd.pesquisar_Sind(nome, cpf, rg).forEach((sin) -> {
-            dtma.addRow(new Object[]{
-                sin.getId(),
-                sin.getNome(),
-                sin.getDataNasci(),
                 sin.getCelular(),
                 sin.getNascionalidade(),
                 sin.getEstadoCivil(),
                 sin.getCpf(),
                 sin.getRg(),
-                sin.getDataExpedicao(),
+                de,
                 sin.getTituloEleito(),
                 sin.getZona(),
                 sin.getSecao(),
@@ -391,7 +320,256 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 sin.getResidenciaAtual()
             });
         });
-        if (!sd.sind) {
+
+    }
+
+    public void pesquisar_Sind(String nome, String cpf, String rg) {       
+        int a = 0;
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        if (!"".equals(nome) && !"".equals(cpf) && !"".equals(rg)) {
+            System.out.println("1");
+            a = 1;
+            sd.pesquisar_nome_cpf_rg(nome, cpf, rg).forEach((sin) -> {
+                dtma.addRow(new Object[]{
+                    sin.getId(),
+                    sin.getNome(),
+                    sin.getDataNasci(),
+                    sin.getCelular(),
+                    sin.getNascionalidade(),
+                    sin.getEstadoCivil(),
+                    sin.getCpf(),
+                    sin.getRg(),
+                    sin.getDataExpedicao(),
+                    sin.getTituloEleito(),
+                    sin.getZona(),
+                    sin.getSecao(),
+                    sin.getReservista(),
+                    sin.getCategoria(),
+                    sin.getPai(),
+                    sin.getMae(),
+                    sin.getNomeFazenda(),
+                    sin.getLogradouro(),
+                    sin.getMuniciSede(),
+                    sin.getCodINCRA(),
+                    sin.getNIRF(),
+                    sin.getAreaPropri(),
+                    sin.getTempoCompra(),
+                    sin.getOutrasA(),
+                    sin.getLogin(),
+                    sin.getTiraLeite(),
+                    sin.getResidenciaAtual()
+                });               
+            });
+        } else if (!"".equals(nome)) {
+            System.out.println("2");
+            a = 1;
+            if (!"".equals(cpf)) {
+                sd.pesquisar_nome_cpf(nome, cpf).forEach((sin) -> {
+                    dtma.addRow(new Object[]{
+                        sin.getId(),
+                        sin.getNome(),
+                        sin.getDataNasci(),
+                        sin.getCelular(),
+                        sin.getNascionalidade(),
+                        sin.getEstadoCivil(),
+                        sin.getCpf(),
+                        sin.getRg(),
+                        sin.getDataExpedicao(),
+                        sin.getTituloEleito(),
+                        sin.getZona(),
+                        sin.getSecao(),
+                        sin.getReservista(),
+                        sin.getCategoria(),
+                        sin.getPai(),
+                        sin.getMae(),
+                        sin.getNomeFazenda(),
+                        sin.getLogradouro(),
+                        sin.getMuniciSede(),
+                        sin.getCodINCRA(),
+                        sin.getNIRF(),
+                        sin.getAreaPropri(),
+                        sin.getTempoCompra(),
+                        sin.getOutrasA(),
+                        sin.getLogin(),
+                        sin.getTiraLeite(),
+                        sin.getResidenciaAtual()
+                    });
+                });
+            } else if (!"".equals(rg)) {
+                sd.pesquisar_nome_rg(nome, rg).forEach((sin) -> {
+                    dtma.addRow(new Object[]{
+                        sin.getId(),
+                        sin.getNome(),
+                        sin.getDataNasci(),
+                        sin.getCelular(),
+                        sin.getNascionalidade(),
+                        sin.getEstadoCivil(),
+                        sin.getCpf(),
+                        sin.getRg(),
+                        sin.getDataExpedicao(),
+                        sin.getTituloEleito(),
+                        sin.getZona(),
+                        sin.getSecao(),
+                        sin.getReservista(),
+                        sin.getCategoria(),
+                        sin.getPai(),
+                        sin.getMae(),
+                        sin.getNomeFazenda(),
+                        sin.getLogradouro(),
+                        sin.getMuniciSede(),
+                        sin.getCodINCRA(),
+                        sin.getNIRF(),
+                        sin.getAreaPropri(),
+                        sin.getTempoCompra(),
+                        sin.getOutrasA(),
+                        sin.getLogin(),
+                        sin.getTiraLeite(),
+                        sin.getResidenciaAtual()
+                    });
+                });
+            } else {
+                System.out.println("100");
+                sd.pesquisar_nome(nome).forEach((sin) -> {
+                    System.out.println("volto");
+                    dtma.addRow(new Object[]{
+                        sin.getId(),
+                        sin.getNome(),
+                        sin.getDataNasci(),
+                        sin.getCelular(),
+                        sin.getNascionalidade(),
+                        sin.getEstadoCivil(),
+                        sin.getCpf(),
+                        sin.getRg(),
+                        sin.getDataExpedicao(),
+                        sin.getTituloEleito(),
+                        sin.getZona(),
+                        sin.getSecao(),
+                        sin.getReservista(),
+                        sin.getCategoria(),
+                        sin.getPai(),
+                        sin.getMae(),
+                        sin.getNomeFazenda(),
+                        sin.getLogradouro(),
+                        sin.getMuniciSede(),
+                        sin.getCodINCRA(),
+                        sin.getNIRF(),
+                        sin.getAreaPropri(),
+                        sin.getTempoCompra(),
+                        sin.getOutrasA(),
+                        sin.getLogin(),
+                        sin.getTiraLeite(),
+                        sin.getResidenciaAtual()
+                    });
+                });
+            }
+        } else if (!"".equals(cpf)) {
+            System.out.println("3");
+            a = 1;
+            if (!"".equals(rg)) {
+                sd.pesquisar_cpf_rg(cpf, rg).forEach((sin) -> {
+                    dtma.addRow(new Object[]{
+                        sin.getId(),
+                        sin.getNome(),
+                        sin.getDataNasci(),
+                        sin.getCelular(),
+                        sin.getNascionalidade(),
+                        sin.getEstadoCivil(),
+                        sin.getCpf(),
+                        sin.getRg(),
+                        sin.getDataExpedicao(),
+                        sin.getTituloEleito(),
+                        sin.getZona(),
+                        sin.getSecao(),
+                        sin.getReservista(),
+                        sin.getCategoria(),
+                        sin.getPai(),
+                        sin.getMae(),
+                        sin.getNomeFazenda(),
+                        sin.getLogradouro(),
+                        sin.getMuniciSede(),
+                        sin.getCodINCRA(),
+                        sin.getNIRF(),
+                        sin.getAreaPropri(),
+                        sin.getTempoCompra(),
+                        sin.getOutrasA(),
+                        sin.getLogin(),
+                        sin.getTiraLeite(),
+                        sin.getResidenciaAtual()
+                    });
+                });
+            } else {
+                sd.pesquisar_cpf(cpf).forEach((sin) -> {
+                    dtma.addRow(new Object[]{
+                        sin.getId(),
+                        sin.getNome(),
+                        sin.getDataNasci(),
+                        sin.getCelular(),
+                        sin.getNascionalidade(),
+                        sin.getEstadoCivil(),
+                        sin.getCpf(),
+                        sin.getRg(),
+                        sin.getDataExpedicao(),
+                        sin.getTituloEleito(),
+                        sin.getZona(),
+                        sin.getSecao(),
+                        sin.getReservista(),
+                        sin.getCategoria(),
+                        sin.getPai(),
+                        sin.getMae(),
+                        sin.getNomeFazenda(),
+                        sin.getLogradouro(),
+                        sin.getMuniciSede(),
+                        sin.getCodINCRA(),
+                        sin.getNIRF(),
+                        sin.getAreaPropri(),
+                        sin.getTempoCompra(),
+                        sin.getOutrasA(),
+                        sin.getLogin(),
+                        sin.getTiraLeite(),
+                        sin.getResidenciaAtual()
+                    });
+                });
+            }
+        } else if (!"".equals(rg)) {
+            System.out.println("4");
+            a = 1;
+            sd.pesquisar_rg(rg).forEach((sin) -> {
+                dtma.addRow(new Object[]{
+                    sin.getId(),
+                    sin.getNome(),
+                    sin.getDataNasci(),
+                    sin.getCelular(),
+                    sin.getNascionalidade(),
+                    sin.getEstadoCivil(),
+                    sin.getCpf(),
+                    sin.getRg(),
+                    sin.getDataExpedicao(),
+                    sin.getTituloEleito(),
+                    sin.getZona(),
+                    sin.getSecao(),
+                    sin.getReservista(),
+                    sin.getCategoria(),
+                    sin.getPai(),
+                    sin.getMae(),
+                    sin.getNomeFazenda(),
+                    sin.getLogradouro(),
+                    sin.getMuniciSede(),
+                    sin.getCodINCRA(),
+                    sin.getNIRF(),
+                    sin.getAreaPropri(),
+                    sin.getTempoCompra(),
+                    sin.getOutrasA(),
+                    sin.getLogin(),
+                    sin.getTiraLeite(),
+                    sin.getResidenciaAtual()
+                });
+            });
+        } else if (a == 0) {
+            System.out.println("5");
             listar_Tabela();
         }
 
@@ -656,20 +834,10 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             filtro.put("id", ID); // o "id" é o id que criei como parametro la no select do Ireport
             JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\Associado.jasper", filtro, conexao);
             JasperViewer.viewReport(print, false);
-        } catch (Exception e) {
+        } catch (JRException e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório");
             System.out.println(e);
         }
-    }
-
-    public void maximizaTabela() {
-        int largura = this.getWidth();
-        int altura = this.getHeight();
-        altura -= 5;
-        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        System.out.println("largura " + largura);
-        System.out.println("altura " + altura);
-        TABELA.setSize(largura, altura);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

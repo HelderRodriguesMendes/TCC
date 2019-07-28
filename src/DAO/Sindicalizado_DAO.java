@@ -7,8 +7,6 @@ package DAO;
 
 import Controller.Sindicalizado;
 import Model.Sindicalizado_Entidade;
-import java.awt.Desktop;
-import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +21,10 @@ public class Sindicalizado_DAO {
     Connection con;
     boolean login = true;
     int id = 0, dia = 0, mes = 0;
-    public boolean sind = true, niver = true;
+    public boolean niver = true;
+
+    
+    Sindicalizado_Entidade se = new Sindicalizado_Entidade();
 
     public boolean SALVAR(Sindicalizado_Entidade se) {
         login = verificar_login(se);
@@ -80,9 +81,9 @@ public class Sindicalizado_DAO {
 
     public ArrayList<Sindicalizado_Entidade> listar_Tabela() {
         con = Conexao_banco.conector();
-
+        
         ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();
-
+        
         try {
             pst = con.prepareStatement("select * from sindicalizado where excluido = '0'");
             rs = pst.executeQuery();
@@ -129,55 +130,16 @@ public class Sindicalizado_DAO {
         }
         return SIND;
     }
-
-    public ArrayList<Sindicalizado_Entidade> pesquisar_Sind(String nome, String cpf, String rg) {
+    
+    public ArrayList<Sindicalizado_Entidade> pesquisar_nome(String nome) {
         con = Conexao_banco.conector();
-
+        
         ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();
-
+        
         try {
-            if (!"".equals(nome) && !"".equals(cpf)) {
-                if (!"".equals(rg)) {
-                    pst = con.prepareStatement("select * from sindicalizado where nome like ? and cpf like ? and rg like ? and excluido = '0'");
-                    pst.setString(1, "%" + nome + "%");
-                    pst.setString(2, "%" + cpf + "%");
-                    pst.setString(3, "%" + rg + "%");
-                    rs = pst.executeQuery();
-                } else {
-                    pst = con.prepareStatement("select * from sindicalizado where nome like ? and cpf like ?");
-                    pst.setString(1, "%" + nome + "%");
-                    pst.setString(2, "%" + cpf + "%");
-                    rs = pst.executeQuery();
-                }
-            } else if (!"".equals(nome) && !"".equals(rg)) {
-                pst = con.prepareStatement("select * from sindicalizado where nome like ? and rg like ?");
-                pst.setString(1, "%" + nome + "%");
-                pst.setString(2, "%" + rg + "%");
-                rs = pst.executeQuery();
-            } else if (!"".equals(rg) && !"".equals(cpf)) {
-                pst = con.prepareStatement("select * from sindicalizado where cpf like ? and rg like ?");
-                pst.setString(1, "%" + cpf + "%");
-                pst.setString(2, "%" + rg + "%");
-                rs = pst.executeQuery();
-            } else if (!"".equals(nome)) {
-                System.out.println("nome aqui: " + nome);
-                pst = con.prepareStatement("select * from sindicalizado where nome like ?");
-                pst.setString(1, "%" + nome + "%");
-                rs = pst.executeQuery();
-            } else if (!"".equals(cpf)) {
-                pst = con.prepareStatement("select * from sindicalizado where cpf like ?");
-                pst.setString(1, "%" + cpf + "%");
-                rs = pst.executeQuery();
-            } else {
-                pst = con.prepareStatement("select * from sindicalizado where rg like ? ");
-                pst.setString(1, "%" + rg + "%");
-                rs = pst.executeQuery();
-            }
-
-            if (!rs.next()) {
-                JOptionPane.showMessageDialog(null, "Dados não encontrados no sistema", "Atençãoo", JOptionPane.ERROR_MESSAGE);
-                sind = false;
-            }
+            pst = con.prepareStatement("select * from sindicalizado where excluido = '0' and nome like ?");
+            pst.setString(1, "%" + nome + "%");
+            rs = pst.executeQuery();
 
             while (rs.next()) {
                 Sindicalizado_Entidade si = new Sindicalizado_Entidade();
@@ -214,9 +176,336 @@ public class Sindicalizado_DAO {
 
                 SIND.add(si);
             }
-            if (rs == null) {
-                JOptionPane.showMessageDialog(null, "Sindicalizado não encontrado", "Informação", JOptionPane.WARNING_MESSAGE);
+            
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao listar dados na tabela", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+        }
+        return SIND;
+    }
+    
+    public ArrayList<Sindicalizado_Entidade> pesquisar_cpf(String cpf) {
+        con = Conexao_banco.conector();
+        
+        ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();
+        
+        try {
+            pst = con.prepareStatement("select * from sindicalizado where excluido = '0' and cpf like ?");
+            pst.setString(1, "%" + cpf + "%");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Sindicalizado_Entidade si = new Sindicalizado_Entidade();
+
+                si.setId(rs.getInt("id_sindicalizado"));
+                si.setNome(rs.getString("nome"));
+                java.util.Date DATA_U = rs.getDate("dataNasci");
+                si.setDataNasci(DATA_U);
+                si.setCelular(rs.getString("celular"));
+                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setEstadoCivil(rs.getString("estadoCivil"));
+                si.setCpf(rs.getString("cpf"));
+                si.setRg(rs.getString("rg"));
+                java.util.Date data_EX = rs.getDate("dataExpedi");
+                si.setDataExpedicao(data_EX);
+                si.setTituloEleito(rs.getString("tituloEleito"));
+                si.setZona(rs.getInt("zona"));
+                si.setSecao(rs.getInt("secao"));
+                si.setReservista(rs.getString("reservista"));
+                si.setCategoria(rs.getString("categoria"));
+                si.setPai(rs.getString("pai"));
+                si.setMae(rs.getString("mae"));
+                si.setNomeFazenda(rs.getString("nomeFazenda"));
+                si.setLogradouro(rs.getString("logradouro"));
+                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setCodINCRA(rs.getString("codigoINCRA"));
+                si.setTiraLeite(rs.getString("tiraLeite"));
+                si.setNIRF(rs.getString("NIRF"));
+                si.setAreaPropri(rs.getString("areaPropriedade"));
+                si.setTempoCompra(rs.getString("tempoCompraPropriedade"));
+                si.setOutrasA(rs.getString("outrasAtividade"));
+                si.setResidenciaAtual(rs.getString("residenciaAtual"));
+                si.setLogin(rs.getString("login"));
+
+                SIND.add(si);
             }
+            
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao listar dados na tabela", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+        }
+        return SIND;
+    }
+    
+   public ArrayList<Sindicalizado_Entidade> pesquisar_nome_cpf_rg(String nome, String cpf, String rg) {
+        con = Conexao_banco.conector();
+        
+        ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();
+        
+        try {
+            pst = con.prepareStatement("select * from sindicalizado where excluido = '0' and nome like ? and cpf like ? and rg like ?");
+            pst.setString(1, "%" + nome + "%");
+            pst.setString(2, "%" + cpf + "%");
+            pst.setString(3, "%" + rg + "%");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Sindicalizado_Entidade si = new Sindicalizado_Entidade();
+
+                si.setId(rs.getInt("id_sindicalizado"));
+                si.setNome(rs.getString("nome"));
+                java.util.Date DATA_U = rs.getDate("dataNasci");
+                si.setDataNasci(DATA_U);
+                si.setCelular(rs.getString("celular"));
+                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setEstadoCivil(rs.getString("estadoCivil"));
+                si.setCpf(rs.getString("cpf"));
+                si.setRg(rs.getString("rg"));
+                java.util.Date data_EX = rs.getDate("dataExpedi");
+                si.setDataExpedicao(data_EX);
+                si.setTituloEleito(rs.getString("tituloEleito"));
+                si.setZona(rs.getInt("zona"));
+                si.setSecao(rs.getInt("secao"));
+                si.setReservista(rs.getString("reservista"));
+                si.setCategoria(rs.getString("categoria"));
+                si.setPai(rs.getString("pai"));
+                si.setMae(rs.getString("mae"));
+                si.setNomeFazenda(rs.getString("nomeFazenda"));
+                si.setLogradouro(rs.getString("logradouro"));
+                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setCodINCRA(rs.getString("codigoINCRA"));
+                si.setTiraLeite(rs.getString("tiraLeite"));
+                si.setNIRF(rs.getString("NIRF"));
+                si.setAreaPropri(rs.getString("areaPropriedade"));
+                si.setTempoCompra(rs.getString("tempoCompraPropriedade"));
+                si.setOutrasA(rs.getString("outrasAtividade"));
+                si.setResidenciaAtual(rs.getString("residenciaAtual"));
+                si.setLogin(rs.getString("login"));
+
+                SIND.add(si);
+            }
+            
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao listar dados na tabela", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+        }
+        return SIND;
+    } 
+    
+    public ArrayList<Sindicalizado_Entidade> pesquisar_nome_cpf(String nome, String cpf) {
+        System.out.println("aqii");
+        con = Conexao_banco.conector();
+
+        ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();
+        
+        try {
+            pst = con.prepareStatement("select * from sindicalizado where excluido = '0' and nome like ? and cpf like ?");
+            System.out.println("helde");
+            pst.setString(1, "%" + nome + "%");
+            pst.setString(2, "%" + cpf + "%");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Sindicalizado_Entidade si = new Sindicalizado_Entidade();
+
+                si.setId(rs.getInt("id_sindicalizado"));
+                si.setNome(rs.getString("nome"));
+                java.util.Date DATA_U = rs.getDate("dataNasci");
+                si.setDataNasci(DATA_U);
+                si.setCelular(rs.getString("celular"));
+                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setEstadoCivil(rs.getString("estadoCivil"));
+                si.setCpf(rs.getString("cpf"));
+                si.setRg(rs.getString("rg"));
+                java.util.Date data_EX = rs.getDate("dataExpedi");
+                si.setDataExpedicao(data_EX);
+                si.setTituloEleito(rs.getString("tituloEleito"));
+                si.setZona(rs.getInt("zona"));
+                si.setSecao(rs.getInt("secao"));
+                si.setReservista(rs.getString("reservista"));
+                si.setCategoria(rs.getString("categoria"));
+                si.setPai(rs.getString("pai"));
+                si.setMae(rs.getString("mae"));
+                si.setNomeFazenda(rs.getString("nomeFazenda"));
+                si.setLogradouro(rs.getString("logradouro"));
+                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setCodINCRA(rs.getString("codigoINCRA"));
+                si.setTiraLeite(rs.getString("tiraLeite"));
+                si.setNIRF(rs.getString("NIRF"));
+                si.setAreaPropri(rs.getString("areaPropriedade"));
+                si.setTempoCompra(rs.getString("tempoCompraPropriedade"));
+                si.setOutrasA(rs.getString("outrasAtividade"));
+                si.setResidenciaAtual(rs.getString("residenciaAtual"));
+                si.setLogin(rs.getString("login"));
+
+                SIND.add(si);
+            }
+            
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao listar dados na tabela", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+        }
+        return SIND;
+    }
+    public ArrayList<Sindicalizado_Entidade> pesquisar_nome_rg(String nome, String rg) {
+        con = Conexao_banco.conector();
+
+        ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();
+        
+        try {
+            pst = con.prepareStatement("select * from sindicalizado where excluido = '0' and nome like ? and rg like ?");
+            pst.setString(1, "%" + nome + "%");
+            pst.setString(2, "%" + rg + "%");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Sindicalizado_Entidade si = new Sindicalizado_Entidade();
+
+                si.setId(rs.getInt("id_sindicalizado"));
+                si.setNome(rs.getString("nome"));
+                java.util.Date DATA_U = rs.getDate("dataNasci");
+                si.setDataNasci(DATA_U);
+                si.setCelular(rs.getString("celular"));
+                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setEstadoCivil(rs.getString("estadoCivil"));
+                si.setCpf(rs.getString("cpf"));
+                si.setRg(rs.getString("rg"));
+                java.util.Date data_EX = rs.getDate("dataExpedi");
+                si.setDataExpedicao(data_EX);
+                si.setTituloEleito(rs.getString("tituloEleito"));
+                si.setZona(rs.getInt("zona"));
+                si.setSecao(rs.getInt("secao"));
+                si.setReservista(rs.getString("reservista"));
+                si.setCategoria(rs.getString("categoria"));
+                si.setPai(rs.getString("pai"));
+                si.setMae(rs.getString("mae"));
+                si.setNomeFazenda(rs.getString("nomeFazenda"));
+                si.setLogradouro(rs.getString("logradouro"));
+                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setCodINCRA(rs.getString("codigoINCRA"));
+                si.setTiraLeite(rs.getString("tiraLeite"));
+                si.setNIRF(rs.getString("NIRF"));
+                si.setAreaPropri(rs.getString("areaPropriedade"));
+                si.setTempoCompra(rs.getString("tempoCompraPropriedade"));
+                si.setOutrasA(rs.getString("outrasAtividade"));
+                si.setResidenciaAtual(rs.getString("residenciaAtual"));
+                si.setLogin(rs.getString("login"));
+
+                SIND.add(si);
+            }
+            
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao listar dados na tabela", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+        }
+        return SIND;
+    }
+    public ArrayList<Sindicalizado_Entidade> pesquisar_cpf_rg(String cpf, String rg) {
+        con = Conexao_banco.conector();
+
+        ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();
+        
+        try {
+            pst = con.prepareStatement("select * from sindicalizado where excluido = '0' and cpf like ? and rg like ?");
+            pst.setString(1, "%" + cpf + "%");
+            pst.setString(2, "%" + rg + "%");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Sindicalizado_Entidade si = new Sindicalizado_Entidade();
+
+                si.setId(rs.getInt("id_sindicalizado"));
+                si.setNome(rs.getString("nome"));
+                java.util.Date DATA_U = rs.getDate("dataNasci");
+                si.setDataNasci(DATA_U);
+                si.setCelular(rs.getString("celular"));
+                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setEstadoCivil(rs.getString("estadoCivil"));
+                si.setCpf(rs.getString("cpf"));
+                si.setRg(rs.getString("rg"));
+                java.util.Date data_EX = rs.getDate("dataExpedi");
+                si.setDataExpedicao(data_EX);
+                si.setTituloEleito(rs.getString("tituloEleito"));
+                si.setZona(rs.getInt("zona"));
+                si.setSecao(rs.getInt("secao"));
+                si.setReservista(rs.getString("reservista"));
+                si.setCategoria(rs.getString("categoria"));
+                si.setPai(rs.getString("pai"));
+                si.setMae(rs.getString("mae"));
+                si.setNomeFazenda(rs.getString("nomeFazenda"));
+                si.setLogradouro(rs.getString("logradouro"));
+                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setCodINCRA(rs.getString("codigoINCRA"));
+                si.setTiraLeite(rs.getString("tiraLeite"));
+                si.setNIRF(rs.getString("NIRF"));
+                si.setAreaPropri(rs.getString("areaPropriedade"));
+                si.setTempoCompra(rs.getString("tempoCompraPropriedade"));
+                si.setOutrasA(rs.getString("outrasAtividade"));
+                si.setResidenciaAtual(rs.getString("residenciaAtual"));
+                si.setLogin(rs.getString("login"));
+
+                SIND.add(si);
+            }
+            
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao listar dados na tabela", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+        }
+        return SIND;
+    }
+    
+    public ArrayList<Sindicalizado_Entidade> pesquisar_rg(String rg) {
+        con = Conexao_banco.conector();
+
+        ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();
+        
+        try {
+            pst = con.prepareStatement("select * from sindicalizado where excluido = '0' and rg like ?");
+            pst.setString(1, "%" + rg + "%");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Sindicalizado_Entidade si = new Sindicalizado_Entidade();
+
+                si.setId(rs.getInt("id_sindicalizado"));
+                si.setNome(rs.getString("nome"));
+                java.util.Date DATA_U = rs.getDate("dataNasci");
+                si.setDataNasci(DATA_U);
+                si.setCelular(rs.getString("celular"));
+                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setEstadoCivil(rs.getString("estadoCivil"));
+                si.setCpf(rs.getString("cpf"));
+                si.setRg(rs.getString("rg"));
+                java.util.Date data_EX = rs.getDate("dataExpedi");
+                si.setDataExpedicao(data_EX);
+                si.setTituloEleito(rs.getString("tituloEleito"));
+                si.setZona(rs.getInt("zona"));
+                si.setSecao(rs.getInt("secao"));
+                si.setReservista(rs.getString("reservista"));
+                si.setCategoria(rs.getString("categoria"));
+                si.setPai(rs.getString("pai"));
+                si.setMae(rs.getString("mae"));
+                si.setNomeFazenda(rs.getString("nomeFazenda"));
+                si.setLogradouro(rs.getString("logradouro"));
+                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setCodINCRA(rs.getString("codigoINCRA"));
+                si.setTiraLeite(rs.getString("tiraLeite"));
+                si.setNIRF(rs.getString("NIRF"));
+                si.setAreaPropri(rs.getString("areaPropriedade"));
+                si.setTempoCompra(rs.getString("tempoCompraPropriedade"));
+                si.setOutrasA(rs.getString("outrasAtividade"));
+                si.setResidenciaAtual(rs.getString("residenciaAtual"));
+                si.setLogin(rs.getString("login"));
+
+                SIND.add(si);
+            }
+            
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao listar dados na tabela", JOptionPane.ERROR_MESSAGE);
@@ -431,8 +720,6 @@ public class Sindicalizado_DAO {
 
     public void niver() {
         con = Conexao_banco.conector();
-        Sindicalizado_Entidade se = new Sindicalizado_Entidade();
-
         Sindicalizado si = new Sindicalizado();
         si.aniversario(se, false);
         dia = si.DIA_Atual;
@@ -449,7 +736,7 @@ public class Sindicalizado_DAO {
                 se.setDataNasci(DATA_U);
                 se.setCelular(rs.getString("celular"));
                 int idade = si.aniversario(se, true);
-                if("(  ) 9     -     ".equals(se.getCelular())){
+                if ("(  ) 9     -     ".equals(se.getCelular())) {
                     se.setCelular("");
                 }
                 JOptionPane.showMessageDialog(null, "Os sindicalizados aniversariantes de hoje são:" + "\n" + se.getNome() + "\n" + "Telefone: " + se.getCelular() + "\n" + "Idade: " + idade);
@@ -458,13 +745,45 @@ public class Sindicalizado_DAO {
         } catch (Exception e) {
         }
     }
-    
-    public void Acessar_Facebook(){
+
+    public ArrayList<Sindicalizado_Entidade> pesquisar_restaurar(String nome) {
+        con = Conexao_banco.conector();
+
+        ArrayList<Sindicalizado_Entidade> SIND = new ArrayList<>();
+        
         try {
-            URI link = new URI("https://www.facebook.com/Sindicato-Rural-de-Aren%C3%B3polis-395277340679811/");
-            Desktop.getDesktop().browse(link);
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, rg, cpf from sindicalizado where excluido = '1'  and nome like ?");
+            pst.setString(1, "%" + nome + "%");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Sindicalizado_Entidade si = new Sindicalizado_Entidade();
+                si.setId(rs.getInt("id_sindicalizado"));
+                si.setNome(rs.getString("nome"));
+                si.setCelular(rs.getString("celular"));
+                si.setCpf(rs.getString("cpf"));
+                si.setRg(rs.getString("rg"));
+                SIND.add(si);
+            }
+            con.close();
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao restaturar sindicalizado");
             System.out.println(e);
+        }
+        return SIND;
+    }
+    public void restaurar(int id){
+        int a = 0;
+            con = Conexao_banco.conector();
+            
+            try {
+            pst = con.prepareStatement("update sindicalizado set excluido = ? where id_sindicalizado = ?");
+            pst.setInt(1, a);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Restautação realizada com sucesso");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao restaurar sindicalizado");
+                System.out.println(e);
         }
     }
 }

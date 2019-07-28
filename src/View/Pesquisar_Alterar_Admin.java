@@ -197,12 +197,12 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        ad.Pesquisar_Nome(nome).forEach((adm) -> {
+        ad.Pesquisar_Nome(nome).forEach((admi) -> {
             dtma.addRow(new Object[]{
-                adm.getId(),
-                adm.getNome(),
-                adm.getCelular(),
-                adm.getLogin()
+                admi.getId(),
+                admi.getNome(),
+                admi.getCelular(),
+                admi.getLogin()
             });
         });
     }

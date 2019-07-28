@@ -365,7 +365,7 @@ public abstract class Cadastrar_Sindi extends javax.swing.JInternalFrame impleme
 
     }
 
-    public void validaNumerosLetras() {
+    public final void validaNumerosLetras() {
         Util.soLetras(NOME);
         Util.soNumeros(RG);
         Util.soLetras(NASCIONALIDADE);
