@@ -6,6 +6,7 @@
 package View;
 
 import Controller.Login;
+import Controller.Util;
 import DAO.AdministradorDAO;
 import DAO.Util_DAO;
 import Model.Administrador_Entidade;
@@ -24,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
-    int cont = 0, con = 0;
+    int cont = 0, con = 0, ID = 0;
     Administrador_Entidade adm = new Administrador_Entidade();
     AdministradorDAO ad = new AdministradorDAO();
     Login lo = new Login();
@@ -165,7 +166,9 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (!"".equals(NOME.getText())) {
+            ID = 0;
             Pesquisar_Nome(NOME.getText());
+            Util.selectNull(ID);
         } else {
             LISTAR_TABELA();
         }
@@ -180,6 +183,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         ad.Listar_Tabela().forEach((admin) -> {
+            
             dtma.addRow(new Object[]{
                 admin.getId(),
                 admin.getNome(),
@@ -198,6 +202,8 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         ad.Pesquisar_Nome(nome).forEach((admi) -> {
+            ID = admi.getId();
+            System.out.println("ID: " + ID);
             dtma.addRow(new Object[]{
                 admi.getId(),
                 admi.getNome(),
@@ -223,6 +229,8 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
     public void Limpar_campus() {
         NOME.setText("");
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField NOME;

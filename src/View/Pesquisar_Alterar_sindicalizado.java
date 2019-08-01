@@ -39,7 +39,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     Sindicalizado si = new Sindicalizado();
     Connection conexao = null;
 
-    int cont = 0, con = 0, id = 0, idade;
+    int cont = 0, con = 0, id = 0, idade, ID = 0;
     boolean niver, ok;
     public boolean excluir = false;
 
@@ -216,7 +216,13 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     }// </editor-fold>//GEN-END:initComponents
 
     private void BOTAO_PESQUISAR_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_ActionPerformed
-        pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
+        if ("".equals(NOME.getText()) && "".equals(CPF.getText()) && "".equals(RG.getText())) {
+            listar_Tabela();
+        } else {
+            ID = 0;
+            pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
+            Util.selectNull(ID);
+        }
     }//GEN-LAST:event_BOTAO_PESQUISAR_ActionPerformed
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
@@ -323,7 +329,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     }
 
-    public void pesquisar_Sind(String nome, String cpf, String rg) {       
+    public void pesquisar_Sind(String nome, String cpf, String rg) {
         int a = 0;
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
@@ -334,6 +340,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             System.out.println("1");
             a = 1;
             sd.pesquisar_nome_cpf_rg(nome, cpf, rg).forEach((sin) -> {
+                ID = sin.getId();
                 dtma.addRow(new Object[]{
                     sin.getId(),
                     sin.getNome(),
@@ -362,13 +369,14 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     sin.getLogin(),
                     sin.getTiraLeite(),
                     sin.getResidenciaAtual()
-                });               
+                });
             });
         } else if (!"".equals(nome)) {
             System.out.println("2");
             a = 1;
             if (!"".equals(cpf)) {
                 sd.pesquisar_nome_cpf(nome, cpf).forEach((sin) -> {
+                    ID = sin.getId();
                     dtma.addRow(new Object[]{
                         sin.getId(),
                         sin.getNome(),
@@ -401,6 +409,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 });
             } else if (!"".equals(rg)) {
                 sd.pesquisar_nome_rg(nome, rg).forEach((sin) -> {
+                    ID = sin.getId();
                     dtma.addRow(new Object[]{
                         sin.getId(),
                         sin.getNome(),
@@ -434,7 +443,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             } else {
                 System.out.println("100");
                 sd.pesquisar_nome(nome).forEach((sin) -> {
-                    System.out.println("volto");
+                    ID = sin.getId();
                     dtma.addRow(new Object[]{
                         sin.getId(),
                         sin.getNome(),
@@ -466,11 +475,11 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     });
                 });
             }
-        } else if (!"".equals(cpf)) {
-            System.out.println("3");
+        } else if (!"".equals(cpf)) {            
             a = 1;
             if (!"".equals(rg)) {
                 sd.pesquisar_cpf_rg(cpf, rg).forEach((sin) -> {
+                    ID = sin.getId();
                     dtma.addRow(new Object[]{
                         sin.getId(),
                         sin.getNome(),
@@ -503,6 +512,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 });
             } else {
                 sd.pesquisar_cpf(cpf).forEach((sin) -> {
+                    ID = sin.getId();
                     dtma.addRow(new Object[]{
                         sin.getId(),
                         sin.getNome(),
@@ -534,10 +544,10 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     });
                 });
             }
-        } else if (!"".equals(rg)) {
-            System.out.println("4");
+        } else if (!"".equals(rg)) {            
             a = 1;
             sd.pesquisar_rg(rg).forEach((sin) -> {
+                ID = sin.getId();
                 dtma.addRow(new Object[]{
                     sin.getId(),
                     sin.getNome(),
@@ -569,7 +579,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 });
             });
         } else if (a == 0) {
-            System.out.println("5");
             listar_Tabela();
         }
 

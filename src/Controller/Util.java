@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -116,5 +117,11 @@ public abstract class Util {
                 }
             }
         });
+    }
+    
+    public static void selectNull( int id){
+        if(id == 0 || id < 0){
+            JOptionPane.showMessageDialog(null, "Administrador não esta cadastrado");
+        }
     }
 }
