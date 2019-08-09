@@ -2,7 +2,7 @@
 package View;
 
 import Controller.Login;
-import DAO.LoginDAO;
+import DAO.AdministradorDAO;
 import Model.Administrador_Entidade;
 import Model.Sindicalizado_Entidade;
 import com.sun.glass.events.KeyEvent;
@@ -21,7 +21,7 @@ public class Tela_Login extends javax.swing.JFrame {
     boolean adm;
     Administrador_Entidade ad = new Administrador_Entidade();
     Sindicalizado_Entidade si = new Sindicalizado_Entidade();
-    LoginDAO ld = new LoginDAO();
+    AdministradorDAO ld = new AdministradorDAO();
 
     public Tela_Login() {
         initComponents();
@@ -202,7 +202,7 @@ public class Tela_Login extends javax.swing.JFrame {
     public void abrirInterface(Administrador_Entidade ad) {
         Interface in = new Interface();
         in.setVisible(true);
-        in.bloquiarMenus(ad);
+        in.ID = ad.getId();
         in.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         in.show();
         this.dispose();
@@ -212,7 +212,7 @@ public class Tela_Login extends javax.swing.JFrame {
         try {
             /* Create and display the form */
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException  ex) {
             Logger.getLogger(Tela_Login.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
             Logger.getLogger(Tela_Login.class.getName()).log(Level.SEVERE, null, ex);

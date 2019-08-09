@@ -23,7 +23,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Interface extends javax.swing.JFrame {
 
-    int ID = 0;
+    public int ID = 0;
     Sindicalizado_DAO sd = new Sindicalizado_DAO();
 
     public Interface() {
@@ -38,8 +38,7 @@ public class Interface extends javax.swing.JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                         ObjButtons, ObjButtons[0]);
                 if (PromptResult == 0) {
-                    System.exit(0);
-                } else if (PromptResult == 1) {
+                    retornarLogin();
                 }
             }
         });
@@ -60,15 +59,10 @@ public class Interface extends javax.swing.JFrame {
 
     }
 
-    public void bloquiarMenus(Administrador_Entidade a) {
-        ID = a.getId();
-        if ("Administrador".equals(a.getTipo_usuario())) {
-            MENU_PESQUISAR.setVisible(false);
-        } else {
-            MENU_SALVAR.setVisible(false);
-            MENU_PE.setVisible(false);
-            MENU_EXCLUIR.setVisible(false);
-        }
+    public void retornarLogin() {
+        Tela_Login tl = new Tela_Login();
+        tl.setVisible(true);
+        this.dispose();
     }
 
     @SuppressWarnings("unchecked")
@@ -87,7 +81,6 @@ public class Interface extends javax.swing.JFrame {
         MENU_PE = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        MENU_PESQUISAR = new javax.swing.JMenu();
         MENU_EXCLUIR = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -100,7 +93,7 @@ public class Interface extends javax.swing.JFrame {
 
         jMenuItem6.setText("jMenuItem6");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         DESKTOP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -195,9 +188,6 @@ public class Interface extends javax.swing.JFrame {
 
         BARRAMENU.add(MENU_PE);
 
-        MENU_PESQUISAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/PESQUISAR (2).png"))); // NOI18N
-        BARRAMENU.add(MENU_PESQUISAR);
-
         MENU_EXCLUIR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ESCLUIR 2.png"))); // NOI18N
 
         jMenuItem4.setText("Administrador");
@@ -272,11 +262,12 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_MENU_SALVARMouseEntered
 
     private void MENU_CAD_SINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_SINDActionPerformed
-        Cadastrar_Sindi cs = new Cadastrar_Sindi() {
-
+        Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {
         };
+        String a = "save";
         DESKTOP.add(cs);
         cs.setVisible(true);
+        //cs.imagemIcon(a);
         cs.setPosicao();
     }//GEN-LAST:event_MENU_CAD_SINDActionPerformed
 
@@ -360,7 +351,6 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenuItem MENU_CAD_USU;
     private javax.swing.JMenu MENU_EXCLUIR;
     private javax.swing.JMenu MENU_PE;
-    private javax.swing.JMenu MENU_PESQUISAR;
     private javax.swing.JMenu MENU_SALVAR;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

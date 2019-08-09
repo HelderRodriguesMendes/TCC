@@ -22,7 +22,6 @@ public class Alterar_senha extends javax.swing.JInternalFrame {
 
     Login lo = new Login();
     public String senhaC = "", senha = "";
-    Cadastrar_Sindi enviasenha;
     Receptor rec;
 
     public Alterar_senha(Receptor rec) {

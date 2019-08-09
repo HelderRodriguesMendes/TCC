@@ -26,6 +26,27 @@ public class AdministradorDAO {
     Connection con;
     boolean login = true;
     int id = 0;
+    
+    public Administrador_Entidade logarAdmin(Administrador_Entidade ad) {
+
+        con = Conexao_banco.conector();
+        try {
+
+            pst = con.prepareStatement("select id_admin from admin where login = " + "'" + ad.getLogin() + "'" + "and senha = " + "'" + ad.getSenha() + "'");
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                ad.setId(rs.getInt("id_admin"));
+            } else {
+                JOptionPane.showMessageDialog(null, "Login ou senha incorretos", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+            }
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao logar no sistema");
+            System.out.println(e);
+        }
+        return ad;
+    }
 
     public boolean salvar_ADMIN(Administrador_Entidade usu) {
         login = verificar_login(usu);
@@ -33,13 +54,12 @@ public class AdministradorDAO {
             con = Conexao_banco.conector();
 
             try {
-                pst = con.prepareStatement("insert into admin(nome, telefone, tipo_usuario, login, senha, excluido) values (?, ?, ?, ?, ?,?)");
+                pst = con.prepareStatement("insert into admin(nome, telefone, login, senha, excluido) values (?, ?, ?, ?,?)");
                 pst.setString(1, usu.getNome());
                 pst.setString(2, usu.getCelular());
-                pst.setString(3, usu.getTipo_usuario());
-                pst.setString(4, usu.getLogin());
-                pst.setString(5, usu.getSenha());
-                pst.setInt(6, usu.getExcluido());
+                pst.setString(3, usu.getLogin());
+                pst.setString(4, usu.getSenha());
+                pst.setInt(5, usu.getExcluido());
                 pst.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Dados salvos com sucesso");

@@ -111,14 +111,14 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
             },
             new String [] {
-                "ID", "Nome", "Data de nascimento", "Telefone", "Nascionalidade", "Estado civil", "CPF", "RG", "Data de Expedição", "Titulo de Eleitor", "Zona", "Seção", "Reservistal", "Categoria", "Nome do pai", "Nome da mãe", "Nome da propriedade rural", "Logradouro", "Municipio cede", "Código no INCRA", "Número no NIRF", "Area da propriedade rural", "Tempo de compra da propriedade", "Outras atividades", "Login", "Comercialização de leite", "Residência atual"
+                "ID", "Nome", "Data de nascimento", "Telefone", "Nascionalidade", "Estado civil", "CPF", "RG", "Data de Expedição", "Titulo de Eleitor", "Zona", "Seção", "Reservistal", "Categoria", "Nome do pai", "Nome da mãe", "Nome da propriedade rural", "Logradouro", "Municipio cede", "Código no INCRA", "Número no NIRF", "Area da propriedade rural", "Tempo de compra da propriedade", "Outras atividades", "Comercialização de leite", "Residência atual"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -236,7 +236,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                     ObjButtons, ObjButtons[0]);
             if (escolha == 0) {
-                Cadastrar_Sindi cs = new Cadastrar_Sindi() {
+                Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {
                 };
                 cs.preencher_campus_alteracao(PREENCHER_OBJETO());
                 cs.setVisible(true);
@@ -321,7 +321,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 sin.getAreaPropri(),
                 sin.getTempoCompra(),
                 sin.getOutrasA(),
-                sin.getLogin(),
                 sin.getTiraLeite(),
                 sin.getResidenciaAtual()
             });
@@ -366,7 +365,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     sin.getAreaPropri(),
                     sin.getTempoCompra(),
                     sin.getOutrasA(),
-                    sin.getLogin(),
                     sin.getTiraLeite(),
                     sin.getResidenciaAtual()
                 });
@@ -402,7 +400,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                         sin.getAreaPropri(),
                         sin.getTempoCompra(),
                         sin.getOutrasA(),
-                        sin.getLogin(),
                         sin.getTiraLeite(),
                         sin.getResidenciaAtual()
                     });
@@ -435,7 +432,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                         sin.getAreaPropri(),
                         sin.getTempoCompra(),
                         sin.getOutrasA(),
-                        sin.getLogin(),
                         sin.getTiraLeite(),
                         sin.getResidenciaAtual()
                     });
@@ -469,7 +465,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                         sin.getAreaPropri(),
                         sin.getTempoCompra(),
                         sin.getOutrasA(),
-                        sin.getLogin(),
                         sin.getTiraLeite(),
                         sin.getResidenciaAtual()
                     });
@@ -505,7 +500,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                         sin.getAreaPropri(),
                         sin.getTempoCompra(),
                         sin.getOutrasA(),
-                        sin.getLogin(),
                         sin.getTiraLeite(),
                         sin.getResidenciaAtual()
                     });
@@ -538,7 +532,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                         sin.getAreaPropri(),
                         sin.getTempoCompra(),
                         sin.getOutrasA(),
-                        sin.getLogin(),
                         sin.getTiraLeite(),
                         sin.getResidenciaAtual()
                     });
@@ -573,7 +566,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     sin.getAreaPropri(),
                     sin.getTempoCompra(),
                     sin.getOutrasA(),
-                    sin.getLogin(),
                     sin.getTiraLeite(),
                     sin.getResidenciaAtual()
                 });
@@ -621,8 +613,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         se.setAreaPropri(TABELA.getValueAt(TABELA.getSelectedRow(), 21).toString());
         se.setTempoCompra(TABELA.getValueAt(TABELA.getSelectedRow(), 22).toString());
         se.setOutrasA(TABELA.getValueAt(TABELA.getSelectedRow(), 23).toString());
-        se.setLogin(TABELA.getValueAt(TABELA.getSelectedRow(), 24).toString());
-        se.setTiraLeite(TABELA.getValueAt(TABELA.getSelectedRow(), 25).toString());
+        se.setTiraLeite(TABELA.getValueAt(TABELA.getSelectedRow(), 24).toString());
+        se.setResidenciaAtual(TABELA.getValueAt(TABELA.getSelectedRow(), 25).toString());
 
         return se;
     }

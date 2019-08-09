@@ -9,26 +9,11 @@ package Model;
  *
  * @author helde
  */
-public class Administrador_Entidade extends Pessoa{
-    private String tipo_usuario;
+public class Administrador_Entidade extends Pessoa{   
     private String login;
     private String senha;
     private int id;
     private int excluido;
-
-    /**
-     * @return the tipo_usuario
-     */
-    public String getTipo_usuario() {
-        return tipo_usuario;
-    }
-
-    /**
-     * @param tipo_usuario the tipo_usuario to set
-     */
-    public void setTipo_usuario(String tipo_usuario) {
-        this.tipo_usuario = tipo_usuario;
-    }
 
     /**
      * @return the login

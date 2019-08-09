@@ -30,9 +30,6 @@ public class Sindicalizado_Entidade extends Pessoa{
     private String areaPropri;
     private String tempoCompra;
     private String outrasA;
-    private String login;
-    private String senha;
-    private String tipo_usuario;
     private String residenciaAtual;
     private int id;
     private int excluido;
@@ -360,49 +357,6 @@ public class Sindicalizado_Entidade extends Pessoa{
     public void setId(int id) {
         this.id = id;
     }
-
-    /**
-     * @return the login
-     */
-    public String getLogin() {
-        return login;
-    }
-
-    /**
-     * @param login the login to set
-     */
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    /**
-     * @return the senha
-     */
-    public String getSenha() {
-        return senha;
-    }
-
-    /**
-     * @param senha the senha to set
-     */
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    /**
-     * @return the tipo_usuario
-     */
-    public String getTipo_usuario() {
-        return tipo_usuario;
-    }
-
-    /**
-     * @param tipo_usuario the tipo_usuario to set
-     */
-    public void setTipo_usuario(String tipo_usuario) {
-        this.tipo_usuario = tipo_usuario;
-    }
-
     /**
      * @return the residenciaAtual
      */

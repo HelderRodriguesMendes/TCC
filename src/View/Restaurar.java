@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Restaurar extends javax.swing.JInternalFrame {
 
-    int cont = 0;
+    int cont = 0, ID = 0;
 
     public Restaurar() {
         initComponents();
@@ -57,6 +57,7 @@ public class Restaurar extends javax.swing.JInternalFrame {
         Sindicalizado_DAO sd = new Sindicalizado_DAO();
 
         sd.pesquisar_restaurar(nome).forEach((sind) -> {
+            ID = sind.getId();
             dtma.addRow(new Object[]{
                 sind.getId(),
                 sind.getNome(),
@@ -78,6 +79,7 @@ public class Restaurar extends javax.swing.JInternalFrame {
         AdministradorDAO ad = new AdministradorDAO();
 
         ad.pesquisar_restaurar(nome).forEach((adm) -> {
+            ID = adm.getId();
             dtma.addRow(new Object[]{
                 adm.getId(),
                 adm.getNome(),
@@ -180,12 +182,16 @@ public class Restaurar extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JB_SINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_SINDActionPerformed
+        ID = 0;
         pesquisar_nome_SIND(TXT_NOME.getText());
+        Util.selectNull(ID);
         cont = 1;
     }//GEN-LAST:event_JB_SINDActionPerformed
 
     private void JB_ADMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_ADMActionPerformed
+        ID = 0;
         pesquisar_nome_ADM(TXT_NOME.getText());
+        Util.selectNull(ID);
         cont = 2;
     }//GEN-LAST:event_JB_ADMActionPerformed
 
