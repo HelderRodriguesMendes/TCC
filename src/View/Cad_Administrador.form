@@ -5,7 +5,6 @@
     <Property name="closable" type="boolean" value="true"/>
     <Property name="defaultCloseOperation" type="int" value="1"/>
     <Property name="iconifiable" type="boolean" value="true"/>
-    <Property name="title" type="java.lang.String" value="Cadastrar Administrador"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>

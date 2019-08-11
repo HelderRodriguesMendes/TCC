@@ -172,7 +172,6 @@ public abstract class Cad_Administrador extends javax.swing.JInternalFrame imple
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setIconifiable(true);
-        setTitle("Cadastrar Administrador");
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);

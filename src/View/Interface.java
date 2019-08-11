@@ -245,6 +245,7 @@ public class Interface extends javax.swing.JFrame {
         Cad_Administrador ca = new Cad_Administrador() {
         };
         Interface.DESKTOP.add(ca);
+        ca.setTitle("Cadastrar Administrador");
         ca.setVisible(true);
         ca.setPosicao();
     }//GEN-LAST:event_MENU_CAD_USUActionPerformed
@@ -263,11 +264,10 @@ public class Interface extends javax.swing.JFrame {
 
     private void MENU_CAD_SINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_SINDActionPerformed
         Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {
-        };
-        String a = "save";
+        };       
         DESKTOP.add(cs);
+        cs.setTitle("Cadastrar Sindicalizado");
         cs.setVisible(true);
-        //cs.imagemIcon(a);
         cs.setPosicao();
     }//GEN-LAST:event_MENU_CAD_SINDActionPerformed
 
@@ -282,6 +282,7 @@ public class Interface extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         Pesquisar_Alterar_Admin paa = new Pesquisar_Alterar_Admin();
         DESKTOP.add(paa);
+        paa.setTitle("Consultar e Alterar Administrador");
         paa.setVisible(true);
         paa.setPosicao();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -289,6 +290,7 @@ public class Interface extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
         DESKTOP.add(pas);
+        pas.setTitle("Consultar e Alterar Sindicalizado");
         pas.setVisible(true);
         pas.setPosicao();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
@@ -296,15 +298,17 @@ public class Interface extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
         DESKTOP.add(pas);
+        pas.setTitle("Consultar e Excluir Sindicalizado");
         pas.setVisible(true);
         pas.setPosicao();
-        pas.excluir = true;
+        pas.uso = "excluir";
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         Pesquisar_Alterar_Admin caa = new Pesquisar_Alterar_Admin() {
         };
         DESKTOP.add(caa);
+        caa.setTitle("Consultar e Excluir Administrador");
         caa.setVisible(true);
         caa.setPosicao();
         caa.excluir = true;

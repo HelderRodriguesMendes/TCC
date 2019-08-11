@@ -68,7 +68,6 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Pesquisar - Alterar Administrador");
 
         jLabel1.setText("Nome:");
 
@@ -146,9 +145,9 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
         if (!excluir) {
-            Cad_Administrador cadm = new Cad_Administrador() {
-            };
+            Cad_Administrador cadm = new Cad_Administrador() {};
             cadm.preencherCampus(preencher_Objeto());
+            cadm.setTitle("Alterar dados do Administrador");
             cadm.setVisible(true);
             Interface.DESKTOP.add(cadm);
             cadm.setPosicao();
