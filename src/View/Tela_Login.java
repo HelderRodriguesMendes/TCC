@@ -1,4 +1,3 @@
-
 package View;
 
 import Controller.Login;
@@ -9,6 +8,7 @@ import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -24,6 +24,7 @@ public class Tela_Login extends javax.swing.JFrame {
     AdministradorDAO ld = new AdministradorDAO();
 
     public Tela_Login() {
+        this.setTitle("LOGIN DE ACESSO");
         initComponents();
         setResizable(false);
     }
@@ -39,11 +40,9 @@ public class Tela_Login extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         BOTAO_ENTRAR = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         TXT_LOGIN = new javax.swing.JTextField();
@@ -52,11 +51,9 @@ public class Tela_Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setToolTipText("");
 
         jPanel4.setBackground(new java.awt.Color(0, 204, 0));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("Login de acesso");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/BLOQUIADO.png"))); // NOI18N
 
@@ -64,23 +61,17 @@ public class Tela_Login extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(83, 83, 83)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/oie_11598YG1QSGOk (2).png"))); // NOI18N
@@ -92,11 +83,15 @@ public class Tela_Login extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("jButton2");
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/USER_1 - Copia.png"))); // NOI18N
 
-        jLabel4.setText("Login:");
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/password - Copia.png"))); // NOI18N
 
-        jLabel5.setText("Senha:");
+        TXT_LOGIN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TXT_LOGINActionPerformed(evt);
+            }
+        });
 
         TXT_SENHA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -110,24 +105,27 @@ public class Tela_Login extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(TXT_SENHA))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(TXT_LOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(9, 9, 9)
+                                        .addComponent(jLabel4)
+                                        .addGap(3, 3, 3))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(TXT_SENHA)
+                                    .addComponent(TXT_LOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addGap(69, 69, 69)
                                 .addComponent(BOTAO_ENTRAR))))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -135,19 +133,17 @@ public class Tela_Login extends javax.swing.JFrame {
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabel2)
-                .addGap(40, 40, 40)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(39, 39, 39)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
                     .addComponent(TXT_LOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TXT_SENHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BOTAO_ENTRAR)
-                    .addComponent(jButton2))
-                .addGap(20, 20, 20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(BOTAO_ENTRAR)
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -167,6 +163,13 @@ public class Tela_Login extends javax.swing.JFrame {
 
     private void BOTAO_ENTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_ENTRARActionPerformed
 
+        if ("".equals(TXT_LOGIN.getText())) {
+            JOptionPane.showMessageDialog(null, "Informe o login de acesso", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+            TXT_LOGIN.requestFocus();
+        } else if ("".equals(TXT_SENHA.getText())) {
+            JOptionPane.showMessageDialog(null, "Informe a senha", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+            TXT_SENHA.requestFocus();
+        } else {
             ad.setLogin(TXT_LOGIN.getText());
 
             if ("hrm".equals(ad.getLogin())) {
@@ -179,7 +182,7 @@ public class Tela_Login extends javax.swing.JFrame {
             if (adi.getId() > 0) {
                 abrirInterface(adi);
             }
-       
+        }
     }//GEN-LAST:event_BOTAO_ENTRARActionPerformed
 
     private void TXT_SENHAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXT_SENHAKeyPressed
@@ -199,11 +202,15 @@ public class Tela_Login extends javax.swing.JFrame {
         }// evento quando o ENTER é apertado
     }//GEN-LAST:event_TXT_SENHAKeyPressed
 
+    private void TXT_LOGINActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXT_LOGINActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TXT_LOGINActionPerformed
+
     public void abrirInterface(Administrador_Entidade ad) {
         Interface in = new Interface();
         in.setVisible(true);
         in.ID = ad.getId();
-        in.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        in.setExtendedState(JFrame.MAXIMIZED_BOTH);
         in.show();
         this.dispose();
     }
@@ -212,7 +219,7 @@ public class Tela_Login extends javax.swing.JFrame {
         try {
             /* Create and display the form */
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
-        } catch (ClassNotFoundException  ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(Tela_Login.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
             Logger.getLogger(Tela_Login.class.getName()).log(Level.SEVERE, null, ex);
@@ -233,8 +240,6 @@ public class Tela_Login extends javax.swing.JFrame {
     private javax.swing.JButton BOTAO_ENTRAR;
     private javax.swing.JTextField TXT_LOGIN;
     private javax.swing.JPasswordField TXT_SENHA;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

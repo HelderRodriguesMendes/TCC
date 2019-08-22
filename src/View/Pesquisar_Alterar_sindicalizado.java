@@ -40,7 +40,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     Connection conexao = null;
 
     int cont = 0, con = 0, id = 0, idade, ID = 0;
-    boolean niver, ok;   
+    boolean niver, ok;
     public String uso = "";
 
     public Pesquisar_Alterar_sindicalizado() {
@@ -59,7 +59,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             Logger.getLogger(Pesquisar_Alterar_sindicalizado.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        listar_Tabela();       
+        listar_Tabela();
 
     }
 
@@ -229,25 +229,17 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         cont = 10;
 
         id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
-        if (!"excluir".equals(uso)) {
-            String ObjButtons[] = {"Alterar", "Relatório"};
-            int escolha = JOptionPane.showOptionDialog(null,
-                    "Escolha uma das opções abaixo:", "ATENÇÃO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                    ObjButtons, ObjButtons[0]);
-            if (escolha == 0) {
-                Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {};
-                cs.preencher_campus_alteracao(PREENCHER_OBJETO());
-                cs.setTitle("Alterar dados do Sindicalizado");
-                cs.setVisible(true);
-                Interface.DESKTOP.add(cs);
-                cs.setPosicao();
-                cs.id = this.id;
-                this.dispose();
-            } else if (escolha == 1) {
-                Relatorio(id);
-            }
-        } else {
+        if ("alterar".equals(uso)) {
+            Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {
+            };
+            cs.preencher_campus_alteracao(PREENCHER_OBJETO());
+            cs.setTitle("Alterar dados do Sindicalizado");
+            cs.setVisible(true);
+            Interface.DESKTOP.add(cs);
+            cs.setPosicao();
+            cs.id = this.id;
+            this.dispose();
+        } else if ("excluir".equals(uso)) {
             String ObjButtons[] = {"Sim", "Não"};
             int escolha = JOptionPane.showOptionDialog(null,
                     "Tem certeza que deseja excluir esses dados?", "ATENÇÃO",
@@ -257,6 +249,16 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 Util_DAO ud = new Util_DAO();
                 ud.excluir(id, "sind");
                 listar_Tabela();
+            }
+        } else if ("relatorio".equals(uso)) {
+
+            String ObjButtons[] = {"Sim", "Não"};
+            int escolha = JOptionPane.showOptionDialog(null,
+                    "Deseja emitir um relatório com os dados desse sindicalizado?", "ATENÇÃO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    ObjButtons, ObjButtons[1]);
+            if (escolha == 0) {
+                Relatorio(id);
             }
         }
 
@@ -470,7 +472,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     });
                 });
             }
-        } else if (!"".equals(cpf)) {            
+        } else if (!"".equals(cpf)) {
             a = 1;
             if (!"".equals(rg)) {
                 sd.pesquisar_cpf_rg(cpf, rg).forEach((sin) -> {
@@ -537,7 +539,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     });
                 });
             }
-        } else if (!"".equals(rg)) {            
+        } else if (!"".equals(rg)) {
             a = 1;
             sd.pesquisar_rg(rg).forEach((sin) -> {
                 ID = sin.getId();

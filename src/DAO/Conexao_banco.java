@@ -30,7 +30,8 @@ public class Conexao_banco {
             
             
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao conectar com o banco de dados." + "\n" + e);
+            JOptionPane.showMessageDialog(null, "Erro ao conectar com o banco de dados.");
+            System.out.println(e);
             return null;
         }
     }

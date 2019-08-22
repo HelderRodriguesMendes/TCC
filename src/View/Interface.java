@@ -85,6 +85,8 @@ public class Interface extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        MENU_RELA = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
 
         jMenu1.setText("jMenu1");
@@ -167,6 +169,11 @@ public class Interface extends javax.swing.JFrame {
         BARRAMENU.add(MENU_SALVAR);
 
         MENU_PE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar_editar.png"))); // NOI18N
+        MENU_PE.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                MENU_PEMouseEntered(evt);
+            }
+        });
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem1.setText("Administrador");
@@ -189,6 +196,11 @@ public class Interface extends javax.swing.JFrame {
         BARRAMENU.add(MENU_PE);
 
         MENU_EXCLUIR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ESCLUIR 2.png"))); // NOI18N
+        MENU_EXCLUIR.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                MENU_EXCLUIRMouseEntered(evt);
+            }
+        });
 
         jMenuItem4.setText("Administrador");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -215,6 +227,23 @@ public class Interface extends javax.swing.JFrame {
         MENU_EXCLUIR.add(jMenuItem7);
 
         BARRAMENU.add(MENU_EXCLUIR);
+
+        MENU_RELA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/relatório.png"))); // NOI18N
+        MENU_RELA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                MENU_RELAMouseEntered(evt);
+            }
+        });
+
+        jMenuItem8.setText("Sindicalizado");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        MENU_RELA.add(jMenuItem8);
+
+        BARRAMENU.add(MENU_RELA);
 
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/siraICO.png"))); // NOI18N
         jMenu7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -251,7 +280,7 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_MENU_CAD_USUActionPerformed
 
     private void MENU_CAD_USUMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_CAD_USUMouseEntered
-        MENU_CAD_USU.setToolTipText("Cadastrar usuário");
+     
     }//GEN-LAST:event_MENU_CAD_USUMouseEntered
 
     private void MENU_CAD_USUMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_CAD_USUMouseClicked
@@ -264,7 +293,7 @@ public class Interface extends javax.swing.JFrame {
 
     private void MENU_CAD_SINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_SINDActionPerformed
         Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {
-        };       
+        };
         DESKTOP.add(cs);
         cs.setTitle("Cadastrar Sindicalizado");
         cs.setVisible(true);
@@ -292,6 +321,7 @@ public class Interface extends javax.swing.JFrame {
         DESKTOP.add(pas);
         pas.setTitle("Consultar e Alterar Sindicalizado");
         pas.setVisible(true);
+        pas.uso = "alterar";
         pas.setPosicao();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -344,6 +374,27 @@ public class Interface extends javax.swing.JFrame {
         r.setPosicao();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void MENU_PEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_PEMouseEntered
+        MENU_PE.setToolTipText("Pesquisar e Alterar");
+    }//GEN-LAST:event_MENU_PEMouseEntered
+
+    private void MENU_EXCLUIRMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_EXCLUIRMouseEntered
+        MENU_EXCLUIR.setToolTipText("Excluir");
+    }//GEN-LAST:event_MENU_EXCLUIRMouseEntered
+
+    private void MENU_RELAMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_RELAMouseEntered
+        MENU_RELA.setToolTipText("Relatórios");
+    }//GEN-LAST:event_MENU_RELAMouseEntered
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+        DESKTOP.add(pas);
+        pas.setTitle("Consultar e Gerar Relatório de Sindicalizado");
+        pas.setVisible(true);
+        pas.setPosicao();
+        pas.uso = "relatorio";
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -355,6 +406,7 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenuItem MENU_CAD_USU;
     private javax.swing.JMenu MENU_EXCLUIR;
     private javax.swing.JMenu MENU_PE;
+    private javax.swing.JMenu MENU_RELA;
     private javax.swing.JMenu MENU_SALVAR;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -366,5 +418,6 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     // End of variables declaration//GEN-END:variables
 }
