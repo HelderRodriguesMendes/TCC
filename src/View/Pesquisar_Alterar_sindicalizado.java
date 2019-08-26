@@ -230,15 +230,22 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
         id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
         if ("alterar".equals(uso)) {
-            Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {
-            };
-            cs.preencher_campus_alteracao(PREENCHER_OBJETO());
-            cs.setTitle("Alterar dados do Sindicalizado");
-            cs.setVisible(true);
-            Interface.DESKTOP.add(cs);
-            cs.setPosicao();
-            cs.id = this.id;
-            this.dispose();
+
+            String ObjButtons[] = {"Sim", "Não"};
+            int escolha = JOptionPane.showOptionDialog(null,
+                    "Deseja alterar os dados selecionados?", "ATENÇÃO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    ObjButtons, ObjButtons[1]);
+            if (escolha == 0) {
+                Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {};
+                cs.preencher_campus_alteracao(PREENCHER_OBJETO());
+                cs.setTitle("Alterar dados do Sindicalizado");
+                cs.setVisible(true);
+                Interface.DESKTOP.add(cs);
+                cs.setPosicao();
+                cs.id = this.id;
+                this.dispose();
+            }
         } else if ("excluir".equals(uso)) {
             String ObjButtons[] = {"Sim", "Não"};
             int escolha = JOptionPane.showOptionDialog(null,

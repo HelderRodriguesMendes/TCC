@@ -48,6 +48,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         }
 
         LISTAR_TABELA();
+        Util.soLetras(NOME);
     }
 
     public void setPosicao() { // faz o formulario aparecer centralizado na tela
@@ -145,13 +146,20 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
         if (!excluir) {
-            Cad_Administrador cadm = new Cad_Administrador() {};
-            cadm.preencherCampus(preencher_Objeto());
-            cadm.setTitle("Alterar dados do Administrador");
-            cadm.setVisible(true);
-            Interface.DESKTOP.add(cadm);
-            cadm.setPosicao();
-            this.dispose();
+            String ObjButtons[] = {"Sim", "Não"};
+            int escolha = JOptionPane.showOptionDialog(null,
+                    "Deseja alterar os dados selecionados?", "ATENÇÃO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    ObjButtons, ObjButtons[1]);
+            if (escolha == 0) {
+                Cad_Administrador cadm = new Cad_Administrador() {};
+                cadm.preencherCampus(preencher_Objeto());
+                cadm.setTitle("Alterar dados do Administrador");
+                cadm.setVisible(true);
+                Interface.DESKTOP.add(cadm);
+                cadm.setPosicao();
+                this.dispose();
+            }
         } else {
 
             String ObjButtons[] = {"Sim", "Não"};
@@ -187,7 +195,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         ad.Listar_Tabela().forEach((admin) -> {
-            
+
             dtma.addRow(new Object[]{
                 admin.getId(),
                 admin.getNome(),
@@ -233,21 +241,23 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
     public void Limpar_campus() {
         NOME.setText("");
     }
-    
-    public void imagemIcon(String uso){
-        if(null != uso)switch (uso) {          
-            case "select":{
-                ImageIcon img = new ImageIcon(getClass().getResource("select.png"));
-                USO.setIcon(img);
+
+    public void imagemIcon(String uso) {
+        if (null != uso) {
+            switch (uso) {
+                case "select": {
+                    ImageIcon img = new ImageIcon(getClass().getResource("select.png"));
+                    USO.setIcon(img);
                     break;
                 }
-            case "delete":{
-                ImageIcon img = new ImageIcon(getClass().getResource("delete.png"));
-                USO.setIcon(img);
+                case "delete": {
+                    ImageIcon img = new ImageIcon(getClass().getResource("delete.png"));
+                    USO.setIcon(img);
                     break;
                 }
-            default:
-                break;
+                default:
+                    break;
+            }
         }
     }
 
