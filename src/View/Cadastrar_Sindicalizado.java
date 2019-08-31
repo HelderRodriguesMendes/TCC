@@ -35,10 +35,10 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
     int idade, id = 0, t = 0, erro = 0;
     ;
     String senhaC = "", senha = "";
-    
+
     public Cadastrar_Sindicalizado() {
         initComponents();
-        
+
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         } catch (ClassNotFoundException ex) {
@@ -147,12 +147,25 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Informe o CPF do sindicalizado ");
             CPF.requestFocus();
         } else {
-            cpf = si.verificar_CPF(CPF.getText());
+            cpf = si.validar_CPF(CPF.getText());
             if ("".equals(cpf) && erro == 0) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O CPF do sindicalizado é invalido", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
                 CPF.setText("   .   .    -   ");
                 CPF.requestFocus();
+            } else {
+                String i;
+                if (alterar) {
+                    i = si.verificar_CPF(CPF.getText(), id);
+                } else {
+                    i = si.verificar_CPF(CPF.getText(), 0);
+                }
+                if ("tem dono".equals(i)) {
+                    erro = 1;
+                    JOptionPane.showMessageDialog(null, "O CPF informado já esta cadastrado", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
+                    CPF.setText("");
+                    CPF.requestFocus();
+                }
             }
         }
 
@@ -162,17 +175,24 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
             erro = 1;
         } else {
             String R_G = si.validadar_RG(RG.getText());
-            if ("".equals(R_G)) {
+            if ("".equals(R_G) && erro == 0) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O RG do sindicalizado é invalido", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
                 RG.setText("       ");
                 RG.requestFocus();
-            } else if ("-7".equals(R_G)) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "O RG do sindicalizado deve conter 7 números", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
-            } else if ("+7".equals(R_G)) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "O RG do sindicalizado deve conter apenas 7 números", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+            } else {
+                String i;
+                if (alterar) {
+                    i = si.verificar_RG(RG.getText(), id);
+                } else {
+                    i = si.verificar_RG(RG.getText(), 0);
+                }
+                if ("tem dono".equals(i)) {
+                    erro = 1;
+                    JOptionPane.showMessageDialog(null, "O RG informado já esta cadastrado", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+                    RG.setText("");
+                    RG.requestFocus();
+                }
             }
         }
         if (DATAEXPE.getDate() == null && erro == 0) {
@@ -1193,6 +1213,7 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
     private void VOLTARMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VOLTARMouseClicked
         Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
         Interface.DESKTOP.add(pas);
+        pas.uso = "alterar";
         pas.setVisible(true);
         pas.setPosicao();
         this.dispose();

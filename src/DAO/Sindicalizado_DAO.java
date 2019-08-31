@@ -26,49 +26,49 @@ public class Sindicalizado_DAO {
     Sindicalizado_Entidade se = new Sindicalizado_Entidade();
 
     public boolean SALVAR(Sindicalizado_Entidade se) {
-            con = Conexao_banco.conector();
-            try {
-                System.out.println("aqui 1");
-                pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, "
-                        + "estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, "
-                        + "pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, "
-                        + "areaPropriedade, tempoCompraPropriedade, outrasAtividade, "
-                        + "residenciaAtual, excluido) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-                System.out.println("aqui 2");
-                pst.setString(1, se.getNome());
-                java.sql.Date DATASQL = new java.sql.Date(se.getDataNasci().getTime());
-                pst.setDate(2, DATASQL);
-                pst.setString(3, se.getCelular());
-                pst.setString(4, se.getNascionalidade());
-                pst.setString(5, se.getEstadoCivil());
-                pst.setString(6, se.getCpf());
-                pst.setString(7, se.getRg());
-                java.sql.Date DATA = new java.sql.Date(se.getDataExpedicao().getTime());
-                pst.setDate(8, DATA);
-                pst.setString(9, se.getTituloEleito());
-                pst.setInt(10, se.getZona());
-                pst.setInt(11, se.getSecao());
-                pst.setString(12, se.getReservista());
-                pst.setString(13, se.getCategoria());
-                pst.setString(14, se.getPai());
-                pst.setString(15, se.getMae());
-                pst.setString(16, se.getNomeFazenda());
-                pst.setString(17, se.getLogradouro());
-                pst.setString(18, se.getMuniciSede());
-                pst.setString(19, se.getCodINCRA());
-                pst.setString(20, se.getTiraLeite());
-                pst.setString(21, se.getNIRF());
-                pst.setString(22, se.getAreaPropri());
-                pst.setString(23, se.getTempoCompra());
-                pst.setString(24, se.getOutrasA());
-                pst.setString(25, se.getResidenciaAtual());
-                pst.setInt(26, se.getExcluido());
-                pst.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
-                System.out.println(e);
-            }
+        con = Conexao_banco.conector();
+        try {
+            System.out.println("aqui 1");
+            pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, "
+                    + "estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, "
+                    + "pai, mae, nomeFazenda, logradouro, municipioCede, codigoINCRA, tiraLeite, NIRF, "
+                    + "areaPropriedade, tempoCompraPropriedade, outrasAtividade, "
+                    + "residenciaAtual, excluido) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            System.out.println("aqui 2");
+            pst.setString(1, se.getNome());
+            java.sql.Date DATASQL = new java.sql.Date(se.getDataNasci().getTime());
+            pst.setDate(2, DATASQL);
+            pst.setString(3, se.getCelular());
+            pst.setString(4, se.getNascionalidade());
+            pst.setString(5, se.getEstadoCivil());
+            pst.setString(6, se.getCpf());
+            pst.setString(7, se.getRg());
+            java.sql.Date DATA = new java.sql.Date(se.getDataExpedicao().getTime());
+            pst.setDate(8, DATA);
+            pst.setString(9, se.getTituloEleito());
+            pst.setInt(10, se.getZona());
+            pst.setInt(11, se.getSecao());
+            pst.setString(12, se.getReservista());
+            pst.setString(13, se.getCategoria());
+            pst.setString(14, se.getPai());
+            pst.setString(15, se.getMae());
+            pst.setString(16, se.getNomeFazenda());
+            pst.setString(17, se.getLogradouro());
+            pst.setString(18, se.getMuniciSede());
+            pst.setString(19, se.getCodINCRA());
+            pst.setString(20, se.getTiraLeite());
+            pst.setString(21, se.getNIRF());
+            pst.setString(22, se.getAreaPropri());
+            pst.setString(23, se.getTempoCompra());
+            pst.setString(24, se.getOutrasA());
+            pst.setString(25, se.getResidenciaAtual());
+            pst.setInt(26, se.getExcluido());
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
+            System.out.println(e);
+        }
         return login;
     }
 
@@ -501,7 +501,7 @@ public class Sindicalizado_DAO {
         return SIND;
     }
 
-    public void alterar_sind(Sindicalizado_Entidade se , int id) {
+    public void alterar_sind(Sindicalizado_Entidade se, int id) {
         con = Conexao_banco.conector();
         try {
             pst = con.prepareStatement("update sindicalizado set nome = ?, dataNasci = ?, celular = ?, nascionalidade = ?, estadoCivil = ?, cpf = ?, rg = ?, dataExpedi = ?, tituloEleito = ?, zona = ?, secao = ?, reservista = ?, categoria = ?, pai = ?, mae = ?, nomeFazenda = ?, logradouro = ?, municipioCede = ?, codigoINCRA = ?, tiraLeite = ?, NIRF = ?, areaPropriedade = ?, tempoCompraPropriedade = ?, outrasAtividade = ?, residenciaAtual = ? where id_sindicalizado = ?");
@@ -612,5 +612,76 @@ public class Sindicalizado_DAO {
             JOptionPane.showMessageDialog(null, "Erro ao restaurar sindicalizado");
             System.out.println(e);
         }
+    }
+
+    public String verificarCPF_BANCO(String cpf, int id) {
+        String ID = "";
+
+        if (id > 0) {
+            con = Conexao_banco.conector();
+            try {
+                pst = con.prepareStatement("select id_sindicalizado from sindicalizado where cpf = ?");
+                pst.setString(1, cpf);
+                rs = pst.executeQuery();
+
+                if (rs.next()) {
+                    int i = rs.getInt("id_sindicalizado");                
+                    ID = String.valueOf(i);
+                }else{
+                    ID = "nao cadastrado";
+                }
+                con.close();
+            } catch (Exception e) {
+            }
+        } else {
+            con = Conexao_banco.conector();
+            try {
+                pst = con.prepareStatement("select cpf from sindicalizado where cpf = ?");
+                pst.setString(1, cpf);
+                rs = pst.executeQuery();
+
+                if (rs.next()) {
+                        ID = "tem dono";
+                }
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return ID;
+    }
+    public String verificarRG_BANCO(String rg, int id) {
+        String ID = "";
+
+        if (id > 0) {
+            con = Conexao_banco.conector();
+            try {
+                pst = con.prepareStatement("select id_sindicalizado from sindicalizado where rg = ?");
+                pst.setString(1, rg);
+                rs = pst.executeQuery();
+
+                if (rs.next()) {
+                    int i = rs.getInt("id_sindicalizado");                
+                    ID = String.valueOf(i);
+                }else{
+                    ID = "nao cadastrado";
+                }
+                con.close();
+            } catch (Exception e) {
+            }
+        } else {
+            con = Conexao_banco.conector();
+            try {
+                pst = con.prepareStatement("select rg from sindicalizado where rg = ?");
+                pst.setString(1, rg);
+                rs = pst.executeQuery();
+
+                if (rs.next()) {
+                        ID = "tem dono";
+                }
+                con.close();
+            } catch (Exception e) {
+            }
+        }
+        return ID;
     }
 }

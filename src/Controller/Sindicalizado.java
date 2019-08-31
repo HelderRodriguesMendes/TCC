@@ -1,5 +1,6 @@
 package Controller;
 
+import DAO.Sindicalizado_DAO;
 import Model.Sindicalizado_Entidade;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,14 +11,34 @@ import java.util.Date;
  */
 public class Sindicalizado {
 
+    Sindicalizado_DAO sd = new Sindicalizado_DAO();
+
     boolean z = false;
     public int ANO_Atual = 0, MES_Atual = 0, DIA_Atual = 0;
 
-    public String verificar_CPF(String CPF) {
+    public String validar_CPF(String CPF) {
         if ("000.000.000 - 00".equals(CPF)) {
             CPF = "";
         }
         return CPF;
+    }
+
+    public String verificar_CPF(String cpf, int id) {
+        int ID = 0;
+        String i = "";
+        if (id > 0) {
+            ID = id;
+        }
+        i = sd.verificarCPF_BANCO(cpf, id);
+        if(!"".equals(i) && !"nao cadastrado".equals(i) && !"tem dono".equals(i)){
+            id = Integer.parseInt(i);
+            if(ID == id){
+                i = "mesmo dono";
+            }else{
+                i = "tem dono";
+            }
+        }
+        return i;
     }
 
     public String validadar_Telefone(String tel) {
@@ -38,6 +59,23 @@ public class Sindicalizado {
             rg = "-7";
         }
         return rg;
+    }
+    public String verificar_RG(String rg, int id) {
+        int ID = 0;
+        String i = "";
+        if (id > 0) {
+            ID = id;
+        }
+        i = sd.verificarRG_BANCO(rg, id);
+        if(!"".equals(i) && !"nao cadastrado".equals(i) && !"tem dono".equals(i)){
+            id = Integer.parseInt(i);
+            if(ID == id){
+                i = "mesmo dono";
+            }else{
+                i = "tem dono";
+            }
+        }
+        return i;
     }
 
     public String validar_Titulo_Eleitor(String titulo) {
@@ -95,7 +133,7 @@ public class Sindicalizado {
             String nasc = Util.DATE_STRING(se.getDataNasci());
             String[] da = nasc.split("/");
             int ano = Integer.parseInt(da[2]);
-             idade = ANO_Atual - ano;
+            idade = ANO_Atual - ano;
         }
         return idade;
     }

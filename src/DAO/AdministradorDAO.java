@@ -135,7 +135,7 @@ public class AdministradorDAO {
     public boolean alterar_ADMIN(Administrador_Entidade adm, int ID) {
         login = verificar_login(adm);
 
-        if (login) {
+        if (!login) {
             con = Conexao_banco.conector();
 
             if (!"".equals(adm.getSenha())) {
@@ -216,14 +216,14 @@ public class AdministradorDAO {
 
     public boolean verificar_login(Administrador_Entidade adm) {
         con = Conexao_banco.conector();
-        boolean lo = true;
+        boolean lo = false;
         try {
             pst = con.prepareStatement("select login, id_admin from admin where login = ?");
             pst.setString(1, adm.getLogin());
             rs = pst.executeQuery();
 
-            if (rs.next()) {
-                lo = false;
+            if (rs.next()) {  // verifico si tem algum login no sistema q é igual ao novo login informado  
+                lo = true;
                 this.id = rs.getInt("id_admin");
             }
             con.close();
