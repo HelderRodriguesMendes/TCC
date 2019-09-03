@@ -180,7 +180,11 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         if (!"".equals(NOME.getText())) {
             ID = 0;
             Pesquisar_Nome(NOME.getText());
-            Util.selectNull(ID);
+            int i = Util.selectNull(ID);
+            if(i == 1){
+                NOME.setText("");
+                LISTAR_TABELA();
+            }
         } else {
             LISTAR_TABELA();
         }

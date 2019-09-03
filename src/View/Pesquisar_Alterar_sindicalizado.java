@@ -79,8 +79,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         TABELA = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        CPF = new javax.swing.JTextField();
-        RG = new javax.swing.JTextField();
+        CPF = new javax.swing.JFormattedTextField();
+        RG = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -140,22 +140,17 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
         jLabel4.setText("RG:");
 
-        CPF.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CPFMouseClicked(evt);
-            }
-        });
-        CPF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CPFActionPerformed(evt);
-            }
-        });
+        try {
+            CPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.### - ##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
-        RG.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                RGMouseClicked(evt);
-            }
-        });
+        try {
+            RG.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#######")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         RG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RGActionPerformed(evt);
@@ -174,12 +169,12 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 .addGap(175, 175, 175)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(180, 180, 180)
+                .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(223, 223, 223)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(79, 79, 79)
+                .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(120, 120, 120)
                 .addComponent(BOTAO_PESQUISAR_)
                 .addContainerGap(12, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
@@ -203,9 +198,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel3)
                                         .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel4)
-                                        .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jLabel4)
+                                    .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(BOTAO_PESQUISAR_))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -216,12 +210,18 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     }// </editor-fold>//GEN-END:initComponents
 
     private void BOTAO_PESQUISAR_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_ActionPerformed
-        if ("".equals(NOME.getText()) && "".equals(CPF.getText()) && "".equals(RG.getText())) {
+        if ("".equals(NOME.getText()) && "   .   .    -   ".equals(CPF.getText()) && "       ".equals(RG.getText())) {
             listar_Tabela();
         } else {
             ID = 0;
             pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
-            Util.selectNull(ID);
+            int r = Util.selectNull(ID);
+            if(r == 1){
+                NOME.setText("");
+                CPF.setText("");
+                RG.setText("");
+                listar_Tabela();
+            }
         }
     }//GEN-LAST:event_BOTAO_PESQUISAR_ActionPerformed
 
@@ -275,25 +275,13 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     }//GEN-LAST:event_NOMEActionPerformed
 
-    private void CPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CPFActionPerformed
-
-    }//GEN-LAST:event_CPFActionPerformed
-
-    private void RGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RGActionPerformed
-
-    }//GEN-LAST:event_RGActionPerformed
-
     private void NOMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOMEMouseClicked
 
     }//GEN-LAST:event_NOMEMouseClicked
 
-    private void CPFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CPFMouseClicked
+    private void RGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RGActionPerformed
 
-    }//GEN-LAST:event_CPFMouseClicked
-
-    private void RGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RGMouseClicked
-
-    }//GEN-LAST:event_RGMouseClicked
+    }//GEN-LAST:event_RGActionPerformed
 
     public void listar_Tabela() {
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
@@ -345,7 +333,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         if (!"".equals(nome) && !"".equals(cpf) && !"".equals(rg)) {
-            System.out.println("1");
             a = 1;
             sd.pesquisar_nome_cpf_rg(nome, cpf, rg).forEach((sin) -> {
                 ID = sin.getId();
@@ -446,7 +433,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     });
                 });
             } else {
-                System.out.println("100");
                 sd.pesquisar_nome(nome).forEach((sin) -> {
                     ID = sin.getId();
                     dtma.addRow(new Object[]{
@@ -635,209 +621,6 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     }
 
-    public boolean validar_Campus() {
-        boolean va = false;
-
-        String dataNas, dataExp;
-        int invalido = 0;
-
-        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe o nome do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe a data de nascimento do sindicalizado " + id);
-        } else {
-            String dat = TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString();
-            niver = true;
-            dataNas = Util.verificar_Data(dat, niver);
-            idade = Util.idade;
-            ok = Util.ok;
-            if ("//".equals(dataNas)) {
-                invalido = 2;
-                if (idade < 18 && idade > 0 && !ok) {
-                    JOptionPane.showMessageDialog(null, "Com base a data de nascimento informada, o sindicalizado " + id + "\n" + " se torna menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
-                    Util.idade = 0;
-                    TABELA.setValueAt("", TABELA.getSelectedRow(), 2);
-                } else if (!ok && idade == 0) {
-                    invalido = 2;
-                    JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-                    Util.idade = 0;
-                    TABELA.setValueAt("", TABELA.getSelectedRow(), 2);
-                }
-            } else {
-                TABELA.setValueAt(dataNas, TABELA.getSelectedRow(), 2);
-            }
-        }
-
-        if (!"".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString()) && invalido == 0) {
-            String tel = TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString();
-            String TEL = si.validadar_Telefone(tel);
-            if ("".equals(TEL)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "O telefone do sindicalizado " + id + "\n" + "é invalido", "Atenção", JOptionPane.ERROR_MESSAGE);
-                TABELA.setValueAt("", TABELA.getSelectedRow(), 3);
-            } else if ("falto DD".equals(TEL)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "Informe o DDD do telefone do sindicalizado " + id);
-            } else {
-                TABELA.setValueAt(TEL, TABELA.getSelectedRow(), 3);
-            }
-        }
-
-        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe o RG do sindicalizado " + id);
-        } else {
-            String rg = TABELA.getValueAt(TABELA.getSelectedRow(), 8).toString();
-            String R_G = si.validadar_RG(rg);
-            if ("".equals(R_G)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "O RG do sindicalizado " + id + "\n" + "é invalido", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
-                TABELA.setValueAt("", TABELA.getSelectedRow(), 8);
-            } else if ("-7".equals(R_G)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "O RG do sindicalizado " + id + "\n" + "deve conter 7 números", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
-            } else if ("+7".equals(R_G)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "O RG do sindicalizado " + id + "\n" + "deve conter apenas 7 números", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
-            } else {
-                TABELA.setValueAt(R_G, TABELA.getSelectedRow(), 8);
-            }
-        }
-        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString()) && invalido == 0) {
-            JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG do sindicalizado " + id);
-            invalido = 2;
-        } else {
-            String dat = TABELA.getValueAt(TABELA.getSelectedRow(), 9).toString();
-            niver = false;
-            dataExp = Util.verificar_Data(dat, niver);
-            if ("//".equals(dataExp)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "A data de expedição do RG do sindicalizado " + id + "\n" + "é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-                TABELA.setValueAt("", TABELA.getSelectedRow(), 9);
-            } else {
-                TABELA.setValueAt(dataExp, TABELA.getSelectedRow(), 9);
-            }
-        }
-        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString()) && invalido == 0) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe o titulo de eleitor do sindicalizado " + id);
-        } else {
-            String tito = TABELA.getValueAt(TABELA.getSelectedRow(), 10).toString();
-            String TITO = si.validar_Titulo_Eleitor(tito);
-            if ("".equals(TITO)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "Titulo de eleitor do sindicalizado " + id + " é invalido" + "\n" + "O titulo deve conter 12 números", "Atenção", JOptionPane.ERROR_MESSAGE);
-                TABELA.setValueAt("", TABELA.getSelectedRow(), 10);
-            } else {
-                TABELA.setValueAt(TITO, TABELA.getSelectedRow(), 10);
-            }
-        }
-        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString()) && invalido == 0) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe a zona do titulo de eleitor do sindicalizado " + id);
-        } else {
-            String zona = TABELA.getValueAt(TABELA.getSelectedRow(), 11).toString();
-            String ZONA = si.validar_zona(zona);
-            if ("".equals(ZONA)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "A zona do titulo de eleitor do sindicalizado " + id + " é invalida." + "\n" + " Deve conter 3 números", "Atenção", JOptionPane.INFORMATION_MESSAGE);
-            } else if ("invalida".equals(ZONA)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "A zona do titulo de eleitor do sindicalizado " + id + " é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-                TABELA.setValueAt("", TABELA.getSelectedRow(), 11);
-            } else {
-                TABELA.setValueAt(ZONA, TABELA.getSelectedRow(), 11);
-            }
-        }
-
-        if ("".equals((TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString())) && invalido == 0) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe a seção do titulo de eleitor do sindicalizado " + id);
-        } else {
-            String secao = TABELA.getValueAt(TABELA.getSelectedRow(), 12).toString();
-            String SECAO = si.validar_secao(secao);
-            if ("".equals(SECAO)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "A seção do titulo de eleitor do sindicalizado " + id + " é invalida." + "\n" + " Deve conter 4 números", "Atenção", JOptionPane.INFORMATION_MESSAGE);
-            } else if ("invalida".equals(SECAO)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "A seção do titulo de eleitor do sindicalizado " + id + " é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-                TABELA.setValueAt("", TABELA.getSelectedRow(), 12);
-            } else {
-                TABELA.setValueAt(SECAO, TABELA.getSelectedRow(), 12);
-            }
-        }
-
-        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString()) && invalido == 0) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe a reservista do sindicalizado " + id);
-        } else {
-            String reser = TABELA.getValueAt(TABELA.getSelectedRow(), 13).toString();
-            String RESER = si.validarReservista(reser);
-            if ("".equals(RESER)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado " + id + " é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                TABELA.setValueAt("", TABELA.getSelectedRow(), 13);
-            } else if ("6n".equals(RESER)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado " + id + " é invalido." + "\n" + "Deve conter 6 números", "Atenção", JOptionPane.ERROR_MESSAGE);
-            } else {
-                TABELA.setValueAt(RESER, TABELA.getSelectedRow(), 13);
-            }
-        }
-        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 14).toString()) && invalido == 0) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe a categoria da reservista do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 17).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 18).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe o logradouro da propriedade rural do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 19).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe o municipio cede da propriedade rural do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 20).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe o código no INCRA da propriedade rural do sindicalizado " + id);
-        } else {
-            String codincra = TABELA.getValueAt(TABELA.getSelectedRow(), 20).toString();
-            String CODINCRA = si.validaCodIncra(codincra);
-            if ("".equals(CODINCRA)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "O código do INCRA do sindicalizado " + id + " é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                TABELA.setValueAt("", TABELA.getSelectedRow(), 20);
-            } else if ("invalido".equals(CODINCRA)) {
-                invalido = 2;
-                JOptionPane.showMessageDialog(null, "O código do INCRA do sindicalizado " + id + " deve conter 13 números.", "Atenção", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                TABELA.setValueAt(CODINCRA, TABELA.getSelectedRow(), 20);
-            }
-        }
-
-        if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 26).toString()) && invalido == 0) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe se a comercialização de leite na propriedade rural do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 21).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe o numero no NIRF da propriedade rural do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 22).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe a area da propriedade rural do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 23).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural do sindicalizado " + id);
-        } else if ("".equals(TABELA.getValueAt(TABELA.getSelectedRow(), 25).toString())) {
-            invalido = 2;
-            JOptionPane.showMessageDialog(null, "Informe o login de acesso ao sistema do sindicalizado " + id);
-        } else if (invalido == 0) {
-            va = true;
-        }
-        return va;
-    }
-
     public void Relatorio(int ID) {
         try {
             HashMap filtro = new HashMap();
@@ -852,9 +635,9 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BOTAO_PESQUISAR_;
-    private javax.swing.JTextField CPF;
+    private javax.swing.JFormattedTextField CPF;
     private javax.swing.JTextField NOME;
-    private javax.swing.JTextField RG;
+    private javax.swing.JFormattedTextField RG;
     private javax.swing.JTable TABELA;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

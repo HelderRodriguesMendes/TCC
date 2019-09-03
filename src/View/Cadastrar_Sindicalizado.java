@@ -9,6 +9,7 @@ import Controller.Sindicalizado;
 import Controller.Util;
 import DAO.Sindicalizado_DAO;
 import Model.Sindicalizado_Entidade;
+import static View.Interface.DESKTOP;
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
@@ -1241,8 +1242,13 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
                 NOME.requestFocus();
             } else {
                 sd.alterar_sind(PREENCHER_OBJETO(), this.id);
-                limparCampus();
-                NOME.requestFocus();
+                Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+                DESKTOP.add(pas);
+                pas.setTitle("Consultar e Alterar Sindicalizado");
+                pas.setVisible(true);
+                pas.uso = "alterar";
+                pas.setPosicao();
+                this.dispose();
             }
         }
     }//GEN-LAST:event_BOTAO_SALVAR_MouseClicked

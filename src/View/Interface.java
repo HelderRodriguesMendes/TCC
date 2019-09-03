@@ -32,13 +32,15 @@ public class Interface extends javax.swing.JFrame {
         addWindowListener(new WindowAdapter() { // para confirna se deseja ralmente sair do sistema
             @Override
             public void windowClosing(WindowEvent we) {
-                String ObjButtons[] = {"Sim", "Não"};
+                String ObjButtons[] = {"Sim", "Não", "Trocar de administrador"};
                 int PromptResult = JOptionPane.showOptionDialog(null,
                         "Deseja realmente sair do sistema?", "ATENÇÃO",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                        ObjButtons, ObjButtons[0]);
-                if (PromptResult == 0) {
+                        ObjButtons, ObjButtons[1]);
+                if (PromptResult == 2) {
                     retornarLogin();
+                }else if(PromptResult == 0){
+                    System.exit(0);
                 }
             }
         });
