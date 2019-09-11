@@ -48,7 +48,7 @@ public class Restaurar extends javax.swing.JInternalFrame {
         this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
     }
 
-    public void pesquisar_nome_SIND(String nome) {
+    public int pesquisar_nome_SIND(String nome) {
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
 
@@ -66,9 +66,10 @@ public class Restaurar extends javax.swing.JInternalFrame {
                 sind.getCpf()
             });
         });
+        return ID;
     }
 
-    public void pesquisar_nome_ADM(String nome) {
+    public int pesquisar_nome_ADM(String nome) {
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
         String rg = "";
@@ -88,6 +89,7 @@ public class Restaurar extends javax.swing.JInternalFrame {
                 cpf
             });
         });
+        return ID;
     }
 
     @SuppressWarnings("unchecked")
@@ -184,13 +186,13 @@ public class Restaurar extends javax.swing.JInternalFrame {
     private void JB_SINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_SINDActionPerformed
         ID = 0;
         pesquisar_nome_SIND(TXT_NOME.getText());
-        Util.selectNull(ID);
+        ID = Util.selectNull(ID);
         cont = 1;
     }//GEN-LAST:event_JB_SINDActionPerformed
 
     private void JB_ADMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_ADMActionPerformed
         ID = 0;
-        pesquisar_nome_ADM(TXT_NOME.getText());
+        ID = pesquisar_nome_ADM(TXT_NOME.getText());
         Util.selectNull(ID);
         cont = 2;
     }//GEN-LAST:event_JB_ADMActionPerformed
