@@ -138,6 +138,7 @@ public class Sindicalizado_DAO {
 
                 si.setId(rs.getInt("id_sindicalizado"));
                 si.setNome(rs.getString("nome"));
+                System.out.println("nome: " + si.getNome());
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
                 si.setCelular(rs.getString("celular"));

@@ -565,6 +565,11 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        CODINCRA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CODINCRAActionPerformed(evt);
+            }
+        });
 
         try {
             NIRF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#.###.###-#")));
@@ -1252,6 +1257,10 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_BOTAO_SALVAR_MouseClicked
+
+    private void CODINCRAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CODINCRAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CODINCRAActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

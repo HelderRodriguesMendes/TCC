@@ -214,12 +214,12 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             listar_Tabela();
         } else {
             ID = 0;
-            pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
+            ID = pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
             int r = Util.selectNull(ID);
-            if(r == 1){
+            if(r == 0 || r < 0){
                 NOME.setText("");
-                CPF.setText("");
-                RG.setText("");
+                CPF.setValue(null);
+                RG.setValue(null);
                 listar_Tabela();
             }
         }
@@ -292,20 +292,49 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         sd.listar_Tabela().forEach((sin) -> {
             String dn = Util.DATE_STRING(sin.getDataNasci());
             String de = Util.DATE_STRING(sin.getDataExpedicao());
+            String fone = sin.getCelular();
+            if("(  ) 9     -     ".equals(fone)){
+                fone = "";
+            }
+            int zo = sin.getZona();
+            String zona;
+            if(zo == 0){
+                zona = "";
+            }else{
+                zona = String.valueOf(zo);
+            }
+            
+            int sec = sin.getSecao();
+            String secao;
+            if(sec == 0){
+                secao = "";
+            }else{
+                secao = String.valueOf(sec);
+            }
+            
+            String inc = sin.getCodINCRA();         
+            if("   .   .   .   - ".equals(inc)){
+                inc = "";
+            }
+            
+            String nirf = sin.getNIRF();         
+            if(" .   .   - ".equals(nirf)){
+                nirf = "";
+            }
 
             dtma.addRow(new Object[]{
                 sin.getId(),
                 sin.getNome(),
                 dn,
-                sin.getCelular(),
+                fone,
                 sin.getNascionalidade(),
                 sin.getEstadoCivil(),
                 sin.getCpf(),
                 sin.getRg(),
                 de,
                 sin.getTituloEleito(),
-                sin.getZona(),
-                sin.getSecao(),
+                zona,
+                secao,
                 sin.getReservista(),
                 sin.getCategoria(),
                 sin.getPai(),
@@ -313,8 +342,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 sin.getNomeFazenda(),
                 sin.getLogradouro(),
                 sin.getMuniciSede(),
-                sin.getCodINCRA(),
-                sin.getNIRF(),
+                inc,
+                nirf,
                 sin.getAreaPropri(),
                 sin.getTempoCompra(),
                 sin.getOutrasA(),
@@ -325,14 +354,15 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     }
 
-    public void pesquisar_Sind(String nome, String cpf, String rg) {
+    public int pesquisar_Sind(String nome, String cpf, String rg) {
         int a = 0;
+        System.out.println("aqi 1");
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
 
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        if (!"".equals(nome) && !"".equals(cpf) && !"".equals(rg)) {
+        if (!"".equals(nome) && !"   .   .    -   ".equals(cpf) && !"       ".equals(rg)) {
             a = 1;
             sd.pesquisar_nome_cpf_rg(nome, cpf, rg).forEach((sin) -> {
                 ID = sin.getId();
@@ -368,9 +398,10 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } else if (!"".equals(nome)) {
             System.out.println("2");
             a = 1;
-            if (!"".equals(cpf)) {
+            if (!"   .   .    -   ".equals(cpf)) {
                 sd.pesquisar_nome_cpf(nome, cpf).forEach((sin) -> {
                     ID = sin.getId();
+                    System.out.println("ID ID " + ID);
                     dtma.addRow(new Object[]{
                         sin.getId(),
                         sin.getNome(),
@@ -400,7 +431,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                         sin.getResidenciaAtual()
                     });
                 });
-            } else if (!"".equals(rg)) {
+            } else if (!"       ".equals(rg)) {
                 sd.pesquisar_nome_rg(nome, rg).forEach((sin) -> {
                     ID = sin.getId();
                     dtma.addRow(new Object[]{
@@ -435,6 +466,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             } else {
                 sd.pesquisar_nome(nome).forEach((sin) -> {
                     ID = sin.getId();
+                    System.out.println("ID ID 2: " + ID);
                     dtma.addRow(new Object[]{
                         sin.getId(),
                         sin.getNome(),
@@ -465,9 +497,9 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     });
                 });
             }
-        } else if (!"".equals(cpf)) {
+        } else if (!"   .   .    -   ".equals(cpf)) {
             a = 1;
-            if (!"".equals(rg)) {
+            if (!"       ".equals(rg)) {
                 sd.pesquisar_cpf_rg(cpf, rg).forEach((sin) -> {
                     ID = sin.getId();
                     dtma.addRow(new Object[]{
@@ -532,7 +564,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     });
                 });
             }
-        } else if (!"".equals(rg)) {
+        } else if (!"       ".equals(rg)) {
             a = 1;
             sd.pesquisar_rg(rg).forEach((sin) -> {
                 ID = sin.getId();
@@ -568,7 +600,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } else if (a == 0) {
             listar_Tabela();
         }
-
+        return ID;
     }
 
     public Sindicalizado_Entidade PREENCHER_OBJETO() {

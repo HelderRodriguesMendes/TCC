@@ -120,11 +120,9 @@ public abstract class Util {
     }
     
     public static int selectNull( int id){
-        int r = 0;
         if(id == 0 || id < 0){
             JOptionPane.showMessageDialog(null, "Dados não encontrados");
-            r = 1;
         }
-        return r;
+        return id;
     }
 }
