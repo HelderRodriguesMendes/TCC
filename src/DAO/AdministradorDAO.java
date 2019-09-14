@@ -32,16 +32,17 @@ public class AdministradorDAO {
         con = Conexao_banco.conector();
         try {
 
-            pst = con.prepareStatement("select id_admin from admin where login = " + "'" + ad.getLogin() + "'" + "and senha = " + "'" + ad.getSenha() + "'");
+            pst = con.prepareStatement("select id_admin, excluido from admin where login = " + "'" + ad.getLogin() + "'" + "and senha = " + "'" + ad.getSenha() + "'");
             rs = pst.executeQuery();
 
             if (rs.next()) {
                 ad.setId(rs.getInt("id_admin"));
+                ad.setExcluido(rs.getInt("excluido"));
             } else {
                 JOptionPane.showMessageDialog(null, "Login ou senha incorretos", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
             }
             con.close();
-        } catch (Exception e) {
+        } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao logar no sistema");
             System.out.println(e);
         }
@@ -64,7 +65,7 @@ public class AdministradorDAO {
 
                 JOptionPane.showMessageDialog(null, "Dados salvos com sucesso");
                 con.close();
-            } catch (Exception e) {
+            } catch (HeadlessException | SQLException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao salvar administrador");
                 System.out.println(e);
             }

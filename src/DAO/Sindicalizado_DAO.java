@@ -19,13 +19,12 @@ public class Sindicalizado_DAO {
     ResultSet rs = null;
     PreparedStatement pst = null;
     Connection con;
-    boolean login = true;
     int id = 0, dia = 0, mes = 0;
     public boolean niver = true;
 
     Sindicalizado_Entidade se = new Sindicalizado_Entidade();
 
-    public boolean SALVAR(Sindicalizado_Entidade se) {
+    public void SALVAR(Sindicalizado_Entidade se) {
         con = Conexao_banco.conector();
         try {
             System.out.println("aqui 1");
@@ -69,7 +68,6 @@ public class Sindicalizado_DAO {
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
             System.out.println(e);
         }
-        return login;
     }
 
     public ArrayList<Sindicalizado_Entidade> listar_Tabela() {
@@ -552,7 +550,7 @@ public class Sindicalizado_DAO {
         dia = si.DIA_Atual;
         mes = si.MES_Atual;
         try {
-            pst = con.prepareStatement("select nome, dataNasci, celular from  sindicalizado where day(dataNasci) = ? and month(dataNasci) = ?");
+            pst = con.prepareStatement("select nome, dataNasci, celular from  sindicalizado where day(dataNasci) = ? and month(dataNasci) = ? and excluido = '0'");
             pst.setInt(1, dia);
             pst.setInt(2, mes);
             rs = pst.executeQuery();

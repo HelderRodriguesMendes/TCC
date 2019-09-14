@@ -10,6 +10,7 @@ import Controller.Util;
 import DAO.AdministradorDAO;
 import DAO.Util_DAO;
 import Model.Administrador_Entidade;
+import com.sun.glass.events.KeyEvent;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,6 +72,12 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         setIconifiable(true);
 
         jLabel1.setText("Nome:");
+
+        NOME.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                NOMEKeyPressed(evt);
+            }
+        });
 
         TABELA.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -152,7 +159,8 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                     ObjButtons, ObjButtons[1]);
             if (escolha == 0) {
-                Cad_Administrador cadm = new Cad_Administrador() {};
+                Cad_Administrador cadm = new Cad_Administrador() {
+                };
                 cadm.preencherCampus(preencher_Objeto());
                 cadm.setTitle("Alterar dados do Administrador");
                 cadm.setVisible(true);
@@ -181,7 +189,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             ID = 0;
             Pesquisar_Nome(NOME.getText());
             int i = Util.selectNull(ID);
-            if(i == 1){
+            if (i == 1) {
                 NOME.setText("");
                 LISTAR_TABELA();
             }
@@ -189,6 +197,22 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             LISTAR_TABELA();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void NOMEKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NOMEKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (!"".equals(NOME.getText())) {
+                ID = 0;
+                Pesquisar_Nome(NOME.getText());
+                int i = Util.selectNull(ID);
+                if (i == 1) {
+                    NOME.setText("");
+                    LISTAR_TABELA();
+                }
+            } else {
+                LISTAR_TABELA();
+            }
+        }
+    }//GEN-LAST:event_NOMEKeyPressed
 
     public void LISTAR_TABELA() {
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();

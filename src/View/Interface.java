@@ -32,15 +32,13 @@ public class Interface extends javax.swing.JFrame {
         addWindowListener(new WindowAdapter() { // para confirna se deseja ralmente sair do sistema
             @Override
             public void windowClosing(WindowEvent we) {
-                String ObjButtons[] = {"Sim", "Não", "Trocar de administrador"};
+                String ObjButtons[] = {"Sim", "Não"};
                 int PromptResult = JOptionPane.showOptionDialog(null,
                         "Deseja realmente sair do sistema?", "ATENÇÃO",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                         ObjButtons, ObjButtons[1]);
-                if (PromptResult == 2) {
+                if (PromptResult == 0) {
                     retornarLogin();
-                }else if(PromptResult == 0){
-                    System.exit(0);
                 }
             }
         });
@@ -102,6 +100,11 @@ public class Interface extends javax.swing.JFrame {
         DESKTOP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 DESKTOPMouseEntered(evt);
+            }
+        });
+        DESKTOP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                DESKTOPKeyReleased(evt);
             }
         });
 
@@ -396,6 +399,13 @@ public class Interface extends javax.swing.JFrame {
         pas.setPosicao();
         pas.uso = "relatorio";
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void DESKTOPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DESKTOPKeyReleased
+        boolean n = sd.niver;
+        if (n) {
+            sd.niver();
+        }
+    }//GEN-LAST:event_DESKTOPKeyReleased
 
     /**
      * @param args the command line arguments

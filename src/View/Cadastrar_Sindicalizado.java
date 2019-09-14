@@ -10,6 +10,7 @@ import Controller.Util;
 import DAO.Sindicalizado_DAO;
 import Model.Sindicalizado_Entidade;
 import static View.Interface.DESKTOP;
+import com.sun.glass.events.KeyEvent;
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;

@@ -185,15 +185,23 @@ public class Restaurar extends javax.swing.JInternalFrame {
 
     private void JB_SINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_SINDActionPerformed
         ID = 0;
-        pesquisar_nome_SIND(TXT_NOME.getText());
-        ID = Util.selectNull(ID);
+        if ("".equals(TXT_NOME.getText())) {
+            JOptionPane.showMessageDialog(null, "Informe o nome do Sindicalizado que dseja restaurar os dados", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            pesquisar_nome_SIND(TXT_NOME.getText());
+            ID = Util.selectNull(ID);
+        }
         cont = 1;
     }//GEN-LAST:event_JB_SINDActionPerformed
 
     private void JB_ADMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JB_ADMActionPerformed
         ID = 0;
-        ID = pesquisar_nome_ADM(TXT_NOME.getText());
-        Util.selectNull(ID);
+        if ("".equals(TXT_NOME.getText())) {
+            JOptionPane.showMessageDialog(null, "Informe o nome do Administrador que deseja restaurar");
+        } else {
+            ID = pesquisar_nome_ADM(TXT_NOME.getText());
+            Util.selectNull(ID);
+        }
         cont = 2;
     }//GEN-LAST:event_JB_ADMActionPerformed
 
@@ -208,7 +216,7 @@ public class Restaurar extends javax.swing.JInternalFrame {
                 Sindicalizado_DAO sd = new Sindicalizado_DAO();
                 sd.restaurar(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
                 TXT_NOME.setText("");
-            }else if(cont == 2){
+            } else if (cont == 2) {
                 AdministradorDAO ad = new AdministradorDAO();
                 ad.restaurar(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
                 TXT_NOME.setText("");

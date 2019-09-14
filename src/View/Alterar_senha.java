@@ -7,6 +7,7 @@ package View;
 
 import Controller.Login;
 import Controller.Receptor;
+import com.sun.glass.events.KeyEvent;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,6 +71,12 @@ public class Alterar_senha extends javax.swing.JInternalFrame {
         TXT_NovaSenha.setText("Nova senha:");
 
         TXT_CONFIR_SENHA.setText("Confirma senha:");
+
+        CONFIR_SENHA.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CONFIR_SENHAKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -143,6 +150,17 @@ public class Alterar_senha extends javax.swing.JInternalFrame {
             this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void CONFIR_SENHAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CONFIR_SENHAKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (validarcampus()) {
+                senhaC = lo.validar_nova_senha(NOVA_SENHA.getText(), CONFIR_SENHA.getText());
+                this.senha = lo.senha;
+                rec.receber(senhaC, senha);
+                this.dispose();
+            }
+        }
+    }//GEN-LAST:event_CONFIR_SENHAKeyPressed
 
     public boolean validarcampus() {
         boolean v = false;

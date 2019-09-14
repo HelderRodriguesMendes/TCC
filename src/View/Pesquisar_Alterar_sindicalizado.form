@@ -90,6 +90,7 @@
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="NOMEMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NOMEActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="NOMEKeyPressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="BOTAO_PESQUISAR_">
@@ -301,6 +302,9 @@
           <Format format="###.###.### - ##" subtype="-1" type="5"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="CPFKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="RG">
       <Properties>
@@ -310,6 +314,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RGActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="RGKeyPressed"/>
       </Events>
     </Component>
   </SubComponents>

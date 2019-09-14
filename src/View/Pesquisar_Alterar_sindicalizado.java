@@ -13,6 +13,7 @@ import DAO.Sindicalizado_DAO;
 import DAO.Util_DAO;
 import Model.Sindicalizado_Entidade;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -98,6 +99,11 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 NOMEActionPerformed(evt);
             }
         });
+        NOME.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                NOMEKeyPressed(evt);
+            }
+        });
 
         BOTAO_PESQUISAR_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
         BOTAO_PESQUISAR_.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +151,11 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        CPF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CPFKeyPressed(evt);
+            }
+        });
 
         try {
             RG.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#######")));
@@ -154,6 +165,11 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         RG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RGActionPerformed(evt);
+            }
+        });
+        RG.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                RGKeyPressed(evt);
             }
         });
 
@@ -216,7 +232,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             ID = 0;
             ID = pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
             int r = Util.selectNull(ID);
-            if(r == 0 || r < 0){
+            if (r == 0 || r < 0) {
                 NOME.setText("");
                 CPF.setValue(null);
                 RG.setValue(null);
@@ -237,7 +253,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                     ObjButtons, ObjButtons[1]);
             if (escolha == 0) {
-                Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {};
+                Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {
+                };
                 cs.preencher_campus_alteracao(PREENCHER_OBJETO());
                 cs.setTitle("Alterar dados do Sindicalizado");
                 cs.setVisible(true);
@@ -283,6 +300,60 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     }//GEN-LAST:event_RGActionPerformed
 
+    private void NOMEKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NOMEKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if ("".equals(NOME.getText()) && "   .   .    -   ".equals(CPF.getText()) && "       ".equals(RG.getText())) {
+                listar_Tabela();
+            } else {
+                ID = 0;
+                ID = pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
+                int r = Util.selectNull(ID);
+                if (r == 0 || r < 0) {
+                    NOME.setText("");
+                    CPF.setValue(null);
+                    RG.setValue(null);
+                    listar_Tabela();
+                }
+            }
+        }
+    }//GEN-LAST:event_NOMEKeyPressed
+
+    private void RGKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RGKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if ("".equals(NOME.getText()) && "   .   .    -   ".equals(CPF.getText()) && "       ".equals(RG.getText())) {
+                listar_Tabela();
+            } else {
+                ID = 0;
+                ID = pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
+                int r = Util.selectNull(ID);
+                if (r == 0 || r < 0) {
+                    NOME.setText("");
+                    CPF.setValue(null);
+                    RG.setValue(null);
+                    listar_Tabela();
+                }
+            }
+        }
+    }//GEN-LAST:event_RGKeyPressed
+
+    private void CPFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CPFKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if ("".equals(NOME.getText()) && "   .   .    -   ".equals(CPF.getText()) && "       ".equals(RG.getText())) {
+                listar_Tabela();
+            } else {
+                ID = 0;
+                ID = pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
+                int r = Util.selectNull(ID);
+                if (r == 0 || r < 0) {
+                    NOME.setText("");
+                    CPF.setValue(null);
+                    RG.setValue(null);
+                    listar_Tabela();
+                }
+            }
+        }
+    }//GEN-LAST:event_CPFKeyPressed
+
     public void listar_Tabela() {
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
@@ -293,32 +364,32 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             String dn = Util.DATE_STRING(sin.getDataNasci());
             String de = Util.DATE_STRING(sin.getDataExpedicao());
             String fone = sin.getCelular();
-            if("(  ) 9     -     ".equals(fone)){
+            if ("(  ) 9     -     ".equals(fone)) {
                 fone = "";
             }
             int zo = sin.getZona();
             String zona;
-            if(zo == 0){
+            if (zo == 0) {
                 zona = "";
-            }else{
+            } else {
                 zona = String.valueOf(zo);
             }
-            
+
             int sec = sin.getSecao();
             String secao;
-            if(sec == 0){
+            if (sec == 0) {
                 secao = "";
-            }else{
+            } else {
                 secao = String.valueOf(sec);
             }
-            
-            String inc = sin.getCodINCRA();         
-            if("   .   .   .   - ".equals(inc)){
+
+            String inc = sin.getCodINCRA();
+            if ("   .   .   .   - ".equals(inc)) {
                 inc = "";
             }
-            
-            String nirf = sin.getNIRF();         
-            if(" .   .   - ".equals(nirf)){
+
+            String nirf = sin.getNIRF();
+            if (" .   .   - ".equals(nirf)) {
                 nirf = "";
             }
 
