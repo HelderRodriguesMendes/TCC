@@ -6,6 +6,7 @@
 package DAO;
 
 import Model.Administrador_Entidade;
+import Model.Pessoa;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -56,12 +57,16 @@ public class AdministradorDAO {
 
             try {
                 pst = con.prepareStatement("insert into admin(nome, telefone, login, senha, excluido) values (?, ?, ?, ?,?)");
+                
+                
                 pst.setString(1, usu.getNome());
                 pst.setString(2, usu.getCelular());
                 pst.setString(3, usu.getLogin());
                 pst.setString(4, usu.getSenha());
                 pst.setInt(5, usu.getExcluido());
                 pst.executeUpdate();
+                
+                
 
                 JOptionPane.showMessageDialog(null, "Dados salvos com sucesso");
                 con.close();

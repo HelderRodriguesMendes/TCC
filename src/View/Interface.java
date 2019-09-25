@@ -5,6 +5,7 @@
  */
 package View;
 
+import DAO.Dados_Sindicalizado_Pessoais_DAO;
 import DAO.Sindicalizado_DAO;
 import DAO.Util_DAO;
 import Model.Administrador_Entidade;
@@ -25,6 +26,7 @@ public class Interface extends javax.swing.JFrame {
 
     public int ID = 0;
     Sindicalizado_DAO sd = new Sindicalizado_DAO();
+    Dados_Sindicalizado_Pessoais_DAO dsp = new Dados_Sindicalizado_Pessoais_DAO();
 
     public Interface() {
         initComponents();
@@ -297,10 +299,12 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_MENU_SALVARMouseEntered
 
     private void MENU_CAD_SINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_CAD_SINDActionPerformed
-        Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {
+        Cadastrar_Sindi cs = new Cadastrar_Sindi() {
         };
         DESKTOP.add(cs);
         cs.setTitle("Cadastrar Sindicalizado");
+        cs.status = "cadastrar sind";
+        cs.selecionar_guia(1);
         cs.setVisible(true);
         cs.setPosicao();
     }//GEN-LAST:event_MENU_CAD_SINDActionPerformed
@@ -355,9 +359,9 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_MENU_SALVARMouseExited
 
     private void DESKTOPMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DESKTOPMouseEntered
-        boolean n = sd.niver;
+        boolean n = dsp.niver;
         if (n) {
-            sd.niver();
+            dsp.niver();
         }
     }//GEN-LAST:event_DESKTOPMouseEntered
 
@@ -401,9 +405,9 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void DESKTOPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DESKTOPKeyReleased
-        boolean n = sd.niver;
+        boolean n = dsp.niver;
         if (n) {
-            sd.niver();
+            dsp.niver();
         }
     }//GEN-LAST:event_DESKTOPKeyReleased
 

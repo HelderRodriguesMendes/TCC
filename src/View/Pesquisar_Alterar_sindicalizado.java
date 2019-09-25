@@ -11,7 +11,7 @@ import Controller.Sindicalizado;
 import DAO.Conexao_banco;
 import DAO.Sindicalizado_DAO;
 import DAO.Util_DAO;
-import Model.Sindicalizado_Entidade;
+import Model.Dados_Pessoais;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -35,7 +35,7 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame {
 
     Sindicalizado_DAO sd = new Sindicalizado_DAO();
-    Sindicalizado_Entidade se = new Sindicalizado_Entidade();
+    Dados_Pessoais se = new Dados_Pessoais();
     Login lo = new Login();
     Sindicalizado si = new Sindicalizado();
     Connection conexao = null;
@@ -674,7 +674,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         return ID;
     }
 
-    public Sindicalizado_Entidade PREENCHER_OBJETO() {
+    public Dados_Pessoais PREENCHER_OBJETO() {
         se.setId(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
         id = se.getId();
         se.setNome(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString());

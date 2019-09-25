@@ -1,7 +1,9 @@
 package Controller;
 
+import DAO.Dados_Sindicalizado_Pessoais_DAO;
+import DAO.Dados_Sindicalizado_Rurais_DAO;
 import DAO.Sindicalizado_DAO;
-import Model.Sindicalizado_Entidade;
+import Model.Dados_Pessoais;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -15,6 +17,8 @@ public class Sindicalizado {
 
     boolean z = false;
     public int ANO_Atual = 0, MES_Atual = 0, DIA_Atual = 0;
+    Dados_Sindicalizado_Pessoais_DAO dsp = new Dados_Sindicalizado_Pessoais_DAO();
+    Dados_Sindicalizado_Rurais_DAO dsr = new Dados_Sindicalizado_Rurais_DAO();
 
     public String validar_CPF(String CPF) {
         if ("000.000.000 - 00".equals(CPF)) {
@@ -29,7 +33,7 @@ public class Sindicalizado {
         if (id > 0) {
             ID = id;
         }
-        i = sd.verificarCPF_BANCO(cpf, id);
+        i = dsp.verificarCPF_BANCO(cpf, id);
         if(!"".equals(i) && !"nao cadastrado".equals(i) && !"tem dono".equals(i)){
             id = Integer.parseInt(i);
             if(ID == id){
@@ -66,7 +70,7 @@ public class Sindicalizado {
         if (id > 0) {
             ID = id;
         }
-        i = sd.verificarRG_BANCO(rg, id);
+        i = dsp.verificarRG_BANCO(rg, id);
         if(!"".equals(i) && !"nao cadastrado".equals(i) && !"tem dono".equals(i)){
             id = Integer.parseInt(i);
             if(ID == id){
@@ -113,6 +117,24 @@ public class Sindicalizado {
         }
         return codin;
     }
+    
+    public String verificar_INCRA(String incra, int id) {
+        int ID = 0;
+        String i = "";
+        if (id > 0) {
+            ID = id;
+        }
+        i = dsr.verificarINCRA_BANCO(incra, ID);
+        if(!"".equals(i) && !"nao cadastrado".equals(i) && !"tem dono".equals(i)){
+            id = Integer.parseInt(i);
+            if(ID == id){
+                i = "mesmo dono";
+            }else{
+                i = "tem dono";
+            }
+        }
+        return i;
+    }
 
     public String validarNIRF(String NIRF) {
         if ("0.000.000-0".equals(NIRF)) {
@@ -120,8 +142,26 @@ public class Sindicalizado {
         }
         return NIRF;
     }
+    
+    public String verificar_NIRF(String NIRF, int id) {
+        int ID = 0;
+        String i = "";
+        if (id > 0) {
+            ID = id;
+        }
+        i = dsr.verificarNIRF_BANCO(NIRF, ID);
+        if(!"".equals(i) && !"nao cadastrado".equals(i) && !"tem dono".equals(i)){
+            id = Integer.parseInt(i);
+            if(ID == id){
+                i = "mesmo dono";
+            }else{
+                i = "tem dono";
+            }
+        }
+        return i;
+    }
 
-    public int aniversario(Sindicalizado_Entidade se, boolean ok) {
+    public int aniversario(Dados_Pessoais se, boolean ok) {
         int idade = 0;
         SimpleDateFormat ANO = new SimpleDateFormat("yyyy");
         SimpleDateFormat MES = new SimpleDateFormat("MM");

@@ -7,14 +7,11 @@ package View;
 
 import Controller.Sindicalizado;
 import Controller.Util;
+import DAO.Dados_Sindicalizado_Pessoais_DAO;
 import DAO.Sindicalizado_DAO;
-import Model.Sindicalizado_Entidade;
+import Model.Dados_Pessoais;
 import static View.Interface.DESKTOP;
-import com.sun.glass.events.KeyEvent;
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,15 +25,14 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
 
-    Sindicalizado_Entidade se = new Sindicalizado_Entidade();
+    Dados_Pessoais se = new Dados_Pessoais();
 
     DateFormat df = DateFormat.getDateInstance();
     Sindicalizado si = new Sindicalizado();
+    Dados_Sindicalizado_Pessoais_DAO dsp = new Dados_Sindicalizado_Pessoais_DAO();
 
-    boolean cont = false, LS, LN, alterar = false, login = true;
-    int idade, id = 0, t = 0, erro = 0;
-    ;
-    String senhaC = "", senha = "";
+    boolean cont = false, LS, LN, alterar = false;
+    int idade, id = 0, erro = 0;
 
     public Cadastrar_Sindicalizado() {
         initComponents();
@@ -55,25 +51,10 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
 
         validaNumerosLetras();
 
-        addWindowListener(new WindowAdapter() { // para confirna se deseja ralmente sair do sistema
-            @Override
-            public void windowClosing(WindowEvent we) {
-                String ObjButtons[] = {"Sim", "Não"};
-                int PromptResult = JOptionPane.showOptionDialog(null,
-                        "Deseja realmente sair do sistema?", "ATENÇÃO",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                        ObjButtons, ObjButtons[1]);
-                if (PromptResult == 0) {
-                    dispose();
-                }
-            }
-        });
-
         VOLTAR.setVisible(false);
     }
 
-    public Sindicalizado_Entidade PREENCHER_OBJETO() {
-        int n = 0;
+    public Dados_Pessoais PREENCHER_OBJETO() {
         se.setNome(NOME.getText());
         String dtn = df.format(NASCIMENTO.getDate());
         se.setDataNasci(Util.STRING_DATE(dtn));
@@ -117,7 +98,7 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
 
     public boolean validar_obrigatorios() {
 
-        String cpf = "";
+        String cpf;
         LS = LEITE_S.isSelected();
         LN = LEITE_N.isSelected();
 
@@ -222,7 +203,13 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Informe a filiação materna");
             MAE.requestFocus();
             erro = 1;
-        } else if ("".equals(NOMEFAZENDA.getText()) && erro == 0) {
+        } else 
+            
+            
+            
+            
+            
+            if ("".equals(NOMEFAZENDA.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural");
             NOMEFAZENDA.requestFocus();
             erro = 1;
@@ -246,7 +233,12 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural");
             TEMPOCOMPRA.requestFocus();
             erro = 1;
-        } else if (!"(  ) 9     -     ".equals(CELULAR.getText()) && erro == 0) {        // DAQUI PRA BAIXO COMEÇA A VALIDAÇÃO DOS QUE NÃO SÃO OBRIGATÓRIOS 
+        } else 
+            
+            
+            
+            
+            if (!"(  ) 9     -     ".equals(CELULAR.getText()) && erro == 0) {        // DAQUI PRA BAIXO COMEÇA A VALIDAÇÃO DOS QUE NÃO SÃO OBRIGATÓRIOS 
             String TEL = si.validadar_Telefone(CELULAR.getText());
             if ("".equals(TEL)) {
                 erro = 1;
@@ -286,7 +278,14 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
                 SECAO.setText("   ");
                 SECAO.requestFocus();
             }
-        } else if (!"   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
+        } else 
+            
+            
+            
+            
+            
+            
+            if (!"   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
             String codI = si.validaCodIncra(CODINCRA.getText());
             if ("".equals(codI)) {
                 erro = 1;
@@ -362,7 +361,7 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
         Util.soLetras(RESIDEN_ATUAL);
     }
 
-    public void preencher_campus_alteracao(Sindicalizado_Entidade si) {
+    public void preencher_campus_alteracao(Dados_Pessoais si) {
 
         NOME.setText(si.getNome());
         NASCIMENTO.setDate(si.getDataNasci());
@@ -1151,7 +1150,7 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 1421, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1175,11 +1174,13 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1114, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1507, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 20, Short.MAX_VALUE))
         );
 
         pack();

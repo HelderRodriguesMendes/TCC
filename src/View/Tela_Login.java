@@ -3,7 +3,7 @@ package View;
 import Controller.Login;
 import DAO.AdministradorDAO;
 import Model.Administrador_Entidade;
-import Model.Sindicalizado_Entidade;
+import Model.Dados_Pessoais;
 import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +20,7 @@ public class Tela_Login extends javax.swing.JFrame {
 
     boolean adm;
     Administrador_Entidade ad = new Administrador_Entidade();
-    Sindicalizado_Entidade si = new Sindicalizado_Entidade();
+    Dados_Pessoais si = new Dados_Pessoais();
     AdministradorDAO ld = new AdministradorDAO();
 
     public Tela_Login() {
