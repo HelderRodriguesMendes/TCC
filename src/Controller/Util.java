@@ -66,14 +66,11 @@ public abstract class Util {
 
         if (a > ANO_Atual) {
             ok = false;
-            System.out.println("ok 1 " + ok);
         } else if (a == ANO_Atual) {
             if (m == MES_Atual) {
                 ok = d <= DIA_Atual;
-                System.out.println("ok 2 " + ok);
             } else {
                 ok = m < MES_Atual;
-                System.out.println("ok 3 " + ok);
             }
         } else {
             ok = true;
