@@ -136,7 +136,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 if ("(  ) 9     -     ".equals(dp.getCelular())) {
                     dp.setCelular("");
                 }
-                JOptionPane.showMessageDialog(null, "Os sindicalizados aniversariantes de hoje são:" + "\n" + dp.getNome() + "\n" + "Telefone: " + dp.getCelular() + "\n" + "Idade: " + idade);
+                JOptionPane.showMessageDialog(null, "Os sindicalizados aniversariantes de hoje são:" + "\n" + dp.getNome() + "\n" + "Telefone: " + dp.getCelular() + "\n" + "Idade: " + idade, "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 niver = false;
             }
         } catch (Exception e) {

@@ -61,6 +61,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         }
 
         listar_Tabela();
+        
+        TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
 
     }
 

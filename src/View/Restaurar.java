@@ -43,6 +43,7 @@ public class Restaurar extends javax.swing.JInternalFrame {
         }
 
         Util.soLetras(TXT_NOME);
+        TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
     }
 
     public void setPosicao() { // faz o formulario aparecer centralizado na tela

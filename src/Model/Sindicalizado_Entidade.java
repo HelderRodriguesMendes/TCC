@@ -21,6 +21,12 @@ public class Sindicalizado_Entidade extends Pessoa{
     private String categoria;
     private String pai;
     private String mae;
+     private int id;
+    private int excluido;
+    
+    
+    
+    
     private String nomeFazenda;
     private String logradouro;
     private String municiSede;
@@ -31,8 +37,7 @@ public class Sindicalizado_Entidade extends Pessoa{
     private String tempoCompra;
     private String outrasA;
     private String residenciaAtual;
-    private int id;
-    private int excluido;
+   
 
     /**
      * @return the dataNasci

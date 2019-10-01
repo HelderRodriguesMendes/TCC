@@ -8,7 +8,6 @@ package View;
 import Controller.Sindicalizado;
 import Controller.Util;
 import DAO.Dados_Sindicalizado_Pessoais_DAO;
-import DAO.Sindicalizado_DAO;
 import Model.Dados_Rurais;
 import Model.Dados_Pessoais;
 import java.awt.Dimension;
@@ -22,7 +21,6 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
-import org.apache.bcel.generic.AALOAD;
 
 /**
  *
@@ -30,7 +28,7 @@ import org.apache.bcel.generic.AALOAD;
  */
 public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
 
-    Dados_Pessoais dadosp = new Dados_Pessoais();
+    Dados_Pessoais dadosp;
     Dados_Rurais pr;
     Sindicalizado si = new Sindicalizado();
     Dados_Sindicalizado_Pessoais_DAO DADOSP = new Dados_Sindicalizado_Pessoais_DAO();
@@ -38,8 +36,9 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     DateFormat df = DateFormat.getDateInstance();
 
     public String status = "";
-    int id = 0, idade, erro = 0, totalFazenda = 0, q = 0, ID_TABELA = 0;
-    boolean alterar = false, cont = false, validacao = false;
+    protected int id_sindicalizado = 0, idade, erro = 0, totalFazenda = 0, ID_TABELA = 0, linhaSelecionada, id_propriedade_rural = 0;
+    protected boolean alterar = false, cont = false, validacao = false;
+    protected String status2 = "";
 
     ArrayList<Dados_Rurais> RURAL = new ArrayList<>();
 
@@ -48,17 +47,13 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
 
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Cadastrar_Sindi.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(Cadastrar_Sindi.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(Cadastrar_Sindi.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Cadastrar_Sindi.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         validaNumerosLetras();
+
+        TABELA_PROPRIEDADE_RURAL.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
     }
 
     /**
@@ -115,48 +110,45 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         jLabel87 = new javax.swing.JLabel();
         jLabel88 = new javax.swing.JLabel();
         jLabel79 = new javax.swing.JLabel();
-        BOTAO_ALTERAR_ = new javax.swing.JLabel();
         TOTAO_REFAZER = new javax.swing.JLabel();
         BOTAO_AVANCAR_ = new javax.swing.JLabel();
         CANCELAR = new javax.swing.JLabel();
         DATAEXPE = new com.toedter.calendar.JDateChooser();
         NASCIMENTO = new com.toedter.calendar.JDateChooser();
         DADOS_RURAIS_SIND = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TABELA_PROPRIEDADE_RURAL = new javax.swing.JTable();
-        jLabel10 = new javax.swing.JLabel();
-        TOTAL_FAZ = new javax.swing.JTextField();
-        BOTAO_CADASTRAR_ = new javax.swing.JButton();
         jLabel45 = new javax.swing.JLabel();
         NOMEFAZENDA = new javax.swing.JTextField();
         jLabel67 = new javax.swing.JLabel();
-        jLabel63 = new javax.swing.JLabel();
-        TEMPOCOMPRA = new javax.swing.JTextField();
-        jLabel71 = new javax.swing.JLabel();
-        CODINCRA = new javax.swing.JFormattedTextField();
-        jLabel60 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        OUTRASATIVI = new javax.swing.JTextPane();
-        jLabel64 = new javax.swing.JLabel();
-        BOTAO_VOLTAR_ = new javax.swing.JLabel();
-        BOTAO_REFAZER_ = new javax.swing.JLabel();
-        BOTAO_SALVAR_ = new javax.swing.JLabel();
-        jLabel74 = new javax.swing.JLabel();
-        RESIDEN_ATUAL = new javax.swing.JTextField();
+        AREAFAZENDA = new javax.swing.JTextField();
+        jLabel62 = new javax.swing.JLabel();
+        jLabel70 = new javax.swing.JLabel();
         LOGRADOURO = new javax.swing.JTextField();
         jLabel46 = new javax.swing.JLabel();
         jLabel68 = new javax.swing.JLabel();
-        jLabel62 = new javax.swing.JLabel();
-        AREAFAZENDA = new javax.swing.JTextField();
-        jLabel70 = new javax.swing.JLabel();
+        TEMPOCOMPRA = new javax.swing.JTextField();
+        jLabel71 = new javax.swing.JLabel();
+        jLabel63 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel60 = new javax.swing.JLabel();
+        CODINCRA = new javax.swing.JFormattedTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        OUTRASATIVI = new javax.swing.JTextPane();
+        jLabel64 = new javax.swing.JLabel();
+        ADICONAR_FAZENDA_ = new javax.swing.JLabel();
+        RESIDEN_ATUAL = new javax.swing.JTextField();
+        jLabel74 = new javax.swing.JLabel();
         jLabel61 = new javax.swing.JLabel();
         Numero_NIRF = new javax.swing.JFormattedTextField();
-        MUNICEDE = new javax.swing.JTextField();
         jLabel59 = new javax.swing.JLabel();
+        MUNICEDE = new javax.swing.JTextField();
         jLabel69 = new javax.swing.JLabel();
+        BOTAO_VOLTAR_ = new javax.swing.JLabel();
+        BOTAO_REFAZER_ = new javax.swing.JLabel();
+        BOTAO_SALVAR_ = new javax.swing.JLabel();
 
         jToggleButton1.setText("jToggleButton1");
 
@@ -175,7 +167,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         PESQUISAR_SINDLayout.setHorizontalGroup(
             PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PESQUISAR_SINDLayout.createSequentialGroup()
-                .addContainerGap(1141, Short.MAX_VALUE)
+                .addContainerGap(1234, Short.MAX_VALUE)
                 .addGroup(PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PESQUISAR_SINDLayout.createSequentialGroup()
                         .addComponent(jLabel11)
@@ -189,7 +181,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             .addGroup(PESQUISAR_SINDLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
                 .addComponent(jLabel11)
                 .addGap(22, 22, 22))
         );
@@ -386,8 +378,6 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
 
         jLabel79.setText("CPF:");
 
-        BOTAO_ALTERAR_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/salvar_1.png"))); // NOI18N
-
         TOTAO_REFAZER.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
         TOTAO_REFAZER.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -432,52 +422,48 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                                 .addGap(3, 3, 3)
                                 .addComponent(RESERVISTA, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(74, 74, 74)
-                        .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                                        .addComponent(jLabel79)
-                                        .addGap(6, 6, 6)
-                                        .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(2, 2, 2)
-                                        .addComponent(jLabel80)
-                                        .addGap(107, 107, 107)
-                                        .addComponent(jLabel83)
-                                        .addGap(4, 4, 4)
-                                        .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(5, 5, 5)
-                                        .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(98, 98, 98)
-                                        .addComponent(jLabel89)
-                                        .addGap(4, 4, 4))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                                        .addComponent(TOTAO_REFAZER, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(89, 89, 89)))
-                                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(BOTAO_ALTERAR_)
-                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                                        .addGap(2, 2, 2)
-                                        .addComponent(DATAEXPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(4, 4, 4)
-                                        .addComponent(jLabel98))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                                .addComponent(jLabel97)
-                                .addGap(9, 9, 9)
-                                .addComponent(CATEGORIA, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(73, 73, 73)
-                                .addComponent(jLabel93)
-                                .addGap(4, 4, 4)
-                                .addComponent(TITULO_ELEITO, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel94)
-                                .addGap(4, 4, 4)
-                                .addComponent(ZONA, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)
-                                .addComponent(jLabel95)
+                        .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                .addComponent(jLabel79)
                                 .addGap(6, 6, 6)
+                                .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2)
+                                .addComponent(jLabel80)
+                                .addGap(107, 107, 107)
+                                .addComponent(jLabel83)
+                                .addGap(4, 4, 4)
+                                .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(5, 5, 5)
+                                .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(98, 98, 98)
+                                .addComponent(jLabel89)
+                                .addGap(6, 6, 6)
+                                .addComponent(DATAEXPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabel98))
+                            .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
                                 .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(BOTAO_AVANCAR_)
-                                    .addComponent(SECAO, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                        .addComponent(jLabel97)
+                                        .addGap(9, 9, 9)
+                                        .addComponent(CATEGORIA, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(73, 73, 73)
+                                        .addComponent(jLabel93)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(TITULO_ELEITO, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel94)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(ZONA, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(48, 48, 48)
+                                        .addComponent(jLabel95)
+                                        .addGap(6, 6, 6))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                        .addComponent(TOTAO_REFAZER)
+                                        .addGap(44, 44, 44)))
+                                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(SECAO, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BOTAO_AVANCAR_)))))
                     .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
                         .addComponent(jLabel75)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -500,7 +486,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                         .addComponent(CELULAR, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(CANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(448, Short.MAX_VALUE))
         );
         DADOS_PESSOAIS_SINDLayout.setVerticalGroup(
             DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -563,7 +549,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                                 .addComponent(DATAEXPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel98))
                             .addGap(2, 2, 2))))
-                .addGap(57, 57, 57)
+                .addGap(47, 47, 47)
                 .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(RESERVISTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel97)
@@ -578,18 +564,18 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                             .addComponent(jLabel93)
                             .addComponent(jLabel94)
                             .addComponent(jLabel95))))
-                .addGap(43, 43, 43)
-                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(TOTAO_REFAZER, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BOTAO_AVANCAR_, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BOTAO_ALTERAR_, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(TOTAO_REFAZER, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BOTAO_AVANCAR_))))
+                .addGap(115, 115, 115))
         );
 
         FORM_GUIAS.addTab("DADOS PESSOAIS", DADOS_PESSOAIS_SIND);
-
-        jLabel2.setText("SELECIONE A PROPRIEDADE RURAL");
 
         TABELA_PROPRIEDADE_RURAL.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -607,22 +593,12 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        TABELA_PROPRIEDADE_RURAL.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TABELA_PROPRIEDADE_RURALMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TABELA_PROPRIEDADE_RURAL);
-
-        jLabel10.setText("QUANTIDADE DE PROPRIEDADES RURAIS QUE SERÃO CADASTRADAS:");
-
-        TOTAL_FAZ.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TOTAL_FAZActionPerformed(evt);
-            }
-        });
-
-        BOTAO_CADASTRAR_.setText("Iniciar Cadastro");
-        BOTAO_CADASTRAR_.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BOTAO_CADASTRAR_ActionPerformed(evt);
-            }
-        });
 
         jLabel45.setText("Nome da propriedade rural:");
 
@@ -633,7 +609,23 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         jLabel67.setIconTextGap(8);
         jLabel67.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
-        jLabel63.setText("Tempo de compra da propriedade:");
+        jLabel62.setText("Area da prorpiedade:");
+
+        jLabel70.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel70.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel70.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel70.setText("*");
+        jLabel70.setIconTextGap(8);
+        jLabel70.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+
+        jLabel46.setText("Logradouro:");
+
+        jLabel68.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel68.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel68.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel68.setText("*");
+        jLabel68.setIconTextGap(8);
+        jLabel68.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         jLabel71.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel71.setForeground(new java.awt.Color(255, 0, 0));
@@ -641,6 +633,12 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         jLabel71.setText("*");
         jLabel71.setIconTextGap(8);
         jLabel71.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+
+        jLabel63.setText("Tempo de compra da propriedade:");
+
+        jLabel2.setText("SELECIONE A PROPRIEDADE RURAL");
+
+        jLabel60.setText("Código do imovel no INCRA:");
 
         try {
             CODINCRA.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###.###-#")));
@@ -653,11 +651,38 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel60.setText("Código do imovel no INCRA:");
-
         jScrollPane3.setViewportView(OUTRASATIVI);
 
         jLabel64.setText("Outras atividades:");
+
+        ADICONAR_FAZENDA_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fazenda.png"))); // NOI18N
+        ADICONAR_FAZENDA_.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ADICONAR_FAZENDA_MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ADICONAR_FAZENDA_MouseEntered(evt);
+            }
+        });
+
+        jLabel74.setText("Residência atual:");
+
+        jLabel61.setText("Numero NIRF:");
+
+        try {
+            Numero_NIRF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#.###.###-#")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        jLabel59.setText("Municipio cede:");
+
+        jLabel69.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel69.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel69.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel69.setText("*");
+        jLabel69.setIconTextGap(8);
+        jLabel69.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         BOTAO_VOLTAR_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/voltar.png"))); // NOI18N
         BOTAO_VOLTAR_.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -680,158 +705,114 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel74.setText("Residência atual:");
-
-        jLabel46.setText("Logradouro:");
-
-        jLabel68.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel68.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel68.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel68.setText("*");
-        jLabel68.setIconTextGap(8);
-        jLabel68.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-
-        jLabel62.setText("Area da prorpiedade:");
-
-        jLabel70.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel70.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel70.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel70.setText("*");
-        jLabel70.setIconTextGap(8);
-        jLabel70.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-
-        jLabel61.setText("Numero NIRF:");
-
-        try {
-            Numero_NIRF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#.###.###-#")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        jLabel59.setText("Municipio cede:");
-
-        jLabel69.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel69.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel69.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel69.setText("*");
-        jLabel69.setIconTextGap(8);
-        jLabel69.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addComponent(jLabel2)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel64)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(BOTAO_VOLTAR_, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(BOTAO_REFAZER_, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(BOTAO_SALVAR_, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel45)
                                         .addGap(4, 4, 4)
                                         .addComponent(NOMEFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, 0)
                                         .addComponent(jLabel67))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel60)
                                         .addGap(4, 4, 4)
                                         .addComponent(CODINCRA, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel63)
                                         .addGap(1, 1, 1)
                                         .addComponent(TEMPOCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(4, 4, 4)
                                         .addComponent(jLabel71)))
                                 .addGap(53, 53, 53)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addComponent(jLabel62)
                                                 .addGap(3, 3, 3)
                                                 .addComponent(AREAFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(4, 4, 4)
                                                 .addComponent(jLabel70))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addComponent(jLabel46)
                                                 .addGap(4, 4, 4)
                                                 .addComponent(LOGRADOURO, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(4, 4, 4)
-                                                .addComponent(jLabel68)))
-                                        .addGap(82, 82, 82)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel61)
-                                                .addGap(4, 4, 4)
-                                                .addComponent(Numero_NIRF, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel59)
-                                                .addGap(3, 3, 3)
-                                                .addComponent(MUNICEDE, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel69))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel68))
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGap(146, 146, 146)
+                                                .addComponent(ADICONAR_FAZENDA_)))
+                                        .addGap(70, 70, 70)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addComponent(jLabel61)
+                                                        .addGap(4, 4, 4)
+                                                        .addComponent(Numero_NIRF, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addComponent(jLabel59)
+                                                        .addGap(3, 3, 3)
+                                                        .addComponent(MUNICEDE, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel69))
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGap(33, 33, 33)
+                                                .addComponent(BOTAO_VOLTAR_)
+                                                .addGap(28, 28, 28)
+                                                .addComponent(BOTAO_REFAZER_)
+                                                .addGap(27, 27, 27)
+                                                .addComponent(BOTAO_SALVAR_))))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel74)
                                         .addGap(4, 4, 4)
                                         .addComponent(RESIDEN_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TOTAL_FAZ, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BOTAO_CADASTRAR_)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(125, 125, 125)
+                        .addComponent(jLabel2)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel10)
-                    .addComponent(TOTAL_FAZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BOTAO_CADASTRAR_))
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(NOMEFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel67)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
                                 .addComponent(jLabel45))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(AREAFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel62))
                             .addComponent(jLabel70)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(MUNICEDE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel59))
                             .addComponent(jLabel69))
                         .addGap(30, 30, 30)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(LOGRADOURO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel46))
                             .addComponent(jLabel68)
@@ -839,47 +820,52 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                             .addComponent(TEMPOCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel63)
                             .addComponent(Numero_NIRF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
                                 .addComponent(jLabel61)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(CODINCRA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel60)
-                                    .addComponent(RESIDEN_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel74))
-                                .addGap(50, 50, 50)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(26, 26, 26)
-                                        .addComponent(jLabel64))
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CODINCRA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel60)
+                            .addComponent(RESIDEN_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel74))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(BOTAO_VOLTAR_, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(BOTAO_REFAZER_, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(BOTAO_SALVAR_, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(80, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(BOTAO_REFAZER_, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(BOTAO_VOLTAR_))
+                                    .addComponent(BOTAO_SALVAR_))
+                                .addGap(19, 19, 19))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(52, 52, 52)
+                                        .addComponent(jLabel64))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(38, 38, 38)
+                                        .addComponent(ADICONAR_FAZENDA_)))
+                                .addGap(1, 1, 1))))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        jScrollPane2.setViewportView(jPanel1);
+        jScrollPane4.setViewportView(jPanel2);
 
         javax.swing.GroupLayout DADOS_RURAIS_SINDLayout = new javax.swing.GroupLayout(DADOS_RURAIS_SIND);
         DADOS_RURAIS_SIND.setLayout(DADOS_RURAIS_SINDLayout);
         DADOS_RURAIS_SINDLayout.setHorizontalGroup(
             DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1386, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         DADOS_RURAIS_SINDLayout.setVerticalGroup(
             DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
         );
 
         FORM_GUIAS.addTab("DADOS RURAIS", DADOS_RURAIS_SIND);
@@ -888,16 +874,11 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 1301, Short.MAX_VALUE))
+            .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 1388, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+            .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -935,24 +916,6 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CELULARActionPerformed
 
-    private void BOTAO_CADASTRAR_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_CADASTRAR_ActionPerformed
-        if ("".equals(TOTAL_FAZ.getText())) {
-            JOptionPane.showMessageDialog(null, "Infome o total de propriedades rurais que deseja cadastrar", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
-            TOTAL_FAZ.requestFocus();
-            bloquear_campus_rurais();
-        } else {
-            int t = Integer.parseInt(TOTAL_FAZ.getText());
-            if (t == 0) {
-                JOptionPane.showMessageDialog(null, "Infome o total de propriedades rurais que deseja cadastrar e que seja maior que 0", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
-                TOTAL_FAZ.setText("");
-                TOTAL_FAZ.requestFocus();
-            } else {
-                totalFazenda = t;
-                desbloquear_campus_rurais();
-            }
-        }
-    }//GEN-LAST:event_BOTAO_CADASTRAR_ActionPerformed
-
     private void TOTAO_REFAZERMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TOTAO_REFAZERMouseClicked
         limparCampus_Pessoais();
     }//GEN-LAST:event_TOTAO_REFAZERMouseClicked
@@ -965,14 +928,8 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         if (validacao) {
             preencher_objeto_Pessoal();
             selecionar_guia(2);
-            bloquear_campus_rurais();
         }
     }//GEN-LAST:event_BOTAO_AVANCAR_MouseClicked
-
-    private void TOTAL_FAZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TOTAL_FAZActionPerformed
-        limparCampus_Rurais();
-        bloquear_campus_rurais();
-    }//GEN-LAST:event_TOTAL_FAZActionPerformed
 
     private void BOTAO_VOLTAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_VOLTAR_MouseClicked
         selecionar_guia(1);
@@ -988,60 +945,77 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BOTAO_REFAZER_MouseClicked
 
     private void BOTAO_SALVAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_SALVAR_MouseClicked
-
-        validacao = validar_obrigatorios_rurais();
-        if (validacao) {
-            if (totalFazenda > 1) {
-                if (q <= totalFazenda) {
-                    if ("cadastrar sind".equals(status)) { //cadastrar um novo sindicalizado completo                                             
-                        RURAL.add(preencher_objeto_Rural());
-                        LISTAR_TABELA(RURAL);
-                        limparCampus_Rurais();
-                        q++;
-                        int a = totalFazenda - 1;
-                        if (q <= a) {
-                            JOptionPane.showMessageDialog(null, "Informe os dados das outras propriedades ruraris que deseja cadastrar", "Atenção", JOptionPane.INFORMATION_MESSAGE);
-                            NOMEFAZENDA.requestFocus();
-                        } else {
-                            // AQUI EU TENHO Q MANDA SALVA OS DOIS OBJETOS (PESSOAL E RURAL) SE CASO FOR CADASTRAR MAIS DE UMA PROPRIEDADE RURAL
-                            // os 2 objetos ja estão preenchidos, entao tenho que manda eles pra salva assim: (se, pr), e é um novo cadastro completo de sindicalizado
-
-                            id = DADOSP.salvar_Dados_P(dadosp);
-                            DADOSP.salvar_Dados_R(RURAL, id);
-
-                            limparCampus_Rurais();
-                            limparTabela(totalFazenda);
-                            TOTAL_FAZ.setText("");
-                            limparCampus_Pessoais();
-                            selecionar_guia(1);
-                        }
-                    } else if ("".equals(status)) {
-                        // alteração de dados: adicionar novas propriedades rurais a um sindicalizado que ja é cadastrado
-                        validacao = validar_obrigatorios_rurais();
-                        if (validacao) {
-                            preencher_objeto_Rural();
-                        }
-                    }
-                }
-            } else if (totalFazenda == 1) {
+        status2 = "salvar";
+        if (totalFazenda > 0) {
+            if ("".equals(campos_vazios())) {       // OS CAMPOS DO FORMULARIO ESTÃO VAZIOS, E OS DADOS JA ESTÃO TODOS NO ARRAY DE OBJETO
+                confirma_salvamento_fazenda();
+            } else if ("preencher".equals(campos_vazios())) { // OS CAMPOS DO FORMULARIO NÃO ESTÃO TODOS VAZIOS, INDEPENTENDE SE TEM OU NÃO DADOS NO ARRAY DE OBJETOS
                 validacao = validar_obrigatorios_rurais();
                 if (validacao) {
-                    preencher_objeto_Rural();
-                    // AQUI EU TENHO Q MANDA SALVA OS DOIS OBJETOS (PESSOAL E RURAL) SE CASO FOR CADASTRAR SÓ UMA PROPRIEDADE RURAL
-                    // os 2 objetos ja estão preenchidos, entao tenho que manda eles pra salva assim: (se, pr)
-                    q++;
-                }
-            } else if ("".equals(TOTAL_FAZ.getText())) { // alterar os dados rurais, então não sera informado o total de propriedades para ser cadastradas 
-                if ("altera propri".equals(status)) {
-                    validacao = validar_obrigatorios_rurais();
-                    if (validacao) {
+                    if (id_propriedade_rural > 0) {
+                        atualizar_linha_tabela(preencher_objeto_Rural(), linhaSelecionada);
+                        pr = new Dados_Rurais();
+                        pr = preencher_objeto_Rural();
+                        atualizarArray(pr);
+                        confirma_salvamento_fazenda();
+                        limparCampus_Rurais();
+                        id_propriedade_rural = 0;
+                    } else {
+                        totalFazenda++;
+                        RURAL.add(preencher_objeto_Rural());
+                        LISTAR_TABELA(RURAL);
 
+                        confirma_salvamento_fazenda();
+                        limparCampus_Rurais();
                     }
+                }
+            }
+
+        } else if (totalFazenda == 0) {
+            if ("preencher".equals(campos_vazios())) {
+                validacao = validar_obrigatorios_rurais();
+                if (validacao) {
+                    totalFazenda++;
+                    RURAL.add(preencher_objeto_Rural());
+                    LISTAR_TABELA(RURAL);
+
+                    confirma_salvamento_fazenda();
+                }
+            }
+        }
+    }//GEN-LAST:event_BOTAO_SALVAR_MouseClicked
+
+    private void ADICONAR_FAZENDA_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ADICONAR_FAZENDA_MouseClicked
+        status2 = "adicionar";
+        if ("preencher".equals(campos_vazios())) {
+            validacao = validar_obrigatorios_rurais();
+            if (validacao) {
+                if (id_propriedade_rural > 0) {
+                    atualizar_linha_tabela(preencher_objeto_Rural(), linhaSelecionada);
+                    pr = new Dados_Rurais();
+                    pr = preencher_objeto_Rural();
+                    atualizarArray(pr);
+                    limparCampus_Rurais();
+                    id_propriedade_rural = 0;
+                } else {
+                    totalFazenda++;
+                    RURAL.add(preencher_objeto_Rural());
+                    LISTAR_TABELA(RURAL);
+                    limparCampus_Rurais();
                 }
             }
         }
 
-    }//GEN-LAST:event_BOTAO_SALVAR_MouseClicked
+    }//GEN-LAST:event_ADICONAR_FAZENDA_MouseClicked
+
+    private void TABELA_PROPRIEDADE_RURALMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELA_PROPRIEDADE_RURALMouseClicked
+        linhaSelecionada = TABELA_PROPRIEDADE_RURAL.getSelectedRow();
+        altera_dados_JTABLE(linhaSelecionada);
+    }//GEN-LAST:event_TABELA_PROPRIEDADE_RURALMouseClicked
+
+    private void ADICONAR_FAZENDA_MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ADICONAR_FAZENDA_MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ADICONAR_FAZENDA_MouseEntered
 
     public void selecionar_guia(int n) {
         this.FORM_GUIAS.setEnabledAt(n, true); // desabilita toda a aba 1
@@ -1055,7 +1029,6 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
                 this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 2
                 if ("cadastrar sind".equals(status)) {
-                    BOTAO_ALTERAR_.setVisible(false);
                     CANCELAR.setVisible(false);
                 }
                 break;
@@ -1073,17 +1046,25 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
     }
 
-    public void bloquear_campus_rurais() {
-        NOMEFAZENDA.setEnabled(false);
-        AREAFAZENDA.setEnabled(false);
-        LOGRADOURO.setEnabled(false);
-        Numero_NIRF.setEnabled(false);
-        MUNICEDE.setEnabled(false);
-        TEMPOCOMPRA.setEnabled(false);
-        CODINCRA.setEnabled(false);
-        OUTRASATIVI.setEnabled(false);
-        RESIDEN_ATUAL.setEnabled(false);
+    public void confirma_salvamento_fazenda() {
+        String ObjButtons[] = {"Sim", "Não"};
+        int PromptResult = JOptionPane.showOptionDialog(null,
+                "Deseja cadastrar apenas " + totalFazenda + " propriedade rura?", "ATENÇÃO",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                ObjButtons, ObjButtons[0]);
+        if (PromptResult == 0) {
+            id_sindicalizado = DADOSP.salvar_Dados_P(dadosp);
+            DADOSP.salvar_Dados_R(RURAL, id_sindicalizado);
 
+            RURAL.clear();      //LIMPA O ARRAY DE OBJETOS
+            totalFazenda = 0;
+            limparCampus_Rurais();
+            limparTabela();
+            limparCampus_Pessoais();
+            selecionar_guia(1);
+        } else if (PromptResult == 1) {
+            limparCampus_Rurais();
+        }
     }
 
     public void desbloquear_campus_rurais() {
@@ -1120,13 +1101,28 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         NOMEFAZENDA.setText("");
         AREAFAZENDA.setText("");
         LOGRADOURO.setText("");
-        ;
         Numero_NIRF.setValue("");
         MUNICEDE.setText("");
         TEMPOCOMPRA.setText("");
         CODINCRA.setValue("");
         OUTRASATIVI.setText("");
         RESIDEN_ATUAL.setText("");
+    }
+
+    public void atualizarArray(Dados_Rurais ru) {
+        for (Dados_Rurais r : RURAL) {
+            if (r.getId() == ru.getId() && r.getNIRF().equals(ru.getNIRF()) && r.getCodINCRA().equals(ru.getCodINCRA())) {
+                r.setId(ru.getId());
+                r.setNomeFazenda(ru.getNomeFazenda());
+                r.setLogradouro(ru.getLogradouro());
+                r.setCodINCRA(ru.getCodINCRA());
+                r.setNIRF(ru.getNIRF());
+                r.setAreaPropri(ru.getAreaPropri());
+                r.setTempoCompra(ru.getTempoCompra());
+                r.setOutrasA(ru.getOutrasA());
+                r.setResidenciaAtual(ru.getResidenciaAtual());
+            }
+        }
     }
 
     public void preencher_campus_pessoais(Dados_Pessoais si) {
@@ -1155,10 +1151,22 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         MAE.setText(si.getMae());
 
         status = "alterar";
-        this.id = si.getId();
+        this.id_sindicalizado = si.getId();
         CANCELAR.setVisible(true);
         TOTAO_REFAZER.setVisible(false);
-        BOTAO_ALTERAR_.setVisible(false);
+    }
+
+    public void atualizar_linha_tabela(Dados_Rurais pr, int linha) {
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getId(), linha, 0);
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getNomeFazenda(), linha, 1);
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getAreaPropri(), linha, 2);
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getMuniciSede(), linha, 3);
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getTempoCompra(), linha, 4);
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getLogradouro(), linha, 5);
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getNIRF(), linha, 6);
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getCodINCRA(), linha, 7);
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getResidenciaAtual(), linha, 8);
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getOutrasA(), linha, 8);
     }
 
     public void preencher_campus_rurais(Dados_Rurais pr) {
@@ -1173,7 +1181,56 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         RESIDEN_ATUAL.setText(pr.getResidenciaAtual());
 
         status = "alterar";
-        this.id = pr.getId();
+        this.id_sindicalizado = pr.getId();
+    }
+
+    public String campos_vazios() {
+        int campu = 0, obri = 0;
+        String campus = "";
+        if (!"".equals(NOMEFAZENDA.getText())) {
+            obri++;
+        }
+        if (!"".equals(AREAFAZENDA.getText())) {
+            obri++;
+        }
+        if (!"".equals(LOGRADOURO.getText())) {
+            obri++;
+        }
+        if (!"".equals(MUNICEDE.getText())) {
+            obri++;
+        }
+        if (!"".equals(TEMPOCOMPRA.getText())) {
+            obri++;
+        }
+        if (!" .   .   - ".equals(Numero_NIRF.getText())) {
+            campu++;
+        }
+        if (!"   .   .   .   - ".equals(CODINCRA.getText())) {
+            campu++;
+        }
+        if (!"".equals(OUTRASATIVI.getText())) {
+            campu++;
+        }
+        if (!"".equals(RESIDEN_ATUAL.getText())) {
+            campu++;
+        }
+
+        if (obri == 5) {      // SE ESTIVE PREENCHIDO TODOS OS CAMPUS OBRIGATÓRIOS
+            campus = "preencher";
+        } else if (obri < 5 && obri > 0) {         // SE ESTIVE PREENCHIDO SÓ ALGUNS DOS CAMPUS OBRIGATÓRIOS
+            validar_obrigatorios_rurais();
+        } else if (campu > 0 && obri == 0) { // SE ESTIVE PREENCHIDO SÓ ALGUNS DOS CAMPUS NÃO OBRIGATÓRIOS
+            if (totalFazenda == 0) {
+                validar_obrigatorios_rurais();
+            } else {
+                JOptionPane.showMessageDialog(null, "Se deseja cadastrar mais uma propriedade rural, informe no minimo todos os dados obrigatórios", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                limparCampus_Rurais();
+            }
+        } else if (campu == 0 && obri == 0 && "adicionar".equals(status2)) {
+            validacao = validar_obrigatorios_rurais();
+        }
+
+        return campus;
     }
 
     public final void validaNumerosLetras() {
@@ -1217,7 +1274,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 NASCIMENTO.setDate(null);
             }
         }
-        if (erro == 0 && "   .   .    -   ".equals(CPF.getText()) || "".equals(CPF.getText())) {
+        if (erro == 0 && "   .   .    -   ".equals(CPF.getText())) {
             erro = 1;
             JOptionPane.showMessageDialog(null, "Informe o CPF do sindicalizado ");
             CPF.requestFocus();
@@ -1226,25 +1283,25 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if ("".equals(cpf) && erro == 0) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O CPF do sindicalizado é invalido", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
-                CPF.setText("   .   .    -   ");
+                CPF.setValue("");
                 CPF.requestFocus();
-            } else {
+            } else if (erro == 0) {
                 String i;
                 if (alterar) {
-                    i = si.verificar_CPF(CPF.getText(), id);
+                    i = si.verificar_CPF(CPF.getText(), id_sindicalizado);
                 } else {
                     i = si.verificar_CPF(CPF.getText(), 0);
                 }
                 if ("tem dono".equals(i)) {
                     erro = 1;
                     JOptionPane.showMessageDialog(null, "O CPF informado já esta cadastrado", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
-                    CPF.setText("");
+                    CPF.setValue("");
                     CPF.requestFocus();
                 }
             }
         }
 
-        if ((erro == 0) && "       ".equals(RG.getText()) || "".equals(RG.getText())) {
+        if ((erro == 0) && "       ".equals(RG.getText())) {
             JOptionPane.showMessageDialog(null, "Informe o RG");
             RG.requestFocus();
             erro = 1;
@@ -1253,19 +1310,19 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if ("".equals(R_G) && erro == 0) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O RG do sindicalizado é invalido", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
-                RG.setText("       ");
+                RG.setValue("");
                 RG.requestFocus();
-            } else {
+            } else if (erro == 0) {
                 String i;
                 if (alterar) {
-                    i = si.verificar_RG(RG.getText(), id);
+                    i = si.verificar_RG(RG.getText(), id_sindicalizado);
                 } else {
                     i = si.verificar_RG(RG.getText(), 0);
                 }
                 if ("tem dono".equals(i)) {
                     erro = 1;
                     JOptionPane.showMessageDialog(null, "O RG informado já esta cadastrado", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
-                    RG.setText("");
+                    RG.setValue("");
                     RG.requestFocus();
                 }
             }
@@ -1300,7 +1357,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if ("".equals(TEL)) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O telefone do sindicalizado é invalido", "Atenção", JOptionPane.ERROR_MESSAGE);
-                CELULAR.setText("(  ) 9     -     ");
+                CELULAR.setValue("");
                 CELULAR.requestFocus();
             }
         } else if (!"".equals(RESERVISTA.getText()) && erro == 0) {
@@ -1308,7 +1365,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if ("".equals(RESER)) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                RESERVISTA.setText("");
+                RESERVISTA.setValue("");
                 RESERVISTA.requestFocus();
             }
         } else if (!"              ".equals(TITULO_ELEITO.getText()) && erro == 0) {
@@ -1316,7 +1373,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if ("".equals(titu)) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O titulo de eleitor do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                TITULO_ELEITO.setText("              ");
+                TITULO_ELEITO.setValue("");
                 TITULO_ELEITO.requestFocus();
             }
         } else if (!"   ".equals(ZONA.getText()) && erro == 0) {
@@ -1324,7 +1381,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if ("".equals(zona)) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "A zona do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                ZONA.setText("   ");
+                ZONA.setValue("");
                 ZONA.requestFocus();
             }
         } else if (!"    ".equals(SECAO.getText()) && erro == 0) {
@@ -1332,7 +1389,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if ("".equals(secao)) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "A seção do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                SECAO.setText("   ");
+                SECAO.setValue("");
                 SECAO.requestFocus();
             }
         }
@@ -1371,6 +1428,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         } else if ("   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe o código no Incra da propriedade rural");
             CODINCRA.requestFocus();
+            erro = 1;
         } else if (!"   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
             String codI = si.validaCodIncra(CODINCRA.getText());
             if ("".equals(codI)) {
@@ -1380,15 +1438,23 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 CODINCRA.requestFocus();
             } else {
                 String i;
-                if ("altera propri".equals(status)) {
-                    i = si.verificar_INCRA(codI, id);
+                if ("alterar".equals(status)) {
+                    i = si.verificar_INCRA(codI, id_sindicalizado);
                 } else {
+                    if (totalFazenda > 0 && id_propriedade_rural == 0) {
+                        if (pr.getCodINCRA().equals(codI)) {
+                            JOptionPane.showMessageDialog(null, "Não é permitido cadastrar Códigos do imovel no INCRA repetidos");
+                            CODINCRA.setValue("");
+                            CODINCRA.requestFocus();
+                            erro = 1;
+                        }
+                    }
                     i = si.verificar_INCRA(codI, 0);
                 }
                 if ("tem dono".equals(i)) {
                     erro = 1;
                     JOptionPane.showMessageDialog(null, "O código no INCRA da propriedade rural informado já esta cadastrado", "Atenção Código no INCRA invalido", JOptionPane.ERROR_MESSAGE);
-                    CODINCRA.setText("");
+                    CODINCRA.setValue("");
                     CODINCRA.requestFocus();
                 }
             }
@@ -1404,19 +1470,19 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if ("".equals(nirf)) {
                 erro = 1;
                 JOptionPane.showMessageDialog(null, "O número do NIRF do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                Numero_NIRF.setText(" .   .   - ");
+                Numero_NIRF.setValue("");
                 Numero_NIRF.requestFocus();
             } else {
                 String i;
-                if ("altera propri".equals(status)) {
-                    i = si.verificar_NIRF(nirf, id);
+                if ("alterar".equals(status)) {
+                    i = si.verificar_NIRF(nirf, id_sindicalizado);
                 } else {
                     i = si.verificar_NIRF(nirf, 0);
                 }
                 if ("tem dono".equals(i)) {
                     erro = 1;
                     JOptionPane.showMessageDialog(null, "O número do NIRF informado já esta cadastrado", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
-                    Numero_NIRF.setText("");
+                    Numero_NIRF.setValue("");
                     Numero_NIRF.requestFocus();
                 }
             }
@@ -1432,9 +1498,6 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     }
 
     public void LISTAR_TABELA(ArrayList<Dados_Rurais> DADOS_RU) {
-        if ("cadastrar sind".equals(status)) {
-            ID_TABELA++;
-        }
         DefaultTableModel dtma = (DefaultTableModel) TABELA_PROPRIEDADE_RURAL.getModel();
         dtma.setNumRows(0);
 
@@ -1443,11 +1506,6 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         TABELA_PROPRIEDADE_RURAL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         DADOS_RU.forEach((dr) -> {
-            if ("cadastrar sind".equals(status)) {               
-                dr.setId(ID_TABELA);
-            } else if ("altera propri".equals(status)) {
-                ID_TABELA++;
-            }
 
             dtma.addRow(new Object[]{
                 dr.getId(),
@@ -1465,6 +1523,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     }
 
     public Dados_Pessoais preencher_objeto_Pessoal() {
+        dadosp = new Dados_Pessoais();
         dadosp.setNome(NOME.getText());
         String dtn = df.format(NASCIMENTO.getDate());
         dadosp.setDataNasci(Util.STRING_DATE(dtn));
@@ -1503,26 +1562,38 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         pr.setOutrasA(OUTRASATIVI.getText());
         pr.setResidenciaAtual(RESIDEN_ATUAL.getText());
         pr.setExcluido(0);
-        if ("altera propri".equals(status)) {
-            pr.setId(id);
+        if ("alterar".equals(status)) {
+            pr.setId(id_sindicalizado);
+        } else if ("cadastrar sind".equals(status)) {
+            pr.setId(totalFazenda);
+        } else if (id_propriedade_rural > 0) {
+            pr.setId(id_propriedade_rural);
         }
 
         return pr;
     }
 
-    public void limparTabela(int nu) {
-        nu += 1;
-        for (int e = 0; e < nu; e++) {
-            DefaultTableModel dtma = (DefaultTableModel) TABELA_PROPRIEDADE_RURAL.getModel();
-            dtma.removeRow(e);
-        }
+    public void altera_dados_JTABLE(int linha) {
+        id_propriedade_rural = Integer.parseInt(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 0).toString());
+        NOMEFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 1).toString());
+        AREAFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 2).toString());
+        MUNICEDE.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 3).toString());
+        TEMPOCOMPRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 4).toString());
+        LOGRADOURO.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 5).toString());
+        Numero_NIRF.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 6).toString());
+        CODINCRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 7).toString());
+        RESIDEN_ATUAL.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 8).toString());
+        OUTRASATIVI.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 9).toString());
+    }
+
+    public void limparTabela() {
+        ((DefaultTableModel) TABELA_PROPRIEDADE_RURAL.getModel()).setRowCount(0); // REMOVE TODOS OS DADOS QUE ESTIVER NA TABELA
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel ADICONAR_FAZENDA_;
     private javax.swing.JTextField AREAFAZENDA;
-    private javax.swing.JLabel BOTAO_ALTERAR_;
     private javax.swing.JLabel BOTAO_AVANCAR_;
-    private javax.swing.JButton BOTAO_CADASTRAR_;
     private javax.swing.JLabel BOTAO_REFAZER_;
     private javax.swing.JLabel BOTAO_SALVAR_;
     private javax.swing.JLabel BOTAO_VOLTAR_;
@@ -1554,11 +1625,9 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     private javax.swing.JTable TABELA_PROPRIEDADE_RURAL;
     private javax.swing.JTextField TEMPOCOMPRA;
     private javax.swing.JFormattedTextField TITULO_ELEITO;
-    private javax.swing.JTextField TOTAL_FAZ;
     private javax.swing.JLabel TOTAO_REFAZER;
     private javax.swing.JFormattedTextField ZONA;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -1600,11 +1669,11 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel96;
     private javax.swing.JLabel jLabel97;
     private javax.swing.JLabel jLabel98;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }

@@ -50,6 +50,8 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
         LISTAR_TABELA();
         Util.soLetras(NOME);
+        
+        TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
     }
 
     public void setPosicao() { // faz o formulario aparecer centralizado na tela

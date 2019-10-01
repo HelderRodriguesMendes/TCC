@@ -62,7 +62,7 @@ public class Interface extends javax.swing.JFrame {
     }
 
     public void retornarLogin() {
-        Tela_Login tl = new Tela_Login();
+        Tela_de_Login tl = new Tela_de_Login();
         tl.setVisible(true);
         this.dispose();
     }
@@ -98,6 +98,7 @@ public class Interface extends javax.swing.JFrame {
         jMenuItem6.setText("jMenuItem6");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Página Inicial");
 
         DESKTOP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -114,7 +115,7 @@ public class Interface extends javax.swing.JFrame {
         DESKTOP.setLayout(DESKTOPLayout);
         DESKTOPLayout.setHorizontalGroup(
             DESKTOPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1292, Short.MAX_VALUE)
+            .addGap(0, 1291, Short.MAX_VALUE)
         );
         DESKTOPLayout.setVerticalGroup(
             DESKTOPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,7 +274,7 @@ public class Interface extends javax.swing.JFrame {
             .addComponent(DESKTOP)
         );
 
-        setSize(new java.awt.Dimension(1308, 728));
+        setSize(new java.awt.Dimension(1307, 728));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -366,7 +367,7 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_DESKTOPMouseEntered
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
-        Tela_Login tl = new Tela_Login();
+        Tela_de_Login tl = new Tela_de_Login();
         tl.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenu2MouseClicked
