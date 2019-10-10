@@ -49,365 +49,365 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
             Logger.getLogger(Cadastrar_Sindicalizado.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        validaNumerosLetras();
+//        validaNumerosLetras();
 
         VOLTAR.setVisible(false);
     }
 
-    public Dados_Pessoais PREENCHER_OBJETO() {
-        se.setNome(NOME.getText());
-        String dtn = df.format(NASCIMENTO.getDate());
-        se.setDataNasci(Util.STRING_DATE(dtn));
-        se.setCelular(CELULAR.getText());
-        se.setNascionalidade(NASCIONALIDADE.getText());
-        se.setEstadoCivil(String.valueOf(ESTADOCIVI.getSelectedItem()));
-        se.setCpf(CPF.getText());
-        se.setRg(RG.getText());
-        String dte = df.format(DATAEXPE.getDate());
-        se.setDataExpedicao(Util.STRING_DATE(dte));
-        se.setTituloEleito(TITULO_ELEITO.getText());
-        if (!"   ".equals(ZONA.getText())) {
-            se.setZona(Integer.parseInt(ZONA.getText()));
-        }
-        if (!"    ".equals(SECAO.getText())) {
-            se.setSecao(Integer.parseInt(SECAO.getText()));
-        }
-        se.setReservista(RESERVISTA.getText());
-        se.setCategoria(CATEGORIA.getText());
-        se.setPai(PAI.getText());
-        se.setMae(MAE.getText());
-        se.setNomeFazenda(NOMEFAZENDA.getText());
-        se.setLogradouro(LOGRADOURO.getText());
-        se.setMuniciSede(MUNICEDE.getText());
-        se.setCodINCRA(CODINCRA.getText());
-        LS = LEITE_S.isSelected();
-        if (LS == true) {
-            se.setTiraLeite("Sim");
-        } else {
-            se.setTiraLeite("Não");
-        }
-        se.setNIRF(NIRF.getText());
-        se.setAreaPropri(AREAFAZENDA.getText());
-        se.setTempoCompra(TEMPOCOMPRA.getText());
-        se.setOutrasA(OUTRASATIVI.getText());
-        se.setResidenciaAtual(RESIDEN_ATUAL.getText());
-        se.setExcluido(0);
-
-        return se;
-    }
-
-    public boolean validar_obrigatorios() {
-
-        String cpf;
-        LS = LEITE_S.isSelected();
-        LN = LEITE_N.isSelected();
-
-        if ("".equals(NOME.getText())) {
-            JOptionPane.showMessageDialog(null, "Informe o nome");
-            erro = 1;
-            NOME.requestFocus();
-        } else if (NASCIMENTO.getDate() == null) {
-            JOptionPane.showMessageDialog(null, "Informe a data de nascimento");
-            erro = 1;
-            NASCIMENTO.requestFocus();
-        } else {
-            String data = Util.verificar_Data(df.format(NASCIMENTO.getDate()), true);
-            idade = Util.idade;
-
-            if ("//".equals(data)) {
-                if (idade < 18) {
-                    JOptionPane.showMessageDialog(null, "Não é permitido o cadastramento de sindicalizado menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
-                    erro = 1;
-                } else {
-                    JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-                    erro = 1;
-                }
-                NASCIMENTO.setDate(null);
-            }
-        }
-        if (erro == 0 && "   .   .    -   ".equals(CPF.getText()) || "".equals(CPF.getText())) {
-            erro = 1;
-            JOptionPane.showMessageDialog(null, "Informe o CPF do sindicalizado ");
-            CPF.requestFocus();
-        } else {
-            cpf = si.validar_CPF(CPF.getText());
-            if ("".equals(cpf) && erro == 0) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "O CPF do sindicalizado é invalido", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
-                CPF.setText("   .   .    -   ");
-                CPF.requestFocus();
-            } else {
-                String i;
-                if (alterar) {
-                    i = si.verificar_CPF(CPF.getText(), id);
-                } else {
-                    i = si.verificar_CPF(CPF.getText(), 0);
-                }
-                if ("tem dono".equals(i)) {
-                    erro = 1;
-                    JOptionPane.showMessageDialog(null, "O CPF informado já esta cadastrado", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
-                    CPF.setText("");
-                    CPF.requestFocus();
-                }
-            }
-        }
-
-        if ((erro == 0) && "       ".equals(RG.getText()) || "".equals(RG.getText())) {
-            JOptionPane.showMessageDialog(null, "Informe o RG");
-            RG.requestFocus();
-            erro = 1;
-        } else {
-            String R_G = si.validadar_RG(RG.getText());
-            if ("".equals(R_G) && erro == 0) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "O RG do sindicalizado é invalido", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
-                RG.setText("       ");
-                RG.requestFocus();
-            } else {
-                String i;
-                if (alterar) {
-                    i = si.verificar_RG(RG.getText(), id);
-                } else {
-                    i = si.verificar_RG(RG.getText(), 0);
-                }
-                if ("tem dono".equals(i)) {
-                    erro = 1;
-                    JOptionPane.showMessageDialog(null, "O RG informado já esta cadastrado", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
-                    RG.setText("");
-                    RG.requestFocus();
-                }
-            }
-        }
-        if (DATAEXPE.getDate() == null && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG");
-            DATAEXPE.requestFocus();
-            erro = 1;
-        } else if (erro == 0) {
-            String data = Util.verificar_Data(df.format(DATAEXPE.getDate()), false);
-            if ("//".equals(data)) {
-                JOptionPane.showMessageDialog(null, "A data de Expedição do RG do sindicalizado é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-                erro = 1;
-                DATAEXPE.setDate(null);
-                DATAEXPE.requestFocus();
-            }
-        }
-        if ("".equals(NASCIONALIDADE.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe a nascionalidade");
-            NASCIONALIDADE.requestFocus();
-            erro = 1;
-        } else if ("".equals(PAI.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe a filiação paterna");
-            PAI.requestFocus();
-            erro = 1;
-        } else if ("".equals(MAE.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe a filiação materna");
-            MAE.requestFocus();
-            erro = 1;
-        } else 
-            
-            
-            
-            
-            
-            if ("".equals(NOMEFAZENDA.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural");
-            NOMEFAZENDA.requestFocus();
-            erro = 1;
-        } else if ("".equals(LOGRADOURO.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o logradouro da propriedade rural");
-            LOGRADOURO.requestFocus();
-            erro = 1;
-        } else if ("".equals(MUNICEDE.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o municipio cede da propriedade rural");
-            MUNICEDE.requestFocus();
-            erro = 1;
-        } else if (LS == false && LN == false && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe se a comercialização de leite na propriedade rural");
-            jLabel27.requestFocus();
-            erro = 1;
-        } else if ("".equals(AREAFAZENDA.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe a area da propriedade rural");
-            AREAFAZENDA.requestFocus();
-            erro = 1;
-        } else if ("".equals(TEMPOCOMPRA.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural");
-            TEMPOCOMPRA.requestFocus();
-            erro = 1;
-        } else 
-            
-            
-            
-            
-            if (!"(  ) 9     -     ".equals(CELULAR.getText()) && erro == 0) {        // DAQUI PRA BAIXO COMEÇA A VALIDAÇÃO DOS QUE NÃO SÃO OBRIGATÓRIOS 
-            String TEL = si.validadar_Telefone(CELULAR.getText());
-            if ("".equals(TEL)) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "O telefone do sindicalizado é invalido", "Atenção", JOptionPane.ERROR_MESSAGE);
-                CELULAR.setText("(  ) 9     -     ");
-                CELULAR.requestFocus();
-            }
-        } else if (!"".equals(RESERVISTA.getText()) && erro == 0) {
-            String RESER = si.validarReservista(RESERVISTA.getText());
-            if ("".equals(RESER)) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                RESERVISTA.setText("");
-                RESERVISTA.requestFocus();
-            }
-        } else if (!"              ".equals(TITULO_ELEITO.getText()) && erro == 0) {
-            String titu = si.validar_Titulo_Eleitor(TITULO_ELEITO.getText());
-            if ("".equals(titu)) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "O titulo de eleitor do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                TITULO_ELEITO.setText("              ");
-                TITULO_ELEITO.requestFocus();
-            }
-        } else if (!"   ".equals(ZONA.getText()) && erro == 0) {
-            String zona = si.validar_zona(ZONA.getText());
-            if ("".equals(zona)) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "A zona do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                ZONA.setText("   ");
-                ZONA.requestFocus();
-            }
-        } else if (!"    ".equals(SECAO.getText()) && erro == 0) {
-            String secao = si.validar_secao(SECAO.getText());
-            if ("".equals(secao)) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "A seção do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                SECAO.setText("   ");
-                SECAO.requestFocus();
-            }
-        } else 
-            
-            
-            
-            
-            
-            
-            if (!"   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
-            String codI = si.validaCodIncra(CODINCRA.getText());
-            if ("".equals(codI)) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "O código do INCRA do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                CODINCRA.setText("   .   .   .   - ");
-                CODINCRA.requestFocus();
-            }
-        } else if (!" .   .   - ".equals(NIRF.getText()) && erro == 0) {
-            String nirf = si.validarNIRF(NIRF.getText());
-            if ("".equals(nirf)) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "O número do NIRF do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                NIRF.setText(" .   .   - ");
-                NIRF.requestFocus();
-            }
-        }
-        if (erro == 0) {
-            cont = true;
-        } else if (erro == 1) {
-            cont = false;
-        }
-
-        return cont;
-    }
-
-    public void setPosicao() { // faz o formulario aparecer centralizado na tela
-        Dimension d = this.getDesktopPane().getSize();
-        this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
-    }
-
-    public void limparCampus() {
-        NOME.setText("");
-        NASCIMENTO.setDate(null);
-        ESTADOCIVI.setSelectedIndex(0);
-        CPF.setText("");
-        CELULAR.setText("");
-        RG.setText("");
-        DATAEXPE.setDate(null);
-        NASCIONALIDADE.setText("");
-        RESERVISTA.setText("");
-        CATEGORIA.setText("");
-        TITULO_ELEITO.setText("");
-        ZONA.setText("");
-        SECAO.setText("");
-        PAI.setText("");
-        MAE.setText("");
-        NOMEFAZENDA.setText("");
-        AREAFAZENDA.setText("");
-        LOGRADOURO.setText("");
-        NIRF.setText("");
-        MUNICEDE.setText("");
-        TEMPOCOMPRA.setText("");
-        CODINCRA.setText("");
-        LEITE_S.setSelected(false);
-        LEITE_N.setSelected(false);
-        OUTRASATIVI.setText("");
-        RESIDEN_ATUAL.setText("");
-
-    }
-
-    public final void validaNumerosLetras() {
-        Util.soLetras(NOME);
-        Util.soNumeros(RG);
-        Util.soLetras(NASCIONALIDADE);
-        Util.soNumeros(RESERVISTA);
-        Util.soNumeros(TITULO_ELEITO);
-        Util.soNumeros(ZONA);
-        Util.soNumeros(SECAO);
-        Util.soLetras(PAI);
-        Util.soLetras(MAE);
-        Util.soLetras(NOMEFAZENDA);
-        Util.soLetras(MUNICEDE);
-        Util.soLetras(RESIDEN_ATUAL);
-    }
-
-    public void preencher_campus_alteracao(Dados_Pessoais si) {
-
-        NOME.setText(si.getNome());
-        NASCIMENTO.setDate(si.getDataNasci());
-        ESTADOCIVI.setSelectedItem(si.getEstadoCivil());
-        CPF.setText(si.getCpf());
-        CELULAR.setText(si.getCelular());
-        RG.setText(si.getRg());
-        DATAEXPE.setDate(si.getDataExpedicao());
-        NASCIONALIDADE.setText(si.getNascionalidade());
-        RESERVISTA.setText(si.getReservista());
-        CATEGORIA.setText(si.getCategoria());
-        TITULO_ELEITO.setText(si.getTituloEleito());
-        if (si.getZona() == 0) {
-            ZONA.setText("");
-        } else {
-            ZONA.setText(String.valueOf(si.getZona()));
-        }
-        if (si.getSecao() == 0) {
-            SECAO.setText("");
-        } else {
-            SECAO.setText(String.valueOf(si.getSecao()));
-        }
-        PAI.setText(si.getPai());
-        MAE.setText(si.getMae());
-        NOMEFAZENDA.setText(si.getNomeFazenda());
-        AREAFAZENDA.setText(si.getAreaPropri());
-        LOGRADOURO.setText(si.getLogradouro());
-        NIRF.setText(si.getNIRF());
-        MUNICEDE.setText(si.getMuniciSede());
-        TEMPOCOMPRA.setText(si.getTempoCompra());
-        CODINCRA.setText(si.getCodINCRA());
-        if ("sim".equals(si.getTiraLeite())) {
-            LEITE_S.setSelected(true);
-            LEITE_N.setSelected(false);
-        } else {
-            LEITE_S.setSelected(false);
-            LEITE_N.setSelected(true);
-        }
-        OUTRASATIVI.setText(si.getOutrasA());
-        RESIDEN_ATUAL.setText(si.getResidenciaAtual());
-
-        this.alterar = true;
-        this.id = si.getId();
-        VOLTAR.setVisible(true);
-        BT_ATU.setVisible(false);
-    }
+//    public Dados_Pessoais PREENCHER_OBJETO() {
+//        se.setNome(NOME.getText());
+//        String dtn = df.format(NASCIMENTO.getDate());
+//        se.setDataNasci(Util.STRING_DATE(dtn));
+//        se.setCelular(CELULAR.getText());
+//        se.setNascionalidade(NASCIONALIDADE.getText());
+//        se.setEstadoCivil(String.valueOf(ESTADOCIVI.getSelectedItem()));
+//        se.setCpf(CPF.getText());
+//        se.setRg(RG.getText());
+//        String dte = df.format(DATAEXPE.getDate());
+//        se.setDataExpedicao(Util.STRING_DATE(dte));
+//        se.setTituloEleito(TITULO_ELEITO.getText());
+//        if (!"   ".equals(ZONA.getText())) {
+//            se.setZona(Integer.parseInt(ZONA.getText()));
+//        }
+//        if (!"    ".equals(SECAO.getText())) {
+//            se.setSecao(Integer.parseInt(SECAO.getText()));
+//        }
+//        se.setReservista(RESERVISTA.getText());
+//        se.setCategoria(CATEGORIA.getText());
+//        se.setPai(PAI.getText());
+//        se.setMae(MAE.getText());
+//        se.setNomeFazenda(NOMEFAZENDA.getText());
+//        se.setLogradouro(LOGRADOURO.getText());
+//        se.setMuniciSede(MUNICEDE.getText());
+//        se.setCodINCRA(CODINCRA.getText());
+//        LS = LEITE_S.isSelected();
+//        if (LS == true) {
+//            se.setTiraLeite("Sim");
+//        } else {
+//            se.setTiraLeite("Não");
+//        }
+//        se.setNIRF(NIRF.getText());
+//        se.setAreaPropri(AREAFAZENDA.getText());
+//        se.setTempoCompra(TEMPOCOMPRA.getText());
+//        se.setOutrasA(OUTRASATIVI.getText());
+//        se.setResidenciaAtual(RESIDEN_ATUAL.getText());
+//        se.setExcluido(0);
+//
+//        return se;
+//    }
+//
+//    public boolean validar_obrigatorios() {
+//
+//        String cpf;
+//        LS = LEITE_S.isSelected();
+//        LN = LEITE_N.isSelected();
+//
+//        if ("".equals(NOME.getText())) {
+//            JOptionPane.showMessageDialog(null, "Informe o nome");
+//            erro = 1;
+//            NOME.requestFocus();
+//        } else if (NASCIMENTO.getDate() == null) {
+//            JOptionPane.showMessageDialog(null, "Informe a data de nascimento");
+//            erro = 1;
+//            NASCIMENTO.requestFocus();
+//        } else {
+//            String data = Util.verificar_Data(df.format(NASCIMENTO.getDate()), true);
+//            idade = Util.idade;
+//
+//            if ("//".equals(data)) {
+//                if (idade < 18) {
+//                    JOptionPane.showMessageDialog(null, "Não é permitido o cadastramento de sindicalizado menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
+//                    erro = 1;
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+//                    erro = 1;
+//                }
+//                NASCIMENTO.setDate(null);
+//            }
+//        }
+//        if (erro == 0 && "   .   .    -   ".equals(CPF.getText()) || "".equals(CPF.getText())) {
+//            erro = 1;
+//            JOptionPane.showMessageDialog(null, "Informe o CPF do sindicalizado ");
+//            CPF.requestFocus();
+//        } else {
+//            cpf = si.validar_CPF(CPF.getText());
+//            if ("".equals(cpf) && erro == 0) {
+//                erro = 1;
+//                JOptionPane.showMessageDialog(null, "O CPF do sindicalizado é invalido", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
+//                CPF.setText("   .   .    -   ");
+//                CPF.requestFocus();
+//            } else {
+//                String i;
+//                if (alterar) {
+//                    i = si.verificar_CPF(CPF.getText(), id);
+//                } else {
+//                    i = si.verificar_CPF(CPF.getText(), 0);
+//                }
+//                if ("tem dono".equals(i)) {
+//                    erro = 1;
+//                    JOptionPane.showMessageDialog(null, "O CPF informado já esta cadastrado", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
+//                    CPF.setText("");
+//                    CPF.requestFocus();
+//                }
+//            }
+//        }
+//
+//        if ((erro == 0) && "       ".equals(RG.getText()) || "".equals(RG.getText())) {
+//            JOptionPane.showMessageDialog(null, "Informe o RG");
+//            RG.requestFocus();
+//            erro = 1;
+//        } else {
+//            String R_G = si.validadar_RG(RG.getText());
+//            if ("".equals(R_G) && erro == 0) {
+//                erro = 1;
+//                JOptionPane.showMessageDialog(null, "O RG do sindicalizado é invalido", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+//                RG.setText("       ");
+//                RG.requestFocus();
+//            } else {
+//                String i;
+//                if (alterar) {
+//                    i = si.verificar_RG(RG.getText(), id);
+//                } else {
+//                    i = si.verificar_RG(RG.getText(), 0);
+//                }
+//                if ("tem dono".equals(i)) {
+//                    erro = 1;
+//                    JOptionPane.showMessageDialog(null, "O RG informado já esta cadastrado", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+//                    RG.setText("");
+//                    RG.requestFocus();
+//                }
+//            }
+//        }
+//        if (DATAEXPE.getDate() == null && erro == 0) {
+//            JOptionPane.showMessageDialog(null, "Informe a data de expedição do RG");
+//            DATAEXPE.requestFocus();
+//            erro = 1;
+//        } else if (erro == 0) {
+//            String data = Util.verificar_Data(df.format(DATAEXPE.getDate()), false);
+//            if ("//".equals(data)) {
+//                JOptionPane.showMessageDialog(null, "A data de Expedição do RG do sindicalizado é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+//                erro = 1;
+//                DATAEXPE.setDate(null);
+//                DATAEXPE.requestFocus();
+//            }
+//        }
+//        if ("".equals(NASCIONALIDADE.getText()) && erro == 0) {
+//            JOptionPane.showMessageDialog(null, "Informe a nascionalidade");
+//            NASCIONALIDADE.requestFocus();
+//            erro = 1;
+//        } else if ("".equals(PAI.getText()) && erro == 0) {
+//            JOptionPane.showMessageDialog(null, "Informe a filiação paterna");
+//            PAI.requestFocus();
+//            erro = 1;
+//        } else if ("".equals(MAE.getText()) && erro == 0) {
+//            JOptionPane.showMessageDialog(null, "Informe a filiação materna");
+//            MAE.requestFocus();
+//            erro = 1;
+//        } else 
+//            
+//            
+//            
+//            
+//            
+//            if ("".equals(NOMEFAZENDA.getText()) && erro == 0) {
+//            JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural");
+//            NOMEFAZENDA.requestFocus();
+//            erro = 1;
+//        } else if ("".equals(LOGRADOURO.getText()) && erro == 0) {
+//            JOptionPane.showMessageDialog(null, "Informe o logradouro da propriedade rural");
+//            LOGRADOURO.requestFocus();
+//            erro = 1;
+//        } else if ("".equals(MUNICEDE.getText()) && erro == 0) {
+//            JOptionPane.showMessageDialog(null, "Informe o municipio cede da propriedade rural");
+//            MUNICEDE.requestFocus();
+//            erro = 1;
+//        } else if (LS == false && LN == false && erro == 0) {
+//            JOptionPane.showMessageDialog(null, "Informe se a comercialização de leite na propriedade rural");
+//            jLabel27.requestFocus();
+//            erro = 1;
+//        } else if ("".equals(AREAFAZENDA.getText()) && erro == 0) {
+//            JOptionPane.showMessageDialog(null, "Informe a area da propriedade rural");
+//            AREAFAZENDA.requestFocus();
+//            erro = 1;
+//        } else if ("".equals(TEMPOCOMPRA.getText()) && erro == 0) {
+//            JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural");
+//            TEMPOCOMPRA.requestFocus();
+//            erro = 1;
+//        } else 
+//            
+//            
+//            
+//            
+//            if (!"(  ) 9     -     ".equals(CELULAR.getText()) && erro == 0) {        // DAQUI PRA BAIXO COMEÇA A VALIDAÇÃO DOS QUE NÃO SÃO OBRIGATÓRIOS 
+//            String TEL = si.validadar_Telefone(CELULAR.getText());
+//            if ("".equals(TEL)) {
+//                erro = 1;
+//                JOptionPane.showMessageDialog(null, "O telefone do sindicalizado é invalido", "Atenção", JOptionPane.ERROR_MESSAGE);
+//                CELULAR.setText("(  ) 9     -     ");
+//                CELULAR.requestFocus();
+//            }
+//        } else if (!"".equals(RESERVISTA.getText()) && erro == 0) {
+//            String RESER = si.validarReservista(RESERVISTA.getText());
+//            if ("".equals(RESER)) {
+//                erro = 1;
+//                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+//                RESERVISTA.setText("");
+//                RESERVISTA.requestFocus();
+//            }
+//        } else if (!"              ".equals(TITULO_ELEITO.getText()) && erro == 0) {
+//            String titu = si.validar_Titulo_Eleitor(TITULO_ELEITO.getText());
+//            if ("".equals(titu)) {
+//                erro = 1;
+//                JOptionPane.showMessageDialog(null, "O titulo de eleitor do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+//                TITULO_ELEITO.setText("              ");
+//                TITULO_ELEITO.requestFocus();
+//            }
+//        } else if (!"   ".equals(ZONA.getText()) && erro == 0) {
+//            String zona = si.validar_zona(ZONA.getText());
+//            if ("".equals(zona)) {
+//                erro = 1;
+//                JOptionPane.showMessageDialog(null, "A zona do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.ERROR_MESSAGE);
+//                ZONA.setText("   ");
+//                ZONA.requestFocus();
+//            }
+//        } else if (!"    ".equals(SECAO.getText()) && erro == 0) {
+//            String secao = si.validar_secao(SECAO.getText());
+//            if ("".equals(secao)) {
+//                erro = 1;
+//                JOptionPane.showMessageDialog(null, "A seção do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.ERROR_MESSAGE);
+//                SECAO.setText("   ");
+//                SECAO.requestFocus();
+//            }
+//        } else 
+//            
+//            
+//            
+//            
+//            
+//            
+//            if (!"   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
+//            String codI = si.validaCodIncra(CODINCRA.getText());
+//            if ("".equals(codI)) {
+//                erro = 1;
+//                JOptionPane.showMessageDialog(null, "O código do INCRA do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+//                CODINCRA.setText("   .   .   .   - ");
+//                CODINCRA.requestFocus();
+//            }
+//        } else if (!" .   .   - ".equals(NIRF.getText()) && erro == 0) {
+//            String nirf = si.validarNIRF(NIRF.getText());
+//            if ("".equals(nirf)) {
+//                erro = 1;
+//                JOptionPane.showMessageDialog(null, "O número do NIRF do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+//                NIRF.setText(" .   .   - ");
+//                NIRF.requestFocus();
+//            }
+//        }
+//        if (erro == 0) {
+//            cont = true;
+//        } else if (erro == 1) {
+//            cont = false;
+//        }
+//
+//        return cont;
+//    }
+//
+//    public void setPosicao() { // faz o formulario aparecer centralizado na tela
+//        Dimension d = this.getDesktopPane().getSize();
+//        this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
+//    }
+//
+//    public void limparCampus() {
+//        NOME.setText("");
+//        NASCIMENTO.setDate(null);
+//        ESTADOCIVI.setSelectedIndex(0);
+//        CPF.setText("");
+//        CELULAR.setText("");
+//        RG.setText("");
+//        DATAEXPE.setDate(null);
+//        NASCIONALIDADE.setText("");
+//        RESERVISTA.setText("");
+//        CATEGORIA.setText("");
+//        TITULO_ELEITO.setText("");
+//        ZONA.setText("");
+//        SECAO.setText("");
+//        PAI.setText("");
+//        MAE.setText("");
+//        NOMEFAZENDA.setText("");
+//        AREAFAZENDA.setText("");
+//        LOGRADOURO.setText("");
+//        NIRF.setText("");
+//        MUNICEDE.setText("");
+//        TEMPOCOMPRA.setText("");
+//        CODINCRA.setText("");
+//        LEITE_S.setSelected(false);
+//        LEITE_N.setSelected(false);
+//        OUTRASATIVI.setText("");
+//        RESIDEN_ATUAL.setText("");
+//
+//    }
+//
+//    public final void validaNumerosLetras() {
+//        Util.soLetras(NOME);
+//        Util.soNumeros(RG);
+//        Util.soLetras(NASCIONALIDADE);
+//        Util.soNumeros(RESERVISTA);
+//        Util.soNumeros(TITULO_ELEITO);
+//        Util.soNumeros(ZONA);
+//        Util.soNumeros(SECAO);
+//        Util.soLetras(PAI);
+//        Util.soLetras(MAE);
+//        Util.soLetras(NOMEFAZENDA);
+//        Util.soLetras(MUNICEDE);
+//        Util.soLetras(RESIDEN_ATUAL);
+//    }
+//
+//    public void preencher_campus_alteracao(Dados_Pessoais si) {
+//
+//        NOME.setText(si.getNome());
+//        NASCIMENTO.setDate(si.getDataNasci());
+//        ESTADOCIVI.setSelectedItem(si.getEstadoCivil());
+//        CPF.setText(si.getCpf());
+//        CELULAR.setText(si.getCelular());
+//        RG.setText(si.getRg());
+//        DATAEXPE.setDate(si.getDataExpedicao());
+//        NASCIONALIDADE.setText(si.getNascionalidade());
+//        RESERVISTA.setText(si.getReservista());
+//        CATEGORIA.setText(si.getCategoria());
+//        TITULO_ELEITO.setText(si.getTituloEleito());
+//        if (si.getZona() == 0) {
+//            ZONA.setText("");
+//        } else {
+//            ZONA.setText(String.valueOf(si.getZona()));
+//        }
+//        if (si.getSecao() == 0) {
+//            SECAO.setText("");
+//        } else {
+//            SECAO.setText(String.valueOf(si.getSecao()));
+//        }
+//        PAI.setText(si.getPai());
+//        MAE.setText(si.getMae());
+//        NOMEFAZENDA.setText(si.getNomeFazenda());
+//        AREAFAZENDA.setText(si.getAreaPropri());
+//        LOGRADOURO.setText(si.getLogradouro());
+//        NIRF.setText(si.getNIRF());
+//        MUNICEDE.setText(si.getMuniciSede());
+//        TEMPOCOMPRA.setText(si.getTempoCompra());
+//        CODINCRA.setText(si.getCodINCRA());
+//        if ("sim".equals(si.getTiraLeite())) {
+//            LEITE_S.setSelected(true);
+//            LEITE_N.setSelected(false);
+//        } else {
+//            LEITE_S.setSelected(false);
+//            LEITE_N.setSelected(true);
+//        }
+//        OUTRASATIVI.setText(si.getOutrasA());
+//        RESIDEN_ATUAL.setText(si.getResidenciaAtual());
+//
+//        this.alterar = true;
+//        this.id = si.getId();
+//        VOLTAR.setVisible(true);
+//        BT_ATU.setVisible(false);
+//    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -1228,7 +1228,7 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_VOLTARMouseClicked
 
     private void BT_ATUMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_ATUMouseClicked
-        limparCampus();
+//        limparCampus();
     }//GEN-LAST:event_BT_ATUMouseClicked
 
     private void BT_ATUMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_ATUMouseEntered
@@ -1236,28 +1236,28 @@ public class Cadastrar_Sindicalizado extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BT_ATUMouseEntered
 
     private void BOTAO_SALVAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_SALVAR_MouseClicked
-        boolean v;
-        Sindicalizado_DAO sd = new Sindicalizado_DAO();
-        if (erro == 1) {
-            erro = 0;
-        }
-        v = validar_obrigatorios();
-        if (v) {
-            if (!alterar) {
-                sd.SALVAR(PREENCHER_OBJETO());
-                limparCampus();
-                NOME.requestFocus();
-            } else {
-                sd.alterar_sind(PREENCHER_OBJETO(), this.id);
-                Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
-                DESKTOP.add(pas);
-                pas.setTitle("Consultar e Alterar Sindicalizado");
-                pas.setVisible(true);
-                pas.uso = "alterar";
-                pas.setPosicao();
-                this.dispose();
-            }
-        }
+//        boolean v;
+//        Sindicalizado_DAO sd = new Sindicalizado_DAO();
+//        if (erro == 1) {
+//            erro = 0;
+//        }
+//        v = validar_obrigatorios();
+//        if (v) {
+//            if (!alterar) {
+//                sd.SALVAR(PREENCHER_OBJETO());
+//                limparCampus();
+//                NOME.requestFocus();
+//            } else {
+//                sd.alterar_sind(PREENCHER_OBJETO(), this.id);
+//                Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+//                DESKTOP.add(pas);
+//                pas.setTitle("Consultar e Alterar Sindicalizado");
+//                pas.setVisible(true);
+//                pas.uso = "alterar";
+//                pas.setPosicao();
+//                this.dispose();
+//            }
+//        }
     }//GEN-LAST:event_BOTAO_SALVAR_MouseClicked
 
     private void CODINCRAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CODINCRAActionPerformed

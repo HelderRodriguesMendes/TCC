@@ -5,20 +5,22 @@
  */
 package DAO;
 
+import Model.Dados_Pessoais;
+import Model.Dados_Rurais;
+import View.Cadastrar_Sindi;
+import com.mysql.jdbc.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author Carmen
- */
 public class Dados_Sindicalizado_Rurais_DAO {
-    
+
     ResultSet rs = null;
     PreparedStatement pst = null;
-    Connection con;    
-    
+    Connection con;
+
     public String verificarNIRF_BANCO(String nirf, int id) {
         String ID = "";
 
@@ -30,9 +32,9 @@ public class Dados_Sindicalizado_Rurais_DAO {
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
-                    int i = rs.getInt("id_sind");                
+                    int i = rs.getInt("id_sind");
                     ID = String.valueOf(i);
-                }else{
+                } else {
                     ID = "nao cadastrado";
                 }
                 con.close();
@@ -46,7 +48,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
-                        ID = "tem dono";
+                    ID = "tem dono";
                 }
                 con.close();
             } catch (Exception e) {
@@ -54,7 +56,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
         }
         return ID;
     }
-    
+
     public String verificarINCRA_BANCO(String incra, int id) {
         String ID = "";
 
@@ -66,9 +68,9 @@ public class Dados_Sindicalizado_Rurais_DAO {
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
-                    int i = rs.getInt("id_sind");                
+                    int i = rs.getInt("id_sind");
                     ID = String.valueOf(i);
-                }else{
+                } else {
                     ID = "nao cadastrado";
                 }
                 con.close();
@@ -82,12 +84,167 @@ public class Dados_Sindicalizado_Rurais_DAO {
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
-                        ID = "tem dono";
+                    ID = "tem dono";
                 }
                 con.close();
             } catch (Exception e) {
             }
         }
         return ID;
+    }
+
+    public void salvar_Dados_R(ArrayList<Dados_Rurais> DADOS_R, int ID) {
+        con = Conexao_banco.conector();
+        int id = 0;
+        try {
+            pst = con.prepareStatement("insert into propriedadeRural(nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, "
+                    + "areaPropriedade, tempoCompraPropriedade, outrasAtividade, "
+                    + "residenciaAtual, excluido, id_sind) values (?,?,?,?,?,?,?,?,?,?,?)");
+
+            for (int i = 0; i < DADOS_R.size(); i++) {
+                Dados_Rurais dados_r = DADOS_R.get(i);
+
+                pst.setString(1, dados_r.getNomeFazenda());
+                pst.setString(2, dados_r.getLogradouro());
+                pst.setString(3, dados_r.getMuniciSede());
+                pst.setString(4, dados_r.getCodINCRA());
+                pst.setString(5, dados_r.getNIRF());
+                pst.setString(6, dados_r.getAreaPropri());
+                pst.setString(7, dados_r.getTempoCompra());
+                pst.setString(8, dados_r.getOutrasA());
+                pst.setString(9, dados_r.getResidenciaAtual());
+                pst.setInt(10, dados_r.getExcluido());
+                pst.setInt(11, ID);
+                pst.executeUpdate();
+
+            }
+            JOptionPane.showMessageDialog(null, "Sindicalizado cadastrado com sucesso");
+            con.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar sindicalizado", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Erro ao cadastrar sindicalizado: " + e);
+        }
+    }
+
+    public void alterar_Dados_R(Dados_Rurais dados_r) {
+        con = Conexao_banco.conector();
+        try {
+            pst = con.prepareStatement("update propriedadeRural set nomeFazenda = ?, logradouro = ?, municipioCede = ?, codigoINCRA = ?, NIRF = ?, "
+                    + "areaPropriedade = ?, tempoCompraPropriedade = ?, outrasAtividade = ?, "
+                    + "residenciaAtual = ?, excluido = ? where id_propriedadeRural = ?");
+                
+                pst.setString(1, dados_r.getNomeFazenda());
+                pst.setString(2, dados_r.getLogradouro());
+                pst.setString(3, dados_r.getMuniciSede());
+                pst.setString(4, dados_r.getCodINCRA());
+                pst.setString(5, dados_r.getNIRF());
+                pst.setString(6, dados_r.getAreaPropri());
+                pst.setString(7, dados_r.getTempoCompra());
+                pst.setString(8, dados_r.getOutrasA());
+                pst.setString(9, dados_r.getResidenciaAtual());
+                pst.setInt(10, dados_r.getExcluido());
+                pst.setInt(11, dados_r.getId_proprie());
+                pst.executeUpdate();
+   
+            JOptionPane.showMessageDialog(null, "Os dados da propriedade rural foram alterados com sucesso");
+            con.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao alterar os dados da propriedade rural", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Erro ao alterar os dados da propriedade rural: " + e);
+        }
+    }
+
+    public void restaurar(int id) {
+        int a = 0;
+        con = Conexao_banco.conector();
+
+        try {
+            pst = con.prepareStatement("update sindicalizado set excluido = ? where id_sindicalizado = ?");
+            pst.setInt(1, a);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Restautação realizada com sucesso");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao restaurar sindicalizado");
+            System.out.println(e);
+        }
+    }
+
+    public ArrayList<Dados_Rurais> listar_Tabela_RURAL(int id_sind, boolean add) {
+        con = Conexao_banco.conector();
+        Cadastrar_Sindi CS = new Cadastrar_Sindi();
+
+        ArrayList<Dados_Rurais> SIND = new ArrayList<>();
+
+        try {
+            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, residenciaAtual from propriedadeRural where excluido = '0' and id_sind = ?");
+            pst.setInt(1, id_sind);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Dados_Rurais si = new Dados_Rurais();
+
+                si.setId_proprie(rs.getInt("id_propriedadeRural"));
+                si.setNomeFazenda(rs.getString("nomeFazenda"));
+                si.setLogradouro(rs.getString("logradouro"));
+                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setCodINCRA(rs.getString("codigoINCRA"));
+                si.setNIRF(rs.getString("NIRF"));
+                si.setAreaPropri(rs.getString("areaPropriedade"));
+                si.setTempoCompra(rs.getString("tempoCompraPropriedade"));
+                si.setOutrasA(rs.getString("outrasAtividade"));
+                si.setResidenciaAtual(rs.getString("residenciaAtual"));
+
+                SIND.add(si);
+            }
+
+            if (add) {
+                SIND.add(CS.preencher_objeto_Rural());
+            }
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar dados na tabela");
+            System.out.println(e);
+        }
+        return SIND;
+    }
+
+    public ArrayList<Dados_Rurais> listar_Tabela_RURAL_ADD(int id_sind, Dados_Rurais dr) {
+        con = Conexao_banco.conector();
+        Cadastrar_Sindi CS = new Cadastrar_Sindi();
+
+        ArrayList<Dados_Rurais> SIND = new ArrayList<>();
+
+        try {
+            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, residenciaAtual from propriedadeRural where excluido = '0' and id_sind = ?");
+            pst.setInt(1, id_sind);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Dados_Rurais si = new Dados_Rurais();
+
+                si.setId_proprie(rs.getInt("id_propriedadeRural"));
+                si.setNomeFazenda(rs.getString("nomeFazenda"));
+                si.setLogradouro(rs.getString("logradouro"));
+                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setCodINCRA(rs.getString("codigoINCRA"));
+                si.setNIRF(rs.getString("NIRF"));
+                si.setAreaPropri(rs.getString("areaPropriedade"));
+                si.setTempoCompra(rs.getString("tempoCompraPropriedade"));
+                si.setOutrasA(rs.getString("outrasAtividade"));
+                si.setResidenciaAtual(rs.getString("residenciaAtual"));
+
+                SIND.add(si);
+            }
+
+            SIND.add(dr);
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar dados na tabela");
+            System.out.println(e);
+        }
+        return SIND;
     }
 }

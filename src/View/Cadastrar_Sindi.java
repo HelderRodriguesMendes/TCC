@@ -7,20 +7,30 @@ package View;
 
 import Controller.Sindicalizado;
 import Controller.Util;
+import DAO.Conexao_banco;
 import DAO.Dados_Sindicalizado_Pessoais_DAO;
+import DAO.Dados_Sindicalizado_Rurais_DAO;
+import DAO.Util_DAO;
 import Model.Dados_Rurais;
 import Model.Dados_Pessoais;
 import java.awt.Dimension;
+import java.sql.Connection;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.awt.event.KeyEvent;
+import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -32,18 +42,23 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     Dados_Rurais pr;
     Sindicalizado si = new Sindicalizado();
     Dados_Sindicalizado_Pessoais_DAO DADOSP = new Dados_Sindicalizado_Pessoais_DAO();
+    Dados_Sindicalizado_Rurais_DAO DADOSR = new Dados_Sindicalizado_Rurais_DAO();
+    Dados_Pessoais se = new Dados_Pessoais();
+    Connection conexao = null;
 
     DateFormat df = DateFormat.getDateInstance();
 
     public String status = "";
-    protected int id_sindicalizado = 0, idade, erro = 0, totalFazenda = 0, ID_TABELA = 0, linhaSelecionada, id_propriedade_rural = 0;
-    protected boolean alterar = false, cont = false, validacao = false;
+    protected int id_sindicalizado = 0, idade, erro = 0, totalFazenda = 0, linhaSelecionada, id_propriedade_rural = 0, totalLinhasTabela = 0, IDADE, ID = 0;
+    protected boolean CONT = false, validacao = false, clicoTabela = false;
     protected String status2 = "";
 
     ArrayList<Dados_Rurais> RURAL = new ArrayList<>();
+    ArrayList<Dados_Rurais> ADICIONA_RURAL = new ArrayList<>();
 
     public Cadastrar_Sindi() {
         initComponents();
+        conexao = Conexao_banco.conector();
 
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
@@ -52,8 +67,10 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         }
 
         validaNumerosLetras();
+        listar_Tabela_Sind();
 
         TABELA_PROPRIEDADE_RURAL.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        TABELA_SIND.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
     }
 
     /**
@@ -69,8 +86,15 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         FORM_GUIAS = new javax.swing.JTabbedPane();
         PESQUISAR_SIND = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        NOME_Pesquisar = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        CPF_Pesquisar = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        RG_Pesquisa = new javax.swing.JFormattedTextField();
+        BOTAO_PESQUISAR_ = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TABELA_SIND = new javax.swing.JTable();
         DADOS_PESSOAIS_SIND = new javax.swing.JPanel();
         jLabel75 = new javax.swing.JLabel();
         NOME = new javax.swing.JTextField();
@@ -110,7 +134,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         jLabel87 = new javax.swing.JLabel();
         jLabel88 = new javax.swing.JLabel();
         jLabel79 = new javax.swing.JLabel();
-        TOTAO_REFAZER = new javax.swing.JLabel();
+        TOTAO_REFAZER_P = new javax.swing.JLabel();
         BOTAO_AVANCAR_ = new javax.swing.JLabel();
         CANCELAR = new javax.swing.JLabel();
         DATAEXPE = new com.toedter.calendar.JDateChooser();
@@ -149,6 +173,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         BOTAO_VOLTAR_ = new javax.swing.JLabel();
         BOTAO_REFAZER_ = new javax.swing.JLabel();
         BOTAO_SALVAR_ = new javax.swing.JLabel();
+        CANCELAR1 = new javax.swing.JLabel();
 
         jToggleButton1.setText("jToggleButton1");
 
@@ -157,33 +182,141 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
-        jLabel4.setText("DADOS RURAIS");
+        jLabel3.setText("Nome:");
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fazenda.png"))); // NOI18N
+        NOME_Pesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NOME_PesquisarMouseClicked(evt);
+            }
+        });
+        NOME_Pesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NOME_PesquisarActionPerformed(evt);
+            }
+        });
+        NOME_Pesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                NOME_PesquisarKeyPressed(evt);
+            }
+        });
+
+        jLabel5.setText("CPF:");
+
+        try {
+            CPF_Pesquisar.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.### - ##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        CPF_Pesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CPF_PesquisarKeyPressed(evt);
+            }
+        });
+
+        jLabel4.setText("RG:");
+
+        try {
+            RG_Pesquisa.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#######")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        RG_Pesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RG_PesquisaActionPerformed(evt);
+            }
+        });
+        RG_Pesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                RG_PesquisaKeyPressed(evt);
+            }
+        });
+
+        BOTAO_PESQUISAR_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
+        BOTAO_PESQUISAR_.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BOTAO_PESQUISAR_ActionPerformed(evt);
+            }
+        });
+
+        TABELA_SIND.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nome", "Data de nascimento", "Telefone", "Nascionalidade", "Estado civil", "CPF", "RG", "Data de Expedição", "Titulo de Eleitor", "Zona", "Seção", "Reservistal", "Categoria", "Nome do pai", "Nome da mãe"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TABELA_SIND.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TABELA_SINDMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                TABELA_SINDMouseEntered(evt);
+            }
+        });
+        jScrollPane2.setViewportView(TABELA_SIND);
 
         javax.swing.GroupLayout PESQUISAR_SINDLayout = new javax.swing.GroupLayout(PESQUISAR_SIND);
         PESQUISAR_SIND.setLayout(PESQUISAR_SINDLayout);
         PESQUISAR_SINDLayout.setHorizontalGroup(
             PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PESQUISAR_SINDLayout.createSequentialGroup()
-                .addContainerGap(1234, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PESQUISAR_SINDLayout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PESQUISAR_SINDLayout.createSequentialGroup()
+                    .addGroup(PESQUISAR_SINDLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(9, 9, 9)
+                        .addComponent(NOME_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(127, 127, 127)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CPF_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(143, 143, 143)
                         .addComponent(jLabel4)
-                        .addGap(37, 37, 37))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(RG_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 72, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BOTAO_PESQUISAR_, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         PESQUISAR_SINDLayout.setVerticalGroup(
             PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PESQUISAR_SINDLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
-                .addComponent(jLabel11)
-                .addGap(22, 22, 22))
+                .addGroup(PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(NOME_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PESQUISAR_SINDLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BOTAO_PESQUISAR_)
+                            .addGroup(PESQUISAR_SINDLayout.createSequentialGroup()
+                                .addGroup(PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel5)
+                                        .addComponent(CPF_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel4)
+                                    .addComponent(RG_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         FORM_GUIAS.addTab("PESQUISAR  SINDICALIZADO", PESQUISAR_SIND);
@@ -378,10 +511,10 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
 
         jLabel79.setText("CPF:");
 
-        TOTAO_REFAZER.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
-        TOTAO_REFAZER.addMouseListener(new java.awt.event.MouseAdapter() {
+        TOTAO_REFAZER_P.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
+        TOTAO_REFAZER_P.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TOTAO_REFAZERMouseClicked(evt);
+                TOTAO_REFAZER_PMouseClicked(evt);
             }
         });
 
@@ -421,49 +554,69 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel96)
                                 .addGap(3, 3, 3)
                                 .addComponent(RESERVISTA, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(74, 74, 74)
-                        .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(34, 34, 34)
+                        .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                                .addComponent(jLabel79)
-                                .addGap(6, 6, 6)
-                                .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)
-                                .addComponent(jLabel80)
-                                .addGap(107, 107, 107)
-                                .addComponent(jLabel83)
-                                .addGap(4, 4, 4)
-                                .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(5, 5, 5)
-                                .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(98, 98, 98)
-                                .addComponent(jLabel89)
-                                .addGap(6, 6, 6)
-                                .addComponent(DATAEXPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(jLabel98))
-                            .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                .addGap(255, 255, 255)
                                 .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                        .addComponent(jLabel83)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                        .addComponent(jLabel81)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(ESTADOCIVI, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                                .addGap(95, 95, 95)
+                                                .addComponent(DATAEXPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(4, 4, 4)
+                                                .addComponent(jLabel98))
+                                            .addComponent(jLabel89)))
+                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                        .addGap(45, 45, 45)
+                                        .addComponent(jLabel90)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(CELULAR, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                        .addComponent(jLabel79)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(2, 2, 2)
+                                        .addComponent(jLabel80))
                                     .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
                                         .addComponent(jLabel97)
                                         .addGap(9, 9, 9)
-                                        .addComponent(CATEGORIA, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(73, 73, 73)
-                                        .addComponent(jLabel93)
-                                        .addGap(4, 4, 4)
-                                        .addComponent(TITULO_ELEITO, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel94)
-                                        .addGap(4, 4, 4)
-                                        .addComponent(ZONA, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(48, 48, 48)
-                                        .addComponent(jLabel95)
-                                        .addGap(6, 6, 6))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                                        .addComponent(TOTAO_REFAZER)
-                                        .addGap(44, 44, 44)))
+                                        .addComponent(CATEGORIA, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(49, 49, 49)
+                                .addComponent(jLabel93)
+                                .addGap(4, 4, 4)
+                                .addComponent(TITULO_ELEITO, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34)
+                                .addComponent(jLabel94)
+                                .addGap(4, 4, 4)
+                                .addComponent(ZONA, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
                                 .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(SECAO, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(BOTAO_AVANCAR_)))))
+                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                        .addComponent(TOTAO_REFAZER_P)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(BOTAO_AVANCAR_))
+                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                        .addComponent(jLabel95)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(SECAO, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addComponent(CANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
                         .addComponent(jLabel75)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -472,21 +625,11 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                         .addComponent(jLabel76)
                         .addGap(32, 32, 32)
                         .addComponent(jLabel77)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(2, 2, 2)
                         .addComponent(NASCIMENTO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
-                        .addComponent(jLabel78)
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel81)
-                        .addGap(3, 3, 3)
-                        .addComponent(ESTADOCIVI, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(91, 91, 91)
-                        .addComponent(jLabel90)
-                        .addGap(12, 12, 12)
-                        .addComponent(CELULAR, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(448, Short.MAX_VALUE))
+                        .addComponent(jLabel78)))
+                .addGap(32, 32, 32))
         );
         DADOS_PESSOAIS_SINDLayout.setVerticalGroup(
             DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -503,76 +646,77 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                         .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel75)
                             .addComponent(NOME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(CELULAR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel90))
                     .addComponent(ESTADOCIVI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabel90))
-                    .addComponent(CELULAR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(jLabel77))
+                        .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(NASCIMENTO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel77)
+                            .addComponent(jLabel78, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                .addGap(48, 48, 48)
+                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
                         .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(NASCIMENTO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel78))))
-                .addGap(45, 45, 45)
-                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                            .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                                    .addGap(2, 2, 2)
-                                    .addComponent(jLabel79)))
-                            .addGap(11, 11, 11))
-                        .addComponent(jLabel80, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addComponent(jLabel92)
-                    .addComponent(NASCIONALIDADE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel91, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                            .addGap(1, 1, 1)
-                            .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                                    .addGap(2, 2, 2)
-                                    .addComponent(jLabel83))
-                                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel89))))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                            .addGap(4, 4, 4)
-                            .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(DATAEXPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel98))
-                            .addGap(2, 2, 2))))
-                .addGap(47, 47, 47)
-                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(RESERVISTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel97)
-                    .addComponent(CATEGORIA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TITULO_ELEITO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ZONA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SECAO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                        .addGap(2, 2, 2)
+                            .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                        .addGap(2, 2, 2)
+                                        .addComponent(jLabel83)))
+                                .addGap(58, 58, 58))
+                            .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                            .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                                    .addGap(2, 2, 2)
+                                                    .addComponent(jLabel79)))
+                                            .addGap(11, 11, 11))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel80)
+                                            .addComponent(jLabel82, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(jLabel92)
+                                    .addComponent(NASCIONALIDADE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                        .addGap(5, 5, 5)
+                                        .addComponent(jLabel91, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(47, 47, 47)))
                         .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel96)
-                            .addComponent(jLabel93)
-                            .addComponent(jLabel94)
-                            .addComponent(jLabel95))))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RESERVISTA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel97)
+                            .addComponent(CATEGORIA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TITULO_ELEITO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ZONA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(SECAO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel96)
+                                    .addComponent(jLabel93)
+                                    .addComponent(jLabel94)
+                                    .addComponent(jLabel95)))))
                     .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
+                        .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DATAEXPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel98)
+                            .addComponent(jLabel89))
+                        .addGap(86, 86, 86)))
+                .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(DADOS_PESSOAIS_SINDLayout.createSequentialGroup()
+                        .addGap(9, 9, 9)
                         .addGroup(DADOS_PESSOAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(TOTAO_REFAZER, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TOTAO_REFAZER_P, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(BOTAO_AVANCAR_))))
-                .addGap(115, 115, 115))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         FORM_GUIAS.addTab("DADOS PESSOAIS", DADOS_PESSOAIS_SIND);
@@ -705,6 +849,13 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             }
         });
 
+        CANCELAR1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/voltar.png"))); // NOI18N
+        CANCELAR1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CANCELAR1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -784,15 +935,19 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                                         .addGap(4, 4, 4)
                                         .addComponent(RESIDEN_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
+                        .addComponent(CANCELAR1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86)
                         .addComponent(jLabel2)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel2))
+                    .addComponent(CANCELAR1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -860,12 +1015,12 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         DADOS_RURAIS_SINDLayout.setHorizontalGroup(
             DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 891, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         DADOS_RURAIS_SINDLayout.setVerticalGroup(
             DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
 
         FORM_GUIAS.addTab("DADOS RURAIS", DADOS_RURAIS_SIND);
@@ -874,11 +1029,16 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 1388, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 893, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -916,9 +1076,9 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CELULARActionPerformed
 
-    private void TOTAO_REFAZERMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TOTAO_REFAZERMouseClicked
+    private void TOTAO_REFAZER_PMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TOTAO_REFAZER_PMouseClicked
         limparCampus_Pessoais();
-    }//GEN-LAST:event_TOTAO_REFAZERMouseClicked
+    }//GEN-LAST:event_TOTAO_REFAZER_PMouseClicked
 
     private void BOTAO_AVANCAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_AVANCAR_MouseClicked
         if (erro == 1) {
@@ -927,6 +1087,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         validacao = validar_obrigatorios_pessoais();
         if (validacao) {
             preencher_objeto_Pessoal();
+            ADICONAR_FAZENDA_.setVisible(true);
             selecionar_guia(2);
         }
     }//GEN-LAST:event_BOTAO_AVANCAR_MouseClicked
@@ -942,80 +1103,252 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
 
     private void BOTAO_REFAZER_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_REFAZER_MouseClicked
         limparCampus_Rurais();
+        ADICONAR_FAZENDA_.setVisible(true);
     }//GEN-LAST:event_BOTAO_REFAZER_MouseClicked
 
     private void BOTAO_SALVAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_SALVAR_MouseClicked
         status2 = "salvar";
-        if (totalFazenda > 0) {
-            if ("".equals(campos_vazios())) {       // OS CAMPOS DO FORMULARIO ESTÃO VAZIOS, E OS DADOS JA ESTÃO TODOS NO ARRAY DE OBJETO
-                confirma_salvamento_fazenda();
-            } else if ("preencher".equals(campos_vazios())) { // OS CAMPOS DO FORMULARIO NÃO ESTÃO TODOS VAZIOS, INDEPENTENDE SE TEM OU NÃO DADOS NO ARRAY DE OBJETOS
-                validacao = validar_obrigatorios_rurais();
-                if (validacao) {
-                    if (id_propriedade_rural > 0) {
-                        atualizar_linha_tabela(preencher_objeto_Rural(), linhaSelecionada);
-                        pr = new Dados_Rurais();
-                        pr = preencher_objeto_Rural();
-                        atualizarArray(pr);
-                        confirma_salvamento_fazenda();
-                        limparCampus_Rurais();
-                        id_propriedade_rural = 0;
-                    } else {
-                        totalFazenda++;
-                        RURAL.add(preencher_objeto_Rural());
-                        LISTAR_TABELA(RURAL);
+        if ("cadastrar sind".equals(status)) {
+            if (totalFazenda > 0) {  // se foi informado mais de uma propriedade
+                if ("".equals(campos_rurais_vazios())) {       // OS CAMPOS DO FORMULARIO ESTÃO VAZIOS, E OS DADOS JA ESTÃO TODOS NO ARRAY DE OBJETO E TBM JA ESTÃO TODOS LISTADOS NA TABELA
+                    confirma_salvamento_fazenda();
+                } else if ("preencher".equals(campos_rurais_vazios())) { // OS CAMPOS DO FORMULARIO NÃO ESTÃO TODOS VAZIOS, INDEPENTENDE SE TEM OU NÃO DADOS NO ARRAY DE OBJETOS
+                    validacao = validar_obrigatorios_rurais();
+                    if (validacao) {
+                        if (id_propriedade_rural > 0) {  // VERIFICA SE EDITO DADOS QUE JA FOI INFORMADO
+                            atualizar_linha_tabela(preencher_objeto_Rural(), linhaSelecionada);
+                            pr = new Dados_Rurais();
+                            pr = preencher_objeto_Rural();
+                            atualizarArray(pr);
+                            System.out.println("PASSO AQUI1");
+                            confirma_salvamento_fazenda();
+                        } else { // informo dados de otra nova propriedade rural alem das que ja estão no objeto
+                            totalFazenda++;
+                            RURAL.add(preencher_objeto_Rural());
+                            LISTAR_TABELA_Rural(RURAL);
 
-                        confirma_salvamento_fazenda();
-                        limparCampus_Rurais();
+                            confirma_salvamento_fazenda();
+                        }
                     }
                 }
-            }
 
-        } else if (totalFazenda == 0) {
-            if ("preencher".equals(campos_vazios())) {
+            } else { //Cadastrando uma unica propriedade rural para o novo sindicalizado que esta sendo cadastrado
                 validacao = validar_obrigatorios_rurais();
                 if (validacao) {
                     totalFazenda++;
                     RURAL.add(preencher_objeto_Rural());
-                    LISTAR_TABELA(RURAL);
-
+                    LISTAR_TABELA_Rural(RURAL);
                     confirma_salvamento_fazenda();
                 }
+
+            }
+        } else if ("alterar".equals(status)) {
+            if ("preencher".equals(campos_rurais_vazios())) {      // OS CAMPOS DO FORMULARIO NÃO ESTÃO TODOS VAZIOS, INDEPENTENDE SE TEM OU NÃO DADOS NO ARRAY DE OBJETOS
+                validacao = validar_obrigatorios_rurais();
+                if (validacao) {
+                    if (clicoTabela) {  // clico na tabela pra edita e altera dados que ja estão salvos no banco
+                        pr = new Dados_Rurais();
+                        pr = preencher_objeto_Rural();
+                        LISTAR_TABELA_Rural(atualizarArray(pr));
+                        confirma_salvamento_fazenda();
+                    } else {        // Cadastrando uma nova propriedade para o sindicalizado
+                        DADOSR.salvar_Dados_R(ADICIONA_RURAL, id_sindicalizado);
+                        LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado, false));
+                        RURAL.clear();
+
+                        //tenho q termina aqi
+                    }
+                }
+            } else if ("".equals(campos_rurais_vazios())) {    //altero apenas dados pessoais
+                confirma_salvamento_fazenda();
             }
         }
     }//GEN-LAST:event_BOTAO_SALVAR_MouseClicked
 
     private void ADICONAR_FAZENDA_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ADICONAR_FAZENDA_MouseClicked
         status2 = "adicionar";
-        if ("preencher".equals(campos_vazios())) {
-            validacao = validar_obrigatorios_rurais();
-            if (validacao) {
-                if (id_propriedade_rural > 0) {
-                    atualizar_linha_tabela(preencher_objeto_Rural(), linhaSelecionada);
-                    pr = new Dados_Rurais();
-                    pr = preencher_objeto_Rural();
-                    atualizarArray(pr);
-                    limparCampus_Rurais();
-                    id_propriedade_rural = 0;
-                } else {
-                    totalFazenda++;
-                    RURAL.add(preencher_objeto_Rural());
-                    LISTAR_TABELA(RURAL);
-                    limparCampus_Rurais();
+        if ("cadastrar sind".equals(status)) {
+            if ("preencher".equals(campos_rurais_vazios())) {  // os campus do forumalario estão preenchidos
+                validacao = validar_obrigatorios_rurais();
+                if (validacao) {
+                    if (id_propriedade_rural > 0) {     //clico na tabela de propriedade rural para edita e altera os dados de uma propriedade que ja foi informada
+                        atualizar_linha_tabela(preencher_objeto_Rural(), linhaSelecionada);
+                        pr = new Dados_Rurais();
+                        pr = preencher_objeto_Rural();
+                        atualizarArray(pr);
+                        limparCampus_Rurais();
+                        id_propriedade_rural = 0;
+                    } else {    //ta adicionando uma nova propriedade rural de um sindicalizado
+                        totalFazenda++;
+                        RURAL.add(preencher_objeto_Rural());
+                        LISTAR_TABELA_Rural(RURAL);
+                        limparCampus_Rurais();
+                    }
                 }
             }
-        }
+        } else if ("alterar".equals(status)) {
+            if ("preencher".equals(campos_rurais_vazios())) {
+                validacao = validar_obrigatorios_rurais();
+                if (validacao) {
+                    totalFazenda++;
+                    ADICIONA_RURAL.add(preencher_objeto_Rural());
+                    RURAL.clear();
+                    RURAL = DADOSR.listar_Tabela_RURAL_ADD(id_sindicalizado, preencher_objeto_Rural());
+                    LISTAR_TABELA_Rural(RURAL);
 
+                    limparCampus_Rurais();
+                }
+            } else {
+                validar_obrigatorios_rurais();
+            }
+        }
     }//GEN-LAST:event_ADICONAR_FAZENDA_MouseClicked
 
     private void TABELA_PROPRIEDADE_RURALMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELA_PROPRIEDADE_RURALMouseClicked
         linhaSelecionada = TABELA_PROPRIEDADE_RURAL.getSelectedRow();
         altera_dados_JTABLE(linhaSelecionada);
+        clicoTabela = true;
     }//GEN-LAST:event_TABELA_PROPRIEDADE_RURALMouseClicked
 
     private void ADICONAR_FAZENDA_MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ADICONAR_FAZENDA_MouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_ADICONAR_FAZENDA_MouseEntered
+
+    private void NOME_PesquisarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOME_PesquisarMouseClicked
+
+    }//GEN-LAST:event_NOME_PesquisarMouseClicked
+
+    private void NOME_PesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NOME_PesquisarActionPerformed
+
+    }//GEN-LAST:event_NOME_PesquisarActionPerformed
+
+    private void NOME_PesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NOME_PesquisarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if ("".equals(NOME.getText()) && "   .   .    -   ".equals(CPF.getText()) && "       ".equals(RG.getText())) {
+                listar_Tabela_Sind();
+            } else {
+                ID = 0;
+                ID = pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
+                int r = Util.selectNull(ID);
+                if (r == 0 || r < 0) {
+                    NOME.setText("");
+                    CPF.setValue(null);
+                    RG.setValue(null);
+                    listar_Tabela_Sind();
+                }
+            }
+        }
+    }//GEN-LAST:event_NOME_PesquisarKeyPressed
+
+    private void CPF_PesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CPF_PesquisarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if ("".equals(NOME.getText()) && "   .   .    -   ".equals(CPF.getText()) && "       ".equals(RG.getText())) {
+                listar_Tabela_Sind();
+            } else {
+                ID = 0;
+                ID = pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
+                int r = Util.selectNull(ID);
+                if (r == 0 || r < 0) {
+                    NOME.setText("");
+                    CPF.setValue(null);
+                    RG.setValue(null);
+                    listar_Tabela_Sind();
+                }
+            }
+        }
+    }//GEN-LAST:event_CPF_PesquisarKeyPressed
+
+    private void RG_PesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RG_PesquisaActionPerformed
+
+    }//GEN-LAST:event_RG_PesquisaActionPerformed
+
+    private void RG_PesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RG_PesquisaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if ("".equals(NOME.getText()) && "   .   .    -   ".equals(CPF.getText()) && "       ".equals(RG.getText())) {
+                listar_Tabela_Sind();
+            } else {
+                ID = 0;
+                ID = pesquisar_Sind(NOME.getText(), CPF.getText(), RG.getText());
+                int r = Util.selectNull(ID);
+                if (r == 0 || r < 0) {
+                    NOME.setText("");
+                    CPF.setValue(null);
+                    RG.setValue(null);
+                    listar_Tabela_Sind();
+                }
+            }
+        }
+    }//GEN-LAST:event_RG_PesquisaKeyPressed
+
+    private void BOTAO_PESQUISAR_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_ActionPerformed
+        if ("".equals(NOME_Pesquisar.getText()) && "   .   .    -   ".equals(CPF_Pesquisar.getText()) && "       ".equals(RG_Pesquisa.getText())) {
+            listar_Tabela_Sind();
+        } else {
+            ID = 0;
+            ID = pesquisar_Sind(NOME_Pesquisar.getText(), CPF_Pesquisar.getText(), RG_Pesquisa.getText());
+            int r = Util.selectNull(ID);
+            if (r == 0) {
+                limparCampus_pesquisa();
+                listar_Tabela_Sind();
+            }
+        }
+    }//GEN-LAST:event_BOTAO_PESQUISAR_ActionPerformed
+
+    private void TABELA_SINDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELA_SINDMouseClicked
+
+        id_sindicalizado = Integer.parseInt(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 0).toString());
+        if (null != status) {
+            switch (status) {
+                case "alterar": {
+                    String ObjButtons[] = {"Sim", "Não"};
+                    int escolha = JOptionPane.showOptionDialog(null,
+                            "Deseja alterar os dados selecionados?", "ATENÇÃO",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                            ObjButtons, ObjButtons[1]);
+                    if (escolha == 0) {
+                        preencher_campus_pessoais(preencer_objeto_dadosP_tabela());
+                        LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado, false));
+                        selecionar_guia(1);
+                    }
+                    break;
+                }
+                case "excluir": {
+                    String ObjButtons[] = {"Sim", "Não"};
+                    int escolha = JOptionPane.showOptionDialog(null,
+                            "Tem certeza que deseja excluir esses dados?", "ATENÇÃO",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                            ObjButtons, ObjButtons[1]);
+                    if (escolha == 0) {
+                        Util_DAO ud = new Util_DAO();
+                        ud.excluir(id_sindicalizado, "sind");
+                        listar_Tabela_Sind();
+                    }
+                    break;
+                }
+                case "relatorio": {
+                    String ObjButtons[] = {"Sim", "Não"};
+                    int escolha = JOptionPane.showOptionDialog(null,
+                            "Deseja emitir um relatório com os dados desse sindicalizado?", "ATENÇÃO",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                            ObjButtons, ObjButtons[1]);
+                    if (escolha == 0) {
+                        Relatorio(id_sindicalizado);
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    }//GEN-LAST:event_TABELA_SINDMouseClicked
+
+    private void TABELA_SINDMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELA_SINDMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TABELA_SINDMouseEntered
+
+    private void CANCELAR1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CANCELAR1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CANCELAR1MouseClicked
 
     public void selecionar_guia(int n) {
         this.FORM_GUIAS.setEnabledAt(n, true); // desabilita toda a aba 1
@@ -1047,23 +1380,77 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     }
 
     public void confirma_salvamento_fazenda() {
-        String ObjButtons[] = {"Sim", "Não"};
-        int PromptResult = JOptionPane.showOptionDialog(null,
-                "Deseja cadastrar apenas " + totalFazenda + " propriedade rura?", "ATENÇÃO",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                ObjButtons, ObjButtons[0]);
-        if (PromptResult == 0) {
-            id_sindicalizado = DADOSP.salvar_Dados_P(dadosp);
-            DADOSP.salvar_Dados_R(RURAL, id_sindicalizado);
 
-            RURAL.clear();      //LIMPA O ARRAY DE OBJETOS
-            totalFazenda = 0;
-            limparCampus_Rurais();
-            limparTabela();
-            limparCampus_Pessoais();
-            selecionar_guia(1);
-        } else if (PromptResult == 1) {
-            limparCampus_Rurais();
+        if ("cadastrar sind".equals(status)) {
+            String ObjButtons[] = {"Sim", "Não"};
+            int PromptResult = JOptionPane.showOptionDialog(null,
+                    "Deseja cadastrar apenas " + totalFazenda + " propriedade rura?", "ATENÇÃO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    ObjButtons, ObjButtons[0]);
+            if (PromptResult == 0) { // salva todos os dados que ja foi informados
+                id_sindicalizado = DADOSP.salvar_Dados_P(dadosp);
+                DADOSR.salvar_Dados_R(RURAL, id_sindicalizado);
+
+                RURAL.clear();      //LIMPA O ARRAY DE OBJETOS
+                totalFazenda = 0;
+                limparCampus_Rurais();
+                limparTabela();
+                limparCampus_Pessoais();
+                id_propriedade_rural = 0;
+                id_sindicalizado = 0;
+                selecionar_guia(1);
+            } else if (PromptResult == 1) {  // Não salva os dados que já foi informados, mas limpa o formulario pra receber dados de novas proprieades rurais e juntar com as que ja foi informadas
+                limparCampus_Rurais();
+            }
+        } else if ("alterar".equals(status)) {
+            if (clicoTabela) {
+                String ObjButtons[] = {"Sim", "Não"};
+                int PromptResult = JOptionPane.showOptionDialog(null,
+                        "Deseja alterar os dados de " + dadosp.getNome() + "?", "ATENÇÃO",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                        ObjButtons, ObjButtons[0]);
+                if (PromptResult == 0) { //resposta POSITIVA para salvar os dados                    
+                    DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
+                    DADOSR.alterar_Dados_R(preencher_objeto_Rural());
+                    limparCampus_Rurais();
+                    limparCampus_Pessoais();
+                    limparCampus_pesquisa();
+                    limparTabela();
+                    id_propriedade_rural = 0;
+                    id_sindicalizado = 0;
+                    RURAL.clear();      //LIMPA O ARRAY DE OBJETOS
+                    ADICONAR_FAZENDA_.setVisible(true);
+                    selecionar_guia(0);
+                    listar_Tabela_Sind();
+
+                } else if (PromptResult == 1) {
+                    {
+                        limparCampus_Rurais();
+                    }
+
+                }
+            } else {
+                if ("".equals(campos_rurais_vazios()) && id_propriedade_rural == 0) {     //alterando apenas dados pessoais de um sindicalizado salvo
+                    String ObjButtons[] = {"Sim", "Não"};
+                    int PromptResult = JOptionPane.showOptionDialog(null,
+                            "Deseja alterar apenas os dados pessoais de " + dadosp.getNome() + "?", "ATENÇÃO",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                            ObjButtons, ObjButtons[0]);
+                    if (PromptResult == 0) {
+                        DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
+                        limparCampus_Pessoais();
+                        limparCampus_pesquisa();
+                        limparTabela();
+                        id_sindicalizado = 0;
+                        RURAL.clear();      //LIMPA O ARRAY DE OBJETOS
+                        ADICONAR_FAZENDA_.setVisible(true);
+                        selecionar_guia(0);
+                        listar_Tabela_Sind();
+                    }
+                } else if ("preencher".equals(campos_rurais_vazios()) && id_propriedade_rural == 0) {      //salvar a nova proprieade rural do sindicalizado
+
+                }
+            }
         }
     }
 
@@ -1109,10 +1496,10 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         RESIDEN_ATUAL.setText("");
     }
 
-    public void atualizarArray(Dados_Rurais ru) {
+    public ArrayList<Dados_Rurais> atualizarArray(Dados_Rurais ru) {
         for (Dados_Rurais r : RURAL) {
-            if (r.getId() == ru.getId() && r.getNIRF().equals(ru.getNIRF()) && r.getCodINCRA().equals(ru.getCodINCRA())) {
-                r.setId(ru.getId());
+            if (r.getId_proprie() == ru.getId_proprie() && r.getNIRF().equals(ru.getNIRF()) && r.getCodINCRA().equals(ru.getCodINCRA())) {
+                r.setId_proprie(ru.getId_proprie());
                 r.setNomeFazenda(ru.getNomeFazenda());
                 r.setLogradouro(ru.getLogradouro());
                 r.setCodINCRA(ru.getCodINCRA());
@@ -1123,6 +1510,12 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 r.setResidenciaAtual(ru.getResidenciaAtual());
             }
         }
+        for (int i = 0; i < RURAL.size(); i++) {
+            Dados_Rurais r = RURAL.get(i);
+            System.out.println("nome das fazendas: " + r.getNomeFazenda());
+            System.out.println("IDe das fazendas: " + r.getId_proprie());
+        }
+        return RURAL;
     }
 
     public void preencher_campus_pessoais(Dados_Pessoais si) {
@@ -1151,13 +1544,13 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         MAE.setText(si.getMae());
 
         status = "alterar";
-        this.id_sindicalizado = si.getId();
+        this.id_sindicalizado = si.getId_sindi();
         CANCELAR.setVisible(true);
-        TOTAO_REFAZER.setVisible(false);
+        TOTAO_REFAZER_P.setVisible(false);
     }
 
     public void atualizar_linha_tabela(Dados_Rurais pr, int linha) {
-        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getId(), linha, 0);
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getId_proprie(), linha, 0);
         TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getNomeFazenda(), linha, 1);
         TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getAreaPropri(), linha, 2);
         TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getMuniciSede(), linha, 3);
@@ -1166,7 +1559,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getNIRF(), linha, 6);
         TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getCodINCRA(), linha, 7);
         TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getResidenciaAtual(), linha, 8);
-        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getOutrasA(), linha, 8);
+        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getOutrasA(), linha, 9);
     }
 
     public void preencher_campus_rurais(Dados_Rurais pr) {
@@ -1181,10 +1574,10 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         RESIDEN_ATUAL.setText(pr.getResidenciaAtual());
 
         status = "alterar";
-        this.id_sindicalizado = pr.getId();
+        this.id_sindicalizado = pr.getId_sindi();
     }
 
-    public String campos_vazios() {
+    public String campos_rurais_vazios() {
         int campu = 0, obri = 0;
         String campus = "";
         if (!"".equals(NOMEFAZENDA.getText())) {
@@ -1287,7 +1680,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 CPF.requestFocus();
             } else if (erro == 0) {
                 String i;
-                if (alterar) {
+                if ("alterar".equals(status)) {
                     i = si.verificar_CPF(CPF.getText(), id_sindicalizado);
                 } else {
                     i = si.verificar_CPF(CPF.getText(), 0);
@@ -1314,7 +1707,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 RG.requestFocus();
             } else if (erro == 0) {
                 String i;
-                if (alterar) {
+                if ("alterar".equals(status)) {
                     i = si.verificar_RG(RG.getText(), id_sindicalizado);
                 } else {
                     i = si.verificar_RG(RG.getText(), 0);
@@ -1395,12 +1788,12 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         }
 
         if (erro == 0) {
-            cont = true;
+            CONT = true;
         } else if (erro == 1) {
-            cont = false;
+            CONT = false;
         }
 
-        return cont;
+        return CONT;
     }
 
     public boolean validar_obrigatorios_rurais() {
@@ -1489,26 +1882,32 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         }
 
         if (erro == 0) {
-            cont = true;
+            CONT = true;
         } else if (erro == 1) {
-            cont = false;
+            CONT = false;
         }
 
-        return cont;
+        return CONT;
     }
 
-    public void LISTAR_TABELA(ArrayList<Dados_Rurais> DADOS_RU) {
+    public void LISTAR_TABELA_Rural(ArrayList<Dados_Rurais> DADOS_RU) {
         DefaultTableModel dtma = (DefaultTableModel) TABELA_PROPRIEDADE_RURAL.getModel();
         dtma.setNumRows(0);
 
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(2).setPreferredWidth(110);
 
         TABELA_PROPRIEDADE_RURAL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
+        if ("alterar".equals(status) && "adicionar".equals(status2)) {
+            DADOS_RU.add(preencher_objeto_Rural());
+        }
         DADOS_RU.forEach((dr) -> {
-
+            String ID_pro = "";
+            totalLinhasTabela++;
+            if (dr.getId_proprie() > 0) {
+                ID_pro = String.valueOf(dr.getId_proprie());
+            }
             dtma.addRow(new Object[]{
-                dr.getId(),
+                ID_pro,
                 dr.getNomeFazenda(),
                 dr.getAreaPropri(),
                 dr.getMuniciSede(),
@@ -1522,6 +1921,100 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         });
     }
 
+    public Dados_Rurais preencher_objeto_Rural() {
+        pr = new Dados_Rurais();
+        if("cadastrar sind".equals(status) && !clicoTabela &&   ("salvar".equals(status2) || "adicionar".equals(status2))  ){    // TA CADASTRANDO UMA UNICA OU VARIAS PROPRIEDADES
+            pr.setId_proprie(totalFazenda);
+        } else if("cadastrar sind".equals(status) && clicoTabela &&   ("salvar".equals(status2) || "adicionar".equals(status2))  ){    // TA Alterando UMA UNICA OU VARIAS PROPRIEDADES QUE JA FORAM INFORMADAS PARA O SISTEMA
+            pr.setId_proprie(id_propriedade_rural);
+        }
+        if ("alterar".equals(status) && !clicoTabela && "salvar".equals(status2)) {         // TA ADICIONANDO UMA NOVA PROPRIEDADE
+            pr.setId_proprie(totalFazenda);
+        } else if("alterar".equals(status) && clicoTabela && "salvar".equals(status2)){    // TA ALTERANDO UMA PROPRIEDADE JA CADASTRADA
+            pr.setId_proprie(id_propriedade_rural);
+        }                     
+            
+        pr.setNomeFazenda(NOMEFAZENDA.getText());
+        pr.setLogradouro(LOGRADOURO.getText());
+        pr.setMuniciSede(MUNICEDE.getText());
+        pr.setCodINCRA(CODINCRA.getText());
+        pr.setNIRF(Numero_NIRF.getText());
+        pr.setAreaPropri(AREAFAZENDA.getText());
+        pr.setTempoCompra(TEMPOCOMPRA.getText());
+        pr.setOutrasA(OUTRASATIVI.getText());
+        pr.setResidenciaAtual(RESIDEN_ATUAL.getText());
+        pr.setExcluido(0);
+        return pr;
+    }
+
+    public Dados_Rurais preencher_objto_R_JTble() {
+        pr = new Dados_Rurais();
+        int linha = 0, li = 0;
+
+        System.out.println("totalLinhasTabela: " + totalLinhasTabela);
+        while (li < TABELA_PROPRIEDADE_RURAL.getRowCount()) {
+            String i = "";
+            i = (TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 0).toString());
+            if (!"".equals(i)) {
+                pr.setId_proprie(Integer.parseInt(i));
+            } else {
+                pr.setId_proprie(0);
+            }
+            pr.setNomeFazenda(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 1).toString());
+            pr.setAreaPropri(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 2).toString());
+            pr.setMuniciSede(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 3).toString());
+            pr.setTempoCompra(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 4).toString());
+            pr.setLogradouro(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 5).toString());
+            pr.setNIRF(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 6).toString());
+            pr.setCodINCRA(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 7).toString());
+            pr.setResidenciaAtual(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 8).toString());
+            pr.setOutrasA(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 9).toString());
+
+            if (linha < totalLinhasTabela) {
+                linha++;
+            }
+            li++;
+            System.out.println("preenchendo objeto pela tabela: " + pr.getNomeFazenda());
+        }
+
+        return pr;
+    }
+
+    public void altera_dados_JTABLE(int linha) {
+        if ("alterar".equals(status)) {
+            ADICONAR_FAZENDA_.setVisible(false);
+        }
+        String iid = TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 0).toString();
+        if (!"".equals(iid)) {
+            id_propriedade_rural = Integer.parseInt(iid);
+        } else {
+            id_propriedade_rural = 0;
+        }
+        NOMEFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 1).toString());
+        AREAFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 2).toString());
+        MUNICEDE.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 3).toString());
+        TEMPOCOMPRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 4).toString());
+        LOGRADOURO.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 5).toString());
+        Numero_NIRF.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 6).toString());
+        CODINCRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 7).toString());
+        RESIDEN_ATUAL.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 8).toString());
+        OUTRASATIVI.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 9).toString());
+    }
+
+    public void limparTabela() {
+        ((DefaultTableModel) TABELA_PROPRIEDADE_RURAL.getModel()).setRowCount(0); // REMOVE TODOS OS DADOS QUE ESTIVER NA TABELA
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public Dados_Pessoais preencher_objeto_Pessoal() {
         dadosp = new Dados_Pessoais();
         dadosp.setNome(NOME.getText());
@@ -1546,62 +2039,324 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         dadosp.setPai(PAI.getText());
         dadosp.setMae(MAE.getText());
         dadosp.setExcluido(0);
-
+        if ("alterar".equals(status)) {
+            dadosp.setId_sindi(id_sindicalizado);
+        }
         return dadosp;
     }
 
-    public Dados_Rurais preencher_objeto_Rural() {
-        pr = new Dados_Rurais();
-        pr.setNomeFazenda(NOMEFAZENDA.getText());
-        pr.setLogradouro(LOGRADOURO.getText());
-        pr.setMuniciSede(MUNICEDE.getText());
-        pr.setCodINCRA(CODINCRA.getText());
-        pr.setNIRF(Numero_NIRF.getText());
-        pr.setAreaPropri(AREAFAZENDA.getText());
-        pr.setTempoCompra(TEMPOCOMPRA.getText());
-        pr.setOutrasA(OUTRASATIVI.getText());
-        pr.setResidenciaAtual(RESIDEN_ATUAL.getText());
-        pr.setExcluido(0);
-        if ("alterar".equals(status)) {
-            pr.setId(id_sindicalizado);
-        } else if ("cadastrar sind".equals(status)) {
-            pr.setId(totalFazenda);
-        } else if (id_propriedade_rural > 0) {
-            pr.setId(id_propriedade_rural);
+    public void listar_Tabela_Sind() {
+        DefaultTableModel dtma = (DefaultTableModel) TABELA_SIND.getModel();
+        dtma.setNumRows(0);
+
+        TABELA_SIND.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        DADOSP.listar_Tabela_Dados_Pessoais().forEach((sin) -> {
+            String dn = Util.DATE_STRING(sin.getDataNasci());
+            String de = Util.DATE_STRING(sin.getDataExpedicao());
+            String fone = sin.getCelular();
+            if ("(  ) 9     -     ".equals(fone)) {
+                fone = "";
+            }
+            int zo = sin.getZona();
+            String zona;
+            if (zo == 0) {
+                zona = "";
+            } else {
+                zona = String.valueOf(zo);
+            }
+
+            int sec = sin.getSecao();
+            String secao;
+            if (sec == 0) {
+                secao = "";
+            } else {
+                secao = String.valueOf(sec);
+            }
+
+            String inc = sin.getCodINCRA();
+
+            dtma.addRow(new Object[]{
+                sin.getId_sindi(),
+                sin.getNome(),
+                dn,
+                fone,
+                sin.getNascionalidade(),
+                sin.getEstadoCivil(),
+                sin.getCpf(),
+                sin.getRg(),
+                de,
+                sin.getTituloEleito(),
+                zona,
+                secao,
+                sin.getReservista(),
+                sin.getCategoria(),
+                sin.getPai(),
+                sin.getMae()
+            });
+        });
+
+    }
+
+    public int pesquisar_Sind(String nome, String cpf, String rg) {
+        int a = 0;
+        DefaultTableModel dtma = (DefaultTableModel) TABELA_SIND.getModel();
+        dtma.setNumRows(0);
+
+        TABELA_SIND.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        if (!"".equals(nome) && !"   .   .    -   ".equals(cpf) && !"       ".equals(rg)) {
+            a = 1;
+            DADOSP.pesquisar_nome_cpf_rg(nome, cpf, rg).forEach((sin) -> {
+                ID = sin.getId_sindi();
+                dtma.addRow(new Object[]{
+                    sin.getId_sindi(),
+                    sin.getNome(),
+                    sin.getDataNasci(),
+                    sin.getCelular(),
+                    sin.getNascionalidade(),
+                    sin.getEstadoCivil(),
+                    sin.getCpf(),
+                    sin.getRg(),
+                    sin.getDataExpedicao(),
+                    sin.getTituloEleito(),
+                    sin.getZona(),
+                    sin.getSecao(),
+                    sin.getReservista(),
+                    sin.getCategoria(),
+                    sin.getPai(),
+                    sin.getMae(),});
+            });
+        } else if (!"".equals(nome)) {
+            a = 1;
+            if (!"   .   .    -   ".equals(cpf)) {
+                DADOSP.pesquisar_nome_cpf(nome, cpf).forEach((sin) -> {
+                    ID = sin.getId_sindi();
+                    dtma.addRow(new Object[]{
+                        sin.getId_sindi(),
+                        sin.getNome(),
+                        sin.getDataNasci(),
+                        sin.getCelular(),
+                        sin.getNascionalidade(),
+                        sin.getEstadoCivil(),
+                        sin.getCpf(),
+                        sin.getRg(),
+                        sin.getDataExpedicao(),
+                        sin.getTituloEleito(),
+                        sin.getZona(),
+                        sin.getSecao(),
+                        sin.getReservista(),
+                        sin.getCategoria(),
+                        sin.getPai(),
+                        sin.getMae(),});
+                });
+            } else if (!"       ".equals(rg)) {
+                DADOSP.pesquisar_nome_rg(nome, rg).forEach((sin) -> {
+                    ID = sin.getId_sindi();
+                    dtma.addRow(new Object[]{
+                        sin.getId_sindi(),
+                        sin.getNome(),
+                        sin.getDataNasci(),
+                        sin.getCelular(),
+                        sin.getNascionalidade(),
+                        sin.getEstadoCivil(),
+                        sin.getCpf(),
+                        sin.getRg(),
+                        sin.getDataExpedicao(),
+                        sin.getTituloEleito(),
+                        sin.getZona(),
+                        sin.getSecao(),
+                        sin.getReservista(),
+                        sin.getCategoria(),
+                        sin.getPai(),
+                        sin.getMae(),});
+                });
+            } else {
+                DADOSP.pesquisar_nome(nome).forEach((sin) -> {
+                    ID = sin.getId_sindi();
+                    dtma.addRow(new Object[]{
+                        sin.getId_sindi(),
+                        sin.getNome(),
+                        sin.getDataNasci(),
+                        sin.getCelular(),
+                        sin.getNascionalidade(),
+                        sin.getEstadoCivil(),
+                        sin.getCpf(),
+                        sin.getRg(),
+                        sin.getDataExpedicao(),
+                        sin.getTituloEleito(),
+                        sin.getZona(),
+                        sin.getSecao(),
+                        sin.getReservista(),
+                        sin.getCategoria(),
+                        sin.getPai(),
+                        sin.getMae(),});
+                });
+            }
+        } else if (!"   .   .    -   ".equals(cpf)) {
+            a = 1;
+            if (!"       ".equals(rg)) {
+                DADOSP.pesquisar_cpf_rg(cpf, rg).forEach((sin) -> {
+                    ID = sin.getId_sindi();
+                    dtma.addRow(new Object[]{
+                        sin.getId_sindi(),
+                        sin.getNome(),
+                        sin.getDataNasci(),
+                        sin.getCelular(),
+                        sin.getNascionalidade(),
+                        sin.getEstadoCivil(),
+                        sin.getCpf(),
+                        sin.getRg(),
+                        sin.getDataExpedicao(),
+                        sin.getTituloEleito(),
+                        sin.getZona(),
+                        sin.getSecao(),
+                        sin.getReservista(),
+                        sin.getCategoria(),
+                        sin.getPai(),
+                        sin.getMae(),});
+                });
+            } else {
+                DADOSP.pesquisar_cpf(cpf).forEach((sin) -> {
+                    ID = sin.getId_sindi();
+                    dtma.addRow(new Object[]{
+                        sin.getId_sindi(),
+                        sin.getNome(),
+                        sin.getDataNasci(),
+                        sin.getCelular(),
+                        sin.getNascionalidade(),
+                        sin.getEstadoCivil(),
+                        sin.getCpf(),
+                        sin.getRg(),
+                        sin.getDataExpedicao(),
+                        sin.getTituloEleito(),
+                        sin.getZona(),
+                        sin.getSecao(),
+                        sin.getReservista(),
+                        sin.getCategoria(),
+                        sin.getPai(),
+                        sin.getMae(),});
+                });
+            }
+        } else if (!"       ".equals(rg)) {
+            a = 1;
+            DADOSP.pesquisar_rg(rg).forEach((sin) -> {
+                ID = sin.getId_sindi();
+                dtma.addRow(new Object[]{
+                    sin.getId_sindi(),
+                    sin.getNome(),
+                    sin.getDataNasci(),
+                    sin.getCelular(),
+                    sin.getNascionalidade(),
+                    sin.getEstadoCivil(),
+                    sin.getCpf(),
+                    sin.getRg(),
+                    sin.getDataExpedicao(),
+                    sin.getTituloEleito(),
+                    sin.getZona(),
+                    sin.getSecao(),
+                    sin.getReservista(),
+                    sin.getCategoria(),
+                    sin.getPai(),
+                    sin.getMae(),});
+            });
+        } else if (a == 0) {
+            listar_Tabela_Sind();
+        }
+        return ID;
+    }
+
+    public Dados_Pessoais preencer_objeto_dadosP_tabela() {
+        se.setId_sindi(Integer.parseInt(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 0).toString()));
+        id_sindicalizado = se.getId_sindi();
+        se.setNome(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 1).toString());
+        se.setDataNasci(Util.STRING_DATE(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 2).toString()));
+        se.setCelular(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 3).toString());
+        se.setNascionalidade(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 4).toString());
+        se.setEstadoCivil(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 5).toString());
+        se.setCpf(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 6).toString());
+        se.setRg(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 7).toString());
+        se.setDataExpedicao(Util.STRING_DATE(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 8).toString()));
+        se.setTituloEleito(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 9).toString());
+        String zo = (TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 10).toString());
+        if ("".equals(zo)) {
+            se.setZona(0);
+        } else {
+            se.setZona(Integer.parseInt(zo));
         }
 
-        return pr;
+        String sec = (TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 11).toString());
+        if ("".equals(sec)) {
+            se.setSecao(0);
+        } else {
+            se.setSecao(Integer.parseInt(sec));
+        }
+        se.setReservista(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 12).toString());
+        se.setCategoria(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 13).toString());
+        se.setPai(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 14).toString());
+        se.setMae(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 15).toString());
+        return se;
     }
 
-    public void altera_dados_JTABLE(int linha) {
-        id_propriedade_rural = Integer.parseInt(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 0).toString());
-        NOMEFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 1).toString());
-        AREAFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 2).toString());
-        MUNICEDE.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 3).toString());
-        TEMPOCOMPRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 4).toString());
-        LOGRADOURO.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 5).toString());
-        Numero_NIRF.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 6).toString());
-        CODINCRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 7).toString());
-        RESIDEN_ATUAL.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 8).toString());
-        OUTRASATIVI.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 9).toString());
+    public void limparCampus_pesquisa() {
+        NOME_Pesquisar.setText("");
+        RG_Pesquisa.setValue("");
+        CPF_Pesquisar.setValue("");
     }
 
-    public void limparTabela() {
-        ((DefaultTableModel) TABELA_PROPRIEDADE_RURAL.getModel()).setRowCount(0); // REMOVE TODOS OS DADOS QUE ESTIVER NA TABELA
+    public void Relatorio(int ID) {
+        try {
+            HashMap filtro = new HashMap();
+            filtro.put("id", ID); // o "id" é o id que criei como parametro la no select do Ireport
+            JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\Associado.jasper", filtro, conexao);
+            JasperViewer.viewReport(print, false);
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório");
+            System.out.println(e);
+        }
+    }
+
+    public void preencher_Campus_Pessoais(Dados_Pessoais si) {
+        NOME.setText(si.getNome());
+        NASCIMENTO.setDate(si.getDataNasci());
+        ESTADOCIVI.setSelectedItem(si.getEstadoCivil());
+        CPF.setText(si.getCpf());
+        CELULAR.setText(si.getCelular());
+        RG.setText(si.getRg());
+        DATAEXPE.setDate(si.getDataExpedicao());
+        NASCIONALIDADE.setText(si.getNascionalidade());
+        RESERVISTA.setText(si.getReservista());
+        CATEGORIA.setText(si.getCategoria());
+        TITULO_ELEITO.setText(si.getTituloEleito());
+        if (si.getZona() == 0) {
+            ZONA.setText("");
+        } else {
+            ZONA.setText(String.valueOf(si.getZona()));
+        }
+        if (si.getSecao() == 0) {
+            SECAO.setText("");
+        } else {
+            SECAO.setText(String.valueOf(si.getSecao()));
+        }
+        PAI.setText(si.getPai());
+        MAE.setText(si.getMae());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ADICONAR_FAZENDA_;
     private javax.swing.JTextField AREAFAZENDA;
     private javax.swing.JLabel BOTAO_AVANCAR_;
+    private javax.swing.JButton BOTAO_PESQUISAR_;
     private javax.swing.JLabel BOTAO_REFAZER_;
     private javax.swing.JLabel BOTAO_SALVAR_;
     private javax.swing.JLabel BOTAO_VOLTAR_;
     private javax.swing.JLabel CANCELAR;
+    private javax.swing.JLabel CANCELAR1;
     private javax.swing.JTextField CATEGORIA;
     private javax.swing.JFormattedTextField CELULAR;
     private javax.swing.JFormattedTextField CODINCRA;
     private javax.swing.JFormattedTextField CPF;
+    private javax.swing.JFormattedTextField CPF_Pesquisar;
     private javax.swing.JPanel DADOS_PESSOAIS_SIND;
     private javax.swing.JPanel DADOS_RURAIS_SIND;
     private com.toedter.calendar.JDateChooser DATAEXPE;
@@ -1614,6 +2369,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     private javax.swing.JTextField NASCIONALIDADE;
     private javax.swing.JTextField NOME;
     private javax.swing.JTextField NOMEFAZENDA;
+    private javax.swing.JTextField NOME_Pesquisar;
     private javax.swing.JFormattedTextField Numero_NIRF;
     private javax.swing.JTextPane OUTRASATIVI;
     private javax.swing.JTextField PAI;
@@ -1621,18 +2377,21 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField RESERVISTA;
     private javax.swing.JTextField RESIDEN_ATUAL;
     private javax.swing.JFormattedTextField RG;
+    private javax.swing.JFormattedTextField RG_Pesquisa;
     private javax.swing.JFormattedTextField SECAO;
     private javax.swing.JTable TABELA_PROPRIEDADE_RURAL;
+    private javax.swing.JTable TABELA_SIND;
     private javax.swing.JTextField TEMPOCOMPRA;
     private javax.swing.JFormattedTextField TITULO_ELEITO;
-    private javax.swing.JLabel TOTAO_REFAZER;
+    private javax.swing.JLabel TOTAO_REFAZER_P;
     private javax.swing.JFormattedTextField ZONA;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel61;
@@ -1672,6 +2431,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JToggleButton jToggleButton1;

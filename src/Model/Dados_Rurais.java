@@ -19,6 +19,7 @@ public class Dados_Rurais extends Dados_Pessoais {
     private String tempoCompra;
     private String outrasA;
     private String residenciaAtual;
+    private int id_proprie;
 
     /**
      * @return the nomeFazenda
@@ -145,6 +146,20 @@ public class Dados_Rurais extends Dados_Pessoais {
      */
     public void setResidenciaAtual(String residenciaAtual) {
         this.residenciaAtual = residenciaAtual;
+    }
+
+    /**
+     * @return the id_proprie
+     */
+    public int getId_proprie() {
+        return id_proprie;
+    }
+
+    /**
+     * @param id_proprie the id_proprie to set
+     */
+    public void setId_proprie(int id_proprie) {
+        this.id_proprie = id_proprie;
     }
 
 

@@ -36,7 +36,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
 
     Sindicalizado_DAO sd = new Sindicalizado_DAO();
     Dados_Pessoais se = new Dados_Pessoais();
-    Login lo = new Login();
+    
     Sindicalizado si = new Sindicalizado();
     Connection conexao = null;
 
@@ -257,11 +257,11 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             if (escolha == 0) {
                 Cadastrar_Sindicalizado cs = new Cadastrar_Sindicalizado() {
                 };
-                cs.preencher_campus_alteracao(PREENCHER_OBJETO());
+//                cs.preencher_campus_alteracao(PREENCHER_OBJETO());
                 cs.setTitle("Alterar dados do Sindicalizado");
                 cs.setVisible(true);
                 Interface.DESKTOP.add(cs);
-                cs.setPosicao();
+//                cs.setPosicao();
                 cs.id = this.id;
                 this.dispose();
             }
@@ -396,7 +396,7 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             }
 
             dtma.addRow(new Object[]{
-                sin.getId(),
+                sin.getId_sindi(),
                 sin.getNome(),
                 dn,
                 fone,
@@ -438,9 +438,9 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         if (!"".equals(nome) && !"   .   .    -   ".equals(cpf) && !"       ".equals(rg)) {
             a = 1;
             sd.pesquisar_nome_cpf_rg(nome, cpf, rg).forEach((sin) -> {
-                ID = sin.getId();
+                ID = sin.getId_sindi();
                 dtma.addRow(new Object[]{
-                    sin.getId(),
+                    sin.getId_sindi(),
                     sin.getNome(),
                     sin.getDataNasci(),
                     sin.getCelular(),
@@ -473,10 +473,10 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             a = 1;
             if (!"   .   .    -   ".equals(cpf)) {
                 sd.pesquisar_nome_cpf(nome, cpf).forEach((sin) -> {
-                    ID = sin.getId();
+                    ID = sin.getId_sindi();
                     System.out.println("ID ID " + ID);
                     dtma.addRow(new Object[]{
-                        sin.getId(),
+                        sin.getId_sindi(),
                         sin.getNome(),
                         sin.getDataNasci(),
                         sin.getCelular(),
@@ -506,9 +506,9 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 });
             } else if (!"       ".equals(rg)) {
                 sd.pesquisar_nome_rg(nome, rg).forEach((sin) -> {
-                    ID = sin.getId();
+                    ID = sin.getId_sindi();
                     dtma.addRow(new Object[]{
-                        sin.getId(),
+                        sin.getId_sindi(),
                         sin.getNome(),
                         sin.getDataNasci(),
                         sin.getCelular(),
@@ -538,10 +538,10 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 });
             } else {
                 sd.pesquisar_nome(nome).forEach((sin) -> {
-                    ID = sin.getId();
+                    ID = sin.getId_sindi();
                     System.out.println("ID ID 2: " + ID);
                     dtma.addRow(new Object[]{
-                        sin.getId(),
+                        sin.getId_sindi(),
                         sin.getNome(),
                         sin.getDataNasci(),
                         sin.getCelular(),
@@ -574,9 +574,9 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
             a = 1;
             if (!"       ".equals(rg)) {
                 sd.pesquisar_cpf_rg(cpf, rg).forEach((sin) -> {
-                    ID = sin.getId();
+                    ID = sin.getId_sindi();
                     dtma.addRow(new Object[]{
-                        sin.getId(),
+                        sin.getId_sindi(),
                         sin.getNome(),
                         sin.getDataNasci(),
                         sin.getCelular(),
@@ -606,9 +606,9 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
                 });
             } else {
                 sd.pesquisar_cpf(cpf).forEach((sin) -> {
-                    ID = sin.getId();
+                    ID = sin.getId_sindi();
                     dtma.addRow(new Object[]{
-                        sin.getId(),
+                        sin.getId_sindi(),
                         sin.getNome(),
                         sin.getDataNasci(),
                         sin.getCelular(),
@@ -640,9 +640,9 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
         } else if (!"       ".equals(rg)) {
             a = 1;
             sd.pesquisar_rg(rg).forEach((sin) -> {
-                ID = sin.getId();
+                ID = sin.getId_sindi();
                 dtma.addRow(new Object[]{
-                    sin.getId(),
+                    sin.getId_sindi(),
                     sin.getNome(),
                     sin.getDataNasci(),
                     sin.getCelular(),
@@ -677,8 +677,8 @@ public class Pesquisar_Alterar_sindicalizado extends javax.swing.JInternalFrame 
     }
 
     public Dados_Pessoais PREENCHER_OBJETO() {
-        se.setId(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
-        id = se.getId();
+        se.setId_sindi(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
+        id = se.getId_sindi();
         se.setNome(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString());
         se.setDataNasci(Util.STRING_DATE(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString()));
         se.setCelular(TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString());

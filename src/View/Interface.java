@@ -327,11 +327,12 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+        Cadastrar_Sindi pas = new Cadastrar_Sindi();
         DESKTOP.add(pas);
-        pas.setTitle("Consultar e Alterar Sindicalizado");
+        pas.setTitle("Consultar e alterar Sindicalizado");
+        pas.status = "alterar";
+        pas.selecionar_guia(0);
         pas.setVisible(true);
-        pas.uso = "alterar";
         pas.setPosicao();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 

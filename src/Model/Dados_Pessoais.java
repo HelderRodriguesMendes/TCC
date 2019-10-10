@@ -21,7 +21,7 @@ public class Dados_Pessoais extends Pessoa{
     private String categoria;
     private String pai;
     private String mae;
-     private int id;
+     private int id_sindi;
     private int excluido;
     
     
@@ -348,20 +348,6 @@ public class Dados_Pessoais extends Pessoa{
     public void setOutrasA(String outrasA) {
         this.outrasA = outrasA;
     }
-
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
     /**
      * @return the residenciaAtual
      */
@@ -388,6 +374,20 @@ public class Dados_Pessoais extends Pessoa{
      */
     public void setExcluido(int excluido) {
         this.excluido = excluido;
+    }
+
+    /**
+     * @return the id_sindi
+     */
+    public int getId_sindi() {
+        return id_sindi;
+    }
+
+    /**
+     * @param id_sindi the id_sindi to set
+     */
+    public void setId_sindi(int id_sindi) {
+        this.id_sindi = id_sindi;
     }
 
 

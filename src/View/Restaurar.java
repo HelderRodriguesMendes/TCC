@@ -8,6 +8,7 @@ package View;
 import Controller.Util;
 import DAO.AdministradorDAO;
 import DAO.Dados_Sindicalizado_Pessoais_DAO;
+import DAO.Dados_Sindicalizado_Rurais_DAO;
 import DAO.Sindicalizado_DAO;
 import java.awt.Dimension;
 import java.util.logging.Level;
@@ -26,6 +27,7 @@ public class Restaurar extends javax.swing.JInternalFrame {
 
     int cont = 0, ID = 0;
     Dados_Sindicalizado_Pessoais_DAO dsp = new Dados_Sindicalizado_Pessoais_DAO();
+    Dados_Sindicalizado_Rurais_DAO DADOSR = new Dados_Sindicalizado_Rurais_DAO();
 
     public Restaurar() {
         initComponents();
@@ -60,9 +62,9 @@ public class Restaurar extends javax.swing.JInternalFrame {
         Sindicalizado_DAO sd = new Sindicalizado_DAO();
 
         dsp.pesquisar_restaurar(nome).forEach((sind) -> {
-            ID = sind.getId();
+            ID = sind.getId_sindi();
             dtma.addRow(new Object[]{
-                sind.getId(),
+                sind.getId_sindi(),
                 sind.getNome(),
                 sind.getCelular(),
                 sind.getRg(),
@@ -294,7 +296,7 @@ public class Restaurar extends javax.swing.JInternalFrame {
         if (PromptResult == 0) {
             if (cont == 1) {
                 Sindicalizado_DAO sd = new Sindicalizado_DAO();
-                dsp.restaurar(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
+                DADOSR.restaurar(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
                 TXT_NOME.setText("");
             } else if (cont == 2) {
                 AdministradorDAO ad = new AdministradorDAO();

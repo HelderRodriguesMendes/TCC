@@ -84,7 +84,7 @@ public class Sindicalizado_DAO {
             while (rs.next()) {
                 Dados_Pessoais si = new Dados_Pessoais();
 
-                si.setId(rs.getInt("id_sindicalizado"));
+                si.setId_sindi(rs.getInt("id_sindicalizado"));
                 si.setNome(rs.getString("nome"));
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
@@ -136,7 +136,7 @@ public class Sindicalizado_DAO {
             while (rs.next()) {
                 Dados_Pessoais si = new Dados_Pessoais();
 
-                si.setId(rs.getInt("id_sindicalizado"));
+                si.setId_sindi(rs.getInt("id_sindicalizado"));
                 si.setNome(rs.getString("nome"));
                 System.out.println("nome: " + si.getNome());
                 java.util.Date DATA_U = rs.getDate("dataNasci");
@@ -190,7 +190,7 @@ public class Sindicalizado_DAO {
             while (rs.next()) {
                 Dados_Pessoais si = new Dados_Pessoais();
 
-                si.setId(rs.getInt("id_sindicalizado"));
+                si.setId_sindi(rs.getInt("id_sindicalizado"));
                 si.setNome(rs.getString("nome"));
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
@@ -245,7 +245,7 @@ public class Sindicalizado_DAO {
             while (rs.next()) {
                 Dados_Pessoais si = new Dados_Pessoais();
 
-                si.setId(rs.getInt("id_sindicalizado"));
+                si.setId_sindi(rs.getInt("id_sindicalizado"));
                 si.setNome(rs.getString("nome"));
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
@@ -301,7 +301,7 @@ public class Sindicalizado_DAO {
             while (rs.next()) {
                 Dados_Pessoais si = new Dados_Pessoais();
 
-                si.setId(rs.getInt("id_sindicalizado"));
+                si.setId_sindi(rs.getInt("id_sindicalizado"));
                 si.setNome(rs.getString("nome"));
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
@@ -355,7 +355,7 @@ public class Sindicalizado_DAO {
             while (rs.next()) {
                 Dados_Pessoais si = new Dados_Pessoais();
 
-                si.setId(rs.getInt("id_sindicalizado"));
+                si.setId_sindi(rs.getInt("id_sindicalizado"));
                 si.setNome(rs.getString("nome"));
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
@@ -409,7 +409,7 @@ public class Sindicalizado_DAO {
             while (rs.next()) {
                 Dados_Pessoais si = new Dados_Pessoais();
 
-                si.setId(rs.getInt("id_sindicalizado"));
+                si.setId_sindi(rs.getInt("id_sindicalizado"));
                 si.setNome(rs.getString("nome"));
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
@@ -462,7 +462,7 @@ public class Sindicalizado_DAO {
             while (rs.next()) {
                 Dados_Pessoais si = new Dados_Pessoais();
 
-                si.setId(rs.getInt("id_sindicalizado"));
+                si.setId_sindi(rs.getInt("id_sindicalizado"));
                 si.setNome(rs.getString("nome"));
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
