@@ -1049,7 +1049,7 @@
                                       </Group>
                                   </Group>
                                   <Group type="102" attributes="0">
-                                      <Component id="CANCELAR1" min="-2" pref="39" max="-2" attributes="0"/>
+                                      <Component id="VOLTAR1_" min="-2" pref="39" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
                                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -1066,7 +1066,7 @@
                                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="CANCELAR1" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="VOLTAR1_" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -1438,14 +1438,14 @@
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BOTAO_SALVAR_MouseClicked"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="CANCELAR1">
+                    <Component class="javax.swing.JLabel" name="VOLTAR1_">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/Imagens/voltar.png"/>
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="CANCELAR1MouseClicked"/>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="VOLTAR1_MouseClicked"/>
                       </Events>
                     </Component>
                   </SubComponents>

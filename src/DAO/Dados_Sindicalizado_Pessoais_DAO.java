@@ -252,7 +252,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluido = '0'");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluido = '0' order by nome");
             rs = pst.executeQuery();
 
             while (rs.next()) {

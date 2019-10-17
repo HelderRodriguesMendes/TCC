@@ -12,6 +12,7 @@ import com.mysql.jdbc.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -59,7 +60,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
 
     public String verificarINCRA_BANCO(String incra, int id) {
         String ID = "";
-
+        System.out.println("ID INCRA: " + id);
         if (id > 0) {
             con = Conexao_banco.conector();
             try {
@@ -74,7 +75,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
                     ID = "nao cadastrado";
                 }
                 con.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
             }
         } else {
             con = Conexao_banco.conector();
@@ -118,7 +119,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
                 pst.executeUpdate();
 
             }
-            JOptionPane.showMessageDialog(null, "Sindicalizado cadastrado com sucesso");
+            JOptionPane.showMessageDialog(null, "Propriedade rural cadastrada com sucesso");
             con.close();
 
         } catch (Exception e) {
@@ -172,7 +173,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
         }
     }
 
-    public ArrayList<Dados_Rurais> listar_Tabela_RURAL(int id_sind, boolean add) {
+    public ArrayList<Dados_Rurais> listar_Tabela_RURAL(int id_sind) {
         con = Conexao_banco.conector();
         Cadastrar_Sindi CS = new Cadastrar_Sindi();
 
@@ -200,9 +201,6 @@ public class Dados_Sindicalizado_Rurais_DAO {
                 SIND.add(si);
             }
 
-            if (add) {
-                SIND.add(CS.preencher_objeto_Rural());
-            }
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar dados na tabela");
@@ -211,7 +209,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
         return SIND;
     }
 
-    public ArrayList<Dados_Rurais> listar_Tabela_RURAL_ADD(int id_sind, Dados_Rurais dr) {
+    public ArrayList<Dados_Rurais> listar_Tabela_RURAL_ADD(int id_sind, Dados_Rurais dr, boolean clico) {
         con = Conexao_banco.conector();
         Cadastrar_Sindi CS = new Cadastrar_Sindi();
 
@@ -238,8 +236,11 @@ public class Dados_Sindicalizado_Rurais_DAO {
 
                 SIND.add(si);
             }
-
-            SIND.add(dr);
+            
+            if(!clico){
+                SIND.add(dr);
+            }
+           
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar dados na tabela");
