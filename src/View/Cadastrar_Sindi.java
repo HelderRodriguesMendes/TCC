@@ -13,6 +13,8 @@ import DAO.Dados_Sindicalizado_Rurais_DAO;
 import DAO.Util_DAO;
 import Model.Dados_Rurais;
 import Model.Dados_Pessoais;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.sql.Connection;
 import java.text.DateFormat;
@@ -26,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -49,7 +52,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     DateFormat df = DateFormat.getDateInstance();
 
     public String status = "", conf = "";
-    protected int id_sindicalizado = 0, idade, erro = 0, totalFazenda = 0, linhaSelecionada, id_propriedade_rural = 0, totalLinhasTabela = 0, IDADE, ID = 0;
+    protected int id_sindicalizado = 0, idade, erro = 0, totalFazenda = 0, linhaSelecionada, id_propriedade_rural = 0, IDADE, ID = 0;
     protected boolean CONT = false, validacao = false, clicoTabela = false;
     protected String status2 = "";
 
@@ -1154,10 +1157,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if ("preencher".equals(campos_rurais_vazios())) {     // OS CAMPOS DO FORMULARIO NÃO ESTÃO TODOS VAZIOS, INDEPENTENDE SE TEM OU NÃO DADOS NO ARRAY DE OBJETOS
                 validacao = validar_obrigatorios_rurais();
                 if (validacao) {
-                    if (clicoTabela && totalFazenda == 0) {  // clico na tabela pra edita e altera dados que ja estão salvos no banco
-                        pr = new Dados_Rurais();
-                        pr = preencher_objeto_Rural();
-                        LISTAR_TABELA_Rural(atualizarArray(pr));
+                    if (clicoTabela && totalFazenda == 0) {  // clico na tabela pra edita e altera dados que ja estão salvos no banco                   
                         conf = "alterando uma";
                         confirma_salvamento_fazenda(conf);
                     } else if (!clicoTabela && totalFazenda == 0) {   //ADICIONANDO UMA UNICA PROPRIEDADE RURAL
@@ -1229,21 +1229,19 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                         limparCampus_Rurais();
                     }
                 } else if ("preencher".equals(campos_rurais_vazios()) && clicoTabela) {
-                    if (id_propriedade_rural == 0) {
-                        pr = new Dados_Rurais();
-                        pr = preencher_objeto_Rural();
-                        ADD.clear();
-                        ADD = DADOSR.listar_Tabela_RURAL_ADD(id_sindicalizado, preencher_objeto_Rural(), true);
-                        ADD.addAll(atualizarArrayADD(pr));
-                        for (int i = 0; i < ADD.size(); i++) {
-                            Dados_Rurais r = ADD.get(i);
-                            System.out.println("nome: " + r.getNomeFazenda());
-                        }
-                        LISTAR_TABELA_Rural(ADD);
-                        limparCampus_Rurais();
-                        clicoTabela = false;
-                        clicoTabela = false;
+                    pr = new Dados_Rurais();
+                    pr = preencher_objeto_Rural();
+                    ADD.clear();
+                    ADD = DADOSR.listar_Tabela_RURAL_ADD(id_sindicalizado, preencher_objeto_Rural(), true);
+                    ADD.addAll(atualizarArrayADD(pr));
+                    for (int i = 0; i < ADD.size(); i++) {
+                        Dados_Rurais r = ADD.get(i);
+                        System.out.println("nome: " + r.getNomeFazenda());
                     }
+                    LISTAR_TABELA_Rural(ADD);
+                    limparCampus_Rurais();
+                    clicoTabela = false;
+
                 }
             }
         }
@@ -1425,18 +1423,17 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     }
 
     public void limparVariaveis() {
-        status2 = "";
-        clicoTabela = false;
-        totalFazenda = 0;
-        conf = "";
         validacao = false;
-        id_propriedade_rural = 0;
-        id_sindicalizado = 0;
-        pr = null;
-        RURAL.clear();
-        ADICIONA_RURAL.clear();
         ADD.clear();
+        totalFazenda = 0;
+        clicoTabela = false;
+        ADICIONA_RURAL.clear();
+        id_propriedade_rural = 0;
+        status2 = "";
+        conf = "";
+        pr = null;
 
+        RURAL.clear();
     }
 
     public void confirma_salvamento_fazenda(String conf) {
@@ -1450,14 +1447,13 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 id_sindicalizado = DADOSP.salvar_Dados_P(dadosp);
                 DADOSR.salvar_Dados_R(RURAL, id_sindicalizado);
 
-                RURAL.clear();      //LIMPA O ARRAY DE OBJETOS
-                totalFazenda = 0;
                 limparCampus_Rurais();
                 limparTabela();
                 limparCampus_Pessoais();
-                id_propriedade_rural = 0;
+                limparVariaveis();
                 id_sindicalizado = 0;
-                clicoTabela = false;
+                selecionar_guia(1);
+
                 conf = "";
             } else if (PromptResult == 1) {  // Não salva os dados que já foi informados, mas limpa o formulario pra receber dados de novas proprieades rurais e juntar com as que ja foi informadas
                 limparCampus_Rurais();
@@ -1474,13 +1470,11 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
 
                     DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
                     DADOSR.alterar_Dados_R(preencher_objeto_Rural());
-                    limparCampus_Rurais();
                     LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
-                    id_propriedade_rural = 0;
-                    id_sindicalizado = 0;
-                    RURAL.clear();      //LIMPA O ARRAY DE OBJETOS
+
+                    limparCampus_Rurais();
+                    limparVariaveis();
                     ADICONAR_FAZENDA_.setVisible(true);
-                    clicoTabela = false;
 
                 } else if (PromptResult == 1) {
                     limparCampus_Rurais();
@@ -1497,23 +1491,19 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                     DADOSR.salvar_Dados_R(ADICIONA_RURAL, id_sindicalizado);
                     LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
 
-                    RURAL.clear();      //LIMPA O ARRAY DE OBJETOS
-                    totalFazenda = 0;
+                    ADICONAR_FAZENDA_.setVisible(true);
                     limparCampus_Rurais();
-                    id_propriedade_rural = 0;
-                    id_sindicalizado = 0;
-                    clicoTabela = false;
-                } else if (PromptResult == 0) {
+                    limparVariaveis();
+
+                } else if (PromptResult == 1) {
                     DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
                     DADOSR.alterar_Dados_R(preencher_objeto_Rural());
                     LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
 
-                    RURAL.clear();      //LIMPA O ARRAY DE OBJETOS
-                    totalFazenda = 0;
+                    ADICONAR_FAZENDA_.setVisible(true);
+                    limparVariaveis();
                     limparCampus_Rurais();
-                    id_propriedade_rural = 0;
-                    id_sindicalizado = 0;
-                    clicoTabela = false;
+
                 }
             } else if ("adicionando uma".equals(conf) || "cadastrando uma".equals(conf) || "adicionando muitas".equals(conf)) {
                 String ObjButtons[] = {"Sim", "Não"};
@@ -1530,12 +1520,9 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                     }
                     LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
 
-                    RURAL.clear();      //LIMPA O ARRAY DE OBJETOS
-                    totalFazenda = 0;
                     limparCampus_Rurais();
-                    id_propriedade_rural = 0;
-                    id_sindicalizado = 0;
-                    clicoTabela = false;
+                    limparVariaveis();
+
                 } else if (PromptResult == 1) {  // Não salva os dados que já foi informados, mas limpa o formulario pra receber dados de novas proprieades rurais e juntar com as que ja foi informadas
                     limparCampus_Rurais();
                 }
@@ -1550,11 +1537,9 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                     limparCampus_Pessoais();
                     limparCampus_pesquisa();
                     limparTabela();
-                    id_sindicalizado = 0;
-                    RURAL.clear();      //LIMPA O ARRAY DE OBJETOS
                     ADICONAR_FAZENDA_.setVisible(true);
-                    clicoTabela = false;
                     listar_Tabela_Sind();
+                    selecionar_guia(0);
                 }
             }
         }
@@ -2019,10 +2004,11 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
 
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(2).setPreferredWidth(110);
 
+//        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+//        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA_PROPRIEDADE_RURAL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         DADOS_RU.forEach((dr) -> {
             String ID_pro = "";
-            totalLinhasTabela++;
             if (dr.getId_proprie() > 0) {
                 ID_pro = String.valueOf(dr.getId_proprie());
             }
@@ -2039,6 +2025,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 dr.getOutrasA()
             });
         });
+        corLinhaJTable(false);
     }
 
     public Dados_Rurais preencher_objeto_Rural() {
@@ -2066,38 +2053,6 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         pr.setOutrasA(OUTRASATIVI.getText());
         pr.setResidenciaAtual(RESIDEN_ATUAL.getText());
         pr.setExcluido(0);
-        return pr;
-    }
-
-    public Dados_Rurais preencher_objto_R_JTble() {
-        pr = new Dados_Rurais();
-        int linha = 0, li = 0;
-
-        while (li < TABELA_PROPRIEDADE_RURAL.getRowCount()) {
-            String i = "";
-            i = (TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 0).toString());
-            if (!"".equals(i)) {
-                pr.setId_proprie(Integer.parseInt(i));
-            } else {
-                pr.setId_proprie(0);
-            }
-            pr.setNomeFazenda(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 1).toString());
-            pr.setAreaPropri(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 2).toString());
-            pr.setMuniciSede(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 3).toString());
-            pr.setTempoCompra(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 4).toString());
-            pr.setLogradouro(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 5).toString());
-            pr.setNIRF(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 6).toString());
-            pr.setCodINCRA(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 7).toString());
-            pr.setResidenciaAtual(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 8).toString());
-            pr.setOutrasA(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 9).toString());
-
-            if (linha < totalLinhasTabela) {
-                linha++;
-            }
-            li++;
-            System.out.println("preenchendo objeto pela tabela: " + pr.getNomeFazenda());
-        }
-
         return pr;
     }
 
@@ -2171,14 +2126,19 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         dtma.setNumRows(0);
 
         TABELA_SIND.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA_SIND.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA_SIND.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
 
         DADOSP.listar_Tabela_Dados_Pessoais().forEach((sin) -> {
+
             String dn = Util.DATE_STRING(sin.getDataNasci());
             String de = Util.DATE_STRING(sin.getDataExpedicao());
+
             String fone = sin.getCelular();
             if ("(  ) 9     -     ".equals(fone)) {
                 fone = "";
             }
+
             int zo = sin.getZona();
             String zona;
             if (zo == 0) {
@@ -2217,6 +2177,8 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             });
         });
 
+        corLinhaJTable(true);
+
     }
 
     public int pesquisar_Sind(String nome, String cpf, String rg) {
@@ -2230,19 +2192,44 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             a = 1;
             DADOSP.pesquisar_nome_cpf_rg(nome, cpf, rg).forEach((sin) -> {
                 ID = sin.getId_sindi();
+
+                String dn = Util.DATE_STRING(sin.getDataNasci());
+                String de = Util.DATE_STRING(sin.getDataExpedicao());
+
+                String fone = sin.getCelular();
+                if ("(  ) 9     -     ".equals(fone)) {
+                    fone = "";
+                }
+
+                int zo = sin.getZona();
+                String zona;
+                if (zo == 0) {
+                    zona = "";
+                } else {
+                    zona = String.valueOf(zo);
+                }
+
+                int sec = sin.getSecao();
+                String secao;
+                if (sec == 0) {
+                    secao = "";
+                } else {
+                    secao = String.valueOf(sec);
+                }
+
                 dtma.addRow(new Object[]{
                     sin.getId_sindi(),
                     sin.getNome(),
-                    sin.getDataNasci(),
-                    sin.getCelular(),
+                    dn,
+                    fone,
                     sin.getNascionalidade(),
                     sin.getEstadoCivil(),
                     sin.getCpf(),
                     sin.getRg(),
-                    sin.getDataExpedicao(),
+                    de,
                     sin.getTituloEleito(),
-                    sin.getZona(),
-                    sin.getSecao(),
+                    zona,
+                    secao,
                     sin.getReservista(),
                     sin.getCategoria(),
                     sin.getPai(),
@@ -2253,19 +2240,44 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if (!"   .   .    -   ".equals(cpf)) {
                 DADOSP.pesquisar_nome_cpf(nome, cpf).forEach((sin) -> {
                     ID = sin.getId_sindi();
+
+                    String dn = Util.DATE_STRING(sin.getDataNasci());
+                    String de = Util.DATE_STRING(sin.getDataExpedicao());
+
+                    String fone = sin.getCelular();
+                    if ("(  ) 9     -     ".equals(fone)) {
+                        fone = "";
+                    }
+
+                    int zo = sin.getZona();
+                    String zona;
+                    if (zo == 0) {
+                        zona = "";
+                    } else {
+                        zona = String.valueOf(zo);
+                    }
+
+                    int sec = sin.getSecao();
+                    String secao;
+                    if (sec == 0) {
+                        secao = "";
+                    } else {
+                        secao = String.valueOf(sec);
+                    }
+
                     dtma.addRow(new Object[]{
                         sin.getId_sindi(),
                         sin.getNome(),
-                        sin.getDataNasci(),
-                        sin.getCelular(),
+                        dn,
+                        fone,
                         sin.getNascionalidade(),
                         sin.getEstadoCivil(),
                         sin.getCpf(),
                         sin.getRg(),
-                        sin.getDataExpedicao(),
+                        de,
                         sin.getTituloEleito(),
-                        sin.getZona(),
-                        sin.getSecao(),
+                        zona,
+                        secao,
                         sin.getReservista(),
                         sin.getCategoria(),
                         sin.getPai(),
@@ -2274,19 +2286,44 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             } else if (!"       ".equals(rg)) {
                 DADOSP.pesquisar_nome_rg(nome, rg).forEach((sin) -> {
                     ID = sin.getId_sindi();
+
+                    String dn = Util.DATE_STRING(sin.getDataNasci());
+                    String de = Util.DATE_STRING(sin.getDataExpedicao());
+
+                    String fone = sin.getCelular();
+                    if ("(  ) 9     -     ".equals(fone)) {
+                        fone = "";
+                    }
+
+                    int zo = sin.getZona();
+                    String zona;
+                    if (zo == 0) {
+                        zona = "";
+                    } else {
+                        zona = String.valueOf(zo);
+                    }
+
+                    int sec = sin.getSecao();
+                    String secao;
+                    if (sec == 0) {
+                        secao = "";
+                    } else {
+                        secao = String.valueOf(sec);
+                    }
+
                     dtma.addRow(new Object[]{
                         sin.getId_sindi(),
                         sin.getNome(),
-                        sin.getDataNasci(),
-                        sin.getCelular(),
+                        dn,
+                        fone,
                         sin.getNascionalidade(),
                         sin.getEstadoCivil(),
                         sin.getCpf(),
                         sin.getRg(),
-                        sin.getDataExpedicao(),
+                        de,
                         sin.getTituloEleito(),
-                        sin.getZona(),
-                        sin.getSecao(),
+                        zona,
+                        secao,
                         sin.getReservista(),
                         sin.getCategoria(),
                         sin.getPai(),
@@ -2295,19 +2332,44 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             } else {
                 DADOSP.pesquisar_nome(nome).forEach((sin) -> {
                     ID = sin.getId_sindi();
+
+                    String dn = Util.DATE_STRING(sin.getDataNasci());
+                    String de = Util.DATE_STRING(sin.getDataExpedicao());
+
+                    String fone = sin.getCelular();
+                    if ("(  ) 9     -     ".equals(fone)) {
+                        fone = "";
+                    }
+
+                    int zo = sin.getZona();
+                    String zona;
+                    if (zo == 0) {
+                        zona = "";
+                    } else {
+                        zona = String.valueOf(zo);
+                    }
+
+                    int sec = sin.getSecao();
+                    String secao;
+                    if (sec == 0) {
+                        secao = "";
+                    } else {
+                        secao = String.valueOf(sec);
+                    }
+
                     dtma.addRow(new Object[]{
                         sin.getId_sindi(),
                         sin.getNome(),
-                        sin.getDataNasci(),
-                        sin.getCelular(),
+                        dn,
+                        fone,
                         sin.getNascionalidade(),
                         sin.getEstadoCivil(),
                         sin.getCpf(),
                         sin.getRg(),
-                        sin.getDataExpedicao(),
+                        de,
                         sin.getTituloEleito(),
-                        sin.getZona(),
-                        sin.getSecao(),
+                        zona,
+                        secao,
                         sin.getReservista(),
                         sin.getCategoria(),
                         sin.getPai(),
@@ -2319,19 +2381,44 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if (!"       ".equals(rg)) {
                 DADOSP.pesquisar_cpf_rg(cpf, rg).forEach((sin) -> {
                     ID = sin.getId_sindi();
+
+                    String dn = Util.DATE_STRING(sin.getDataNasci());
+                    String de = Util.DATE_STRING(sin.getDataExpedicao());
+
+                    String fone = sin.getCelular();
+                    if ("(  ) 9     -     ".equals(fone)) {
+                        fone = "";
+                    }
+
+                    int zo = sin.getZona();
+                    String zona;
+                    if (zo == 0) {
+                        zona = "";
+                    } else {
+                        zona = String.valueOf(zo);
+                    }
+
+                    int sec = sin.getSecao();
+                    String secao;
+                    if (sec == 0) {
+                        secao = "";
+                    } else {
+                        secao = String.valueOf(sec);
+                    }
+
                     dtma.addRow(new Object[]{
                         sin.getId_sindi(),
                         sin.getNome(),
-                        sin.getDataNasci(),
-                        sin.getCelular(),
+                        dn,
+                        fone,
                         sin.getNascionalidade(),
                         sin.getEstadoCivil(),
                         sin.getCpf(),
                         sin.getRg(),
-                        sin.getDataExpedicao(),
+                        de,
                         sin.getTituloEleito(),
-                        sin.getZona(),
-                        sin.getSecao(),
+                        zona,
+                        secao,
                         sin.getReservista(),
                         sin.getCategoria(),
                         sin.getPai(),
@@ -2340,19 +2427,44 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             } else {
                 DADOSP.pesquisar_cpf(cpf).forEach((sin) -> {
                     ID = sin.getId_sindi();
+
+                    String dn = Util.DATE_STRING(sin.getDataNasci());
+                    String de = Util.DATE_STRING(sin.getDataExpedicao());
+
+                    String fone = sin.getCelular();
+                    if ("(  ) 9     -     ".equals(fone)) {
+                        fone = "";
+                    }
+
+                    int zo = sin.getZona();
+                    String zona;
+                    if (zo == 0) {
+                        zona = "";
+                    } else {
+                        zona = String.valueOf(zo);
+                    }
+
+                    int sec = sin.getSecao();
+                    String secao;
+                    if (sec == 0) {
+                        secao = "";
+                    } else {
+                        secao = String.valueOf(sec);
+                    }
+
                     dtma.addRow(new Object[]{
                         sin.getId_sindi(),
                         sin.getNome(),
-                        sin.getDataNasci(),
-                        sin.getCelular(),
+                        dn,
+                        fone,
                         sin.getNascionalidade(),
                         sin.getEstadoCivil(),
                         sin.getCpf(),
                         sin.getRg(),
-                        sin.getDataExpedicao(),
+                        de,
                         sin.getTituloEleito(),
-                        sin.getZona(),
-                        sin.getSecao(),
+                        zona,
+                        secao,
                         sin.getReservista(),
                         sin.getCategoria(),
                         sin.getPai(),
@@ -2363,19 +2475,44 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             a = 1;
             DADOSP.pesquisar_rg(rg).forEach((sin) -> {
                 ID = sin.getId_sindi();
+
+                String dn = Util.DATE_STRING(sin.getDataNasci());
+                String de = Util.DATE_STRING(sin.getDataExpedicao());
+
+                String fone = sin.getCelular();
+                if ("(  ) 9     -     ".equals(fone)) {
+                    fone = "";
+                }
+
+                int zo = sin.getZona();
+                String zona;
+                if (zo == 0) {
+                    zona = "";
+                } else {
+                    zona = String.valueOf(zo);
+                }
+
+                int sec = sin.getSecao();
+                String secao;
+                if (sec == 0) {
+                    secao = "";
+                } else {
+                    secao = String.valueOf(sec);
+                }
+
                 dtma.addRow(new Object[]{
                     sin.getId_sindi(),
                     sin.getNome(),
-                    sin.getDataNasci(),
-                    sin.getCelular(),
+                    dn,
+                    fone,
                     sin.getNascionalidade(),
                     sin.getEstadoCivil(),
                     sin.getCpf(),
                     sin.getRg(),
-                    sin.getDataExpedicao(),
+                    de,
                     sin.getTituloEleito(),
-                    sin.getZona(),
-                    sin.getSecao(),
+                    zona,
+                    secao,
                     sin.getReservista(),
                     sin.getCategoria(),
                     sin.getPai(),
@@ -2461,6 +2598,40 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         }
         PAI.setText(si.getPai());
         MAE.setText(si.getMae());
+    }
+
+    public void corLinhaJTable(boolean P) {
+        if (P) {
+            TABELA_SIND.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value,
+                        boolean isSelected, boolean hasFocus, int row, int column) {
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                    if (row % 2 != 0) {
+                        setBackground(Color.LIGHT_GRAY);
+                    } else {
+                        setBackground(Color.WHITE);
+                    }
+                    return this;
+                }
+            });
+        } else {
+            TABELA_PROPRIEDADE_RURAL.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value,
+                        boolean isSelected, boolean hasFocus, int row, int column) {
+                    super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                    if (row % 2 != 0) {
+                        setBackground(Color.LIGHT_GRAY);
+                    } else {
+                        setBackground(Color.WHITE);
+                    }
+                    return this;
+                }
+            });
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
