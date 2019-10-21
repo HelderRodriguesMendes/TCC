@@ -52,13 +52,12 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     DateFormat df = DateFormat.getDateInstance();
 
     public String status = "", conf = "";
-    protected int id_sindicalizado = 0, idade, erro = 0, totalFazenda = 0, linhaSelecionada, id_propriedade_rural = 0, IDADE, ID = 0;
-    protected boolean CONT = false, validacao = false, clicoTabela = false;
-    protected String status2 = "";
+    protected int id_sindicalizado = 0, idade, erro = 0, linhaSelecionada, id_propriedade_rural = 0, IDADE, ID = 0;
+    protected boolean CONT = false, clicoTabela_R = false, ok = false;
 
+    ArrayList<Dados_Rurais> ADD = new ArrayList<>();
     ArrayList<Dados_Rurais> RURAL = new ArrayList<>();
     ArrayList<Dados_Rurais> ADICIONA_RURAL = new ArrayList<>();
-    ArrayList<Dados_Rurais> ADD = new ArrayList<>();
 
     public Cadastrar_Sindi() {
         initComponents();
@@ -281,24 +280,21 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PESQUISAR_SINDLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PESQUISAR_SINDLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(9, 9, 9)
-                        .addComponent(NOME_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(127, 127, 127)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CPF_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(143, 143, 143)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(RG_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 72, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
+                .addComponent(jLabel3)
+                .addGap(9, 9, 9)
+                .addComponent(NOME_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(127, 127, 127)
+                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CPF_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(143, 143, 143)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(RG_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addComponent(BOTAO_PESQUISAR_, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         PESQUISAR_SINDLayout.setVerticalGroup(
             PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,16 +307,13 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                         .addGap(1, 1, 1)
                         .addGroup(PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(BOTAO_PESQUISAR_)
-                            .addGroup(PESQUISAR_SINDLayout.createSequentialGroup()
-                                .addGroup(PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel5)
-                                        .addComponent(CPF_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel4)
-                                    .addComponent(RG_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel5)
+                                .addComponent(CPF_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4)
+                            .addComponent(RG_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
         );
 
         FORM_GUIAS.addTab("PESQUISAR  SINDICALIZADO", PESQUISAR_SIND);
@@ -803,7 +796,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
 
         jLabel64.setText("Outras atividades:");
 
-        ADICONAR_FAZENDA_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fazenda.png"))); // NOI18N
+        ADICONAR_FAZENDA_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ADD.png"))); // NOI18N
         ADICONAR_FAZENDA_.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ADICONAR_FAZENDA_MouseClicked(evt);
@@ -942,7 +935,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                         .addComponent(VOLTAR1_, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(86, 86, 86)
                         .addComponent(jLabel2)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1009,7 +1002,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane4.setViewportView(jPanel2);
@@ -1018,9 +1011,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         DADOS_RURAIS_SIND.setLayout(DADOS_RURAIS_SINDLayout);
         DADOS_RURAIS_SINDLayout.setHorizontalGroup(
             DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 891, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
         );
         DADOS_RURAIS_SINDLayout.setVerticalGroup(
             DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1034,9 +1025,8 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 893, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 884, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1081,21 +1071,22 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_CELULARActionPerformed
 
     private void TOTAO_REFAZER_PMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TOTAO_REFAZER_PMouseClicked
-        limparCampus_Pessoais();
+        if ("alterar".equals(status)) {
+            limparCampus_Pessoais();
+            selecionar_guia(0);
+        } else {
+            limparCampus_Pessoais();
+        }
+
     }//GEN-LAST:event_TOTAO_REFAZER_PMouseClicked
 
     private void BOTAO_AVANCAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_AVANCAR_MouseClicked
-
-        validacao = false;
         if (erro == 1) {
             erro = 0;
         }
-        validacao = validar_obrigatorios_pessoais();
-        if (validacao) {
+
+        if (validar_obrigatorios_pessoais()) {
             preencher_objeto_Pessoal();
-            if ("".equals(campos_rurais_vazios())) {
-                ADICONAR_FAZENDA_.setVisible(true);
-            }
             selecionar_guia(2);
         }
     }//GEN-LAST:event_BOTAO_AVANCAR_MouseClicked
@@ -1112,145 +1103,44 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     private void BOTAO_REFAZER_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_REFAZER_MouseClicked
         limparCampus_Rurais();
         ADICONAR_FAZENDA_.setVisible(true);
-        clicoTabela = false;
+        clicoTabela_R = false;
     }//GEN-LAST:event_BOTAO_REFAZER_MouseClicked
 
     private void BOTAO_SALVAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_SALVAR_MouseClicked
-        status2 = "salvar";
+        String sta = "salvar";
 
-        if ("cadastrar sind".equals(status)) {
-            if (totalFazenda > 0) {  // se foi informado mais de uma propriedade
-                if ("".equals(campos_rurais_vazios())) {       // OS CAMPOS DO FORMULARIO ESTÃO VAZIOS, E OS DADOS JA ESTÃO TODOS NO ARRAY DE OBJETO E TBM JA ESTÃO TODOS LISTADOS NA TABELA                   
-                    conf = "cadastrando uma";
-                    confirma_salvamento_fazenda(conf);
-                } else if ("preencher".equals(campos_rurais_vazios())) { // OS CAMPOS DO FORMULARIO NÃO ESTÃO TODOS VAZIOS, INDEPENTENDE SE TEM OU NÃO DADOS NO ARRAY DE OBJETOS
-                    validacao = validar_obrigatorios_rurais();
-                    if (validacao) {
-                        if (id_propriedade_rural > 0) {  // VERIFICA SE EDITO DADOS QUE JA FOI INFORMADO
-                            atualizar_linha_tabela(preencher_objeto_Rural(), linhaSelecionada);
-                            pr = new Dados_Rurais();
-                            pr = preencher_objeto_Rural();
-                            atualizarArray(pr);
-                            conf = "cadastrando uma";
-                            confirma_salvamento_fazenda(conf);
-                        } else { // informo dados de otra nova propriedade rural alem das que ja estão no objeto
-                            totalFazenda++;
-                            RURAL.add(preencher_objeto_Rural());
-                            LISTAR_TABELA_Rural(RURAL);
-                            conf = "cadastrando uma";
-                            confirma_salvamento_fazenda(conf);
-                        }
-                    }
-                }
-
-            } else { //Cadastrando uma unica propriedade rural para o novo sindicalizado que esta sendo cadastrado
-                validacao = validar_obrigatorios_rurais();
-                if (validacao) {
-                    totalFazenda++;
-                    RURAL.add(preencher_objeto_Rural());
-                    LISTAR_TABELA_Rural(RURAL);
-                    confirma_salvamento_fazenda(conf);
-                }
-
+        if ("cadastrar".equals(status)) {
+            if (validar_obrigatorios_rurais()) {
+                confirma_salvamento_fazenda(sta);
             }
         } else if ("alterar".equals(status)) {
-            if ("preencher".equals(campos_rurais_vazios())) {     // OS CAMPOS DO FORMULARIO NÃO ESTÃO TODOS VAZIOS, INDEPENTENDE SE TEM OU NÃO DADOS NO ARRAY DE OBJETOS
-                validacao = validar_obrigatorios_rurais();
-                if (validacao) {
-                    if (clicoTabela && totalFazenda == 0) {  // clico na tabela pra edita e altera dados que ja estão salvos no banco                   
-                        conf = "alterando uma";
-                        confirma_salvamento_fazenda(conf);
-                    } else if (!clicoTabela && totalFazenda == 0) {   //ADICIONANDO UMA UNICA PROPRIEDADE RURAL
-                        ADICIONA_RURAL.add(preencher_objeto_Rural());
-                        conf = "adicionando uma";
-                        totalFazenda++;
-                        confirma_salvamento_fazenda(conf);
-                    } else if (clicoTabela && totalFazenda > 0) { // alterando dados de uma propriedade que ja esta cadastrada, mas que ja foi adicionada novas
-                        if (id_propriedade_rural == 0) {
-                            atualizarArrayADD(preencher_objeto_Rural());
-                            conf = "adicionando muitas";
-                            confirma_salvamento_fazenda(conf);
-                        } else {
-                            conf = "alterando uma ADD";
-                            confirma_salvamento_fazenda(conf);
-                        }
-                    } else if (!clicoTabela && totalFazenda > 0) {  // Adicionando mais uma propriedade rural
-                        totalFazenda++;
-                        ADICIONA_RURAL.add(preencher_objeto_Rural());
-                        conf = "adicionando muitas";
-                        confirma_salvamento_fazenda(conf);
-                    }
+            if ("preencher".equals(campos_rurais_vazios())) {
+                if (validar_obrigatorios_rurais()) {
+                    confirma_salvamento_fazenda(sta);
                 }
-            } else if ("".equals(campos_rurais_vazios())) {    //altero apenas dados pessoais
-                if (totalFazenda > 0) {
-                    conf = "adicionando muitas";
-                    confirma_salvamento_fazenda(conf);
-                } else {
-                    conf = "alterando P";
-                    confirma_salvamento_fazenda(conf);
-                }
+            } else {
+                confirma_salvamento_fazenda(sta);
             }
         }
+
     }//GEN-LAST:event_BOTAO_SALVAR_MouseClicked
 
     private void ADICONAR_FAZENDA_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ADICONAR_FAZENDA_MouseClicked
-        status2 = "adicionar";
-        validacao = validar_obrigatorios_rurais();
-        if (validacao) {
-            if ("cadastrar sind".equals(status)) {
-                if ("preencher".equals(campos_rurais_vazios())) {  // os campus do forumalario estão preenchidos               
-                    if (id_propriedade_rural > 0) {     //clico na tabela de propriedade rural para edita e altera os dados de uma propriedade que ja foi informada
-                        atualizar_linha_tabela(preencher_objeto_Rural(), linhaSelecionada);
-                        pr = new Dados_Rurais();
-                        pr = preencher_objeto_Rural();
-                        atualizarArray(pr);
-                        limparCampus_Rurais();
-                        id_propriedade_rural = 0;
-                    } else {    //ta adicionando uma nova propriedade rural de um sindicalizado
-                        totalFazenda++;
-                        RURAL.add(preencher_objeto_Rural());
-                        LISTAR_TABELA_Rural(RURAL);
-                        limparCampus_Rurais();
-                    }
-
-                }
-            } else if ("alterar".equals(status)) {
-                if ("preencher".equals(campos_rurais_vazios()) && !clicoTabela) {   //ADICIONANDO UMA NOVA PROPRIEDADE RURAL
-                    totalFazenda++;
-                    if (totalFazenda == 1) {
-                        ADD = DADOSR.listar_Tabela_RURAL_ADD(id_sindicalizado, preencher_objeto_Rural(), false);
-                        ADICIONA_RURAL.add(preencher_objeto_Rural());
-                        LISTAR_TABELA_Rural(ADD);
-                        limparCampus_Rurais();
-                    } else if (totalFazenda > 1) {
-                        ADD.add(preencher_objeto_Rural());
-                        ADICIONA_RURAL.add(preencher_objeto_Rural());
-                        LISTAR_TABELA_Rural(ADD);
-                        limparCampus_Rurais();
-                    }
-                } else if ("preencher".equals(campos_rurais_vazios()) && clicoTabela) {
-                    pr = new Dados_Rurais();
-                    pr = preencher_objeto_Rural();
-                    ADD.clear();
-                    ADD = DADOSR.listar_Tabela_RURAL_ADD(id_sindicalizado, preencher_objeto_Rural(), true);
-                    ADD.addAll(atualizarArrayADD(pr));
-                    for (int i = 0; i < ADD.size(); i++) {
-                        Dados_Rurais r = ADD.get(i);
-                        System.out.println("nome: " + r.getNomeFazenda());
-                    }
-                    LISTAR_TABELA_Rural(ADD);
-                    limparCampus_Rurais();
-                    clicoTabela = false;
-
-                }
-            }
+        String status2 = "adicionar";
+        if (validar_obrigatorios_rurais()) {
+            confirma_salvamento_fazenda(status2);
         }
+
     }//GEN-LAST:event_ADICONAR_FAZENDA_MouseClicked
 
     private void TABELA_PROPRIEDADE_RURALMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELA_PROPRIEDADE_RURALMouseClicked
-        linhaSelecionada = TABELA_PROPRIEDADE_RURAL.getSelectedRow();
-        altera_dados_JTABLE(linhaSelecionada);
-        clicoTabela = true;
+        if ("cadastrar".equals(status)) {
+            JOptionPane.showMessageDialog(null, "Não é permitido alterar dados ja cadastrados, utilizando a janela de cadastramentos", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            linhaSelecionada = TABELA_PROPRIEDADE_RURAL.getSelectedRow();
+            altera_dados_JTABLE(linhaSelecionada);
+            clicoTabela_R = true;
+        }
     }//GEN-LAST:event_TABELA_PROPRIEDADE_RURALMouseClicked
 
     private void ADICONAR_FAZENDA_MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ADICONAR_FAZENDA_MouseEntered
@@ -1333,6 +1223,8 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if (r == 0) {
                 limparCampus_pesquisa();
                 listar_Tabela_Sind();
+            }else{
+                limparCampus_pesquisa();
             }
         }
     }//GEN-LAST:event_BOTAO_PESQUISAR_ActionPerformed
@@ -1404,7 +1296,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             case 1:
                 this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
                 this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 2
-                if ("cadastrar sind".equals(status)) {
+                if ("cadastrar".equals(status)) {
                     CANCELAR.setVisible(false);
                 }
                 break;
@@ -1422,124 +1314,129 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
     }
 
-    public void limparVariaveis() {
-        validacao = false;
-        ADD.clear();
-        totalFazenda = 0;
-        clicoTabela = false;
-        ADICIONA_RURAL.clear();
-        id_propriedade_rural = 0;
-        status2 = "";
-        conf = "";
-        pr = null;
-
-        RURAL.clear();
-    }
-
-    public void confirma_salvamento_fazenda(String conf) {
-        if ("cadastrar sind".equals(status)) {
-            String ObjButtons[] = {"Sim", "Não"};
-            int PromptResult = JOptionPane.showOptionDialog(null,
-                    "Deseja cadastrar apenas " + totalFazenda + " propriedade rura?", "ATENÇÃO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                    ObjButtons, ObjButtons[0]);
-            if (PromptResult == 0) { // salva todos os dados que ja foi informados
-                id_sindicalizado = DADOSP.salvar_Dados_P(dadosp);
-                DADOSR.salvar_Dados_R(RURAL, id_sindicalizado);
-
-                limparCampus_Rurais();
-                limparTabela();
-                limparCampus_Pessoais();
-                limparVariaveis();
-                id_sindicalizado = 0;
-                selecionar_guia(1);
-
-                conf = "";
-            } else if (PromptResult == 1) {  // Não salva os dados que já foi informados, mas limpa o formulario pra receber dados de novas proprieades rurais e juntar com as que ja foi informadas
-                limparCampus_Rurais();
-            }
-
-        } else if ("alterar".equals(status)) {
-            if ("alterando uma".equals(conf)) {
+    public void confirma_salvamento_fazenda(String botao) {
+        if ("cadastrar".equals(status)) {
+            if ("salvar".equals(botao)) { // clico no botao salvar para cadastrar
                 String ObjButtons[] = {"Sim", "Não"};
                 int PromptResult = JOptionPane.showOptionDialog(null,
-                        "Deseja alterar os dados de " + dadosp.getNome() + "?", "ATENÇÃO",
+                        "Deseja cadastrar os dados informados?", "ATENÇÃO",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                         ObjButtons, ObjButtons[0]);
-                if (PromptResult == 0) { //resposta POSITIVA para salvar os dados     
-
-                    DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
-                    DADOSR.alterar_Dados_R(preencher_objeto_Rural());
-                    LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
-
-                    limparCampus_Rurais();
-                    limparVariaveis();
-                    ADICONAR_FAZENDA_.setVisible(true);
-
-                } else if (PromptResult == 1) {
-                    limparCampus_Rurais();
-                }
-            } else if ("alterando uma ADD".equals(conf)) {
-                String ObjButtons[] = {"Sim", "Não"};
-                int PromptResult = JOptionPane.showOptionDialog(null,
-                        "Deseja cadastrar as " + totalFazenda + " propriedades rurais que foram adicionadas?", "ATENÇÃO",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                        ObjButtons, ObjButtons[0]);
-                if (PromptResult == 0) { // salva todos os dados que ja foi informados
-                    DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
-                    DADOSR.alterar_Dados_R(preencher_objeto_Rural());
-                    DADOSR.salvar_Dados_R(ADICIONA_RURAL, id_sindicalizado);
-                    LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
-
-                    ADICONAR_FAZENDA_.setVisible(true);
-                    limparCampus_Rurais();
-                    limparVariaveis();
-
-                } else if (PromptResult == 1) {
-                    DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
-                    DADOSR.alterar_Dados_R(preencher_objeto_Rural());
-                    LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
-
-                    ADICONAR_FAZENDA_.setVisible(true);
-                    limparVariaveis();
-                    limparCampus_Rurais();
-
-                }
-            } else if ("adicionando uma".equals(conf) || "cadastrando uma".equals(conf) || "adicionando muitas".equals(conf)) {
-                String ObjButtons[] = {"Sim", "Não"};
-                int PromptResult = JOptionPane.showOptionDialog(null,
-                        "Deseja Adicionar " + totalFazenda + " propriedades rurais para " + dadosp.getNome() + "?", "ATENÇÃO",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                        ObjButtons, ObjButtons[0]);
-                if (PromptResult == 0) { // salva todos os dados que ja foi informados                   
-                    DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
-                    if ("cadastrando uma".equals(conf)) {
-                        DADOSR.salvar_Dados_R(RURAL, id_sindicalizado);
-                    } else if ("adicionando uma".equals(conf) || "adicionando muitas".equals(conf)) {
-                        DADOSR.salvar_Dados_R(ADICIONA_RURAL, id_sindicalizado);
+                if (PromptResult == 0) {
+                    if (!ok) {
+                        id_sindicalizado = DADOSP.salvar_Dados_P(dadosp);
                     }
-                    LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
-
+                    DADOSR.salvar_Dados_R(preencher_objeto_Rural(), id_sindicalizado);
                     limparCampus_Rurais();
-                    limparVariaveis();
-
-                } else if (PromptResult == 1) {  // Não salva os dados que já foi informados, mas limpa o formulario pra receber dados de novas proprieades rurais e juntar com as que ja foi informadas
-                    limparCampus_Rurais();
+                    limparCampus_Pessoais();
+                    selecionar_guia(1);
+                    ok = false;
                 }
-            } else if ("alterando P".equals(conf)) {
+            } else if ("adicionar".equals(botao)) { // clico no botao adicionar para cadastrar
                 String ObjButtons[] = {"Sim", "Não"};
                 int PromptResult = JOptionPane.showOptionDialog(null,
-                        "Deseja alterar apenas os dados pessoais de " + dadosp.getNome() + "?", "ATENÇÃO",
+                        "Deseja Adicionar apenas esta propriedade rural para " + NOME.getText() + "?", "ATENÇÃO",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                        ObjButtons, ObjButtons[0]);
+                if (PromptResult == 0) { // SIM
+                    if (!ok) {
+                        id_sindicalizado = DADOSP.salvar_Dados_P(dadosp);
+                    }
+                    DADOSR.salvar_Dados_R(preencher_objeto_Rural(), id_sindicalizado);
+                    id_sindicalizado = 0;
+                    limparCampus_Rurais();
+                    limparCampus_Pessoais();
+                    VOLTAR1_.setVisible(true);
+                    selecionar_guia(1);
+                    ok = false;
+                    limparTabela();
+
+                } else if (PromptResult == 1) { // NAO
+                    if (!ok) {
+                        id_sindicalizado = DADOSP.salvar_Dados_P(dadosp);
+                    }
+                    DADOSR.salvar_Dados_R(preencher_objeto_Rural(), id_sindicalizado);
+                    LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
+                    limparCampus_Rurais();
+                    VOLTAR1_.setVisible(false);
+                    ok = true;
+                    validar_obrigatorios_rurais();
+                }
+            }
+        } else if ("alterar".equals(status)) {
+            if ("salvar".equals(botao)) {
+                if ("preencher".equals(campos_rurais_vazios())) {
+                    if (clicoTabela_R) { // alterando uma propriedade que ja ta cadastrada
+                        String ObjButtons[] = {"Sim", "Não"};
+                        int PromptResult = JOptionPane.showOptionDialog(null,
+                                "Deseja alterar os dados de " + dadosp.getNome() + "?", "ATENÇÃO",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                ObjButtons, ObjButtons[0]);
+                        if (PromptResult == 0) {
+                            DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
+                            DADOSR.alterar_Dados_R(preencher_objeto_Rural());
+                            LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
+                            limparCampus_Rurais();
+                            ADICONAR_FAZENDA_.setVisible(true);
+                        } else if (PromptResult == 1) {
+                            limparCampus_Rurais();
+                            id_propriedade_rural = 0;
+                        }
+                    } else { // cadastrando uma nova propriedade
+                        String ObjButtons[] = {"Sim", "Não"};
+                        int PromptResult = JOptionPane.showOptionDialog(null,
+                                "Deseja Adicionar esta propriedade rural para " + NOME.getText() + "?", "ATENÇÃO",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                ObjButtons, ObjButtons[0]);
+                        if (PromptResult == 0) {
+                            DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
+                            DADOSR.salvar_Dados_R(preencher_objeto_Rural(), id_sindicalizado);
+                            LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
+                            VOLTAR1_.setVisible(true);
+                            limparCampus_Rurais();
+                            limparCampus_Pessoais();
+                            selecionar_guia(0);
+                            limparTabela();
+                        }
+                    }
+                } else {
+                    String ObjButtons[] = {"Sim", "Não"};
+                    int PromptResult = JOptionPane.showOptionDialog(null,
+                            "Deseja alterar apenas os dados pessoais de " + dadosp.getNome() + "?", "ATENÇÃO",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                            ObjButtons, ObjButtons[0]);
+                    if (PromptResult == 0) {
+                        DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
+                        limparCampus_Pessoais();
+                        limparCampus_pesquisa();
+                        limparTabela();
+                        listar_Tabela_Sind();
+                        selecionar_guia(0);
+                    }
+                }
+            } else if ("adicionar".equals(botao)) { // ADICIONANDO UMA NOVA PROPRIEDADE RURAL
+                String ObjButtons[] = {"Sim", "Não"};
+                int PromptResult = JOptionPane.showOptionDialog(null,
+                        "Deseja Adicionar apenas esta propriedade rural para " + NOME.getText() + "?", "ATENÇÃO",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                         ObjButtons, ObjButtons[0]);
                 if (PromptResult == 0) {
                     DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
+                    DADOSR.salvar_Dados_R(preencher_objeto_Rural(), id_sindicalizado);
+                    id_sindicalizado = 0;
+                    limparCampus_Rurais();
                     limparCampus_Pessoais();
-                    limparCampus_pesquisa();
-                    limparTabela();
-                    ADICONAR_FAZENDA_.setVisible(true);
-                    listar_Tabela_Sind();
                     selecionar_guia(0);
+                    limparTabela();
+                    listar_Tabela_Sind();
+                    limparCampus_pesquisa();
+                    VOLTAR1_.setVisible(true);
+                } else if (PromptResult == 1) {
+                    DADOSP.alterar_Dados_P(preencher_objeto_Pessoal());
+                    DADOSR.salvar_Dados_R(preencher_objeto_Rural(), id_sindicalizado);
+                    LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
+                    limparCampus_Rurais();
+                    VOLTAR1_.setVisible(false);
                 }
             }
         }
@@ -1587,46 +1484,6 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         RESIDEN_ATUAL.setText("");
     }
 
-    public ArrayList<Dados_Rurais> atualizarArray(Dados_Rurais ru) {
-        for (Dados_Rurais r : RURAL) {
-            if (r.getId_proprie() == ru.getId_proprie() && r.getNIRF().equals(ru.getNIRF()) && r.getCodINCRA().equals(ru.getCodINCRA())) {
-                r.setId_proprie(ru.getId_proprie());
-                r.setNomeFazenda(ru.getNomeFazenda());
-                r.setLogradouro(ru.getLogradouro());
-                r.setCodINCRA(ru.getCodINCRA());
-                r.setNIRF(ru.getNIRF());
-                r.setAreaPropri(ru.getAreaPropri());
-                r.setTempoCompra(ru.getTempoCompra());
-                r.setOutrasA(ru.getOutrasA());
-                r.setResidenciaAtual(ru.getResidenciaAtual());
-            }
-        }
-
-        return RURAL;
-    }
-
-    public ArrayList<Dados_Rurais> atualizarArrayADD(Dados_Rurais ru) {
-        for (Dados_Rurais r : ADICIONA_RURAL) {
-            if (r.getId_proprie() == ru.getId_proprie() && r.getNIRF().equals(ru.getNIRF()) && r.getCodINCRA().equals(ru.getCodINCRA())) {
-                r.setId_proprie(ru.getId_proprie());
-                r.setNomeFazenda(ru.getNomeFazenda());
-                r.setLogradouro(ru.getLogradouro());
-                r.setCodINCRA(ru.getCodINCRA());
-                r.setNIRF(ru.getNIRF());
-                r.setAreaPropri(ru.getAreaPropri());
-                r.setTempoCompra(ru.getTempoCompra());
-                r.setOutrasA(ru.getOutrasA());
-                r.setResidenciaAtual(ru.getResidenciaAtual());
-            }
-        }
-
-        for (int i = 0; i < ADICIONA_RURAL.size(); i++) {
-            Dados_Rurais r = ADICIONA_RURAL.get(i);
-            System.out.println("array atualizado - nome: " + r.getNomeFazenda());
-        }
-        return ADICIONA_RURAL;
-    }
-
     public void preencher_campus_pessoais(Dados_Pessoais si) {
         NOME.setText(si.getNome());
         NASCIMENTO.setDate(si.getDataNasci());
@@ -1656,23 +1513,6 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         this.id_sindicalizado = si.getId_sindi();
         CANCELAR.setVisible(true);
         TOTAO_REFAZER_P.setVisible(false);
-    }
-
-    public void atualizar_linha_tabela(Dados_Rurais pr, int linha) {
-        String id = "";
-        if (pr.getId_proprie() > 0) {
-            id = String.valueOf(pr.getId_proprie());
-        }
-        TABELA_PROPRIEDADE_RURAL.setValueAt(id, linha, 0);
-        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getNomeFazenda(), linha, 1);
-        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getAreaPropri(), linha, 2);
-        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getMuniciSede(), linha, 3);
-        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getTempoCompra(), linha, 4);
-        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getLogradouro(), linha, 5);
-        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getNIRF(), linha, 6);
-        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getCodINCRA(), linha, 7);
-        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getResidenciaAtual(), linha, 8);
-        TABELA_PROPRIEDADE_RURAL.setValueAt(pr.getOutrasA(), linha, 9);
     }
 
     public void preencher_campus_rurais(Dados_Rurais pr) {
@@ -1724,16 +1564,15 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         if (obri == 5) {      // SE ESTIVE PREENCHIDO TODOS OS CAMPUS OBRIGATÓRIOS
             campus = "preencher";
         } else if (obri < 5 && obri > 0) {         // SE ESTIVE PREENCHIDO SÓ ALGUNS DOS CAMPUS OBRIGATÓRIOS
+            System.out.println("aqui 1");
             validar_obrigatorios_rurais();
         } else if (campu > 0 && obri == 0) { // SE ESTIVE PREENCHIDO SÓ ALGUNS DOS CAMPUS NÃO OBRIGATÓRIOS
-            if (totalFazenda == 0) {
+            System.out.println("aqui 2");
+            validar_obrigatorios_rurais();
+        } else if (campu == 0 && obri == 0) {
+            if ("cadastrar".equals(status)) {
                 validar_obrigatorios_rurais();
-            } else {
-                JOptionPane.showMessageDialog(null, "Se deseja cadastrar mais uma propriedade rural, informe no minimo todos os dados obrigatórios", "Atenção", JOptionPane.INFORMATION_MESSAGE);
-                limparCampus_Rurais();
             }
-        } else if (campu == 0 && obri == 0 && "adicionar".equals(status2)) {
-            validacao = validar_obrigatorios_rurais();
         }
 
         return campus;
@@ -1754,6 +1593,176 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         Util.soLetras(RESIDEN_ATUAL);
     }
 
+    public boolean validar_obrigatorios_rurais() {
+        erro = 0;
+        if ("".equals(NOMEFAZENDA.getText()) && erro == 0) {
+            JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural");
+            NOMEFAZENDA.requestFocus();
+            erro = 1;
+        } else if ("".equals(LOGRADOURO.getText()) && erro == 0) {
+            JOptionPane.showMessageDialog(null, "Informe o logradouro da propriedade rural");
+            LOGRADOURO.requestFocus();
+            erro = 1;
+        } else if ("".equals(MUNICEDE.getText()) && erro == 0) {
+            JOptionPane.showMessageDialog(null, "Informe o municipio cede da propriedade rural");
+            MUNICEDE.requestFocus();
+            erro = 1;
+        } else if ("".equals(AREAFAZENDA.getText()) && erro == 0) {
+            JOptionPane.showMessageDialog(null, "Informe a area da propriedade rural");
+            AREAFAZENDA.requestFocus();
+            erro = 1;
+        } else if ("".equals(TEMPOCOMPRA.getText()) && erro == 0) {
+            JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural");
+            TEMPOCOMPRA.requestFocus();
+            erro = 1;
+        } else if ("   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
+            JOptionPane.showMessageDialog(null, "Informe o código no Incra da propriedade rural");
+            CODINCRA.requestFocus();
+            erro = 1;
+        } else if (!"   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
+            String codI = si.validaCodIncra(CODINCRA.getText());
+            if ("".equals(codI)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "O código no INCRA da propriedade rural informado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                CODINCRA.setValue("");
+                CODINCRA.requestFocus();
+            } else {
+                String i;
+                i = si.verificar_INCRA(codI, id_sindicalizado);
+                System.out.println("valor do i: " + i);
+                if ("tem dono".equals(i)) {
+                    erro = 1;
+                    JOptionPane.showMessageDialog(null, "O código no INCRA da propriedade rural informado ja é cadastrado no sistema.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                    CODINCRA.setValue("");
+                    CODINCRA.requestFocus();
+                }
+
+            }
+        }
+
+        if (" .   .   - ".equals(Numero_NIRF.getText()) && erro == 0) {
+            erro = 1;
+            JOptionPane.showMessageDialog(null, "Informe o número da propriedade rural no   NIRF", "Atenção", JOptionPane.ERROR_MESSAGE);
+            Numero_NIRF.setValue("");
+            Numero_NIRF.requestFocus();
+        } else if (!" .   .   - ".equals(Numero_NIRF.getText()) && erro == 0) {
+            String nirf = si.validarNIRF(Numero_NIRF.getText());
+            if ("".equals(nirf)) {
+                erro = 1;
+                JOptionPane.showMessageDialog(null, "O número do NIRF do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                Numero_NIRF.setValue("");
+                Numero_NIRF.requestFocus();
+            } else {
+                String i;
+                if ("alterar".equals(status)) {
+                    i = si.verificar_NIRF(nirf, id_sindicalizado);
+                } else {
+                    i = si.verificar_NIRF(nirf, 0);
+                }
+                if ("tem dono".equals(i)) {
+                    erro = 1;
+                    JOptionPane.showMessageDialog(null, "O número do NIRF informado já esta cadastrado", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+                    Numero_NIRF.setValue("");
+                    Numero_NIRF.requestFocus();
+                }
+            }
+        }
+
+        if (erro == 0) {
+            CONT = true;
+        } else if (erro == 1) {
+            CONT = false;
+        }
+
+        return CONT;
+    }
+
+    public void LISTAR_TABELA_Rural(ArrayList<Dados_Rurais> DADOS_RU) {
+        DefaultTableModel dtma = (DefaultTableModel) TABELA_PROPRIEDADE_RURAL.getModel();
+        dtma.setNumRows(0);
+
+        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(2).setPreferredWidth(110);
+
+//        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+//        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA_PROPRIEDADE_RURAL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        DADOS_RU.forEach((dr) -> {
+            String ID_pro = "";
+            if (dr.getId_proprie() > 0) {
+                ID_pro = String.valueOf(dr.getId_proprie());
+            }
+            dtma.addRow(new Object[]{
+                ID_pro,
+                dr.getNomeFazenda(),
+                dr.getAreaPropri(),
+                dr.getMuniciSede(),
+                dr.getTempoCompra(),
+                dr.getLogradouro(),
+                dr.getNIRF(),
+                dr.getCodINCRA(),
+                dr.getResidenciaAtual(),
+                dr.getOutrasA()
+            });
+        });
+        corLinhaJTable(false);
+    }
+
+    public Dados_Rurais preencher_objeto_Rural() {
+        pr = new Dados_Rurais();
+
+        if ("cadastrar".equals(status)) {
+            pr.setId_proprie(0);
+        } else if ("alterar".equals(status)) {
+            if (clicoTabela_R) {
+                pr.setId_proprie(id_propriedade_rural);
+            } else {
+                pr.setId_proprie(0);
+            }
+        }
+
+        pr.setNomeFazenda(NOMEFAZENDA.getText());
+        pr.setLogradouro(LOGRADOURO.getText());
+        pr.setMuniciSede(MUNICEDE.getText());
+        pr.setCodINCRA(CODINCRA.getText());
+        pr.setNIRF(Numero_NIRF.getText());
+        pr.setAreaPropri(AREAFAZENDA.getText());
+        pr.setTempoCompra(TEMPOCOMPRA.getText());
+        pr.setOutrasA(OUTRASATIVI.getText());
+        pr.setResidenciaAtual(RESIDEN_ATUAL.getText());
+        pr.setExcluido(0);
+        return pr;
+    }
+
+    public void altera_dados_JTABLE(int linha) {
+        String iid = TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 0).toString();
+        id_propriedade_rural = Integer.parseInt(iid);
+        BOTAO_SALVAR_.setVisible(true);
+        ADICONAR_FAZENDA_.setVisible(false);
+        NOMEFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 1).toString());
+        AREAFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 2).toString());
+        MUNICEDE.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 3).toString());
+        TEMPOCOMPRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 4).toString());
+        LOGRADOURO.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 5).toString());
+        Numero_NIRF.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 6).toString());
+        CODINCRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 7).toString());
+        RESIDEN_ATUAL.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 8).toString());
+        OUTRASATIVI.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 9).toString());
+    }
+
+    public void limparTabela() {
+        ((DefaultTableModel) TABELA_PROPRIEDADE_RURAL.getModel()).setRowCount(0); // REMOVE TODOS OS DADOS QUE ESTIVER NA TABELA
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public boolean validar_obrigatorios_pessoais() {
         String cpf;
 
@@ -1909,188 +1918,6 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         return CONT;
     }
 
-    public boolean validar_obrigatorios_rurais() {
-        erro = 0;
-        if ("".equals(NOMEFAZENDA.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural");
-            NOMEFAZENDA.requestFocus();
-            erro = 1;
-        } else if ("".equals(LOGRADOURO.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o logradouro da propriedade rural");
-            LOGRADOURO.requestFocus();
-            erro = 1;
-        } else if ("".equals(MUNICEDE.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o municipio cede da propriedade rural");
-            MUNICEDE.requestFocus();
-            erro = 1;
-        } else if ("".equals(AREAFAZENDA.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe a area da propriedade rural");
-            AREAFAZENDA.requestFocus();
-            erro = 1;
-        } else if ("".equals(TEMPOCOMPRA.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural");
-            TEMPOCOMPRA.requestFocus();
-            erro = 1;
-        } else if ("   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o código no Incra da propriedade rural");
-            CODINCRA.requestFocus();
-            erro = 1;
-        } else if (!"   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
-            String codI = si.validaCodIncra(CODINCRA.getText());
-            if ("".equals(codI)) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "O código no INCRA da propriedade rural informado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                CODINCRA.setValue("");
-                CODINCRA.requestFocus();
-            } else {
-                String i;
-                i = si.verificar_INCRA(codI, id_sindicalizado);
-                System.out.println("valor do i: " + i);
-                if ("tem dono".equals(i)) {
-                    erro = 1;
-                    JOptionPane.showMessageDialog(null, "O código no INCRA da propriedade rural informado ja é cadastrado no sistema.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                    CODINCRA.setValue("");
-                    CODINCRA.requestFocus();
-                } else if (si.verificaCodIncraADD(ADICIONA_RURAL, codI, totalFazenda)) {
-                    JOptionPane.showMessageDialog(null, "Não é permitido cadastrar código no INCRA da propriedade rural repetido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                    CODINCRA.setValue("");
-                    CODINCRA.requestFocus();
-                    erro = 1;
-                }
-
-            }
-        }
-
-        if (" .   .   - ".equals(Numero_NIRF.getText()) && erro == 0) {
-            erro = 1;
-            JOptionPane.showMessageDialog(null, "Informe o número da propriedade rural no   NIRF", "Atenção", JOptionPane.ERROR_MESSAGE);
-            Numero_NIRF.setValue("");
-            Numero_NIRF.requestFocus();
-        } else if (!" .   .   - ".equals(Numero_NIRF.getText()) && erro == 0) {
-            String nirf = si.validarNIRF(Numero_NIRF.getText());
-            if ("".equals(nirf)) {
-                erro = 1;
-                JOptionPane.showMessageDialog(null, "O número do NIRF do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
-                Numero_NIRF.setValue("");
-                Numero_NIRF.requestFocus();
-            } else {
-                String i;
-                if ("alterar".equals(status)) {
-                    i = si.verificar_NIRF(nirf, id_sindicalizado);
-                } else {
-                    i = si.verificar_NIRF(nirf, 0);
-                }
-                if ("tem dono".equals(i)) {
-                    erro = 1;
-                    JOptionPane.showMessageDialog(null, "O número do NIRF informado já esta cadastrado", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
-                    Numero_NIRF.setValue("");
-                    Numero_NIRF.requestFocus();
-                }
-            }
-        }
-
-        if (erro == 0) {
-            CONT = true;
-        } else if (erro == 1) {
-            CONT = false;
-        }
-
-        return CONT;
-    }
-
-    public void LISTAR_TABELA_Rural(ArrayList<Dados_Rurais> DADOS_RU) {
-        DefaultTableModel dtma = (DefaultTableModel) TABELA_PROPRIEDADE_RURAL.getModel();
-        dtma.setNumRows(0);
-
-        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(2).setPreferredWidth(110);
-
-//        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-//        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-        TABELA_PROPRIEDADE_RURAL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        DADOS_RU.forEach((dr) -> {
-            String ID_pro = "";
-            if (dr.getId_proprie() > 0) {
-                ID_pro = String.valueOf(dr.getId_proprie());
-            }
-            dtma.addRow(new Object[]{
-                ID_pro,
-                dr.getNomeFazenda(),
-                dr.getAreaPropri(),
-                dr.getMuniciSede(),
-                dr.getTempoCompra(),
-                dr.getLogradouro(),
-                dr.getNIRF(),
-                dr.getCodINCRA(),
-                dr.getResidenciaAtual(),
-                dr.getOutrasA()
-            });
-        });
-        corLinhaJTable(false);
-    }
-
-    public Dados_Rurais preencher_objeto_Rural() {
-        pr = new Dados_Rurais();
-        if ("cadastrar sind".equals(status) && !clicoTabela && ("salvar".equals(status2) || "adicionar".equals(status2))) {    // TA CADASTRANDO UMA UNICA OU VARIAS PROPRIEDADES
-            pr.setId_proprie(totalFazenda);
-        } else if ("cadastrar sind".equals(status) && clicoTabela && ("salvar".equals(status2) || "adicionar".equals(status2))) {    // TA Alterando UMA UNICA OU VARIAS PROPRIEDADES QUE JA FORAM INFORMADAS PARA O SISTEMA
-            pr.setId_proprie(id_propriedade_rural);
-        }
-        if ("alterar".equals(status) && !clicoTabela && "salvar".equals(status2)) {         // TA ADICIONANDO UMA NOVA PROPRIEDADE
-            pr.setId_proprie(totalFazenda);
-        } else if ("alterar".equals(status) && clicoTabela && "salvar".equals(status2)) {    // TA ALTERANDO UMA PROPRIEDADE JA CADASTRADA
-            pr.setId_proprie(id_propriedade_rural);
-        } else if ("alterar".equals(status) && !clicoTabela && "adicionar".equals(status2)) {         // TA ADICIONANDO UMA NOVA PROPRIEDADE
-            pr.setId_proprie(0);
-        }
-
-        pr.setNomeFazenda(NOMEFAZENDA.getText());
-        pr.setLogradouro(LOGRADOURO.getText());
-        pr.setMuniciSede(MUNICEDE.getText());
-        pr.setCodINCRA(CODINCRA.getText());
-        pr.setNIRF(Numero_NIRF.getText());
-        pr.setAreaPropri(AREAFAZENDA.getText());
-        pr.setTempoCompra(TEMPOCOMPRA.getText());
-        pr.setOutrasA(OUTRASATIVI.getText());
-        pr.setResidenciaAtual(RESIDEN_ATUAL.getText());
-        pr.setExcluido(0);
-        return pr;
-    }
-
-    public void altera_dados_JTABLE(int linha) {
-        String iid = TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 0).toString();
-        if (!"".equals(iid)) {
-            id_propriedade_rural = Integer.parseInt(iid);
-        } else {
-            id_propriedade_rural = 0;
-        }
-        if ("alterar".equals(status) && id_propriedade_rural > 0) {
-            ADICONAR_FAZENDA_.setVisible(false);
-        }
-        NOMEFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 1).toString());
-        AREAFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 2).toString());
-        MUNICEDE.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 3).toString());
-        TEMPOCOMPRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 4).toString());
-        LOGRADOURO.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 5).toString());
-        Numero_NIRF.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 6).toString());
-        CODINCRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 7).toString());
-        RESIDEN_ATUAL.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 8).toString());
-        OUTRASATIVI.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 9).toString());
-    }
-
-    public void limparTabela() {
-        ((DefaultTableModel) TABELA_PROPRIEDADE_RURAL.getModel()).setRowCount(0); // REMOVE TODOS OS DADOS QUE ESTIVER NA TABELA
-    }
-
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public Dados_Pessoais preencher_objeto_Pessoal() {
         dadosp = new Dados_Pessoais();
         dadosp.setNome(NOME.getText());
@@ -2622,7 +2449,6 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 public Component getTableCellRendererComponent(JTable table, Object value,
                         boolean isSelected, boolean hasFocus, int row, int column) {
                     super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
                     if (row % 2 != 0) {
                         setBackground(Color.LIGHT_GRAY);
                     } else {
@@ -2632,6 +2458,30 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                 }
             });
         }
+    }
+
+    public void corLinhaADD() {
+        System.out.println("helder 1");
+        TABELA_PROPRIEDADE_RURAL.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                int y = 0;
+                for (int i = 0; i < ADD.size(); i++) {
+
+                    String id = TABELA_PROPRIEDADE_RURAL.getValueAt(i, 0).toString();
+                    System.out.println("IID " + id);
+                    if (id.equals("")) {
+                        System.out.println("helder 3");
+                        setBackground(Color.yellow);
+                    }
+                }
+                //Object colu = TABELA_SIND.getValueAt(i, 0);
+
+                return this;
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

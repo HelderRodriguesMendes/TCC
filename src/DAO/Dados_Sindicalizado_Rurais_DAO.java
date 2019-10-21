@@ -94,31 +94,26 @@ public class Dados_Sindicalizado_Rurais_DAO {
         return ID;
     }
 
-    public void salvar_Dados_R(ArrayList<Dados_Rurais> DADOS_R, int ID) {
+    public void salvar_Dados_R(Dados_Rurais dados_r, int ID) {
         con = Conexao_banco.conector();
-        int id = 0;
         try {
             pst = con.prepareStatement("insert into propriedadeRural(nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, "
                     + "areaPropriedade, tempoCompraPropriedade, outrasAtividade, "
                     + "residenciaAtual, excluido, id_sind) values (?,?,?,?,?,?,?,?,?,?,?)");
 
-            for (int i = 0; i < DADOS_R.size(); i++) {
-                Dados_Rurais dados_r = DADOS_R.get(i);
+            pst.setString(1, dados_r.getNomeFazenda());
+            pst.setString(2, dados_r.getLogradouro());
+            pst.setString(3, dados_r.getMuniciSede());
+            pst.setString(4, dados_r.getCodINCRA());
+            pst.setString(5, dados_r.getNIRF());
+            pst.setString(6, dados_r.getAreaPropri());
+            pst.setString(7, dados_r.getTempoCompra());
+            pst.setString(8, dados_r.getOutrasA());
+            pst.setString(9, dados_r.getResidenciaAtual());
+            pst.setInt(10, dados_r.getExcluido());
+            pst.setInt(11, ID);
+            pst.executeUpdate();
 
-                pst.setString(1, dados_r.getNomeFazenda());
-                pst.setString(2, dados_r.getLogradouro());
-                pst.setString(3, dados_r.getMuniciSede());
-                pst.setString(4, dados_r.getCodINCRA());
-                pst.setString(5, dados_r.getNIRF());
-                pst.setString(6, dados_r.getAreaPropri());
-                pst.setString(7, dados_r.getTempoCompra());
-                pst.setString(8, dados_r.getOutrasA());
-                pst.setString(9, dados_r.getResidenciaAtual());
-                pst.setInt(10, dados_r.getExcluido());
-                pst.setInt(11, ID);
-                pst.executeUpdate();
-
-            }
             JOptionPane.showMessageDialog(null, "Propriedade rural cadastrada com sucesso");
             con.close();
 
@@ -134,20 +129,20 @@ public class Dados_Sindicalizado_Rurais_DAO {
             pst = con.prepareStatement("update propriedadeRural set nomeFazenda = ?, logradouro = ?, municipioCede = ?, codigoINCRA = ?, NIRF = ?, "
                     + "areaPropriedade = ?, tempoCompraPropriedade = ?, outrasAtividade = ?, "
                     + "residenciaAtual = ?, excluido = ? where id_propriedadeRural = ?");
-                
-                pst.setString(1, dados_r.getNomeFazenda());
-                pst.setString(2, dados_r.getLogradouro());
-                pst.setString(3, dados_r.getMuniciSede());
-                pst.setString(4, dados_r.getCodINCRA());
-                pst.setString(5, dados_r.getNIRF());
-                pst.setString(6, dados_r.getAreaPropri());
-                pst.setString(7, dados_r.getTempoCompra());
-                pst.setString(8, dados_r.getOutrasA());
-                pst.setString(9, dados_r.getResidenciaAtual());
-                pst.setInt(10, dados_r.getExcluido());
-                pst.setInt(11, dados_r.getId_proprie());
-                pst.executeUpdate();
-   
+
+            pst.setString(1, dados_r.getNomeFazenda());
+            pst.setString(2, dados_r.getLogradouro());
+            pst.setString(3, dados_r.getMuniciSede());
+            pst.setString(4, dados_r.getCodINCRA());
+            pst.setString(5, dados_r.getNIRF());
+            pst.setString(6, dados_r.getAreaPropri());
+            pst.setString(7, dados_r.getTempoCompra());
+            pst.setString(8, dados_r.getOutrasA());
+            pst.setString(9, dados_r.getResidenciaAtual());
+            pst.setInt(10, dados_r.getExcluido());
+            pst.setInt(11, dados_r.getId_proprie());
+            pst.executeUpdate();
+
             JOptionPane.showMessageDialog(null, "Os dados da propriedade rural foram alterados com sucesso");
             con.close();
 
@@ -236,11 +231,11 @@ public class Dados_Sindicalizado_Rurais_DAO {
 
                 SIND.add(si);
             }
-            
-            if(!clico){
+
+            if (!clico) {
                 SIND.add(dr);
             }
-           
+
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar dados na tabela");

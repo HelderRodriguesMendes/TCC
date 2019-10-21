@@ -179,27 +179,4 @@ public class Sindicalizado {
         }
         return idade;
     }
-
-    public boolean verificaCodIncraADD(ArrayList<Dados_Rurais> PR, String codI, int quanti) {
-        System.out.println("veio");
-        boolean igual = false;
-        int f = 0;
-            System.out.println("quantidade: " + quanti);
-        if (quanti > 0) {
-            for (int i = 0; i < PR.size(); i++) {
-                Dados_Rurais r = PR.get(i);
-                if (r.getCodINCRA().equals(codI)) {
-                    f++;
-                    System.out.println("F: " + f);
-                }
-
-                if (f > 0) {
-                    System.out.println("aqui 2");
-                    igual = true;
-                }
-            }
-        }
-
-        return igual;
-    }
 }

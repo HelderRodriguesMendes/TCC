@@ -304,7 +304,7 @@ public class Interface extends javax.swing.JFrame {
         };
         DESKTOP.add(cs);
         cs.setTitle("Cadastrar Sindicalizado");
-        cs.status = "cadastrar sind";
+        cs.status = "cadastrar";
         cs.selecionar_guia(1);
         cs.setVisible(true);
         cs.setPosicao();
