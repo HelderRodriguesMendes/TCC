@@ -2,7 +2,6 @@ package Controller;
 
 import DAO.Dados_Sindicalizado_Pessoais_DAO;
 import DAO.Dados_Sindicalizado_Rurais_DAO;
-import DAO.Sindicalizado_DAO;
 import Model.Dados_Pessoais;
 import Model.Dados_Rurais;
 import java.text.SimpleDateFormat;
@@ -15,7 +14,6 @@ import java.util.Date;
  */
 public class Sindicalizado {
 
-    Sindicalizado_DAO sd = new Sindicalizado_DAO();
 
     boolean z = false;
     public int ANO_Atual = 0, MES_Atual = 0, DIA_Atual = 0;

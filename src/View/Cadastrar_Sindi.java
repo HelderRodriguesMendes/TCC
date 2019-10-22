@@ -1134,12 +1134,32 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_ADICONAR_FAZENDA_MouseClicked
 
     private void TABELA_PROPRIEDADE_RURALMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELA_PROPRIEDADE_RURALMouseClicked
-        if ("cadastrar".equals(status)) {
-            JOptionPane.showMessageDialog(null, "Não é permitido alterar dados ja cadastrados, utilizando a janela de cadastramentos", "Atenção", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            linhaSelecionada = TABELA_PROPRIEDADE_RURAL.getSelectedRow();
-            altera_dados_JTABLE(linhaSelecionada);
-            clicoTabela_R = true;
+        System.out.println("status: " + status);
+        if (null != status) {
+            switch (status) {
+                case "cadastrar":
+                    JOptionPane.showMessageDialog(null, "Não é permitido alterar dados ja cadastrados, utilizando a janela de cadastramentos", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case "excluir":
+                    id_propriedade_rural = Integer.parseInt(TABELA_PROPRIEDADE_RURAL.getValueAt(TABELA_PROPRIEDADE_RURAL.getSelectedRow(), 0).toString());
+                    ok = DADOSR.excluir_1_Propriedade(id_propriedade_rural);
+                    if (ok) {
+                        JOptionPane.showMessageDialog(null, "Exclusão realizada com sucesso");
+                        limparTabela();
+                        selecionar_guia(0);
+                        limparCampus_Pessoais();
+                        limparCampus_pesquisa();
+                    }
+                    break;
+                case "alterar":
+                    System.out.println("aqui helder");
+                    linhaSelecionada = TABELA_PROPRIEDADE_RURAL.getSelectedRow();
+                    altera_dados_JTABLE(linhaSelecionada);
+                    clicoTabela_R = true;
+                    break;
+                default:
+                    break;
+            }
         }
     }//GEN-LAST:event_TABELA_PROPRIEDADE_RURALMouseClicked
 
@@ -1223,7 +1243,7 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             if (r == 0) {
                 limparCampus_pesquisa();
                 listar_Tabela_Sind();
-            }else{
+            } else {
                 limparCampus_pesquisa();
             }
         }
@@ -1248,15 +1268,18 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                     break;
                 }
                 case "excluir": {
-                    String ObjButtons[] = {"Sim", "Não"};
+                    String ObjButtons[] = {"Sindicalizado", "Propriedade Rural"};
                     int escolha = JOptionPane.showOptionDialog(null,
-                            "Tem certeza que deseja excluir esses dados?", "ATENÇÃO",
+                            "Escolha uma das opções de exclusão", "ATENÇÃO",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                             ObjButtons, ObjButtons[1]);
                     if (escolha == 0) {
                         Util_DAO ud = new Util_DAO();
                         ud.excluir(id_sindicalizado, "sind");
                         listar_Tabela_Sind();
+                    } else if (escolha == 1) {
+                        LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
+                        selecionar_guia(2);
                     }
                     break;
                 }
@@ -1282,7 +1305,15 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TABELA_SINDMouseEntered
 
     private void VOLTAR1_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VOLTAR1_MouseClicked
-        selecionar_guia(1);
+
+        if ("excluir".equals(status)) {
+            selecionar_guia(0);
+            limparTabela();
+            limparCampus_Pessoais();
+            limparCampus_pesquisa();
+        } else {
+            selecionar_guia(1);
+        }
     }//GEN-LAST:event_VOLTAR1_MouseClicked
 
     public void selecionar_guia(int n) {

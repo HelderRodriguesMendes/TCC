@@ -23,27 +23,37 @@ public class Util_DAO {
     PreparedStatement pst = null;
     Connection con;
 
+    Dados_Sindicalizado_Rurais_DAO DRD = new Dados_Sindicalizado_Rurais_DAO();
+
     public void excluir(int id, String tipo) {
+        boolean ok = false;
         con = Conexao_banco.conector();
 
         try {
             if ("sind".equals(tipo)) {
-                pst = con.prepareStatement("update sindicalizado set excluido = ? where id_sindicalizado = ?");
+                pst = con.prepareStatement("update sindicalizado set excluidoS = ? where id_sindicalizado = ?");
+                pst.setInt(1, 1);
+                pst.setInt(2, id);
+                pst.executeUpdate();
+                ok = DRD.excluirPropriedade(id);
             } else if ("adm".equals(tipo)) {
-                pst = con.prepareStatement("update admin set excluido = ? where id_admin = ?");
+                pst = con.prepareStatement("update admin set excluidoP = ? where id_admin = ?");
+                pst.setInt(1, 1);
+                pst.setInt(2, id);
+                pst.executeUpdate();
             }
-            pst.setInt(1, 1);
-            pst.setInt(2, id);
-            pst.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso");
+            if (ok) {
+                JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso");
+            }
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao excluir os dados");
             System.out.println(e);
         }
     }
-    public void Acessar_Facebook(){
+
+    public void Acessar_Facebook() {
         try {
             URI link = new URI("https://www.facebook.com/Sindicato-Rural-de-Aren%C3%B3polis-395277340679811/");
             Desktop.getDesktop().browse(link);

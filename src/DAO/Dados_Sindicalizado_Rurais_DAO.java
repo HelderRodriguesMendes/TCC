@@ -99,7 +99,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
         try {
             pst = con.prepareStatement("insert into propriedadeRural(nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, "
                     + "areaPropriedade, tempoCompraPropriedade, outrasAtividade, "
-                    + "residenciaAtual, excluido, id_sind) values (?,?,?,?,?,?,?,?,?,?,?)");
+                    + "residenciaAtual, excluidoP, id_sind) values (?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, dados_r.getNomeFazenda());
             pst.setString(2, dados_r.getLogradouro());
@@ -128,7 +128,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
         try {
             pst = con.prepareStatement("update propriedadeRural set nomeFazenda = ?, logradouro = ?, municipioCede = ?, codigoINCRA = ?, NIRF = ?, "
                     + "areaPropriedade = ?, tempoCompraPropriedade = ?, outrasAtividade = ?, "
-                    + "residenciaAtual = ?, excluido = ? where id_propriedadeRural = ?");
+                    + "residenciaAtual = ?, excluidoP = ? where id_propriedadeRural = ?");
 
             pst.setString(1, dados_r.getNomeFazenda());
             pst.setString(2, dados_r.getLogradouro());
@@ -157,7 +157,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
         con = Conexao_banco.conector();
 
         try {
-            pst = con.prepareStatement("update sindicalizado set excluido = ? where id_sindicalizado = ?");
+            pst = con.prepareStatement("update sindicalizado set excluidoS = ? where id_sindicalizado = ?");
             pst.setInt(1, a);
             pst.setInt(2, id);
             pst.executeUpdate();
@@ -175,7 +175,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
         ArrayList<Dados_Rurais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, residenciaAtual from propriedadeRural where excluido = '0' and id_sind = ?");
+            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, residenciaAtual from propriedadeRural where excluidoP = '0' and id_sind = ?");
             pst.setInt(1, id_sind);
             rs = pst.executeQuery();
 
@@ -211,7 +211,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
         ArrayList<Dados_Rurais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, residenciaAtual from propriedadeRural where excluido = '0' and id_sind = ?");
+            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, residenciaAtual from propriedadeRural where excluidoP = '0' and id_sind = ?");
             pst.setInt(1, id_sind);
             rs = pst.executeQuery();
 
@@ -242,5 +242,37 @@ public class Dados_Sindicalizado_Rurais_DAO {
             System.out.println(e);
         }
         return SIND;
+    }
+
+    public boolean excluirPropriedade(int id) {
+        boolean ok = false;
+        con = Conexao_banco.conector();
+
+        try {
+            pst = con.prepareStatement("update propriedadeRural set excluidoP = '1' where id_sind = ?");
+            pst.setInt(1, id);
+            pst.executeUpdate();
+            ok = true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir propriedade rural", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Erro ao excluir propriedade rural: " + e);
+        }
+        return ok;
+    }
+
+    public boolean excluir_1_Propriedade(int id) {
+        boolean ok = false;
+        con = Conexao_banco.conector();
+
+        try {
+            pst = con.prepareStatement("update propriedadeRural set excluidoP = '1' where id_propriedadeRural = ?");
+            pst.setInt(1, id);
+            pst.executeUpdate();
+            ok = true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir propriedade rural", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Erro ao excluir propriedade rural: " + e);
+        }
+        return ok;
     }
 }

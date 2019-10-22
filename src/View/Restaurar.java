@@ -9,7 +9,6 @@ import Controller.Util;
 import DAO.AdministradorDAO;
 import DAO.Dados_Sindicalizado_Pessoais_DAO;
 import DAO.Dados_Sindicalizado_Rurais_DAO;
-import DAO.Sindicalizado_DAO;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,8 +57,6 @@ public class Restaurar extends javax.swing.JInternalFrame {
         dtma.setNumRows(0);
 
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-        Sindicalizado_DAO sd = new Sindicalizado_DAO();
 
         dsp.pesquisar_restaurar(nome).forEach((sind) -> {
             ID = sind.getId_sindi();
@@ -295,7 +292,6 @@ public class Restaurar extends javax.swing.JInternalFrame {
                 ObjButtons, ObjButtons[1]);
         if (PromptResult == 0) {
             if (cont == 1) {
-                Sindicalizado_DAO sd = new Sindicalizado_DAO();
                 DADOSR.restaurar(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
                 TXT_NOME.setText("");
             } else if (cont == 2) {

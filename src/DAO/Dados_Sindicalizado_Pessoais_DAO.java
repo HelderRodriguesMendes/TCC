@@ -41,7 +41,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         try {
             pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, "
                     + "estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, "
-                    + "pai, mae, excluido) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?)", Statement.RETURN_GENERATED_KEYS);     //Statement.RETURN_GENERATED_KEYS Retorna o ID do sindicalizado que é gerado altomaticamente depois que salva os dados
+                    + "pai, mae, excluidoS) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?)", Statement.RETURN_GENERATED_KEYS);     //Statement.RETURN_GENERATED_KEYS Retorna o ID do sindicalizado que é gerado altomaticamente depois que salva os dados
 
             pst.setString(1, dp.getNome());
             java.sql.Date DATASQL = new java.sql.Date(dp.getDataNasci().getTime());
@@ -83,7 +83,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         try {
             pst = con.prepareStatement("update sindicalizado set nome = ?, dataNasci = ?, celular = ?, nascionalidade = ?, "
                     + "estadoCivil = ?, cpf = ?, rg = ?, dataExpedi = ?, tituloEleito = ?, zona = ?, secao = ?, reservista = ?, categoria = ?, "
-                    + "pai = ?, mae = ?, excluido = ? where id_sindicalizado = ?");
+                    + "pai = ?, mae = ?, excluidoS = ? where id_sindicalizado = ?");
 
             pst.setString(1, dp.getNome());
             java.sql.Date DATASQL = new java.sql.Date(dp.getDataNasci().getTime());
@@ -196,7 +196,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, rg, cpf from sindicalizado where excluido = '1'  and nome like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, rg, cpf from sindicalizado where excluidoS = '1'  and nome like ?");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -224,7 +224,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         dia = si.DIA_Atual;
         mes = si.MES_Atual;
         try {
-            pst = con.prepareStatement("select nome, dataNasci, celular from  sindicalizado where day(dataNasci) = ? and month(dataNasci) = ? and excluido = '0'");
+            pst = con.prepareStatement("select nome, dataNasci, celular from  sindicalizado where day(dataNasci) = ? and month(dataNasci) = ? and excluidoS = '0'");
             pst.setInt(1, dia);
             pst.setInt(2, mes);
             rs = pst.executeQuery();
@@ -252,7 +252,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluido = '0' order by nome");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' order by nome");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -294,7 +294,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluido = '0' and nome like ? and cpf like ? and rg like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ? and cpf like ? and rg like ?");
             pst.setString(1, "%" + nome + "%");
             pst.setString(2, "%" + cpf + "%");
             pst.setString(3, "%" + rg + "%");
@@ -341,7 +341,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluido = '0' and nome like ? and cpf like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ? and cpf like ?");
             System.out.println("helde");
             pst.setString(1, "%" + nome + "%");
             pst.setString(2, "%" + cpf + "%");
@@ -387,7 +387,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluido = '0' and nome like ? and rg like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ? and rg like ?");
             pst.setString(1, "%" + nome + "%");
             pst.setString(2, "%" + rg + "%");
             rs = pst.executeQuery();
@@ -432,7 +432,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluido = '0' and nome like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ?");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
 
@@ -477,7 +477,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluido = '0' and cpf like ? and rg like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and cpf like ? and rg like ?");
             pst.setString(1, "%" + cpf + "%");
             pst.setString(2, "%" + rg + "%");
             rs = pst.executeQuery();
@@ -522,7 +522,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluido = '0' and cpf like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and cpf like ?");
             pst.setString(1, "%" + cpf + "%");
             rs = pst.executeQuery();
 
@@ -566,7 +566,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluido = '0' and rg like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and rg like ?");
             pst.setString(1, "%" + rg + "%");
             rs = pst.executeQuery();
 

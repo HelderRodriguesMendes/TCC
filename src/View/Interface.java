@@ -6,9 +6,7 @@
 package View;
 
 import DAO.Dados_Sindicalizado_Pessoais_DAO;
-import DAO.Sindicalizado_DAO;
 import DAO.Util_DAO;
-import Model.Administrador_Entidade;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -25,7 +23,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Interface extends javax.swing.JFrame {
 
     public int ID = 0;
-    Sindicalizado_DAO sd = new Sindicalizado_DAO();
     Dados_Sindicalizado_Pessoais_DAO dsp = new Dados_Sindicalizado_Pessoais_DAO();
 
     public Interface() {
@@ -84,9 +81,9 @@ public class Interface extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         MENU_EXCLUIR = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        EXCLUIR_ADMIN_ = new javax.swing.JMenuItem();
+        EXCLUIR_SIND_ = new javax.swing.JMenuItem();
+        RESTAURAR_ = new javax.swing.JMenuItem();
         MENU_RELA = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
@@ -210,29 +207,29 @@ public class Interface extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem4.setText("Administrador");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        EXCLUIR_ADMIN_.setText("Administrador");
+        EXCLUIR_ADMIN_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                EXCLUIR_ADMIN_ActionPerformed(evt);
             }
         });
-        MENU_EXCLUIR.add(jMenuItem4);
+        MENU_EXCLUIR.add(EXCLUIR_ADMIN_);
 
-        jMenuItem5.setText("Sindicalizado");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        EXCLUIR_SIND_.setText("Sindicalizado");
+        EXCLUIR_SIND_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                EXCLUIR_SIND_ActionPerformed(evt);
             }
         });
-        MENU_EXCLUIR.add(jMenuItem5);
+        MENU_EXCLUIR.add(EXCLUIR_SIND_);
 
-        jMenuItem7.setText("Restaurar");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        RESTAURAR_.setText("Restaurar");
+        RESTAURAR_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                RESTAURAR_ActionPerformed(evt);
             }
         });
-        MENU_EXCLUIR.add(jMenuItem7);
+        MENU_EXCLUIR.add(RESTAURAR_);
 
         BARRAMENU.add(MENU_EXCLUIR);
 
@@ -336,16 +333,16 @@ public class Interface extends javax.swing.JFrame {
         pas.setPosicao();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+    private void EXCLUIR_SIND_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EXCLUIR_SIND_ActionPerformed
+        Cadastrar_Sindi pas = new Cadastrar_Sindi();
         DESKTOP.add(pas);
         pas.setTitle("Consultar e Excluir Sindicalizado");
         pas.setVisible(true);
         pas.setPosicao();
-        pas.uso = "excluir";
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+        pas.status = "excluir";
+    }//GEN-LAST:event_EXCLUIR_SIND_ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void EXCLUIR_ADMIN_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EXCLUIR_ADMIN_ActionPerformed
         Pesquisar_Alterar_Admin caa = new Pesquisar_Alterar_Admin() {
         };
         DESKTOP.add(caa);
@@ -354,7 +351,7 @@ public class Interface extends javax.swing.JFrame {
         caa.setPosicao();
         caa.excluir = true;
 
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_EXCLUIR_ADMIN_ActionPerformed
 
     private void MENU_SALVARMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_SALVARMouseExited
         // TODO add your handling code here:
@@ -378,12 +375,12 @@ public class Interface extends javax.swing.JFrame {
         ud.Acessar_Facebook();
     }//GEN-LAST:event_jMenu7MouseClicked
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+    private void RESTAURAR_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RESTAURAR_ActionPerformed
         Restaurar r = new Restaurar();
         DESKTOP.add(r);
         r.setVisible(true);
         r.setPosicao();
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }//GEN-LAST:event_RESTAURAR_ActionPerformed
 
     private void MENU_PEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_PEMouseEntered
         MENU_PE.setToolTipText("Pesquisar e Alterar");
@@ -398,12 +395,12 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_MENU_RELAMouseEntered
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        Pesquisar_Alterar_sindicalizado pas = new Pesquisar_Alterar_sindicalizado();
+        Cadastrar_Sindi pas = new Cadastrar_Sindi();
         DESKTOP.add(pas);
         pas.setTitle("Consultar e Gerar Relatório de Sindicalizado");
         pas.setVisible(true);
         pas.setPosicao();
-        pas.uso = "relatorio";
+        pas.status = "relatorio";
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void DESKTOPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DESKTOPKeyReleased
@@ -420,22 +417,22 @@ public class Interface extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar BARRAMENU;
     public static javax.swing.JDesktopPane DESKTOP;
+    private javax.swing.JMenuItem EXCLUIR_ADMIN_;
+    private javax.swing.JMenuItem EXCLUIR_SIND_;
     private javax.swing.JMenuItem MENU_CAD_SIND;
     private javax.swing.JMenuItem MENU_CAD_USU;
     private javax.swing.JMenu MENU_EXCLUIR;
     private javax.swing.JMenu MENU_PE;
     private javax.swing.JMenu MENU_RELA;
     private javax.swing.JMenu MENU_SALVAR;
+    private javax.swing.JMenuItem RESTAURAR_;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     // End of variables declaration//GEN-END:variables
 }
