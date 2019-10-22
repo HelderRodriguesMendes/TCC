@@ -27,7 +27,7 @@ public class AdministradorDAO {
     Connection con;
     boolean login = true;
     int id = 0;
-    
+
     public Administrador_Entidade logarAdmin(Administrador_Entidade ad) {
 
         con = Conexao_banco.conector();
@@ -57,16 +57,13 @@ public class AdministradorDAO {
 
             try {
                 pst = con.prepareStatement("insert into admin(nome, telefone, login, senha, excluido) values (?, ?, ?, ?,?)");
-                
-                
+
                 pst.setString(1, usu.getNome());
                 pst.setString(2, usu.getCelular());
                 pst.setString(3, usu.getLogin());
                 pst.setString(4, usu.getSenha());
                 pst.setInt(5, usu.getExcluido());
                 pst.executeUpdate();
-                
-                
 
                 JOptionPane.showMessageDialog(null, "Dados salvos com sucesso");
                 con.close();
@@ -84,7 +81,7 @@ public class AdministradorDAO {
         con = Conexao_banco.conector();
 
         ArrayList<Administrador_Entidade> AD = new ArrayList();
-        
+
         try {
             pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where excluido = '0'");
             rs = pst.executeQuery();
@@ -114,7 +111,7 @@ public class AdministradorDAO {
         con = Conexao_banco.conector();
 
         ArrayList<Administrador_Entidade> AD = new ArrayList();
-        
+
         try {
             pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where excluido = '0' and nome like ?");
             pst.setString(1, "%" + nome + "%");
@@ -239,36 +236,56 @@ public class AdministradorDAO {
         return lo;
     }
 
-    public ArrayList<Administrador_Entidade> pesquisar_restaurar(String nome) {
+    public ArrayList<Administrador_Entidade> pesquisar_restaurar(String no) {
         con = Conexao_banco.conector();
-        
-        ArrayList<Administrador_Entidade> AD = new ArrayList();
-        
-        try {
-            pst = con.prepareStatement("select id_admin, nome, telefone from admin where excluido = '1' and nome like ?");
-            pst.setString(1, "%" + nome + "%");
-            rs = pst.executeQuery();
 
-            while (rs.next()) {
-                Administrador_Entidade ad = new Administrador_Entidade();
-                ad.setId(rs.getInt("id_admin"));
-                ad.setNome(rs.getString("nome"));
-                ad.setCelular(rs.getString("telefone"));
-                AD.add(ad);
+        ArrayList<Administrador_Entidade> AD = new ArrayList();
+
+        if (!"".equals(no)) {
+            try {
+                pst = con.prepareStatement("select id_admin, nome, telefone from admin where excluido = '1' and nome like ?");
+                pst.setString(1, "%" + no + "%");
+                rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    Administrador_Entidade ad = new Administrador_Entidade();
+                    ad.setId(rs.getInt("id_admin"));
+                    ad.setNome(rs.getString("nome"));
+                    ad.setCelular(rs.getString("telefone"));
+                    AD.add(ad);
+                }
+                con.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao restaturar Administrador 1");
+                System.out.println(e);
             }
-            con.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao restaturar Administrador");
-            System.out.println(e);
+        } else {
+            try {
+                pst = con.prepareStatement("select id_admin, nome, telefone from admin where excluido = '1'");
+                rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    Administrador_Entidade ad = new Administrador_Entidade();
+                    ad.setId(rs.getInt("id_admin"));
+                    ad.setNome(rs.getString("nome"));
+                    ad.setCelular(rs.getString("telefone"));
+                    AD.add(ad);
+                }
+                con.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao restaturar Administrador 2");
+                System.out.println(e);
+            }
         }
+
         return AD;
     }
-    
-    public void restaurar(int id){
+
+    public void restaurar(int id) {
         int a = 0;
-            con = Conexao_banco.conector();
-            
-            try {
+        con = Conexao_banco.conector();
+
+        try {
             pst = con.prepareStatement("update admin set excluido = ? where id_admin = ?");
             pst.setInt(1, a);
             pst.setInt(2, id);
@@ -276,7 +293,7 @@ public class AdministradorDAO {
             JOptionPane.showMessageDialog(null, "Restautação realizada com sucesso");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao restaurar administrador");
-                System.out.println(e);
+            System.out.println(e);
         }
     }
 }

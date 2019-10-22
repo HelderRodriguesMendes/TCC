@@ -999,9 +999,10 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                                         .addGap(38, 38, 38)
                                         .addComponent(ADICONAR_FAZENDA_)))
                                 .addGap(1, 1, 1))))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1141,14 +1142,22 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Não é permitido alterar dados ja cadastrados, utilizando a janela de cadastramentos", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "excluir":
-                    id_propriedade_rural = Integer.parseInt(TABELA_PROPRIEDADE_RURAL.getValueAt(TABELA_PROPRIEDADE_RURAL.getSelectedRow(), 0).toString());
-                    ok = DADOSR.excluir_1_Propriedade(id_propriedade_rural);
-                    if (ok) {
-                        JOptionPane.showMessageDialog(null, "Exclusão realizada com sucesso");
-                        limparTabela();
-                        selecionar_guia(0);
-                        limparCampus_Pessoais();
-                        limparCampus_pesquisa();
+                    String ObjButtons[] = {"Sim", "Não"};
+                    String nome = TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 1).toString();
+                    int escolha = JOptionPane.showOptionDialog(null,
+                            "Deseja excluir a propriedade rural de " + nome + "?", "ATENÇÃO",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                            ObjButtons, ObjButtons[1]);
+                    if (escolha == 0) {
+                        id_propriedade_rural = Integer.parseInt(TABELA_PROPRIEDADE_RURAL.getValueAt(TABELA_PROPRIEDADE_RURAL.getSelectedRow(), 0).toString());
+                        ok = DADOSR.excluir_1_Propriedade(id_propriedade_rural);
+                        if (ok) {
+                            JOptionPane.showMessageDialog(null, "Exclusão realizada com sucesso");
+                            limparTabela();
+                            selecionar_guia(0);
+                            limparCampus_Pessoais();
+                            limparCampus_pesquisa();
+                        }
                     }
                     break;
                 case "alterar":
@@ -1714,8 +1723,8 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
 
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(2).setPreferredWidth(110);
 
-//        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-//        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA_PROPRIEDADE_RURAL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         DADOS_RU.forEach((dr) -> {
             String ID_pro = "";

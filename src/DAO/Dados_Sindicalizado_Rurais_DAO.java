@@ -161,7 +161,24 @@ public class Dados_Sindicalizado_Rurais_DAO {
             pst.setInt(1, a);
             pst.setInt(2, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Restautação realizada com sucesso");
+            JOptionPane.showMessageDialog(null, "Restautação do sindicalizado realizada com sucesso");
+            restaurarPropri(id);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao restaurar sindicalizado");
+            System.out.println(e);
+        }
+    }
+    
+    public void restaurarPropri(int id) {
+        int a = 0;
+        con = Conexao_banco.conector();
+
+        try {
+            pst = con.prepareStatement("update propriedadeRural set excluidoP = ? where id_sind = ?");
+            pst.setInt(1, a);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Restautação das propriedade rurais realizada com sucesso");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao restaurar sindicalizado");
             System.out.println(e);

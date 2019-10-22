@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
- * 
+ *
  *
  * @author Carmen
  */
@@ -28,14 +28,12 @@ public class Dados_Sindicalizado_Pessoais_DAO {
     PreparedStatement pst = null;
     Connection con;
 
-    
     Dados_Pessoais dp = new Dados_Pessoais();
-    
+
     int id = 0, dia = 0, mes = 0;
-    
+
     public boolean niver = true;
 
-    
     public int salvar_Dados_P(Dados_Pessoais dp) {
         con = Conexao_banco.conector();
         try {
@@ -77,8 +75,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         return id;
     }
 
-    
-     public void alterar_Dados_P(Dados_Pessoais dp) {
+    public void alterar_Dados_P(Dados_Pessoais dp) {
         con = Conexao_banco.conector();
         try {
             pst = con.prepareStatement("update sindicalizado set nome = ?, dataNasci = ?, celular = ?, nascionalidade = ?, "
@@ -104,7 +101,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
             pst.setString(15, dp.getMae());
             pst.setInt(16, 0);
             pst.setInt(17, dp.getId_sindi());
-            
+
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Os dados do sindicalizado foram alterados com sucesso");
 
@@ -115,7 +112,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
             System.out.println("Erro ao alterar os dados do sindicalizado: " + e);
         }
     }
-        
+
     public String verificarCPF_BANCO(String cpf, int id) {
         String ID = "";
 
@@ -127,9 +124,9 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
-                    int i = rs.getInt("id_sindicalizado");                
+                    int i = rs.getInt("id_sindicalizado");
                     ID = String.valueOf(i);
-                }else{
+                } else {
                     ID = "nao cadastrado";
                 }
                 con.close();
@@ -143,7 +140,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
-                        ID = "tem dono";
+                    ID = "tem dono";
                 }
                 con.close();
             } catch (Exception e) {
@@ -151,8 +148,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         }
         return ID;
     }
-     
-    
+
     public String verificarRG_BANCO(String rg, int id) {
         String ID = "";
 
@@ -164,9 +160,9 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
-                    int i = rs.getInt("id_sindicalizado");                
+                    int i = rs.getInt("id_sindicalizado");
                     ID = String.valueOf(i);
-                }else{
+                } else {
                     ID = "nao cadastrado";
                 }
                 con.close();
@@ -180,7 +176,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
-                        ID = "tem dono";
+                    ID = "tem dono";
                 }
                 con.close();
             } catch (Exception e) {
@@ -188,35 +184,54 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         }
         return ID;
     }
-        
-    
+
     public ArrayList<Dados_Pessoais> pesquisar_restaurar(String nome) {
         con = Conexao_banco.conector();
 
         ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
 
-        try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, rg, cpf from sindicalizado where excluidoS = '1'  and nome like ?");
-            pst.setString(1, "%" + nome + "%");
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                Dados_Pessoais si = new Dados_Pessoais();
-                si.setId_sindi(rs.getInt("id_sindicalizado"));
-                si.setNome(rs.getString("nome"));
-                si.setCelular(rs.getString("celular"));
-                si.setCpf(rs.getString("cpf"));
-                si.setRg(rs.getString("rg"));
-                SIND.add(si);
+        if (!"".equals(nome)) {
+            try {
+                pst = con.prepareStatement("select id_sindicalizado, nome, celular, rg, cpf from sindicalizado where excluidoS = '1'  and nome like ?");
+                pst.setString(1, "%" + nome + "%");
+                rs = pst.executeQuery();
+                while (rs.next()) {
+                    Dados_Pessoais si = new Dados_Pessoais();
+                    si.setId_sindi(rs.getInt("id_sindicalizado"));
+                    si.setNome(rs.getString("nome"));
+                    si.setCelular(rs.getString("celular"));
+                    si.setCpf(rs.getString("cpf"));
+                    si.setRg(rs.getString("rg"));
+                    SIND.add(si);
+                }
+                con.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao restaturar sindicalizado");
+                System.out.println(e);
             }
-            con.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao restaturar sindicalizado");
-            System.out.println(e);
+        } else {
+            try {
+                pst = con.prepareStatement("select id_sindicalizado, nome, celular, rg, cpf from sindicalizado where excluidoS = '1'");
+                rs = pst.executeQuery();
+                while (rs.next()) {
+                    Dados_Pessoais si = new Dados_Pessoais();
+                    si.setId_sindi(rs.getInt("id_sindicalizado"));
+                    si.setNome(rs.getString("nome"));
+                    si.setCelular(rs.getString("celular"));
+                    si.setCpf(rs.getString("cpf"));
+                    si.setRg(rs.getString("rg"));
+                    SIND.add(si);
+                }
+                con.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao restaturar sindicalizado");
+                System.out.println(e);
+            }
         }
+
         return SIND;
     }
-     
-    
+
     public void niver() {
         con = Conexao_banco.conector();
         Sindicalizado si = new Sindicalizado();
@@ -244,8 +259,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         } catch (Exception e) {
         }
     }
-    
-    
+
     public ArrayList<Dados_Pessoais> listar_Tabela_Dados_Pessoais() {
         con = Conexao_banco.conector();
 
@@ -276,7 +290,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
                 si.setMae(rs.getString("mae"));
-                
+
                 SIND.add(si);
             }
             con.close();
@@ -286,8 +300,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         }
         return SIND;
     }
-    
-        
+
     public ArrayList<Dados_Pessoais> pesquisar_nome_cpf_rg(String nome, String cpf, String rg) {
         con = Conexao_banco.conector();
 
@@ -321,7 +334,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
                 si.setMae(rs.getString("mae"));
-                
+
                 SIND.add(si);
             }
 
@@ -332,8 +345,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         }
         return SIND;
     }
-       
-    
+
     public ArrayList<Dados_Pessoais> pesquisar_nome_cpf(String nome, String cpf) {
         System.out.println("aqii");
         con = Conexao_banco.conector();
@@ -368,7 +380,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
                 si.setMae(rs.getString("mae"));
-              
+
                 SIND.add(si);
             }
 
@@ -379,8 +391,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         }
         return SIND;
     }
-        
-    
+
     public ArrayList<Dados_Pessoais> pesquisar_nome_rg(String nome, String rg) {
         con = Conexao_banco.conector();
 
@@ -413,7 +424,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
                 si.setMae(rs.getString("mae"));
-                
+
                 SIND.add(si);
             }
 
@@ -423,9 +434,8 @@ public class Dados_Sindicalizado_Pessoais_DAO {
             System.out.println(e);
         }
         return SIND;
-    }    
-    
-    
+    }
+
     public ArrayList<Dados_Pessoais> pesquisar_nome(String nome) {
         con = Conexao_banco.conector();
 
@@ -458,7 +468,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
                 si.setMae(rs.getString("mae"));
-                
+
                 SIND.add(si);
             }
 
@@ -469,8 +479,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         }
         return SIND;
     }
-      
-    
+
     public ArrayList<Dados_Pessoais> pesquisar_cpf_rg(String cpf, String rg) {
         con = Conexao_banco.conector();
 
@@ -503,7 +512,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
                 si.setMae(rs.getString("mae"));
-                
+
                 SIND.add(si);
             }
 
@@ -514,8 +523,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         }
         return SIND;
     }
-      
-    
+
     public ArrayList<Dados_Pessoais> pesquisar_cpf(String cpf) {
         con = Conexao_banco.conector();
 
@@ -547,7 +555,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
                 si.setMae(rs.getString("mae"));
-                
+
                 SIND.add(si);
             }
 
@@ -558,8 +566,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         }
         return SIND;
     }
-    
-        
+
     public ArrayList<Dados_Pessoais> pesquisar_rg(String rg) {
         con = Conexao_banco.conector();
 
@@ -591,7 +598,7 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
                 si.setMae(rs.getString("mae"));
-                
+
                 SIND.add(si);
             }
 

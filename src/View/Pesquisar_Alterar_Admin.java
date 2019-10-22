@@ -11,14 +11,16 @@ import DAO.AdministradorDAO;
 import DAO.Util_DAO;
 import Model.Administrador_Entidade;
 import com.sun.glass.events.KeyEvent;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -50,7 +52,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
         LISTAR_TABELA();
         Util.soLetras(NOME);
-        
+
         TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
     }
 
@@ -68,7 +70,6 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TABELA = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        USO = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -120,34 +121,27 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(9, 9, 9)
-                        .addComponent(NOME, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(USO, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addComponent(jLabel1)
+                .addGap(9, 9, 9)
+                .addComponent(NOME, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(41, 41, 41))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(NOME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(USO, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel1)
+                            .addComponent(NOME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -224,6 +218,9 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
 
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+
         ad.Listar_Tabela().forEach((admin) -> {
 
             dtma.addRow(new Object[]{
@@ -233,6 +230,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
                 admin.getLogin()
             });
         });
+        corLinhaJTable();
     }
 
     public void Pesquisar_Nome(String nome) {
@@ -242,6 +240,8 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
         TABELA.getColumnModel().getColumn(2).setPreferredWidth(110);
 
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
 
         ad.Pesquisar_Nome(nome).forEach((admi) -> {
             ID = admi.getId();
@@ -253,6 +253,7 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
                 admi.getLogin()
             });
         });
+        corLinhaJTable();
     }
 
     public Administrador_Entidade preencher_Objeto() {
@@ -271,30 +272,26 @@ public class Pesquisar_Alterar_Admin extends javax.swing.JInternalFrame {
     public void Limpar_campus() {
         NOME.setText("");
     }
+    public void corLinhaJTable() {
+        TABELA.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-    public void imagemIcon(String uso) {
-        if (null != uso) {
-            switch (uso) {
-                case "select": {
-                    ImageIcon img = new ImageIcon(getClass().getResource("select.png"));
-                    USO.setIcon(img);
-                    break;
+                if (row % 2 != 0) {
+                    setBackground(Color.LIGHT_GRAY);
+                } else {
+                    setBackground(Color.WHITE);
                 }
-                case "delete": {
-                    ImageIcon img = new ImageIcon(getClass().getResource("delete.png"));
-                    USO.setIcon(img);
-                    break;
-                }
-                default:
-                    break;
+                return this;
             }
-        }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField NOME;
     private javax.swing.JTable TABELA;
-    private javax.swing.JLabel USO;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
