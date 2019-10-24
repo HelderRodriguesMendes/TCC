@@ -5,10 +5,9 @@
  */
 package DAO;
 
-import Model.Dados_Pessoais;
 import Model.Dados_Rurais;
 import View.Cadastrar_Sindi;
-import com.mysql.jdbc.Statement;
+import View.Restaurar;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -152,7 +151,7 @@ public class Dados_Sindicalizado_Rurais_DAO {
         }
     }
 
-    public void restaurar(int id) {
+    public void restaurar_SIND(int id) {
         int a = 0;
         con = Conexao_banco.conector();
 
@@ -162,14 +161,14 @@ public class Dados_Sindicalizado_Rurais_DAO {
             pst.setInt(2, id);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Restautação do sindicalizado realizada com sucesso");
-            restaurarPropri(id);
+            restaurar_Muitas_Propri(id);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao restaurar sindicalizado");
             System.out.println(e);
         }
     }
-    
-    public void restaurarPropri(int id) {
+
+    public void restaurar_Muitas_Propri(int id) {
         int a = 0;
         con = Conexao_banco.conector();
 
@@ -185,9 +184,24 @@ public class Dados_Sindicalizado_Rurais_DAO {
         }
     }
 
+    public void restaurar_Uma_Propri(int id) {
+        int a = 0;
+        con = Conexao_banco.conector();
+
+        try {
+            pst = con.prepareStatement("update propriedadeRural set excluidoP = ? where id_propriedadeRural = ?");
+            pst.setInt(1, a);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Restautação da propriedade rural realizada com sucesso");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao restaurar sindicalizado");
+            System.out.println(e);
+        }
+    }
+
     public ArrayList<Dados_Rurais> listar_Tabela_RURAL(int id_sind) {
         con = Conexao_banco.conector();
-        Cadastrar_Sindi CS = new Cadastrar_Sindi();
 
         ArrayList<Dados_Rurais> SIND = new ArrayList<>();
 
@@ -292,4 +306,41 @@ public class Dados_Sindicalizado_Rurais_DAO {
         }
         return ok;
     }
+
+    public ArrayList<Dados_Rurais> lista_tabela_propri_res(int I, String no) {
+        con = Conexao_banco.conector();
+        int cont = 1;
+        Restaurar res = new Restaurar();
+
+        ArrayList<Dados_Rurais> SIND = new ArrayList<>();
+
+        try {
+            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, municipioCede, NIRF, codigoINCRA from propriedadeRural where excluidoP = '1' and id_sind = ?");
+            pst.setInt(1, I);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Dados_Rurais si = new Dados_Rurais();
+                cont++;
+
+                si.setId_proprie(rs.getInt("id_propriedadeRural"));
+                si.setNomeFazenda(rs.getString("nomeFazenda"));
+                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setCodINCRA(rs.getString("codigoINCRA"));
+                si.setNIRF(rs.getString("NIRF"));
+                SIND.add(si);
+            }
+
+            if (cont == 1) {
+                JOptionPane.showMessageDialog(null, "Não a propriedades rurais excluidas de " + no);
+            }
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar dados na tabela de propriedades excluidas");
+            System.out.println(e);
+        }
+        res.NULL = cont;
+        return SIND;
+    }
+
 }

@@ -238,7 +238,6 @@ public class AdministradorDAO {
 
     public ArrayList<Administrador_Entidade> pesquisar_restaurar(String no) {
         con = Conexao_banco.conector();
-
         ArrayList<Administrador_Entidade> AD = new ArrayList();
 
         if (!"".equals(no)) {
@@ -254,6 +253,7 @@ public class AdministradorDAO {
                     ad.setCelular(rs.getString("telefone"));
                     AD.add(ad);
                 }
+
                 con.close();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro ao restaturar Administrador 1");

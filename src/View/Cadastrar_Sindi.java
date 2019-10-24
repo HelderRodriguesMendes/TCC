@@ -235,6 +235,11 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
         });
 
         BOTAO_PESQUISAR_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
+        BOTAO_PESQUISAR_.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BOTAO_PESQUISAR_MouseClicked(evt);
+            }
+        });
         BOTAO_PESQUISAR_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BOTAO_PESQUISAR_ActionPerformed(evt);
@@ -1324,6 +1329,10 @@ public class Cadastrar_Sindi extends javax.swing.JInternalFrame {
             selecionar_guia(1);
         }
     }//GEN-LAST:event_VOLTAR1_MouseClicked
+
+    private void BOTAO_PESQUISAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BOTAO_PESQUISAR_MouseClicked
 
     public void selecionar_guia(int n) {
         this.FORM_GUIAS.setEnabledAt(n, true); // desabilita toda a aba 1

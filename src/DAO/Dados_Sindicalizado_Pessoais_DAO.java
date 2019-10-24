@@ -8,6 +8,7 @@ package DAO;
 import Controller.Sindicalizado;
 import Model.Dados_Pessoais;
 import Model.Dados_Rurais;
+import View.Restaurar;
 import com.mysql.jdbc.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -204,6 +205,9 @@ public class Dados_Sindicalizado_Pessoais_DAO {
                     si.setRg(rs.getString("rg"));
                     SIND.add(si);
                 }
+                
+                Restaurar R = new Restaurar();
+
                 con.close();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro ao restaturar sindicalizado");
@@ -609,4 +613,59 @@ public class Dados_Sindicalizado_Pessoais_DAO {
         }
         return SIND;
     }
+
+    public ArrayList<Dados_Pessoais> listar_Tabela_Dados_Pessoais_Restaurar() {
+        con = Conexao_banco.conector();
+
+        ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
+
+        try {
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, cpf, rg from sindicalizado where excluidoS = '0'");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Dados_Pessoais si = new Dados_Pessoais();
+                si.setId_sindi(rs.getInt("id_sindicalizado"));
+                si.setNome(rs.getString("nome"));
+                si.setCelular(rs.getString("celular"));
+                si.setRg(rs.getString("rg"));
+                si.setCpf(rs.getString("cpf"));
+                SIND.add(si);
+            }
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar dados na tabela de dados pessoais para restauração");
+            System.out.println(e);
+        }
+
+        return SIND;
+    }
+
+    public ArrayList<Dados_Pessoais> listar_Tabela_Dados_Pessoais_Restaurar_NOME(String nome) {
+        Restaurar re = new Restaurar();
+        con = Conexao_banco.conector();
+
+        ArrayList<Dados_Pessoais> SIND = new ArrayList<>();
+
+        try {
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, cpf, rg from sindicalizado where excluidoS = '0' and nome like ?");
+            pst.setString(1, "%" + nome + "%");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Dados_Pessoais si = new Dados_Pessoais();
+                si.setId_sindi(rs.getInt("id_sindicalizado"));
+                si.setNome(rs.getString("nome"));
+                si.setCelular(rs.getString("celular"));
+                si.setRg(rs.getString("rg"));
+                si.setCpf(rs.getString("cpf"));
+                SIND.add(si);
+            }
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar dados na tabela de dados pessoais para restauração");
+            System.out.println(e);
+        }
+
+        return SIND;
+    }
+
 }
