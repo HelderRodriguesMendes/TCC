@@ -23,7 +23,7 @@ public class Util_DAO {
     PreparedStatement pst = null;
     Connection con;
 
-    Dados_Sindicalizado_Rurais_DAO DRD = new Dados_Sindicalizado_Rurais_DAO();
+    Sindicalizado_Rurais_DAO DRD = new Sindicalizado_Rurais_DAO();
 
     public void excluir(int id, String tipo) {
         boolean ok = false;

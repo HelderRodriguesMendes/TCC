@@ -5,8 +5,7 @@
  */
 package DAO;
 
-import Model.Administrador_Entidade;
-import Model.Pessoa;
+import Model.Administrador;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,14 +20,13 @@ import javax.swing.JOptionPane;
  */
 public class AdministradorDAO {
 
-    Conexao_banco cb = new Conexao_banco();
     ResultSet rs = null;
     PreparedStatement pst = null;
     Connection con;
     boolean login = true;
     int id = 0;
 
-    public Administrador_Entidade logarAdmin(Administrador_Entidade ad) {
+    public Administrador logarAdmin(Administrador ad) {
 
         con = Conexao_banco.conector();
         try {
@@ -50,7 +48,7 @@ public class AdministradorDAO {
         return ad;
     }
 
-    public boolean salvar_ADMIN(Administrador_Entidade usu) {
+    public boolean salvar_ADMIN(Administrador usu) {
         login = verificar_login(usu);
         if (login) {
             con = Conexao_banco.conector();
@@ -77,17 +75,17 @@ public class AdministradorDAO {
         return login;
     }
 
-    public ArrayList<Administrador_Entidade> Listar_Tabela() {
+    public ArrayList<Administrador> Listar_Tabela() {
         con = Conexao_banco.conector();
 
-        ArrayList<Administrador_Entidade> AD = new ArrayList();
+        ArrayList<Administrador> AD = new ArrayList();
 
         try {
             pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where excluido = '0'");
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Administrador_Entidade ad = new Administrador_Entidade();
+                Administrador ad = new Administrador();
 
                 ad.setId(rs.getInt("id_admin"));
                 ad.setNome(rs.getString("nome"));
@@ -107,10 +105,10 @@ public class AdministradorDAO {
         return AD;
     }
 
-    public ArrayList<Administrador_Entidade> Pesquisar_Nome(String nome) {
+    public ArrayList<Administrador> Pesquisar_Nome(String nome) {
         con = Conexao_banco.conector();
 
-        ArrayList<Administrador_Entidade> AD = new ArrayList();
+        ArrayList<Administrador> AD = new ArrayList();
 
         try {
             pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where excluido = '0' and nome like ?");
@@ -118,7 +116,7 @@ public class AdministradorDAO {
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Administrador_Entidade ad = new Administrador_Entidade();
+                Administrador ad = new Administrador();
 
                 ad.setId(rs.getInt("id_admin"));
                 ad.setNome(rs.getString("nome"));
@@ -135,7 +133,7 @@ public class AdministradorDAO {
         return AD;
     }
 
-    public boolean alterar_ADMIN(Administrador_Entidade adm, int ID) {
+    public boolean alterar_ADMIN(Administrador adm, int ID) {
         login = verificar_login(adm);
 
         if (!login) {
@@ -217,7 +215,7 @@ public class AdministradorDAO {
         return login;
     }
 
-    public boolean verificar_login(Administrador_Entidade adm) {
+    public boolean verificar_login(Administrador adm) {
         con = Conexao_banco.conector();
         boolean lo = false;
         try {
@@ -236,9 +234,9 @@ public class AdministradorDAO {
         return lo;
     }
 
-    public ArrayList<Administrador_Entidade> pesquisar_restaurar(String no) {
+    public ArrayList<Administrador> pesquisar_restaurar(String no) {
         con = Conexao_banco.conector();
-        ArrayList<Administrador_Entidade> AD = new ArrayList();
+        ArrayList<Administrador> AD = new ArrayList();
 
         if (!"".equals(no)) {
             try {
@@ -247,7 +245,7 @@ public class AdministradorDAO {
                 rs = pst.executeQuery();
 
                 while (rs.next()) {
-                    Administrador_Entidade ad = new Administrador_Entidade();
+                    Administrador ad = new Administrador();
                     ad.setId(rs.getInt("id_admin"));
                     ad.setNome(rs.getString("nome"));
                     ad.setCelular(rs.getString("telefone"));
@@ -265,7 +263,7 @@ public class AdministradorDAO {
                 rs = pst.executeQuery();
 
                 while (rs.next()) {
-                    Administrador_Entidade ad = new Administrador_Entidade();
+                    Administrador ad = new Administrador();
                     ad.setId(rs.getInt("id_admin"));
                     ad.setNome(rs.getString("nome"));
                     ad.setCelular(rs.getString("telefone"));
