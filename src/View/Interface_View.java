@@ -80,6 +80,7 @@ public class Interface_View extends javax.swing.JFrame {
         MENU_CAD_SIND = new javax.swing.JMenuItem();
         MENU_PE = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         MENU_EXCLUIR = new javax.swing.JMenu();
         EXCLUIR_ADMIN_ = new javax.swing.JMenuItem();
@@ -197,6 +198,14 @@ public class Interface_View extends javax.swing.JFrame {
             }
         });
         MENU_PE.add(jMenuItem1);
+
+        jMenuItem4.setText("Controle de Caixa");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        MENU_PE.add(jMenuItem4);
 
         jMenuItem2.setText("Sindicalizado");
         jMenuItem2.setToolTipText("");
@@ -429,6 +438,15 @@ public class Interface_View extends javax.swing.JFrame {
         
     }//GEN-LAST:event_CONTROLE_CAIXA_ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        ControleCaixa_VIEW CC = new ControleCaixa_VIEW();
+        DESKTOP.add(CC);
+        CC.setVisible(true);
+        CC.status = "alterar";
+        CC.setPosicao();
+        CC.selecionar_guia(1);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -452,6 +470,7 @@ public class Interface_View extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem8;
     // End of variables declaration//GEN-END:variables
