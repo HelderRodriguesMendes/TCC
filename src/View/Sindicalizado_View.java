@@ -1783,19 +1783,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA_PROPRIEDADE_RURAL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        
-        DefaultTableCellRenderer cellRender = new DefaultTableCellRenderer(); // para centralizar os dados na coluna da tabela
-        cellRender.setHorizontalAlignment(SwingConstants.CENTER); // para centralizar os dados na coluna da tabela    
-        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setCellRenderer(cellRender); // para centralizar os dados na coluna da tabela
-        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(1).setCellRenderer(cellRender); // para centralizar os dados na coluna da tabela
-        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(2).setCellRenderer(cellRender); // para centralizar os dados na coluna da tabela
-        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(3).setCellRenderer(cellRender); // para centralizar os dados na coluna da tabela
-        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(4).setCellRenderer(cellRender); // para centralizar os dados na coluna da tabela
-        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(5).setCellRenderer(cellRender); // para centralizar os dados na coluna da tabela
-        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(6).setCellRenderer(cellRender); // para centralizar os dados na coluna da tabela
-        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(7).setCellRenderer(cellRender); // para centralizar os dados na coluna da tabela
-        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(8).setCellRenderer(cellRender); // para centralizar os dados na coluna da tabela
-        TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(9).setCellRenderer(cellRender); // para centralizar os dados na coluna da tabela
+    
         
         DADOS_RU.forEach((dr) -> {
             String ID_pro = "";

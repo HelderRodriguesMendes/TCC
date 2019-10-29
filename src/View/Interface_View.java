@@ -76,6 +76,7 @@ public class Interface_View extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         MENU_SALVAR = new javax.swing.JMenu();
         MENU_CAD_USU = new javax.swing.JMenuItem();
+        CONTROLE_CAIXA_ = new javax.swing.JMenuItem();
         MENU_CAD_SIND = new javax.swing.JMenuItem();
         MENU_PE = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -153,6 +154,14 @@ public class Interface_View extends javax.swing.JFrame {
             }
         });
         MENU_SALVAR.add(MENU_CAD_USU);
+
+        CONTROLE_CAIXA_.setText("Controle de Caixa");
+        CONTROLE_CAIXA_.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CONTROLE_CAIXA_ActionPerformed(evt);
+            }
+        });
+        MENU_SALVAR.add(CONTROLE_CAIXA_);
 
         MENU_CAD_SIND.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK));
         MENU_CAD_SIND.setText("Sindicalizado");
@@ -410,12 +419,23 @@ public class Interface_View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DESKTOPKeyReleased
 
+    private void CONTROLE_CAIXA_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CONTROLE_CAIXA_ActionPerformed
+        ControleCaixa_VIEW CC = new ControleCaixa_VIEW();
+        DESKTOP.add(CC);
+        CC.setVisible(true);
+        CC.status = "cadastrar";
+        CC.setPosicao();
+        CC.selecionar_guia(0);
+        
+    }//GEN-LAST:event_CONTROLE_CAIXA_ActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar BARRAMENU;
+    private javax.swing.JMenuItem CONTROLE_CAIXA_;
     public static javax.swing.JDesktopPane DESKTOP;
     private javax.swing.JMenuItem EXCLUIR_ADMIN_;
     private javax.swing.JMenuItem EXCLUIR_SIND_;

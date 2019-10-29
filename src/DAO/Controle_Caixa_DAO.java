@@ -9,6 +9,7 @@ import Model.Controle_Caixa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -40,5 +41,25 @@ public class Controle_Caixa_DAO {
             JOptionPane.showInputDialog(null, "Erro ao salvar os dados financeiros", "ERRO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao salvar os dados financeiros: " + e);
         }
+    }
+    
+    public Controle_Caixa Consultar_Saldo_Atual(Controle_Caixa fdc) {
+        con = Conexao_banco.conector();
+
+        try {
+            String banco = fdc.getBanco();
+            pst = con.prepareStatement("select sum(debito) as resultado_Debito, sum(credito) as resultado_Credito from transacao t inner join ControleDeCaixa f on  t.id_contro = f.id where banco = " + "'" + banco + "'"); //BUSCA O ULTIMO SALDO QUE TIVER NO BANCO
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                fdc.setSoma_debito(rs.getDouble("resultado_Debito"));
+                fdc.setSoma_credito(rs.getDouble("resultado_Credito"));
+
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar saldo \n" + ex);
+            System.out.println(ex);
+        }
+        return fdc;
     }
 }
