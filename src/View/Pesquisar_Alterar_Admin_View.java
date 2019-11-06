@@ -221,7 +221,7 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
         TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
 
-        ad.Listar_Tabela().forEach((admin) -> {
+        ad.list_JTable().forEach((admin) -> {
 
             dtma.addRow(new Object[]{
                 admin.getId(),
@@ -244,7 +244,7 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
         TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
 
-        ad.Pesquisar_Nome(nome).forEach((admi) -> {
+        ad.select_Name(nome).forEach((admi) -> {
             ID = admi.getId();
             System.out.println("ID: " + ID);
             dtma.addRow(new Object[]{

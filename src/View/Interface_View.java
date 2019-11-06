@@ -72,6 +72,7 @@ public class Interface_View extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         DESKTOP = new javax.swing.JDesktopPane();
+        jPanel1 = new javax.swing.JPanel();
         BARRAMENU = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         MENU_SALVAR = new javax.swing.JMenu();
@@ -84,6 +85,7 @@ public class Interface_View extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         MENU_EXCLUIR = new javax.swing.JMenu();
         EXCLUIR_ADMIN_ = new javax.swing.JMenuItem();
+        EXCLUIR_CONTROLE_CAIXA_ = new javax.swing.JMenuItem();
         EXCLUIR_SIND_ = new javax.swing.JMenuItem();
         RESTAURAR_ = new javax.swing.JMenuItem();
         MENU_RELA = new javax.swing.JMenu();
@@ -114,11 +116,22 @@ public class Interface_View extends javax.swing.JFrame {
         DESKTOP.setLayout(DESKTOPLayout);
         DESKTOPLayout.setHorizontalGroup(
             DESKTOPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1291, Short.MAX_VALUE)
+            .addGap(0, 1267, Short.MAX_VALUE)
         );
         DESKTOPLayout.setVerticalGroup(
             DESKTOPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 590, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/logoSiteMenu.png"))); // NOI18N
@@ -233,6 +246,14 @@ public class Interface_View extends javax.swing.JFrame {
         });
         MENU_EXCLUIR.add(EXCLUIR_ADMIN_);
 
+        EXCLUIR_CONTROLE_CAIXA_.setText("Controle de Caixa");
+        EXCLUIR_CONTROLE_CAIXA_.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EXCLUIR_CONTROLE_CAIXA_ActionPerformed(evt);
+            }
+        });
+        MENU_EXCLUIR.add(EXCLUIR_CONTROLE_CAIXA_);
+
         EXCLUIR_SIND_.setText("Sindicalizado");
         EXCLUIR_SIND_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -282,7 +303,10 @@ public class Interface_View extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DESKTOP)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(DESKTOP)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -447,6 +471,15 @@ public class Interface_View extends javax.swing.JFrame {
         CC.selecionar_guia(1);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void EXCLUIR_CONTROLE_CAIXA_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EXCLUIR_CONTROLE_CAIXA_ActionPerformed
+        ControleCaixa_VIEW CC = new ControleCaixa_VIEW();
+        DESKTOP.add(CC);
+        CC.setVisible(true);
+        CC.status = "excluir";
+        CC.setPosicao();
+        CC.selecionar_guia(1);
+    }//GEN-LAST:event_EXCLUIR_CONTROLE_CAIXA_ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -456,6 +489,7 @@ public class Interface_View extends javax.swing.JFrame {
     private javax.swing.JMenuItem CONTROLE_CAIXA_;
     public static javax.swing.JDesktopPane DESKTOP;
     private javax.swing.JMenuItem EXCLUIR_ADMIN_;
+    private javax.swing.JMenuItem EXCLUIR_CONTROLE_CAIXA_;
     private javax.swing.JMenuItem EXCLUIR_SIND_;
     private javax.swing.JMenuItem MENU_CAD_SIND;
     private javax.swing.JMenuItem MENU_CAD_USU;
@@ -473,5 +507,6 @@ public class Interface_View extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -19,6 +19,7 @@ public abstract class Util_Controller {
     public static boolean ok;
 
     public static Date STRING_DATE(String dt) {
+        System.out.println("daata: " + dt);
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date daS = null;
         try {

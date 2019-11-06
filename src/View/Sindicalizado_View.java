@@ -1279,15 +1279,19 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         if (null != status) {
             switch (status) {
                 case "alterar": {
-                    String ObjButtons[] = {"Sim", "Não"};
+                    String ObjButtons[] = {"Alterar dados pessoais", "Alterar dados rurais"};
                     int escolha = JOptionPane.showOptionDialog(null,
-                            "Deseja alterar os dados selecionados?", "ATENÇÃO",
+                            "Escolha uma das opções abaixo", "ATENÇÃO",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                             ObjButtons, ObjButtons[1]);
                     if (escolha == 0) {
                         preencher_campus_pessoais(preencer_objeto_dadosP_tabela());
                         LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
                         selecionar_guia(1);
+                    }else if (escolha == 1) {
+                        preencher_campus_pessoais(preencer_objeto_dadosP_tabela());
+                        LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
+                        selecionar_guia(2);
                     }
                     break;
                 }
@@ -2487,6 +2491,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         return se;
     }
 
+    
     public void limparCampus_pesquisa() {
         NOME_Pesquisar.setText("");
         RG_Pesquisa.setValue("");

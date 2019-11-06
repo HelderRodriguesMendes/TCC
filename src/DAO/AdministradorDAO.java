@@ -75,7 +75,7 @@ public class AdministradorDAO {
         return login;
     }
 
-    public ArrayList<Administrador> Listar_Tabela() {
+    public ArrayList<Administrador> list_JTable() {
         con = Conexao_banco.conector();
 
         ArrayList<Administrador> AD = new ArrayList();
@@ -98,14 +98,14 @@ public class AdministradorDAO {
                 AD.add(ad);
             }
             con.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar dados na tabela");
             System.out.println(e);
         }
         return AD;
     }
 
-    public ArrayList<Administrador> Pesquisar_Nome(String nome) {
+    public ArrayList<Administrador> select_Name(String nome) {
         con = Conexao_banco.conector();
 
         ArrayList<Administrador> AD = new ArrayList();
