@@ -38,7 +38,7 @@ public class Sindicalizado_Pessoais_DAO {
     public int salvar_Dados_P(Sindicalizado_Pessoais dp) {
         con = Conexao_banco.conector();
         try {
-            pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nascionalidade, "
+            pst = con.prepareStatement("insert into sindicalizado(nome, dataNasci, celular, nacionalidade, "
                     + "estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, "
                     + "pai, mae, excluidoS) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?)", Statement.RETURN_GENERATED_KEYS);     //Statement.RETURN_GENERATED_KEYS Retorna o ID do sindicalizado que é gerado altomaticamente depois que salva os dados
 
@@ -53,8 +53,8 @@ public class Sindicalizado_Pessoais_DAO {
             java.sql.Date DATA = new java.sql.Date(dp.getDataExpedicao().getTime());
             pst.setDate(8, DATA);
             pst.setString(9, dp.getTituloEleito());
-            pst.setInt(10, dp.getZona());
-            pst.setInt(11, dp.getSecao());
+            pst.setString(10, dp.getZona());
+            pst.setString(11, dp.getSecao());
             pst.setString(12, dp.getReservista());
             pst.setString(13, dp.getCategoria());
             pst.setString(14, dp.getPai());
@@ -79,7 +79,7 @@ public class Sindicalizado_Pessoais_DAO {
     public void alterar_Dados_P(Sindicalizado_Pessoais dp) {
         con = Conexao_banco.conector();
         try {
-            pst = con.prepareStatement("update sindicalizado set nome = ?, dataNasci = ?, celular = ?, nascionalidade = ?, "
+            pst = con.prepareStatement("update sindicalizado set nome = ?, dataNasci = ?, celular = ?, nacionalidade = ?, "
                     + "estadoCivil = ?, cpf = ?, rg = ?, dataExpedi = ?, tituloEleito = ?, zona = ?, secao = ?, reservista = ?, categoria = ?, "
                     + "pai = ?, mae = ?, excluidoS = ? where id_sindicalizado = ?");
 
@@ -94,8 +94,8 @@ public class Sindicalizado_Pessoais_DAO {
             java.sql.Date DATA = new java.sql.Date(dp.getDataExpedicao().getTime());
             pst.setDate(8, DATA);
             pst.setString(9, dp.getTituloEleito());
-            pst.setInt(10, dp.getZona());
-            pst.setInt(11, dp.getSecao());
+            pst.setString(10, dp.getZona());
+            pst.setString(11, dp.getSecao());
             pst.setString(12, dp.getReservista());
             pst.setString(13, dp.getCategoria());
             pst.setString(14, dp.getPai());
@@ -270,7 +270,7 @@ public class Sindicalizado_Pessoais_DAO {
         ArrayList<Sindicalizado_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' order by nome");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nacionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' order by nome");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -281,15 +281,15 @@ public class Sindicalizado_Pessoais_DAO {
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
                 si.setCelular(rs.getString("celular"));
-                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setNascionalidade(rs.getString("nacionalidade"));
                 si.setEstadoCivil(rs.getString("estadoCivil"));
                 si.setCpf(rs.getString("cpf"));
                 si.setRg(rs.getString("rg"));
                 java.util.Date data_EX = rs.getDate("dataExpedi");
                 si.setDataExpedicao(data_EX);
                 si.setTituloEleito(rs.getString("tituloEleito"));
-                si.setZona(rs.getInt("zona"));
-                si.setSecao(rs.getInt("secao"));
+                si.setZona(rs.getString("zona"));
+                si.setSecao(rs.getString("secao"));
                 si.setReservista(rs.getString("reservista"));
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
@@ -311,7 +311,7 @@ public class Sindicalizado_Pessoais_DAO {
         ArrayList<Sindicalizado_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ? and cpf like ? and rg like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nacionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ? and cpf like ? and rg like ?");
             pst.setString(1, "%" + nome + "%");
             pst.setString(2, "%" + cpf + "%");
             pst.setString(3, "%" + rg + "%");
@@ -325,15 +325,15 @@ public class Sindicalizado_Pessoais_DAO {
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
                 si.setCelular(rs.getString("celular"));
-                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setNascionalidade(rs.getString("nacionalidade"));
                 si.setEstadoCivil(rs.getString("estadoCivil"));
                 si.setCpf(rs.getString("cpf"));
                 si.setRg(rs.getString("rg"));
                 java.util.Date data_EX = rs.getDate("dataExpedi");
                 si.setDataExpedicao(data_EX);
                 si.setTituloEleito(rs.getString("tituloEleito"));
-                si.setZona(rs.getInt("zona"));
-                si.setSecao(rs.getInt("secao"));
+                si.setZona(rs.getString("zona"));
+                si.setSecao(rs.getString("secao"));
                 si.setReservista(rs.getString("reservista"));
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
@@ -357,7 +357,7 @@ public class Sindicalizado_Pessoais_DAO {
         ArrayList<Sindicalizado_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ? and cpf like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nacionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ? and cpf like ?");
             System.out.println("helde");
             pst.setString(1, "%" + nome + "%");
             pst.setString(2, "%" + cpf + "%");
@@ -371,15 +371,15 @@ public class Sindicalizado_Pessoais_DAO {
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
                 si.setCelular(rs.getString("celular"));
-                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setNascionalidade(rs.getString("nacionalidade"));
                 si.setEstadoCivil(rs.getString("estadoCivil"));
                 si.setCpf(rs.getString("cpf"));
                 si.setRg(rs.getString("rg"));
                 java.util.Date data_EX = rs.getDate("dataExpedi");
                 si.setDataExpedicao(data_EX);
                 si.setTituloEleito(rs.getString("tituloEleito"));
-                si.setZona(rs.getInt("zona"));
-                si.setSecao(rs.getInt("secao"));
+                si.setZona(rs.getString("zona"));
+                si.setSecao(rs.getString("secao"));
                 si.setReservista(rs.getString("reservista"));
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
@@ -402,7 +402,7 @@ public class Sindicalizado_Pessoais_DAO {
         ArrayList<Sindicalizado_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ? and rg like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nacionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ? and rg like ?");
             pst.setString(1, "%" + nome + "%");
             pst.setString(2, "%" + rg + "%");
             rs = pst.executeQuery();
@@ -415,15 +415,15 @@ public class Sindicalizado_Pessoais_DAO {
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
                 si.setCelular(rs.getString("celular"));
-                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setNascionalidade(rs.getString("nacionalidade"));
                 si.setEstadoCivil(rs.getString("estadoCivil"));
                 si.setCpf(rs.getString("cpf"));
                 si.setRg(rs.getString("rg"));
                 java.util.Date data_EX = rs.getDate("dataExpedi");
                 si.setDataExpedicao(data_EX);
                 si.setTituloEleito(rs.getString("tituloEleito"));
-                si.setZona(rs.getInt("zona"));
-                si.setSecao(rs.getInt("secao"));
+                si.setZona(rs.getString("zona"));
+                si.setSecao(rs.getString("secao"));
                 si.setReservista(rs.getString("reservista"));
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
@@ -446,7 +446,7 @@ public class Sindicalizado_Pessoais_DAO {
         ArrayList<Sindicalizado_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nacionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ?");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
 
@@ -459,15 +459,15 @@ public class Sindicalizado_Pessoais_DAO {
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
                 si.setCelular(rs.getString("celular"));
-                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setNascionalidade(rs.getString("nacionalidade"));
                 si.setEstadoCivil(rs.getString("estadoCivil"));
                 si.setCpf(rs.getString("cpf"));
                 si.setRg(rs.getString("rg"));
                 java.util.Date data_EX = rs.getDate("dataExpedi");
                 si.setDataExpedicao(data_EX);
                 si.setTituloEleito(rs.getString("tituloEleito"));
-                si.setZona(rs.getInt("zona"));
-                si.setSecao(rs.getInt("secao"));
+                si.setZona(rs.getString("zona"));
+                si.setSecao(rs.getString("secao"));
                 si.setReservista(rs.getString("reservista"));
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
@@ -490,7 +490,7 @@ public class Sindicalizado_Pessoais_DAO {
         ArrayList<Sindicalizado_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and cpf like ? and rg like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nacionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and cpf like ? and rg like ?");
             pst.setString(1, "%" + cpf + "%");
             pst.setString(2, "%" + rg + "%");
             rs = pst.executeQuery();
@@ -503,15 +503,15 @@ public class Sindicalizado_Pessoais_DAO {
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
                 si.setCelular(rs.getString("celular"));
-                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setNascionalidade(rs.getString("nacionalidade"));
                 si.setEstadoCivil(rs.getString("estadoCivil"));
                 si.setCpf(rs.getString("cpf"));
                 si.setRg(rs.getString("rg"));
                 java.util.Date data_EX = rs.getDate("dataExpedi");
                 si.setDataExpedicao(data_EX);
                 si.setTituloEleito(rs.getString("tituloEleito"));
-                si.setZona(rs.getInt("zona"));
-                si.setSecao(rs.getInt("secao"));
+                si.setZona(rs.getString("zona"));
+                si.setSecao(rs.getString("secao"));
                 si.setReservista(rs.getString("reservista"));
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
@@ -534,7 +534,7 @@ public class Sindicalizado_Pessoais_DAO {
         ArrayList<Sindicalizado_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and cpf like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nacionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and cpf like ?");
             pst.setString(1, "%" + cpf + "%");
             rs = pst.executeQuery();
 
@@ -546,15 +546,15 @@ public class Sindicalizado_Pessoais_DAO {
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
                 si.setCelular(rs.getString("celular"));
-                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setNascionalidade(rs.getString("nacionalidade"));
                 si.setEstadoCivil(rs.getString("estadoCivil"));
                 si.setCpf(rs.getString("cpf"));
                 si.setRg(rs.getString("rg"));
                 java.util.Date data_EX = rs.getDate("dataExpedi");
                 si.setDataExpedicao(data_EX);
                 si.setTituloEleito(rs.getString("tituloEleito"));
-                si.setZona(rs.getInt("zona"));
-                si.setSecao(rs.getInt("secao"));
+                si.setZona(rs.getString("zona"));
+                si.setSecao(rs.getString("secao"));
                 si.setReservista(rs.getString("reservista"));
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));
@@ -577,7 +577,7 @@ public class Sindicalizado_Pessoais_DAO {
         ArrayList<Sindicalizado_Pessoais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nascionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and rg like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nacionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and rg like ?");
             pst.setString(1, "%" + rg + "%");
             rs = pst.executeQuery();
 
@@ -589,15 +589,15 @@ public class Sindicalizado_Pessoais_DAO {
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
                 si.setCelular(rs.getString("celular"));
-                si.setNascionalidade(rs.getString("nascionalidade"));
+                si.setNascionalidade(rs.getString("nacionalidade"));
                 si.setEstadoCivil(rs.getString("estadoCivil"));
                 si.setCpf(rs.getString("cpf"));
                 si.setRg(rs.getString("rg"));
                 java.util.Date data_EX = rs.getDate("dataExpedi");
                 si.setDataExpedicao(data_EX);
                 si.setTituloEleito(rs.getString("tituloEleito"));
-                si.setZona(rs.getInt("zona"));
-                si.setSecao(rs.getInt("secao"));
+                si.setZona(rs.getString("zona"));
+                si.setSecao(rs.getString("secao"));
                 si.setReservista(rs.getString("reservista"));
                 si.setCategoria(rs.getString("categoria"));
                 si.setPai(rs.getString("pai"));

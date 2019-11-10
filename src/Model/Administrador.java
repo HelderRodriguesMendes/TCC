@@ -13,7 +13,7 @@ public class Administrador extends Pessoa{
     private String login;
     private String senha;
     private int id;
-    private int excluido;
+    private boolean excluido;
 
     /**
      * @return the login
@@ -60,14 +60,14 @@ public class Administrador extends Pessoa{
     /**
      * @return the excluido
      */
-    public int getExcluido() {
+    public boolean getExcluido() {
         return excluido;
     }
 
     /**
      * @param excluido the excluido to set
      */
-    public void setExcluido(int excluido) {
+    public void setExcluido(boolean excluido) {
         this.excluido = excluido;
     }
 }

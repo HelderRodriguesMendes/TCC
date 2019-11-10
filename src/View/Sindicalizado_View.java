@@ -22,10 +22,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.event.KeyEvent;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -157,7 +159,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         LOGRADOURO = new javax.swing.JTextField();
         jLabel46 = new javax.swing.JLabel();
         jLabel68 = new javax.swing.JLabel();
-        TEMPOCOMPRA = new javax.swing.JTextField();
         jLabel71 = new javax.swing.JLabel();
         jLabel63 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -178,6 +179,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         BOTAO_REFAZER_ = new javax.swing.JLabel();
         BOTAO_SALVAR_ = new javax.swing.JLabel();
         VOLTAR1_ = new javax.swing.JLabel();
+        TEMPOCOMPRA = new com.toedter.calendar.JDateChooser();
 
         jToggleButton1.setText("jToggleButton1");
 
@@ -784,7 +786,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         jLabel71.setIconTextGap(8);
         jLabel71.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
-        jLabel63.setText("Tempo de compra da propriedade:");
+        jLabel63.setText("Data da compra da propriedade:");
 
         jLabel2.setText("SELECIONE A PROPRIEDADE RURAL");
 
@@ -881,6 +883,12 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                                 .addGap(20, 20, 20)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel63)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(TEMPOCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel71))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel45)
                                         .addGap(4, 4, 4)
                                         .addComponent(NOMEFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -889,13 +897,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel60)
                                         .addGap(4, 4, 4)
-                                        .addComponent(CODINCRA, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel63)
-                                        .addGap(1, 1, 1)
-                                        .addComponent(TEMPOCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(4, 4, 4)
-                                        .addComponent(jLabel71)))
+                                        .addComponent(CODINCRA, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(53, 53, 53)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -956,6 +958,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                     .addComponent(VOLTAR1_, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(NOMEFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -977,13 +980,13 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                                 .addComponent(LOGRADOURO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel46))
                             .addComponent(jLabel68)
-                            .addComponent(jLabel71)
-                            .addComponent(TEMPOCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel63)
                             .addComponent(Numero_NIRF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
-                                .addComponent(jLabel61)))
+                                .addComponent(jLabel61))
+                            .addComponent(jLabel71)
+                            .addComponent(TEMPOCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(CODINCRA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -991,27 +994,27 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                             .addComponent(RESIDEN_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel74))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(BOTAO_REFAZER_, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(BOTAO_VOLTAR_))
-                                    .addComponent(BOTAO_SALVAR_))
-                                .addGap(19, 19, 19))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(BOTAO_REFAZER_, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(BOTAO_VOLTAR_))
+                                        .addComponent(BOTAO_SALVAR_))
+                                    .addGap(19, 19, 19))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGap(52, 52, 52)
+                                            .addComponent(jLabel64))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGap(38, 38, 38)
+                                            .addComponent(ADICONAR_FAZENDA_)))
+                                    .addGap(1, 1, 1)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(52, 52, 52)
-                                        .addComponent(jLabel64))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(38, 38, 38)
-                                        .addComponent(ADICONAR_FAZENDA_)))
-                                .addGap(1, 1, 1))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(162, 162, 162)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(74, 74, 74)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1112,6 +1115,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
 
     private void CANCELARMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CANCELARMouseClicked
         limparCampus_Pessoais();
+        limparCampus_Rurais();
+        limparTabela();
         selecionar_guia(0);
     }//GEN-LAST:event_CANCELARMouseClicked
 
@@ -1288,7 +1293,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         preencher_campus_pessoais(preencer_objeto_dadosP_tabela());
                         LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
                         selecionar_guia(1);
-                    }else if (escolha == 1) {
+                    } else if (escolha == 1) {
                         preencher_campus_pessoais(preencer_objeto_dadosP_tabela());
                         LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
                         selecionar_guia(2);
@@ -1579,7 +1584,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         LOGRADOURO.setText("");
         Numero_NIRF.setValue("");
         MUNICEDE.setText("");
-        TEMPOCOMPRA.setText("");
+        TEMPOCOMPRA.setDate(null);
         CODINCRA.setValue("");
         OUTRASATIVI.setText("");
         RESIDEN_ATUAL.setText("");
@@ -1597,12 +1602,12 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         RESERVISTA.setText(si.getReservista());
         CATEGORIA.setText(si.getCategoria());
         TITULO_ELEITO.setText(si.getTituloEleito());
-        if (si.getZona() == 0) {
+        if ("".equals(si.getZona())) {
             ZONA.setText("");
         } else {
             ZONA.setText(String.valueOf(si.getZona()));
         }
-        if (si.getSecao() == 0) {
+        if ("".equals(si.getSecao())) {
             SECAO.setText("");
         } else {
             SECAO.setText(String.valueOf(si.getSecao()));
@@ -1622,7 +1627,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         LOGRADOURO.setText(pr.getLogradouro());
         Numero_NIRF.setText(pr.getNIRF());
         MUNICEDE.setText(pr.getMuniciSede());
-        TEMPOCOMPRA.setText(pr.getTempoCompra());
+        TEMPOCOMPRA.setDate(pr.getDataCompra());
         CODINCRA.setText(pr.getCodINCRA());
         OUTRASATIVI.setText(pr.getOutrasA());
         RESIDEN_ATUAL.setText(pr.getResidenciaAtual());
@@ -1632,6 +1637,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
     }
 
     public String campos_rurais_vazios() {
+        String s = ((JTextField) TEMPOCOMPRA.getDateEditor().getUiComponent()).getText();
         int campu = 0, obri = 0;
         String campus = "";
         if (!"".equals(NOMEFAZENDA.getText())) {
@@ -1646,7 +1652,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         if (!"".equals(MUNICEDE.getText())) {
             obri++;
         }
-        if (!"".equals(TEMPOCOMPRA.getText())) {
+        if (!"".equals(s)) {
             obri++;
         }
         if (!" .   .   - ".equals(Numero_NIRF.getText())) {
@@ -1695,6 +1701,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
     }
 
     public boolean validar_obrigatorios_rurais() {
+        String s = ((JTextField) TEMPOCOMPRA.getDateEditor().getUiComponent()).getText();
         erro = 0;
         if ("".equals(NOMEFAZENDA.getText()) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural");
@@ -1712,7 +1719,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Informe a area da propriedade rural");
             AREAFAZENDA.requestFocus();
             erro = 1;
-        } else if ("".equals(TEMPOCOMPRA.getText()) && erro == 0) {
+        } else if ("".equals(s) && erro == 0) {
             JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural");
             TEMPOCOMPRA.requestFocus();
             erro = 1;
@@ -1787,19 +1794,19 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA_PROPRIEDADE_RURAL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-    
-        
+
         DADOS_RU.forEach((dr) -> {
             String ID_pro = "";
             if (dr.getId_proprie() > 0) {
                 ID_pro = String.valueOf(dr.getId_proprie());
             }
+             String de = Util_Controller.DATE_STRING(dr.getDataCompra());
             dtma.addRow(new Object[]{
                 ID_pro,
                 dr.getNomeFazenda(),
                 dr.getAreaPropri(),
                 dr.getMuniciSede(),
-                dr.getTempoCompra(),
+                de,
                 dr.getLogradouro(),
                 dr.getNIRF(),
                 dr.getCodINCRA(),
@@ -1829,10 +1836,11 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         pr.setCodINCRA(CODINCRA.getText());
         pr.setNIRF(Numero_NIRF.getText());
         pr.setAreaPropri(AREAFAZENDA.getText());
-        pr.setTempoCompra(TEMPOCOMPRA.getText());
+        String dt = df.format(TEMPOCOMPRA.getDate());
+        pr.setDataCompra(Util_Controller.STRING_DATE(dt));
         pr.setOutrasA(OUTRASATIVI.getText());
         pr.setResidenciaAtual(RESIDEN_ATUAL.getText());
-        pr.setExcluido(0);
+        pr.setExcluido(false);
         return pr;
     }
 
@@ -1844,7 +1852,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         NOMEFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 1).toString());
         AREAFAZENDA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 2).toString());
         MUNICEDE.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 3).toString());
-        TEMPOCOMPRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 4).toString());
+        Date d = Util_Controller.STRING_DATE(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 4).toString());
+        TEMPOCOMPRA.setDate(d);
         LOGRADOURO.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 5).toString());
         Numero_NIRF.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 6).toString());
         CODINCRA.setText(TABELA_PROPRIEDADE_RURAL.getValueAt(linha, 7).toString());
@@ -2020,7 +2029,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
 
         return CONT;
     }
-    
 
     public Sindicalizado_Pessoais preencher_objeto_Pessoal() {
         dadosp = new Sindicalizado_Pessoais();
@@ -2036,24 +2044,27 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         dadosp.setDataExpedicao(Util_Controller.STRING_DATE(dte));
         dadosp.setTituloEleito(TITULO_ELEITO.getText());
         if (!"   ".equals(ZONA.getText())) {
-            dadosp.setZona(Integer.parseInt(ZONA.getText()));
+            dadosp.setZona(ZONA.getText());
+        } else {
+            dadosp.setZona("");
         }
         if (!"    ".equals(SECAO.getText())) {
-            dadosp.setSecao(Integer.parseInt(SECAO.getText()));
+            dadosp.setSecao(SECAO.getText());
+        } else {
+            dadosp.setSecao("");
         }
         dadosp.setReservista(RESERVISTA.getText());
         dadosp.setCategoria(CATEGORIA.getText());
         dadosp.setPai(PAI.getText());
         dadosp.setMae(MAE.getText());
-        dadosp.setExcluido(0);
+        dadosp.setExcluido(false);
         if ("alterar".equals(status)) {
             dadosp.setId_sindi(id_sindicalizado);
         }
         return dadosp;
     }
-    
+
     DefaultTableCellRenderer cellRender = new DefaultTableCellRenderer(); // para centralizar os dados na coluna da tabela
-	
 
     public void listar_Tabela_Sind() {
         DefaultTableModel dtma = (DefaultTableModel) TABELA_SIND.getModel();
@@ -2073,24 +2084,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                 fone = "";
             }
 
-            int zo = sin.getZona();
-            String zona;
-            if (zo == 0) {
-                zona = "";
-            } else {
-                zona = String.valueOf(zo);
-            }
-
-            int sec = sin.getSecao();
-            String secao;
-            if (sec == 0) {
-                secao = "";
-            } else {
-                secao = String.valueOf(sec);
-            }
-
-            String inc = sin.getCodINCRA();
-
             dtma.addRow(new Object[]{
                 sin.getId_sindi(),
                 sin.getNome(),
@@ -2102,8 +2095,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                 sin.getRg(),
                 de,
                 sin.getTituloEleito(),
-                zona,
-                secao,
+                sin.getZona(),
+                sin.getSecao(),
                 sin.getReservista(),
                 sin.getCategoria(),
                 sin.getPai(),
@@ -2121,8 +2114,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         dtma.setNumRows(0);
 
         TABELA_SIND.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        
-      
+
         if (!"".equals(nome) && !"   .   .    -   ".equals(cpf) && !"       ".equals(rg)) {
             a = 1;
             DADOSP.pesquisar_nome_cpf_rg(nome, cpf, rg).forEach((sin) -> {
@@ -2136,22 +2128,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                     fone = "";
                 }
 
-                int zo = sin.getZona();
-                String zona;
-                if (zo == 0) {
-                    zona = "";
-                } else {
-                    zona = String.valueOf(zo);
-                }
-
-                int sec = sin.getSecao();
-                String secao;
-                if (sec == 0) {
-                    secao = "";
-                } else {
-                    secao = String.valueOf(sec);
-                }
-
                 dtma.addRow(new Object[]{
                     sin.getId_sindi(),
                     sin.getNome(),
@@ -2163,8 +2139,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                     sin.getRg(),
                     de,
                     sin.getTituloEleito(),
-                    zona,
-                    secao,
+                    sin.getZona(),
+                    sin.getSecao(),
                     sin.getReservista(),
                     sin.getCategoria(),
                     sin.getPai(),
@@ -2184,22 +2160,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         fone = "";
                     }
 
-                    int zo = sin.getZona();
-                    String zona;
-                    if (zo == 0) {
-                        zona = "";
-                    } else {
-                        zona = String.valueOf(zo);
-                    }
-
-                    int sec = sin.getSecao();
-                    String secao;
-                    if (sec == 0) {
-                        secao = "";
-                    } else {
-                        secao = String.valueOf(sec);
-                    }
-
                     dtma.addRow(new Object[]{
                         sin.getId_sindi(),
                         sin.getNome(),
@@ -2211,8 +2171,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         sin.getRg(),
                         de,
                         sin.getTituloEleito(),
-                        zona,
-                        secao,
+                        sin.getZona(),
+                        sin.getSecao(),
                         sin.getReservista(),
                         sin.getCategoria(),
                         sin.getPai(),
@@ -2230,22 +2190,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         fone = "";
                     }
 
-                    int zo = sin.getZona();
-                    String zona;
-                    if (zo == 0) {
-                        zona = "";
-                    } else {
-                        zona = String.valueOf(zo);
-                    }
-
-                    int sec = sin.getSecao();
-                    String secao;
-                    if (sec == 0) {
-                        secao = "";
-                    } else {
-                        secao = String.valueOf(sec);
-                    }
-
                     dtma.addRow(new Object[]{
                         sin.getId_sindi(),
                         sin.getNome(),
@@ -2257,8 +2201,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         sin.getRg(),
                         de,
                         sin.getTituloEleito(),
-                        zona,
-                        secao,
+                        sin.getZona(),
+                        sin.getSecao(),
                         sin.getReservista(),
                         sin.getCategoria(),
                         sin.getPai(),
@@ -2276,22 +2220,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         fone = "";
                     }
 
-                    int zo = sin.getZona();
-                    String zona;
-                    if (zo == 0) {
-                        zona = "";
-                    } else {
-                        zona = String.valueOf(zo);
-                    }
-
-                    int sec = sin.getSecao();
-                    String secao;
-                    if (sec == 0) {
-                        secao = "";
-                    } else {
-                        secao = String.valueOf(sec);
-                    }
-
                     dtma.addRow(new Object[]{
                         sin.getId_sindi(),
                         sin.getNome(),
@@ -2303,8 +2231,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         sin.getRg(),
                         de,
                         sin.getTituloEleito(),
-                        zona,
-                        secao,
+                        sin.getZona(),
+                        sin.getSecao(),
                         sin.getReservista(),
                         sin.getCategoria(),
                         sin.getPai(),
@@ -2325,22 +2253,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         fone = "";
                     }
 
-                    int zo = sin.getZona();
-                    String zona;
-                    if (zo == 0) {
-                        zona = "";
-                    } else {
-                        zona = String.valueOf(zo);
-                    }
-
-                    int sec = sin.getSecao();
-                    String secao;
-                    if (sec == 0) {
-                        secao = "";
-                    } else {
-                        secao = String.valueOf(sec);
-                    }
-
                     dtma.addRow(new Object[]{
                         sin.getId_sindi(),
                         sin.getNome(),
@@ -2352,8 +2264,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         sin.getRg(),
                         de,
                         sin.getTituloEleito(),
-                        zona,
-                        secao,
+                        sin.getZona(),
+                        sin.getSecao(),
                         sin.getReservista(),
                         sin.getCategoria(),
                         sin.getPai(),
@@ -2371,22 +2283,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         fone = "";
                     }
 
-                    int zo = sin.getZona();
-                    String zona;
-                    if (zo == 0) {
-                        zona = "";
-                    } else {
-                        zona = String.valueOf(zo);
-                    }
-
-                    int sec = sin.getSecao();
-                    String secao;
-                    if (sec == 0) {
-                        secao = "";
-                    } else {
-                        secao = String.valueOf(sec);
-                    }
-
                     dtma.addRow(new Object[]{
                         sin.getId_sindi(),
                         sin.getNome(),
@@ -2398,8 +2294,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         sin.getRg(),
                         de,
                         sin.getTituloEleito(),
-                        zona,
-                        secao,
+                        sin.getZona(),
+                        sin.getSecao(),
                         sin.getReservista(),
                         sin.getCategoria(),
                         sin.getPai(),
@@ -2419,22 +2315,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                     fone = "";
                 }
 
-                int zo = sin.getZona();
-                String zona;
-                if (zo == 0) {
-                    zona = "";
-                } else {
-                    zona = String.valueOf(zo);
-                }
-
-                int sec = sin.getSecao();
-                String secao;
-                if (sec == 0) {
-                    secao = "";
-                } else {
-                    secao = String.valueOf(sec);
-                }
-
                 dtma.addRow(new Object[]{
                     sin.getId_sindi(),
                     sin.getNome(),
@@ -2446,8 +2326,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                     sin.getRg(),
                     de,
                     sin.getTituloEleito(),
-                    zona,
-                    secao,
+                    sin.getZona(),
+                    sin.getSecao(),
                     sin.getReservista(),
                     sin.getCategoria(),
                     sin.getPai(),
@@ -2471,19 +2351,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         se.setRg(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 7).toString());
         se.setDataExpedicao(Util_Controller.STRING_DATE(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 8).toString()));
         se.setTituloEleito(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 9).toString());
-        String zo = (TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 10).toString());
-        if ("".equals(zo)) {
-            se.setZona(0);
-        } else {
-            se.setZona(Integer.parseInt(zo));
-        }
-
-        String sec = (TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 11).toString());
-        if ("".equals(sec)) {
-            se.setSecao(0);
-        } else {
-            se.setSecao(Integer.parseInt(sec));
-        }
+        se.setZona(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 10).toString());
+        se.setSecao(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 11).toString());
         se.setReservista(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 12).toString());
         se.setCategoria(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 13).toString());
         se.setPai(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 14).toString());
@@ -2491,7 +2360,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         return se;
     }
 
-    
     public void limparCampus_pesquisa() {
         NOME_Pesquisar.setText("");
         RG_Pesquisa.setValue("");
@@ -2522,16 +2390,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         RESERVISTA.setText(si.getReservista());
         CATEGORIA.setText(si.getCategoria());
         TITULO_ELEITO.setText(si.getTituloEleito());
-        if (si.getZona() == 0) {
-            ZONA.setText("");
-        } else {
-            ZONA.setText(String.valueOf(si.getZona()));
-        }
-        if (si.getSecao() == 0) {
-            SECAO.setText("");
-        } else {
-            SECAO.setText(String.valueOf(si.getSecao()));
-        }
+        ZONA.setText(String.valueOf(si.getZona()));
+        SECAO.setText(String.valueOf(si.getSecao()));
         PAI.setText(si.getPai());
         MAE.setText(si.getMae());
     }
@@ -2607,7 +2467,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField SECAO;
     private javax.swing.JTable TABELA_PROPRIEDADE_RURAL;
     private javax.swing.JTable TABELA_SIND;
-    private javax.swing.JTextField TEMPOCOMPRA;
+    private com.toedter.calendar.JDateChooser TEMPOCOMPRA;
     private javax.swing.JFormattedTextField TITULO_ELEITO;
     private javax.swing.JLabel TOTAO_REFAZER_P;
     private javax.swing.JLabel VOLTAR1_;

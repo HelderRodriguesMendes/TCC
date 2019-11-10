@@ -6,38 +6,25 @@ import java.util.Date;
  *
  * @author helde
  */
-public class Sindicalizado_Pessoais extends Pessoa{
+public class Sindicalizado_Pessoais extends Pessoa {
 
     private Date dataNasci;
-    private String nascionalidade;
+    private String nacionalidade;
     private String estadoCivil;
     private String cpf;
     private String rg;
     private Date dataExpedicao;
     private String tituloEleito;
-    private int zona;
-    private int secao;
+    private String zona;
+    private String secao;
     private String reservista;
     private String categoria;
     private String pai;
     private String mae;
-     private int id_sindi;
-    private int excluido;
+    private int id_sindi;
+    private boolean excluido;
+
     
-    
-    
-    
-    private String nomeFazenda;
-    private String logradouro;
-    private String municiSede;
-    private String codINCRA;
-    private String tiraLeite;
-    private String NIRF;
-    private String areaPropri;
-    private String tempoCompra;
-    private String outrasA;
-    private String residenciaAtual;
-   
 
     /**
      * @return the dataNasci
@@ -54,17 +41,17 @@ public class Sindicalizado_Pessoais extends Pessoa{
     }
 
     /**
-     * @return the nascionalidade
+     * @return the nacionalidade
      */
     public String getNascionalidade() {
-        return nascionalidade;
+        return nacionalidade;
     }
 
     /**
-     * @param nascionalidade the nascionalidade to set
+     * @param nascionalidade the nacionalidade to set
      */
     public void setNascionalidade(String nascionalidade) {
-        this.nascionalidade = nascionalidade;
+        this.nacionalidade = nascionalidade;
     }
 
     /**
@@ -140,28 +127,28 @@ public class Sindicalizado_Pessoais extends Pessoa{
     /**
      * @return the zona
      */
-    public int getZona() {
+    public String getZona() {
         return zona;
     }
 
     /**
      * @param zona the zona to set
      */
-    public void setZona(int zona) {
+    public void setZona(String zona) {
         this.zona = zona;
     }
 
     /**
      * @return the secao
      */
-    public int getSecao() {
+    public String getSecao() {
         return secao;
     }
 
     /**
      * @param secao the secao to set
      */
-    public void setSecao(int secao) {
+    public void setSecao(String secao) {
         this.secao = secao;
     }
 
@@ -222,157 +209,16 @@ public class Sindicalizado_Pessoais extends Pessoa{
     }
 
     /**
-     * @return the nomeFazenda
-     */
-    public String getNomeFazenda() {
-        return nomeFazenda;
-    }
-
-    /**
-     * @param nomeFazenda the nomeFazenda to set
-     */
-    public void setNomeFazenda(String nomeFazenda) {
-        this.nomeFazenda = nomeFazenda;
-    }
-
-    /**
-     * @return the logradouro
-     */
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    /**
-     * @param logradouro the logradouro to set
-     */
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-
-    /**
-     * @return the municiSede
-     */
-    
-    public String getMuniciSede() {
-        return municiSede;
-    }
-
-    /**
-     * @param municiSede the municiSede to set
-     */
-    public void setMuniciSede(String municiSede) {
-        this.municiSede = municiSede;
-    }
-
-    /**
-     * @return the codINCRA
-     */
-    public String getCodINCRA() {
-        return codINCRA;
-    }
-
-    /**
-     * @param codINCRA the codINCRA to set
-     */
-    public void setCodINCRA(String codINCRA) {
-        this.codINCRA = codINCRA;
-    }
-
-    /**
-     * @return the tiraLeite
-     */
-    public String getTiraLeite() {
-    
-        return tiraLeite;
-    }
-
-    /**
-     * @param tiraLeite the tiraLeite to set
-     */
-    public void setTiraLeite(String tiraLeite) {
-        this.tiraLeite = tiraLeite;
-    }
-
-    /**
-     * @return the NIRF
-     */
-    public String getNIRF() {
-        return NIRF;
-    }
-
-    /**
-     * @param NIRF the NIRF to set
-     */
-    public void setNIRF(String NIRF) {
-        this.NIRF = NIRF;
-    }
-
-    /**
-     * @return the areaPropri
-     */
-    public String getAreaPropri() {
-        return areaPropri;
-    }
-
-    /**
-     * @param areaPropri the areaPropri to set
-     */
-    public void setAreaPropri(String areaPropri) {
-        this.areaPropri = areaPropri;
-    }
-
-    /**
-     * @return the tempoCompra
-     */
-    public String getTempoCompra() {
-        return tempoCompra;
-    }
-
-    /**
-     * @param tempoCompra the tempoCompra to set
-     */
-    public void setTempoCompra(String tempoCompra) {
-        this.tempoCompra = tempoCompra;
-    }
-
-    /**
-     * @return the outrasA
-     */
-    public String getOutrasA() {
-        return outrasA;
-    }
-
-    /**
-     * @param outrasA the outrasA to set
-     */
-    public void setOutrasA(String outrasA) {
-        this.outrasA = outrasA;
-    }
-    /**
-     * @return the residenciaAtual
-     */
-    public String getResidenciaAtual() {
-        return residenciaAtual;
-    }
-
-    /**
-     * @param residenciaAtual the residenciaAtual to set
-     */
-    public void setResidenciaAtual(String residenciaAtual) {
-        this.residenciaAtual = residenciaAtual;
-    }
-
-    /**
      * @return the excluido
      */
-    public int getExcluido() {
+    public boolean getExcluido() {
         return excluido;
     }
 
     /**
      * @param excluido the excluido to set
      */
-    public void setExcluido(int excluido) {
+    public void setExcluido(boolean excluido) {
         this.excluido = excluido;
     }
 
@@ -389,6 +235,5 @@ public class Sindicalizado_Pessoais extends Pessoa{
     public void setId_sindi(int id_sindi) {
         this.id_sindi = id_sindi;
     }
-
 
 }

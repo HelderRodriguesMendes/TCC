@@ -956,6 +956,13 @@
                                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="jLabel63" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
+                                                      <Component id="TEMPOCOMPRA" min="-2" pref="101" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
+                                                      <Component id="jLabel71" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
                                                       <Component id="jLabel45" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
                                                       <Component id="NOMEFAZENDA" min="-2" pref="161" max="-2" attributes="0"/>
@@ -966,13 +973,6 @@
                                                       <Component id="jLabel60" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                                                       <Component id="CODINCRA" min="-2" pref="104" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="jLabel63" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                                      <Component id="TEMPOCOMPRA" min="-2" pref="73" max="-2" attributes="0"/>
-                                                      <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
-                                                      <Component id="jLabel71" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
@@ -1057,7 +1057,8 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jScrollPane1" alignment="0" min="-2" pref="225" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="NOMEFAZENDA" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel67" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -1083,14 +1084,14 @@
                                               <Component id="jLabel46" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Component id="jLabel68" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel71" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="TEMPOCOMPRA" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel63" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="Numero_NIRF" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
                                               <Component id="jLabel61" min="-2" max="-2" attributes="0"/>
                                           </Group>
+                                          <Component id="jLabel71" min="-2" max="-2" attributes="0"/>
+                                          <Component id="TEMPOCOMPRA" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -1100,37 +1101,38 @@
                                           <Component id="jLabel74" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="BOTAO_REFAZER_" max="32767" attributes="0"/>
-                                                      <Component id="BOTAO_VOLTAR_" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                                          <Component id="BOTAO_REFAZER_" max="32767" attributes="0"/>
+                                                          <Component id="BOTAO_VOLTAR_" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Component id="BOTAO_SALVAR_" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <Component id="BOTAO_SALVAR_" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="102" attributes="0">
+                                                          <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                                                          <Component id="jLabel64" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                                                          <Component id="ADICONAR_FAZENDA_" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
+                                                  <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                                                      <Component id="jLabel64" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                                                      <Component id="ADICONAR_FAZENDA_" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                                              <Component id="jScrollPane3" min="-2" pref="83" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
-                                      <Component id="jScrollPane3" min="-2" pref="83" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jScrollPane1" alignment="0" min="-2" pref="225" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -1289,8 +1291,6 @@
                         <Property name="verticalTextPosition" type="int" value="1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="TEMPOCOMPRA">
-                    </Component>
                     <Component class="javax.swing.JLabel" name="jLabel71">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -1307,7 +1307,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel63">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Tempo de compra da propriedade:"/>
+                        <Property name="text" type="java.lang.String" value="Data da compra da propriedade:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel2">
@@ -1436,6 +1436,8 @@
                       <Events>
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="VOLTAR1_MouseClicked"/>
                       </Events>
+                    </Component>
+                    <Component class="com.toedter.calendar.JDateChooser" name="TEMPOCOMPRA">
                     </Component>
                   </SubComponents>
                 </Container>

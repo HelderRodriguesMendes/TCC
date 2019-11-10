@@ -202,9 +202,9 @@ public class Login_View extends javax.swing.JFrame {
             }
             Administrador adi;
             adi = ld.logarAdmin(ad);
-            if (adi.getId() > 0 && adi.getExcluido() == 0) {
+            if (adi.getId() > 0 && !adi.getExcluido()) {
                 abrirInterface(adi);
-            }else if(adi.getExcluido() == 1){
+            }else if(adi.getExcluido()){
                 JOptionPane.showMessageDialog(null, "Este administrador está desabilitado do sistema" , "Atenção", JOptionPane.ERROR_MESSAGE);
             }
         }

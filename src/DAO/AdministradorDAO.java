@@ -36,7 +36,7 @@ public class AdministradorDAO {
 
             if (rs.next()) {
                 ad.setId(rs.getInt("id_admin"));
-                ad.setExcluido(rs.getInt("excluido"));
+                ad.setExcluido(rs.getBoolean("excluido"));
             } else {
                 JOptionPane.showMessageDialog(null, "Login ou senha incorretos", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -54,13 +54,13 @@ public class AdministradorDAO {
             con = Conexao_banco.conector();
 
             try {
-                pst = con.prepareStatement("insert into admin(nome, telefone, login, senha, excluido) values (?, ?, ?, ?,?)");
+                pst = con.prepareStatement("insert into admin(nome, celular, login, senha, excluido) values (?, ?, ?, ?,?)");
 
                 pst.setString(1, usu.getNome());
                 pst.setString(2, usu.getCelular());
                 pst.setString(3, usu.getLogin());
                 pst.setString(4, usu.getSenha());
-                pst.setInt(5, usu.getExcluido());
+                pst.setBoolean(5, usu.getExcluido());
                 pst.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Dados salvos com sucesso");
@@ -81,7 +81,7 @@ public class AdministradorDAO {
         ArrayList<Administrador> AD = new ArrayList();
 
         try {
-            pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where excluido = '0'");
+            pst = con.prepareStatement("select id_admin, nome, celular, login from admin where excluido = '0'");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -89,7 +89,7 @@ public class AdministradorDAO {
 
                 ad.setId(rs.getInt("id_admin"));
                 ad.setNome(rs.getString("nome"));
-                ad.setCelular(rs.getString("telefone"));
+                ad.setCelular(rs.getString("celular"));
                 ad.setLogin(rs.getString("login"));
                 if ("(  )       -      ".equals(ad.getCelular())) {
                     ad.setCelular("");
@@ -111,7 +111,7 @@ public class AdministradorDAO {
         ArrayList<Administrador> AD = new ArrayList();
 
         try {
-            pst = con.prepareStatement("select id_admin, nome, telefone, login from admin where excluido = '0' and nome like ?");
+            pst = con.prepareStatement("select id_admin, nome, celular, login from admin where excluido = '0' and nome like ?");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
 
@@ -120,7 +120,7 @@ public class AdministradorDAO {
 
                 ad.setId(rs.getInt("id_admin"));
                 ad.setNome(rs.getString("nome"));
-                ad.setCelular(rs.getString("telefone"));
+                ad.setCelular(rs.getString("celular"));
                 ad.setLogin(rs.getString("login"));
 
                 AD.add(ad);
@@ -142,7 +142,7 @@ public class AdministradorDAO {
             if (!"".equals(adm.getSenha())) {
 
                 try {
-                    pst = con.prepareStatement("update admin set nome = ?, telefone = ?, login = ?, senha = ? where id_admin = ?");
+                    pst = con.prepareStatement("update admin set nome = ?, celular = ?, login = ?, senha = ? where id_admin = ?");
                     pst.setString(1, adm.getNome());
                     pst.setString(2, adm.getCelular());
                     pst.setString(3, adm.getLogin());
@@ -158,7 +158,7 @@ public class AdministradorDAO {
                 }
             } else {
                 try {
-                    pst = con.prepareStatement("update admin set nome = ?, telefone = ?, login = ? where id_admin = ?");
+                    pst = con.prepareStatement("update admin set nome = ?, celular = ?, login = ? where id_admin = ?");
                     pst.setString(1, adm.getNome());
                     pst.setString(2, adm.getCelular());
                     pst.setString(3, adm.getLogin());
@@ -178,7 +178,7 @@ public class AdministradorDAO {
             if (!"".equals(adm.getSenha())) {
 
                 try {
-                    pst = con.prepareStatement("update admin set nome = ?, telefone = ?, login = ?, senha = ? where id_admin = ?");
+                    pst = con.prepareStatement("update admin set nome = ?, celular = ?, login = ?, senha = ? where id_admin = ?");
                     pst.setString(1, adm.getNome());
                     pst.setString(2, adm.getCelular());
                     pst.setString(3, adm.getLogin());
@@ -194,7 +194,7 @@ public class AdministradorDAO {
                 }
             } else {
                 try {
-                    pst = con.prepareStatement("update admin set nome = ?, telefone = ?, login = ? where id_admin = ?");
+                    pst = con.prepareStatement("update admin set nome = ?, celular = ?, login = ? where id_admin = ?");
                     pst.setString(1, adm.getNome());
                     pst.setString(2, adm.getCelular());
                     pst.setString(3, adm.getLogin());
@@ -240,7 +240,7 @@ public class AdministradorDAO {
 
         if (!"".equals(no)) {
             try {
-                pst = con.prepareStatement("select id_admin, nome, telefone from admin where excluido = '1' and nome like ?");
+                pst = con.prepareStatement("select id_admin, nome, celular from admin where excluido = '1' and nome like ?");
                 pst.setString(1, "%" + no + "%");
                 rs = pst.executeQuery();
 
@@ -248,7 +248,7 @@ public class AdministradorDAO {
                     Administrador ad = new Administrador();
                     ad.setId(rs.getInt("id_admin"));
                     ad.setNome(rs.getString("nome"));
-                    ad.setCelular(rs.getString("telefone"));
+                    ad.setCelular(rs.getString("celular"));
                     AD.add(ad);
                 }
 
@@ -259,14 +259,14 @@ public class AdministradorDAO {
             }
         } else {
             try {
-                pst = con.prepareStatement("select id_admin, nome, telefone from admin where excluido = '1'");
+                pst = con.prepareStatement("select id_admin, nome, celular from admin where excluido = '1'");
                 rs = pst.executeQuery();
 
                 while (rs.next()) {
                     Administrador ad = new Administrador();
                     ad.setId(rs.getInt("id_admin"));
                     ad.setNome(rs.getString("nome"));
-                    ad.setCelular(rs.getString("telefone"));
+                    ad.setCelular(rs.getString("celular"));
                     AD.add(ad);
                 }
                 con.close();

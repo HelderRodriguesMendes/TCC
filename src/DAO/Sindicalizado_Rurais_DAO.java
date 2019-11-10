@@ -96,8 +96,8 @@ public class Sindicalizado_Rurais_DAO {
     public void salvar_Dados_R(Sindicalizado_Rurais dados_r, int ID) {
         con = Conexao_banco.conector();
         try {
-            pst = con.prepareStatement("insert into propriedadeRural(nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, "
-                    + "areaPropriedade, tempoCompraPropriedade, outrasAtividade, "
+            pst = con.prepareStatement("insert into propriedadeRural(nomeFazenda, logradouro, municipioSede, codigoINCRA, NIRF, "
+                    + "areaPropriedade, dataCompraPropriedade, outrasAtividade, "
                     + "residenciaAtual, excluidoP, id_sind) values (?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, dados_r.getNomeFazenda());
@@ -106,10 +106,11 @@ public class Sindicalizado_Rurais_DAO {
             pst.setString(4, dados_r.getCodINCRA());
             pst.setString(5, dados_r.getNIRF());
             pst.setString(6, dados_r.getAreaPropri());
-            pst.setString(7, dados_r.getTempoCompra());
+            java.sql.Date DATASQL = new java.sql.Date(dados_r.getDataCompra().getTime());
+            pst.setDate(7, DATASQL);
             pst.setString(8, dados_r.getOutrasA());
             pst.setString(9, dados_r.getResidenciaAtual());
-            pst.setInt(10, dados_r.getExcluido());
+            pst.setBoolean(10, dados_r.getExcluido());
             pst.setInt(11, ID);
             pst.executeUpdate();
 
@@ -125,8 +126,8 @@ public class Sindicalizado_Rurais_DAO {
     public void alterar_Dados_R(Sindicalizado_Rurais dados_r) {
         con = Conexao_banco.conector();
         try {
-            pst = con.prepareStatement("update propriedadeRural set nomeFazenda = ?, logradouro = ?, municipioCede = ?, codigoINCRA = ?, NIRF = ?, "
-                    + "areaPropriedade = ?, tempoCompraPropriedade = ?, outrasAtividade = ?, "
+            pst = con.prepareStatement("update propriedadeRural set nomeFazenda = ?, logradouro = ?, municipioSede = ?, codigoINCRA = ?, NIRF = ?, "
+                    + "areaPropriedade = ?, dataCompraPropriedade = ?, outrasAtividade = ?, "
                     + "residenciaAtual = ?, excluidoP = ? where id_propriedadeRural = ?");
 
             pst.setString(1, dados_r.getNomeFazenda());
@@ -135,10 +136,11 @@ public class Sindicalizado_Rurais_DAO {
             pst.setString(4, dados_r.getCodINCRA());
             pst.setString(5, dados_r.getNIRF());
             pst.setString(6, dados_r.getAreaPropri());
-            pst.setString(7, dados_r.getTempoCompra());
+            java.sql.Date DATASQL = new java.sql.Date(dados_r.getDataCompra().getTime());
+            pst.setDate(7, DATASQL);
             pst.setString(8, dados_r.getOutrasA());
             pst.setString(9, dados_r.getResidenciaAtual());
-            pst.setInt(10, dados_r.getExcluido());
+            pst.setBoolean(10, dados_r.getExcluido());
             pst.setInt(11, dados_r.getId_proprie());
             pst.executeUpdate();
 
@@ -206,7 +208,7 @@ public class Sindicalizado_Rurais_DAO {
         ArrayList<Sindicalizado_Rurais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, residenciaAtual from propriedadeRural where excluidoP = '0' and id_sind = ?");
+            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, logradouro, municipioSede, codigoINCRA, NIRF, areaPropriedade, dataCompraPropriedade, outrasAtividade, residenciaAtual from propriedadeRural where excluidoP = '0' and id_sind = ?");
             pst.setInt(1, id_sind);
             rs = pst.executeQuery();
 
@@ -216,11 +218,12 @@ public class Sindicalizado_Rurais_DAO {
                 si.setId_proprie(rs.getInt("id_propriedadeRural"));
                 si.setNomeFazenda(rs.getString("nomeFazenda"));
                 si.setLogradouro(rs.getString("logradouro"));
-                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setMuniciSede(rs.getString("municipioSede"));
                 si.setCodINCRA(rs.getString("codigoINCRA"));
                 si.setNIRF(rs.getString("NIRF"));
                 si.setAreaPropri(rs.getString("areaPropriedade"));
-                si.setTempoCompra(rs.getString("tempoCompraPropriedade"));
+                java.util.Date DATA_U = rs.getDate("dataCompraPropriedade");
+                si.setDataCompra(DATA_U);
                 si.setOutrasA(rs.getString("outrasAtividade"));
                 si.setResidenciaAtual(rs.getString("residenciaAtual"));
 
@@ -242,7 +245,7 @@ public class Sindicalizado_Rurais_DAO {
         ArrayList<Sindicalizado_Rurais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, logradouro, municipioCede, codigoINCRA, NIRF, areaPropriedade, tempoCompraPropriedade, outrasAtividade, residenciaAtual from propriedadeRural where excluidoP = '0' and id_sind = ?");
+            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, logradouro, municipioSede, codigoINCRA, NIRF, areaPropriedade, dataCompraPropriedade, outrasAtividade, residenciaAtual from propriedadeRural where excluidoP = '0' and id_sind = ?");
             pst.setInt(1, id_sind);
             rs = pst.executeQuery();
 
@@ -252,11 +255,12 @@ public class Sindicalizado_Rurais_DAO {
                 si.setId_proprie(rs.getInt("id_propriedadeRural"));
                 si.setNomeFazenda(rs.getString("nomeFazenda"));
                 si.setLogradouro(rs.getString("logradouro"));
-                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setMuniciSede(rs.getString("municipioSede"));
                 si.setCodINCRA(rs.getString("codigoINCRA"));
                 si.setNIRF(rs.getString("NIRF"));
                 si.setAreaPropri(rs.getString("areaPropriedade"));
-                si.setTempoCompra(rs.getString("tempoCompraPropriedade"));
+                java.util.Date DATA_U = rs.getDate("dataCompraPropriedade");
+                si.setDataCompra(DATA_U);
                 si.setOutrasA(rs.getString("outrasAtividade"));
                 si.setResidenciaAtual(rs.getString("residenciaAtual"));
 
@@ -315,7 +319,7 @@ public class Sindicalizado_Rurais_DAO {
         ArrayList<Sindicalizado_Rurais> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, municipioCede, NIRF, codigoINCRA from propriedadeRural where excluidoP = '1' and id_sind = ?");
+            pst = con.prepareStatement("select id_propriedadeRural, nomeFazenda, municipioSede, NIRF, codigoINCRA from propriedadeRural where excluidoP = '1' and id_sind = ?");
             pst.setInt(1, I);
             rs = pst.executeQuery();
 
@@ -325,7 +329,7 @@ public class Sindicalizado_Rurais_DAO {
 
                 si.setId_proprie(rs.getInt("id_propriedadeRural"));
                 si.setNomeFazenda(rs.getString("nomeFazenda"));
-                si.setMuniciSede(rs.getString("municipioCede"));
+                si.setMuniciSede(rs.getString("municipioSede"));
                 si.setCodINCRA(rs.getString("codigoINCRA"));
                 si.setNIRF(rs.getString("NIRF"));
                 SIND.add(si);

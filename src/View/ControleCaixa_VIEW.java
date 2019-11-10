@@ -9,12 +9,10 @@ import Controller.Controle_caixa_Controller;
 import Controller.Util_Controller;
 import DAO.Controle_Caixa_DAO;
 import Model.Controle_Caixa;
-import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,11 +28,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
+
     public ControleCaixa_VIEW() {
         initComponents();
         lista_TABELA_PESQUISAR_ALTERAR();
         TABELA_PESQUISAR_ALTERAR.getTableHeader().setReorderingAllowed(false);
-
     }
 
     Controle_Caixa c;

@@ -71,7 +71,7 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
                 TXTSENHA.setText("");
                 usu.setSenha("");
             }
-            usu.setExcluido(0);
+            usu.setExcluido(false);
         }
 
         return usu;

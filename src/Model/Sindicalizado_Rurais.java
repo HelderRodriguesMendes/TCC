@@ -5,18 +5,21 @@
  */
 package Model;
 
+import java.util.Date;
+
 /**
  *
  * @author helde
  */
 public class Sindicalizado_Rurais extends Sindicalizado_Pessoais {
+
     private String nomeFazenda;
     private String logradouro;
     private String municiSede;
     private String codINCRA;
     private String NIRF;
     private String areaPropri;
-    private String tempoCompra;
+    private Date dataCompra;
     private String outrasA;
     private String residenciaAtual;
     private int id_proprie;
@@ -52,7 +55,6 @@ public class Sindicalizado_Rurais extends Sindicalizado_Pessoais {
     /**
      * @return the municiSede
      */
-    
     public String getMuniciSede() {
         return municiSede;
     }
@@ -77,6 +79,7 @@ public class Sindicalizado_Rurais extends Sindicalizado_Pessoais {
     public void setCodINCRA(String codINCRA) {
         this.codINCRA = codINCRA;
     }
+
     /**
      * @return the NIRF
      */
@@ -106,20 +109,6 @@ public class Sindicalizado_Rurais extends Sindicalizado_Pessoais {
     }
 
     /**
-     * @return the tempoCompra
-     */
-    public String getTempoCompra() {
-        return tempoCompra;
-    }
-
-    /**
-     * @param tempoCompra the tempoCompra to set
-     */
-    public void setTempoCompra(String tempoCompra) {
-        this.tempoCompra = tempoCompra;
-    }
-
-    /**
      * @return the outrasA
      */
     public String getOutrasA() {
@@ -132,7 +121,6 @@ public class Sindicalizado_Rurais extends Sindicalizado_Pessoais {
     public void setOutrasA(String outrasA) {
         this.outrasA = outrasA;
     }
-
 
     /**
      * @return the residenciaAtual
@@ -162,5 +150,18 @@ public class Sindicalizado_Rurais extends Sindicalizado_Pessoais {
         this.id_proprie = id_proprie;
     }
 
+    /**
+     * @return the dataCompra
+     */
+    public Date getDataCompra() {
+        return dataCompra;
+    }
+
+    /**
+     * @param dataCompra the dataCompra to set
+     */
+    public void setDataCompra(Date dataCompra) {
+        this.dataCompra = dataCompra;
+    }
 
 }
