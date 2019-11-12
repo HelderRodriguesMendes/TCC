@@ -131,11 +131,12 @@ public class Anuidade_DAO {
         for (int i = 0; i < ID.size(); i++) {
             con = Conexao_banco.conector();
             try {
-                pst = con.prepareStatement("insert into recebimentoAnuidade (anoRecebimento, statusPagamento, id_sindica) values (?,?,?)");
+                pst = con.prepareStatement("insert into recebimentoAnuidade (anoRecebimento, statusPagamento, id_sindica, excluido) values (?,?,?,?)");
                 pst.setInt(1, ano);
                 pst.setBoolean(2, false);
                 int iid = (int) ID.get(i);
                 pst.setInt(3, iid);
+                pst.setBoolean(4, false);
                 pst.executeUpdate();
                 con.close();
             } catch (Exception e) {
@@ -146,21 +147,21 @@ public class Anuidade_DAO {
 
     }
 
-    public ArrayList ultimoAnoRecebido() {
-        ArrayList<Integer> ANO = new ArrayList<>();
+    public ArrayList verificarAnuidadesGeradas() {
+        
         int ano;
         con = Conexao_banco.conector();
-
+        ArrayList<Integer> ANO = new ArrayList<>();
         try {
-            pst = con.prepareStatement("SELECT DISTINCT anoRecebimento FROM recebimentoAnuidade");
+            pst = con.prepareStatement("select distinct(anoRecebimento) from recebimentoAnuidade where excluido = '0' order by anoRecebimento desc");
             rs = pst.executeQuery();
 
             while (rs.next()) {
                 ano = rs.getInt("anoRecebimento");
                 ANO.add(ano);
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar os anos de anuidades que já foram recebidas", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar os anos de anuidades que já foram gerados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao buscar os anos de anuidades que já foram recebidas: " + e);
         }
         return ANO;

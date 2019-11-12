@@ -31,12 +31,13 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
     public Anuidade_View() {
         initComponents();
         validaNumerosLetras();
-        
+
         listarTabela_Anuidades();
-        
+
         TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
         
-        verificar_Ultima_Anuidade_Recebida();
+        LISTA_COMBOBOX();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -94,6 +95,8 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
         jLabel18 = new javax.swing.JLabel();
         BOTAO_GERAR_DEBITOS_ANUAIS_ = new javax.swing.JButton();
         ANO = new com.toedter.calendar.JYearChooser();
+        jLabel28 = new javax.swing.JLabel();
+        ANOS_CADASTRADOS = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -574,7 +577,6 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
         jLabel18.setText("Ano a receber:");
 
         BOTAO_GERAR_DEBITOS_ANUAIS_.setText("Gerar Débitos Anuais");
-        BOTAO_GERAR_DEBITOS_ANUAIS_.setEnabled(false);
         BOTAO_GERAR_DEBITOS_ANUAIS_.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BOTAO_GERAR_DEBITOS_ANUAIS_MouseClicked(evt);
@@ -586,7 +588,33 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
             }
         });
 
-        ANO.setEnabled(false);
+        ANO.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ANOFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ANOFocusLost(evt);
+            }
+        });
+        ANO.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ANOMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ANOMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ANOMousePressed(evt);
+            }
+        });
+        ANO.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ANOKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ANOKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout PAINEL_GERAR_ANUI_ALayout = new javax.swing.GroupLayout(PAINEL_GERAR_ANUI_A);
         PAINEL_GERAR_ANUI_A.setLayout(PAINEL_GERAR_ANUI_ALayout);
@@ -616,54 +644,75 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        jLabel28.setText("Ano");
+
+        ANOS_CADASTRADOS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(PAINEL_GERAR_ANUI_A, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(73, 73, 73)
-                                .addComponent(jLabel8))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(NOME_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(67, 67, 67)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(90, 90, 90)
-                        .addComponent(BOTAO_PESQUISAR_, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(73, 73, 73)
+                        .addComponent(jLabel8))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addComponent(PAINEL_GERAR_ANUI_A, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6))
+                        .addContainerGap()
+                        .addComponent(NOME_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(41, 41, 41)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel28))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(ANOS_CADASTRADOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21)
+                .addComponent(BOTAO_PESQUISAR_, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 226, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(NOME_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(BOTAO_PESQUISAR_))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(PAINEL_GERAR_ANUI_A, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BOTAO_PESQUISAR_)
+                        .addGap(15, 15, 15))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel5Layout.createSequentialGroup()
+                                    .addComponent(jLabel8)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(NOME_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel5Layout.createSequentialGroup()
+                                    .addComponent(jLabel13)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel28)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ANOS_CADASTRADOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(PAINEL_GERAR_ANUI_A, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         FORM_GUIAS.addTab("Consultar Anuidade", jPanel5);
@@ -750,20 +799,51 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BOTAO_GERAR_DEBITOS_ANUAIS_MouseClicked
 
     private void BOTAO_GERAR_DEBITOS_ANUAIS_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_GERAR_DEBITOS_ANUAIS_ActionPerformed
+
         int ano = ANO.getYear();
-        String ObjButtons[] = {"Sim", "Não"};
-        int escolha = JOptionPane.showOptionDialog(null,
-                "Tem certeza que o ano desejado para gerar os débitos anuais é " + ano + "?", "ATENÇÃO",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                ObjButtons, ObjButtons[1]);
-        if (escolha == 0) {
-            AD.buscarSindicalizadosAnuais(ano);
-            listarTabela_Anuidades();
-        } else if (escolha == 1) {
-            JOptionPane.showMessageDialog(null, "Informe o ano desejado para gerar os débitos anuais");
-            ANO.requestFocus();
+        if (verificar_Ultima_Anuidade_Recebida(ano)) {
+            String ObjButtons[] = {"Sim", "Não"};
+            int escolha = JOptionPane.showOptionDialog(null,
+                    "Tem certeza que o ano desejado para gerar os débitos anuais é " + ano + "?", "ATENÇÃO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    ObjButtons, ObjButtons[1]);
+            if (escolha == 0) {
+                AD.buscarSindicalizadosAnuais(ano);
+                listarTabela_Anuidades();
+            } else if (escolha == 1) {
+                JOptionPane.showMessageDialog(null, "Informe o ano desejado para gerar os débitos anuais");
+                ANO.requestFocus();
+            }
         }
     }//GEN-LAST:event_BOTAO_GERAR_DEBITOS_ANUAIS_ActionPerformed
+
+    private void ANOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ANOMouseClicked
+
+    }//GEN-LAST:event_ANOMouseClicked
+
+    private void ANOKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ANOKeyPressed
+
+    }//GEN-LAST:event_ANOKeyPressed
+
+    private void ANOMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ANOMouseEntered
+
+    }//GEN-LAST:event_ANOMouseEntered
+
+    private void ANOKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ANOKeyTyped
+
+    }//GEN-LAST:event_ANOKeyTyped
+
+    private void ANOMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ANOMousePressed
+
+    }//GEN-LAST:event_ANOMousePressed
+
+    private void ANOFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ANOFocusGained
+
+    }//GEN-LAST:event_ANOFocusGained
+
+    private void ANOFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ANOFocusLost
+        System.out.println("clico");
+    }//GEN-LAST:event_ANOFocusLost
 
     public void setPosicao() { // faz o formulario aparecer centralizado na tela
         Dimension d = this.getDesktopPane().getSize();
@@ -777,8 +857,7 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
         switch (n) {
             case 0:
                 if ("cadastrar".equals(status)) {
-                    this.FORM_GUIAS.setEnabledAt(1, false); // desabilita toda a aba 1
-                    this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 1                   
+                    this.FORM_GUIAS.setEnabledAt(1, false); // desabilita toda a aba 1                
                     FORM_GUIAS.setTitleAt(n, "Cadastrar Dados");
 
                 } else if ("alterar".equals(status)) {
@@ -883,7 +962,7 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
 
             if (ok) {
                 blouiarCampos();
-                String ObjButtons[] = {"Sim", "Não", "Gerar Débitos Anuais "};
+                String ObjButtons[] = {"Sim", "Não"};
                 int escolha = JOptionPane.showOptionDialog(null,
                         "Os dados para realizar os cálculos da anuidade ja foram cadastrados." + "\n" + "Deseja alterar esses dados?", "ATENÇÃO",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
@@ -898,16 +977,11 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
                         this.status = "alterar";
                         FORM_GUIAS.setTitleAt(0, "Alterar Dados");
                         this.FORM_GUIAS.setEnabledAt(1, true); // desabilita toda a aba 1
-                        this.FORM_GUIAS.setEnabledAt(2, true);
                         this.setTitle("Consultar/Alterar dados anuais");
                         BOTAO_EDITAR_DADOS.setVisible(false);
                         break;
                     case 1:
                         this.dispose();
-                        break;
-                    case 2:
-                        selecionar_guia(2);
-                        BOTAO_EDITAR_DADOS.setEnabled(true);
                         break;
                     default:
                         break;
@@ -1015,20 +1089,27 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
             }
         });
     }
-    
-    public final void verificar_Ultima_Anuidade_Recebida(){
+
+    public boolean verificar_Ultima_Anuidade_Recebida(int anoEscolhido) {
         boolean ok;
-        ok = ac.ultima_Anuidade_Recebida();
-        
-        if(ok){
-            ANO.setEnabled(true);
-            BOTAO_GERAR_DEBITOS_ANUAIS_.setEnabled(true);
+        System.out.println("passo 1");
+        ok = ac.ultima_Anuidade_Recebida(anoEscolhido);
+
+        if (!ok) {
+            JOptionPane.showMessageDialog(null, "Já foram gerados os débitos anuais do ano " + anoEscolhido, "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
         }
+        return ok;
     }
-    
+
+    public final void LISTA_COMBOBOX(){        
+          AD.verificarAnuidadesGeradas().forEach((A) -> {
+              ANOS_CADASTRADOS.addItem(String.valueOf(A));
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JYearChooser ANO;
+    private javax.swing.JComboBox<String> ANOS_CADASTRADOS;
     private javax.swing.JButton BOTAO_EDITAR_DADOS;
     private javax.swing.JButton BOTAO_GERAR_DEBITOS_ANUAIS_;
     private javax.swing.JButton BOTAO_PESQUISAR_;
@@ -1066,6 +1147,7 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

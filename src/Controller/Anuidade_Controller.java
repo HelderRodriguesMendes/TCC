@@ -8,7 +8,6 @@ package Controller;
 import DAO.Anuidade_DAO;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Locale;
 
 /**
@@ -26,27 +25,23 @@ public class Anuidade_Controller {
         return va;
     }
 
-    public boolean ultima_Anuidade_Recebida() {
-        System.out.println("aqui 1");
-        ArrayList<Integer> ANO = UD.ultimoAnoRecebido();
-
-        Calendar hoje = Calendar.getInstance();
-        int anoAtual = hoje.get(Calendar.YEAR);
-        int a;
-        boolean ok = false;
-        System.out.println("aqui 2");
-
-        if (ANO != null && !ANO.isEmpty()) {
-            for (int i = 0; i < ANO.size(); i++) {
-                a = (int) ANO.get(i);
-                System.out.println("letra a: " + a);
-                if (anoAtual > a) {
-                    ok = true;
-                }
+    public boolean ultima_Anuidade_Recebida(int anoEscolhido) {
+        System.out.println("passo 2");
+        boolean ok = true;
+        int ano, cont = 0;
+        ArrayList<Integer> ANO = UD.verificarAnuidadesGeradas();
+        
+        for(int i = 0; i < ANO.size(); i++){
+            ano = (int) ANO.get(i);
+            System.out.println("ANO DO BANCO: " + ano);
+            if(anoEscolhido == ano){
+                cont++;
             }
-        }else{
-            ok = true;
         }
+        if(cont > 0){
+            ok = false;
+        }
+        
         return ok;
     }
 }
