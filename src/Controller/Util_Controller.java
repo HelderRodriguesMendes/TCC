@@ -2,9 +2,11 @@ package Controller;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -123,5 +125,5 @@ public abstract class Util_Controller {
             id = 0;
         }
         return id;
-    }
+    }   
 }

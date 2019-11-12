@@ -77,10 +77,12 @@ public class Interface_View extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         MENU_SALVAR = new javax.swing.JMenu();
         MENU_CAD_USU = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         CONTROLE_CAIXA_ = new javax.swing.JMenuItem();
         MENU_CAD_SIND = new javax.swing.JMenuItem();
         MENU_PE = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        ANUIDADE_ALRERAR = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         MENU_EXCLUIR = new javax.swing.JMenu();
@@ -169,6 +171,14 @@ public class Interface_View extends javax.swing.JFrame {
         });
         MENU_SALVAR.add(MENU_CAD_USU);
 
+        jMenuItem5.setText("Anuidade");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        MENU_SALVAR.add(jMenuItem5);
+
         CONTROLE_CAIXA_.setText("Controle de Caixa");
         CONTROLE_CAIXA_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,6 +221,14 @@ public class Interface_View extends javax.swing.JFrame {
             }
         });
         MENU_PE.add(jMenuItem1);
+
+        ANUIDADE_ALRERAR.setText("Anuidade");
+        ANUIDADE_ALRERAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ANUIDADE_ALRERARActionPerformed(evt);
+            }
+        });
+        MENU_PE.add(ANUIDADE_ALRERAR);
 
         jMenuItem4.setText("Controle de Caixa");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -480,11 +498,33 @@ public class Interface_View extends javax.swing.JFrame {
         CC.selecionar_guia(1);
     }//GEN-LAST:event_EXCLUIR_CONTROLE_CAIXA_ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        Anuidade_View av = new Anuidade_View();
+        DESKTOP.add(av);
+        av.setVisible(true);
+        av.setPosicao();
+        av.status = "cadastrar";
+        av.selecionar_guia(0);
+        av.verificaCadastro("cadastrar");
+        av.setTitle("Cadastrar Dados Anuais");
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void ANUIDADE_ALRERARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ANUIDADE_ALRERARActionPerformed
+        Anuidade_View av = new Anuidade_View();
+        DESKTOP.add(av);
+        av.setVisible(true);
+        av.setPosicao();
+        av.status = "alterar";
+        av.selecionar_guia(0);
+        av.verificaCadastro("alterar");
+    }//GEN-LAST:event_ANUIDADE_ALRERARActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem ANUIDADE_ALRERAR;
     private javax.swing.JMenuBar BARRAMENU;
     private javax.swing.JMenuItem CONTROLE_CAIXA_;
     public static javax.swing.JDesktopPane DESKTOP;
@@ -505,6 +545,7 @@ public class Interface_View extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;

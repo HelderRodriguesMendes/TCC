@@ -3,9 +3,7 @@ package Controller;
 import DAO.Sindicalizado_Pessoais_DAO;
 import DAO.Sindicalizado_Rurais_DAO;
 import Model.Sindicalizado_Pessoais;
-import Model.Sindicalizado_Rurais;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -21,7 +19,7 @@ public class Sindicalizado_Controller {
     Sindicalizado_Rurais_DAO dsr = new Sindicalizado_Rurais_DAO();
 
     public String validar_CPF(String CPF) {
-        if ("000.000.000 - 00".equals(CPF)) {
+        if ("000.000.000-00".equals(CPF)) {
             CPF = "";
         }
         return CPF;

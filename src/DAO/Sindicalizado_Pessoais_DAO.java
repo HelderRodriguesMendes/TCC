@@ -48,6 +48,7 @@ public class Sindicalizado_Pessoais_DAO {
             pst.setString(3, dp.getCelular());
             pst.setString(4, dp.getNascionalidade());
             pst.setString(5, dp.getEstadoCivil());
+            System.out.println("CPF 2: " + dp.getCpf());
             pst.setString(6, dp.getCpf());
             pst.setString(7, dp.getRg());
             java.sql.Date DATA = new java.sql.Date(dp.getDataExpedicao().getTime());

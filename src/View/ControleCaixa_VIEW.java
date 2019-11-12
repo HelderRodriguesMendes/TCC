@@ -28,7 +28,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
-
     public ControleCaixa_VIEW() {
         initComponents();
         lista_TABELA_PESQUISAR_ALTERAR();
@@ -1115,7 +1114,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                             cc.getBanco(),
                             cc.getHistorico(),
                             cc.getDocumento(),
-                            d,
+                            de,
                             c
                         });
                     });
@@ -1242,11 +1241,13 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         String d = TABELA_PESQUISAR_ALTERAR.getValueAt(linha, 5).toString();
         String c = TABELA_PESQUISAR_ALTERAR.getValueAt(linha, 6).toString();
         if (!"".equals(d)) {
-            TRANSACAO.setSelectedIndex(2);
-            VALORF.setText(d);
+            TRANSACAO.setSelectedIndex(2);           
+            String[] valor = d.split(" ");
+            VALORF.setText(valor[1]);
         } else if (!"".equals(c)) {
             TRANSACAO.setSelectedIndex(1);
-            VALORF.setText(c);
+            String[] valor = c.split(" ");
+            VALORF.setText(valor[1]);
         }
         HISTORICO.setText(TABELA_PESQUISAR_ALTERAR.getValueAt(linha, 3).toString());
 
