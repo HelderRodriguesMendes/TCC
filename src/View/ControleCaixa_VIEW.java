@@ -5,10 +5,13 @@
  */
 package View;
 
+import Controller.Anuidade_Controller;
 import Controller.Controle_caixa_Controller;
 import Controller.Util_Controller;
+import DAO.Anuidade_DAO;
 import DAO.Controle_Caixa_DAO;
 import Model.Controle_Caixa;
+import Model.Sindicalizado_Rurais;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -32,6 +35,9 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         initComponents();
         lista_TABELA_PESQUISAR_ALTERAR();
         TABELA_PESQUISAR_ALTERAR.getTableHeader().setReorderingAllowed(false);
+        TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        listarTabela_Anuidades();
+        LISTA_COMBOBOX();
     }
 
     Controle_Caixa c;
@@ -39,8 +45,13 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     Controle_Caixa_DAO CC = new Controle_Caixa_DAO();
     Controle_caixa_Controller cc_controler = new Controle_caixa_Controller();
     ArrayList<Date> DATAS = new ArrayList<>();
+    Anuidade_Controller AC = new Anuidade_Controller();
+    Sindicalizado_Rurais sr;
+    Anuidade_DAO AD = new Anuidade_DAO();
 
     public String status = "";
+    public int id_Sind, ano;
+    public String nome = "";
     Date dt1 = null, dt2 = null, dt_uni = null;
     String data1 = "", data2 = "", dataUnica1 = "", banco = "";
     int id_controleCaixa = 0, linhaSelecionada, cont_data = 0, cont_mes = 0, cont_data_inter1 = 0, cont_data_inter2 = 0, dataUnica2 = 0, mes = 0;
@@ -91,6 +102,16 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         REFAZER_PESQUISA_ = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         SALDO_ATUAL = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TABELA = new javax.swing.JTable();
+        NOME_Pesquisar = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        ANOS_CADASTRADOS = new javax.swing.JComboBox<>();
+        jLabel28 = new javax.swing.JLabel();
+        BOTAO_PESQUISAR_1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -105,6 +126,11 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jLabel2.setText("Data:");
 
         ANUIDADE.setText("Anuidade");
+        ANUIDADE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ANUIDADEActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Documento:");
 
@@ -142,6 +168,11 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jLabel14.setText("Transação financeira:");
 
         TRANSACAO.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Crédito", "Débito" }));
+        TRANSACAO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TRANSACAOActionPerformed(evt);
+            }
+        });
 
         jLabel7.setBackground(new java.awt.Color(204, 0, 102));
         jLabel7.setFont(new java.awt.Font("Dialog", 0, 40)); // NOI18N
@@ -361,7 +392,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        FORM_GUIAS.addTab("tab1", TELA1);
+        FORM_GUIAS.addTab("Cadastrar", TELA1);
 
         TABELA_PESQUISAR_ALTERAR.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -542,7 +573,128 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        FORM_GUIAS.addTab("Consultar  - Alterar Dados", TELA2);
+        FORM_GUIAS.addTab("Consultar e Alterar", TELA2);
+
+        TABELA.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nome", "Celular", "Ano há  Receber", "Status de pagamento"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TABELA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TABELAMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(TABELA);
+
+        NOME_Pesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NOME_PesquisarMouseClicked(evt);
+            }
+        });
+        NOME_Pesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NOME_PesquisarActionPerformed(evt);
+            }
+        });
+        NOME_Pesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                NOME_PesquisarKeyPressed(evt);
+            }
+        });
+
+        jLabel12.setText("Nome:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Status de pagamento");
+
+        ANOS_CADASTRADOS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
+
+        jLabel28.setText("Ano");
+
+        BOTAO_PESQUISAR_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
+        BOTAO_PESQUISAR_1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BOTAO_PESQUISAR_1MouseClicked(evt);
+            }
+        });
+        BOTAO_PESQUISAR_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BOTAO_PESQUISAR_1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(NOME_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addComponent(jLabel12))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel13)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel28))
+                            .addComponent(ANOS_CADASTRADOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(BOTAO_PESQUISAR_1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(NOME_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(jLabel28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ANOS_CADASTRADOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(BOTAO_PESQUISAR_1)
+                .addContainerGap(19, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+
+        FORM_GUIAS.addTab("Consultar Débitos Anuais", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -634,6 +786,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                     ObjButtons, ObjButtons[1]);
             if (escolha == 0) {
                 selecionar_guia(0);
+
                 preencherCamposJtable(linhaSelecionada);
                 BOTAO_REFAZER_.setVisible(false);
             }
@@ -724,6 +877,64 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_DATA2MouseClicked
 
+    private void ANUIDADEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ANUIDADEActionPerformed
+        if (ANUIDADE.isShowing()) {
+            selecionar_guia(2);
+        }
+    }//GEN-LAST:event_ANUIDADEActionPerformed
+
+    private void TRANSACAOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TRANSACAOActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TRANSACAOActionPerformed
+
+    private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
+        if ("cadastrar".equals(status)) {
+            String iid = TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString();
+            int i = Integer.parseInt(iid);
+
+            nome = TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString();
+
+            String a = TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString();
+            ano = Integer.parseInt(a);
+
+            String ObjButtons[] = {"Sim", "Não"};
+            int escolha = JOptionPane.showOptionDialog(null,
+                    "Os dados anuais recebidos realmente são do Sr.ª " + nome + ", " + " referente ao ano " + ano + "?", "ATENÇÃO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    ObjButtons, ObjButtons[1]);
+            if (escolha == 0) {
+                recebeAnu(i, ano, nome);
+                selecionar_guia(0);
+            }else if (escolha == 1) {
+                JOptionPane.showMessageDialog(null, "Selecione o sindicalizado desejado", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_TABELAMouseClicked
+
+    private void NOME_PesquisarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOME_PesquisarMouseClicked
+
+    }//GEN-LAST:event_NOME_PesquisarMouseClicked
+
+    private void NOME_PesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NOME_PesquisarActionPerformed
+
+    }//GEN-LAST:event_NOME_PesquisarActionPerformed
+
+    private void NOME_PesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NOME_PesquisarKeyPressed
+
+    }//GEN-LAST:event_NOME_PesquisarKeyPressed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void BOTAO_PESQUISAR_1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BOTAO_PESQUISAR_1MouseClicked
+
+    private void BOTAO_PESQUISAR_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_1ActionPerformed
+
+    }//GEN-LAST:event_BOTAO_PESQUISAR_1ActionPerformed
+
     public boolean validarObrigatorios() {
         boolean ok = false;
         int cont = 0;
@@ -807,22 +1018,20 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         this.FORM_GUIAS.setSelectedIndex(n);
         switch (n) {
             case 0:
-                this.FORM_GUIAS.setEnabledAt(1, false); // desabilita toda a aba 1        
+
                 if ("cadastrar".equals(status)) {
-                    FORM_GUIAS.setTitleAt(n, "Cadastrar Dados");
+                    this.FORM_GUIAS.setEnabledAt(1, false); // desabilita toda a aba 1        
+                    this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 1   
                     BOTAO_CANCELAR_EDIÇÃO.setVisible(false);
                 } else if ("alterar".equals(status)) {
-                    FORM_GUIAS.setTitleAt(n, "Alterar Dados");
+                    this.FORM_GUIAS.setTitleAt(n, "Alterar Dados");
                 }
                 break;
             case 1:
-                this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
-                this.FORM_GUIAS.setEnabledAt(1, true); // desabilita toda a aba 0                 
-                if ("cadastrar".equals(status)) {
-                    FORM_GUIAS.setTitleAt(0, "Cadastrar Dados");
+                if ("alterar".equals(status)) {
                     BOTAO_CANCELAR_EDIÇÃO.setVisible(false);
-                } else if ("alterar".equals(status)) {
-                    FORM_GUIAS.setTitleAt(0, "Alterar Dados");
+                    this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
+                    this.FORM_GUIAS.setEnabledAt(2, true); // desabilita toda a aba 0  
                 }
             default:
                 break;
@@ -846,7 +1055,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         });
     }
 
-    public void lista_TABELA_PESQUISAR_ALTERAR() {
+    public final void lista_TABELA_PESQUISAR_ALTERAR() {
 
         DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
         dtma.setNumRows(0);
@@ -1241,7 +1450,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         String d = TABELA_PESQUISAR_ALTERAR.getValueAt(linha, 5).toString();
         String c = TABELA_PESQUISAR_ALTERAR.getValueAt(linha, 6).toString();
         if (!"".equals(d)) {
-            TRANSACAO.setSelectedIndex(2);           
+            TRANSACAO.setSelectedIndex(2);
             String[] valor = d.split(" ");
             VALORF.setText(valor[1]);
         } else if (!"".equals(c)) {
@@ -1258,13 +1467,78 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         lista_TABELA_PESQUISAR_ALTERAR();
     }
 
+    public final void LISTA_COMBOBOX() {
+        AD.verificarAnuidadesGeradas().forEach((A) -> {
+            ANOS_CADASTRADOS.addItem(String.valueOf(A));
+        });
+    }
+
+    public void corLinhaTabelaAnuidade() {
+        TABELA.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                if (row % 2 != 0) {
+                    setBackground(Color.LIGHT_GRAY);
+                } else {
+                    setBackground(Color.WHITE);
+                }
+                return this;
+            }
+        });
+    }
+
+    public final void listarTabela_Anuidades() {
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(110);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(110);
+
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(150);
+
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+
+        AD.listar_anuidades_Geral_Atual().forEach((A) -> {
+            boolean a = A.isStatusPagamento();
+            String s;
+            if (a) {
+                s = "Pago";
+            } else {
+                s = "Não Pago";
+            }
+            dtma.addRow(new Object[]{
+                A.getId_sindi(),
+                A.getNome(),
+                A.getCelular(),
+                A.getAnoRecebimento(),
+                s
+            });
+        });
+        corLinhaTabelaAnuidade();
+    }
+
+    public void recebeAnu(int id, int ano, String nome) {
+
+        String historico = "Anuidade recebida do Sr.ª " + nome + ", " + "referente ao ano " + ano;
+        HISTORICO.setText(historico);
+        HISTORICO.setEnabled(false);
+
+        TRANSACAO.setSelectedIndex(1);
+        TRANSACAO.setEnabled(false);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox ANUIDADE;
+    private javax.swing.JComboBox<String> ANOS_CADASTRADOS;
+    public javax.swing.JCheckBox ANUIDADE;
     private javax.swing.JComboBox<String> BANCO1;
     private javax.swing.JComboBox<Object> BANCO2;
     private javax.swing.JLabel BOTAO_CANCELAR_EDIÇÃO;
     private javax.swing.JLabel BOTAO_PESQUISAR_;
+    private javax.swing.JButton BOTAO_PESQUISAR_1;
     private javax.swing.JLabel BOTAO_REFAZER_;
     private javax.swing.JLabel BOTAO_SALVA_;
     private com.toedter.calendar.JDateChooser DATA1;
@@ -1273,18 +1547,23 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser DATA_INTERVALO2;
     private javax.swing.JTextField DOCUMENTO;
     private javax.swing.JTabbedPane FORM_GUIAS;
-    private javax.swing.JTextArea HISTORICO;
+    public javax.swing.JTextArea HISTORICO;
     private com.toedter.calendar.JMonthChooser MES_;
+    private javax.swing.JTextField NOME_Pesquisar;
     private javax.swing.JLabel REFAZER_PESQUISA_;
     private javax.swing.JLabel SALDO_ATUAL;
+    private javax.swing.JTable TABELA;
     private javax.swing.JTable TABELA_PESQUISAR_ALTERAR;
     public javax.swing.JPanel TELA1;
     public javax.swing.JPanel TELA2;
-    private javax.swing.JComboBox<String> TRANSACAO;
-    private javax.swing.JTextField VALORF;
+    public javax.swing.JComboBox<String> TRANSACAO;
+    public javax.swing.JTextField VALORF;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -1293,14 +1572,17 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 }

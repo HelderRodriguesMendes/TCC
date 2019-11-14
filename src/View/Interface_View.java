@@ -517,6 +517,7 @@ public class Interface_View extends javax.swing.JFrame {
         av.status = "alterar";
         av.selecionar_guia(0);
         av.verificaCadastro("alterar");
+        av.setTitle("Consultar/Alterar/Gerar Anuidades");
     }//GEN-LAST:event_ANUIDADE_ALRERARActionPerformed
 
     /**

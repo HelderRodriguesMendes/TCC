@@ -18,12 +18,13 @@ public class Sindicalizado_Rurais extends Sindicalizado_Pessoais {
     private String municiSede;
     private String codINCRA;
     private String NIRF;
-    private String areaPropri;
+    private double areaPropri;
     private Date dataCompra;
     private String outrasA;
     private String residenciaAtual;
     private int id_proprie;
-
+    private boolean tiraLeite;
+    private double valorAnuidade;
     /**
      * @return the nomeFazenda
      */
@@ -97,14 +98,14 @@ public class Sindicalizado_Rurais extends Sindicalizado_Pessoais {
     /**
      * @return the areaPropri
      */
-    public String getAreaPropri() {
+    public double getAreaPropri() {
         return areaPropri;
     }
 
     /**
      * @param areaPropri the areaPropri to set
      */
-    public void setAreaPropri(String areaPropri) {
+    public void setAreaPropri(double areaPropri) {
         this.areaPropri = areaPropri;
     }
 
@@ -162,6 +163,34 @@ public class Sindicalizado_Rurais extends Sindicalizado_Pessoais {
      */
     public void setDataCompra(Date dataCompra) {
         this.dataCompra = dataCompra;
+    }
+
+    /**
+     * @return the tiraLeite
+     */
+    public boolean isTiraLeite() {
+        return tiraLeite;
+    }
+
+    /**
+     * @param tiraLeite the tiraLeite to set
+     */
+    public void setTiraLeite(boolean tiraLeite) {
+        this.tiraLeite = tiraLeite;
+    }
+
+    /**
+     * @return the valorAnuidade
+     */
+    public double getValorAnuidade() {
+        return valorAnuidade;
+    }
+
+    /**
+     * @param valorAnuidade the valorAnuidade to set
+     */
+    public void setValorAnuidade(double valorAnuidade) {
+        this.valorAnuidade = valorAnuidade;
     }
 
 }
