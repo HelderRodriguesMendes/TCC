@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -175,7 +174,7 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
             if (escolha == 0) {
                 int id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
                 Util_DAO ud = new Util_DAO();
-                ud.excluir(id, "adm");
+                ud.excluir_S_A(id, "adm");
                 LISTAR_TABELA();
             }
         }

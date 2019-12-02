@@ -3,7 +3,7 @@ package View;
 import Controller.Login_Controller;
 import DAO.AdministradorDAO;
 import Model.Administrador;
-import Model.Sindicalizado_Pessoais;
+import Model.Sindicalizado;
 import com.sun.glass.events.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +20,7 @@ public class Login_View extends javax.swing.JFrame {
 
     boolean adm;
     Administrador ad = new Administrador();
-    Sindicalizado_Pessoais si = new Sindicalizado_Pessoais();
+    Sindicalizado si = new Sindicalizado();
     AdministradorDAO ld = new AdministradorDAO();
 
     public Login_View() {
@@ -198,7 +198,7 @@ public class Login_View extends javax.swing.JFrame {
             if ("hrm".equals(ad.getLogin())) {
                 ad.setSenha(TXT_SENHA.getText());
             } else {
-                ad.setSenha(Login_Controller.encriptografar_senha(TXT_SENHA.getText()));
+                ad.setSenha(Login_Controller.criptografar_senha(TXT_SENHA.getText()));
             }
             Administrador adi;
             adi = ld.logarAdmin(ad);
@@ -217,7 +217,7 @@ public class Login_View extends javax.swing.JFrame {
             if ("hrm".equals(ad.getLogin())) {
                 ad.setSenha(TXT_SENHA.getText());
             } else {
-                ad.setSenha(Login_Controller.encriptografar_senha(TXT_SENHA.getText()));
+                ad.setSenha(Login_Controller.criptografar_senha(TXT_SENHA.getText()));
             }
             Administrador adi;
             adi = ld.logarAdmin(ad);

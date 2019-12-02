@@ -100,7 +100,7 @@ public class Controle_Caixa_DAO {
         ArrayList<Controle_Caixa> C = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_controleCaixa, banco, data, documento, historico, debito, credito from ControleDeCaixa where excluido = '0' order by data");
+            pst = con.prepareStatement("select id_controleCaixa, banco, data, documento, historico, debito, credito from ControleDeCaixa where excluido = '0' order by data, day(data)");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -135,7 +135,7 @@ public class Controle_Caixa_DAO {
         ArrayList<Controle_Caixa> C = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_controleCaixa, banco, data, documento, historico, debito, credito from ControleDeCaixa where data between ? and ? and banco = ? and excluido = '0' order by data");
+            pst = con.prepareStatement("select id_controleCaixa, banco, data, documento, historico, debito, credito from ControleDeCaixa where data between ? and ? and banco = ? and excluido = '0' order by data, day(data)");
             java.sql.Date DATASQL1 = new java.sql.Date(data1.getTime());
             java.sql.Date DATASQL2 = new java.sql.Date(data2.getTime());
             pst.setDate(1, DATASQL1);
@@ -170,7 +170,7 @@ public class Controle_Caixa_DAO {
         ArrayList<Controle_Caixa> C = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_controleCaixa, banco, data, documento, historico, debito, credito from ControleDeCaixa where data = ? and excluido = '0' order by data");
+            pst = con.prepareStatement("select id_controleCaixa, banco, data, documento, historico, debito, credito from ControleDeCaixa where data = ? and excluido = '0' order by data, day(data)");
             java.sql.Date DATASQL1 = new java.sql.Date(data1.getTime());
             pst.setDate(1, DATASQL1);
             rs = pst.executeQuery();
@@ -202,7 +202,7 @@ public class Controle_Caixa_DAO {
         ArrayList<Controle_Caixa> C = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_controleCaixa, banco, data, documento, historico, debito, credito from ControleDeCaixa where data between ? and ? and excluido = '0' order by data");
+            pst = con.prepareStatement("select id_controleCaixa, banco, data, documento, historico, debito, credito from ControleDeCaixa where data between ? and ? and excluido = '0' order by data, day(data)");
             java.sql.Date DATASQL1 = new java.sql.Date(data1.getTime());
             java.sql.Date DATASQL2 = new java.sql.Date(data2.getTime());
             pst.setDate(1, DATASQL1);
@@ -264,7 +264,7 @@ public class Controle_Caixa_DAO {
         ArrayList<Controle_Caixa> C = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_controleCaixa, banco, data, documento, historico, debito, credito from ControleDeCaixa where data = ? and banco = ? and excluido = '0' order by data");
+            pst = con.prepareStatement("select id_controleCaixa, banco, data, documento, historico, debito, credito from ControleDeCaixa where data = ? and banco = ? and excluido = '0' order by data, day(data)");
             java.sql.Date DATASQL1 = new java.sql.Date(data1.getTime());
             pst.setDate(1, DATASQL1);
             pst.setString(3, banco);
@@ -293,18 +293,18 @@ public class Controle_Caixa_DAO {
     
     
     public double somaHectares(int id){
-       
+        System.out.println("id na dao da soma de terras: " + id);
         con = Conexao_banco.conector();
         double soma = 0;
         
         try {
             pst = con.prepareStatement("select sum(areaPropriedade) as somaDasPropiedades from propriedadeRural p "
-                    + "inner join sindicalizado s on p.id_sind = s.id_sindicalizado where id_sind = ?");
+                    + "inner join sindicalizado s on p.id_sind = s.id_sindicalizado where excluidoP = '0' and  id_sind = ?");
             pst.setInt(1, id);
             rs = pst.executeQuery();
             if(rs.next()){
                 soma = rs.getInt("somaDasPropiedades");
-                
+                System.out.println("soma: " + soma);
             }
             con.close();
         } catch (SQLException e) {

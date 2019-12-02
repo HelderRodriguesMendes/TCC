@@ -55,8 +55,9 @@ public class Anuidade_Controller {
         double somaTerras, resutado = 0, alqueiros;
         String valor;
         somaTerras = CC.somaHectares(id_sindicalizado);
-               
+        System.out.println("soma de terras: " + somaTerras);       
         alqueiros = somaTerras * 4.8;
+        System.out.println("total alqueiros: " + alqueiros);
         
         d = classificarProdutor(alqueiros);
         

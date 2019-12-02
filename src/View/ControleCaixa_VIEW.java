@@ -9,21 +9,28 @@ import Controller.Anuidade_Controller;
 import Controller.Controle_caixa_Controller;
 import Controller.Util_Controller;
 import DAO.Anuidade_DAO;
+import DAO.Conexao_banco;
 import DAO.Controle_Caixa_DAO;
+import Model.Anuidade;
 import Model.Controle_Caixa;
-import Model.Sindicalizado_Rurais;
+import Model.Propriedades_Rurais;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.sql.Connection;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -31,13 +38,17 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
+    Connection conexao = null;
+
     public ControleCaixa_VIEW() {
         initComponents();
         lista_TABELA_PESQUISAR_ALTERAR();
-        TABELA_PESQUISAR_ALTERAR.getTableHeader().setReorderingAllowed(false);
-        TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
         listarTabela_Anuidades();
+        TABELA_PESQUISAR_ALTERAR.getTableHeader().setReorderingAllowed(false);
+
         LISTA_COMBOBOX();
+        conexao = Conexao_banco.conector();
+
     }
 
     Controle_Caixa c;
@@ -46,15 +57,16 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     Controle_caixa_Controller cc_controler = new Controle_caixa_Controller();
     ArrayList<Date> DATAS = new ArrayList<>();
     Anuidade_Controller AC = new Anuidade_Controller();
-    Sindicalizado_Rurais sr;
+    Propriedades_Rurais sr;
     Anuidade_DAO AD = new Anuidade_DAO();
 
+    boolean anuidade = false;
     public String status = "";
     public int id_Sind, ano;
     public String nome = "";
     Date dt1 = null, dt2 = null, dt_uni = null;
     String data1 = "", data2 = "", dataUnica1 = "", banco = "";
-    int id_controleCaixa = 0, linhaSelecionada, cont_data = 0, cont_mes = 0, cont_data_inter1 = 0, cont_data_inter2 = 0, dataUnica2 = 0, mes = 0;
+    int id_controleCaixa = 0, linhaSelecionada, cont_data = 0, cont_mes = 0, cont_data_inter1 = 0, cont_data_inter2 = 0, dataUnica2 = 0, mes = 0, anoRecebidoAnuidade = 0;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -84,7 +96,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         BOTAO_SALVA_ = new javax.swing.JLabel();
         BOTAO_REFAZER_ = new javax.swing.JLabel();
-        BOTAO_CANCELAR_EDIÇÃO = new javax.swing.JLabel();
         TELA2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         TABELA_PESQUISAR_ALTERAR = new javax.swing.JTable();
@@ -97,8 +108,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         DATA_INTERVALO1 = new com.toedter.calendar.JDateChooser();
         DATA2 = new com.toedter.calendar.JDateChooser();
         jLabel21 = new javax.swing.JLabel();
-        MES_ = new com.toedter.calendar.JMonthChooser();
-        jLabel22 = new javax.swing.JLabel();
         REFAZER_PESQUISA_ = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         SALDO_ATUAL = new javax.swing.JLabel();
@@ -107,19 +116,36 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         TABELA = new javax.swing.JTable();
         NOME_Pesquisar = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        STATUS_PA = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
         ANOS_CADASTRADOS = new javax.swing.JComboBox<>();
         jLabel28 = new javax.swing.JLabel();
-        BOTAO_PESQUISAR_1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
         setTitle("Controle de Caixa");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel1.setText("Baonco:");
+        jLabel1.setText("Banco:");
 
         BANCO1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Brasil", "Caixa Interno", "Sicredi" }));
 
@@ -234,20 +260,10 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             }
         });
 
-        BOTAO_REFAZER_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/refazer.png"))); // NOI18N
+        BOTAO_REFAZER_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
         BOTAO_REFAZER_.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BOTAO_REFAZER_MouseClicked(evt);
-            }
-        });
-
-        BOTAO_CANCELAR_EDIÇÃO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/cancelar_1.png"))); // NOI18N
-        BOTAO_CANCELAR_EDIÇÃO.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BOTAO_CANCELAR_EDIÇÃOMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                BOTAO_CANCELAR_EDIÇÃOMouseEntered(evt);
             }
         });
 
@@ -256,108 +272,106 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(90, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(DOCUMENTO)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jLabel3)
-                                                    .addComponent(BANCO1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(4, 4, 4)
-                                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE)))
-                                        .addGap(77, 77, 77))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(22, 22, 22)
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addComponent(jLabel1))
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(DOCUMENTO, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel3)
+                                                .addComponent(BANCO1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(4, 4, 4)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(73, 73, 73)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(DATA1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel3Layout.createSequentialGroup()
                                                 .addGap(37, 37, 37)
                                                 .addComponent(jLabel2)))
-                                        .addGap(3, 3, 3)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel14)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addComponent(TRANSACAO, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(4, 4, 4)
+                                        .addComponent(TRANSACAO, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(8, 8, 8))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
-                        .addComponent(BOTAO_SALVA_)
-                        .addGap(18, 18, 18)
-                        .addComponent(BOTAO_REFAZER_)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BOTAO_CANCELAR_EDIÇÃO)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ANUIDADE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(VALORF, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(29, 29, 29)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(ANUIDADE)
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(VALORF, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 71, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BOTAO_REFAZER_)
+                                .addGap(32, 32, 32)
+                                .addComponent(BOTAO_SALVA_)))
+                        .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(BOTAO_SALVA_)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(BANCO1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(46, 46, 46)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(DOCUMENTO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel1))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(DATA1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(5, 5, 5)))
-                                .addGap(46, 46, 46)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel14)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(TRANSACAO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(ANUIDADE)
-                                .addGap(51, 51, 51)
+                                .addGap(59, 59, 59)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(VALORF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGap(17, 17, 17)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(BANCO1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(46, 46, 46)
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(DOCUMENTO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(DATA1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGap(47, 47, 47)
+                                    .addComponent(jLabel14)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(TRANSACAO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(27, 27, 27)
@@ -367,12 +381,9 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(80, 80, 80)
-                                .addComponent(BOTAO_CANCELAR_EDIÇÃO))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(BOTAO_SALVA_)
-                        .addComponent(BOTAO_REFAZER_)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                                .addGap(82, 82, 82)
+                                .addComponent(BOTAO_REFAZER_)))))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout TELA1Layout = new javax.swing.GroupLayout(TELA1);
@@ -422,6 +433,9 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BOTAO_PESQUISAR_MouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                BOTAO_PESQUISAR_MouseEntered(evt);
+            }
         });
 
         BANCO2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Brasil", "Caixa Interno", "Sicredi" }));
@@ -458,14 +472,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
         jLabel21.setText("Data:");
 
-        MES_.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                MES_PropertyChange(evt);
-            }
-        });
-
-        jLabel22.setText("Mês:");
-
         REFAZER_PESQUISA_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
         REFAZER_PESQUISA_.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -482,94 +488,84 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         TELA2Layout.setHorizontalGroup(
             TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TELA2Layout.createSequentialGroup()
-                .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(TELA2Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(TELA2Layout.createSequentialGroup()
-                                    .addGap(30, 30, 30)
-                                    .addComponent(jLabel19))
-                                .addComponent(BANCO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(37, 37, 37)
-                            .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(TELA2Layout.createSequentialGroup()
-                                    .addGap(40, 40, 40)
-                                    .addComponent(jLabel21))
-                                .addComponent(DATA2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(32, 32, 32)
-                            .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(TELA2Layout.createSequentialGroup()
-                                    .addGap(33, 33, 33)
-                                    .addComponent(jLabel22))
-                                .addComponent(MES_, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(38, 38, 38)
-                            .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel25)
-                                .addComponent(DATA_INTERVALO1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(TELA2Layout.createSequentialGroup()
-                                    .addGap(46, 46, 46)
-                                    .addComponent(jLabel20))))
-                        .addGroup(TELA2Layout.createSequentialGroup()
-                            .addGap(410, 410, 410)
-                            .addComponent(DATA_INTERVALO2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, TELA2Layout.createSequentialGroup()
-                        .addGap(229, 229, 229)
-                        .addComponent(jLabel24)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SALDO_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(TELA2Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(REFAZER_PESQUISA_))
+                        .addGap(10, 10, 10)
+                        .addComponent(BANCO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(DATA2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(TELA2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BOTAO_PESQUISAR_)))
-                .addGap(3, 3, 3))
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel19)
+                        .addGap(104, 104, 104)
+                        .addComponent(jLabel21)))
+                .addGap(58, 58, 58)
+                .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(TELA2Layout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addComponent(jLabel25))
+                    .addGroup(TELA2Layout.createSequentialGroup()
+                        .addComponent(DATA_INTERVALO1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel20)
+                        .addGap(12, 12, 12)
+                        .addComponent(DATA_INTERVALO2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BOTAO_PESQUISAR_)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(REFAZER_PESQUISA_)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TELA2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TELA2Layout.createSequentialGroup()
+                        .addComponent(jLabel24)
+                        .addGap(6, 6, 6)
+                        .addComponent(SALDO_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(188, 188, 188))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TELA2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(109, 109, 109))))
         );
         TELA2Layout.setVerticalGroup(
             TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TELA2Layout.createSequentialGroup()
-                .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(TELA2Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(REFAZER_PESQUISA_)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BOTAO_PESQUISAR_))
-                    .addGroup(TELA2Layout.createSequentialGroup()
-                        .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(TELA2Layout.createSequentialGroup()
-                                .addComponent(jLabel19)
-                                .addGap(5, 5, 5)
-                                .addComponent(BANCO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(TELA2Layout.createSequentialGroup()
-                                .addComponent(jLabel25)
-                                .addGap(6, 6, 6)
-                                .addComponent(DATA_INTERVALO1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel20))
-                            .addGroup(TELA2Layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(TELA2Layout.createSequentialGroup()
-                                        .addComponent(jLabel21)
-                                        .addGap(6, 6, 6)
-                                        .addComponent(DATA2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(TELA2Layout.createSequentialGroup()
-                                        .addComponent(jLabel22)
-                                        .addGap(6, 6, 6)
-                                        .addComponent(MES_, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(6, 6, 6)
-                        .addComponent(DATA_INTERVALO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(TELA2Layout.createSequentialGroup()
-                        .addComponent(jLabel24)
-                        .addGap(0, 4, Short.MAX_VALUE))
-                    .addComponent(SALDO_ATUAL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19)
+                            .addGroup(TELA2Layout.createSequentialGroup()
+                                .addGap(5, 5, 5)
+                                .addComponent(jLabel21)))
+                        .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BANCO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(TELA2Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(DATA2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(TELA2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(TELA2Layout.createSequentialGroup()
+                                    .addComponent(jLabel25)
+                                    .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(TELA2Layout.createSequentialGroup()
+                                            .addGap(1, 1, 1)
+                                            .addComponent(DATA_INTERVALO1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(TELA2Layout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addComponent(jLabel20))
+                                        .addGroup(TELA2Layout.createSequentialGroup()
+                                            .addGap(1, 1, 1)
+                                            .addComponent(DATA_INTERVALO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(BOTAO_PESQUISAR_, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(REFAZER_PESQUISA_, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel24)
+                    .addComponent(SALDO_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -619,10 +615,10 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
         jLabel12.setText("Nome:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        STATUS_PA.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Não pago", "Pago" }));
+        STATUS_PA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                STATUS_PAActionPerformed(evt);
             }
         });
 
@@ -632,15 +628,10 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
         jLabel28.setText("Ano");
 
-        BOTAO_PESQUISAR_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
-        BOTAO_PESQUISAR_1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BOTAO_PESQUISAR_1MouseClicked(evt);
-            }
-        });
-        BOTAO_PESQUISAR_1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BOTAO_PESQUISAR_1ActionPerformed(evt);
+                jLabel5MouseClicked(evt);
             }
         });
 
@@ -649,30 +640,30 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
+                        .addGap(25, 25, 25)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(NOME_Pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(46, 46, 46)
                                 .addComponent(jLabel12))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
+                        .addGap(60, 60, 60)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel13)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
                                 .addComponent(jLabel28))
-                            .addComponent(ANOS_CADASTRADOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(ANOS_CADASTRADOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(STATUS_PA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(BOTAO_PESQUISAR_1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGap(72, 72, 72)
+                        .addComponent(jLabel5)))
+                .addGap(1228, 1228, 1228))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -683,24 +674,24 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 .addGap(44, 44, 44)
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(STATUS_PA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addComponent(jLabel28)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ANOS_CADASTRADOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(BOTAO_PESQUISAR_1)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
-        FORM_GUIAS.addTab("Consultar Débitos Anuais", jPanel1);
+        FORM_GUIAS.addTab("Consultar Taxas Anuais", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(FORM_GUIAS, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -714,11 +705,16 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
     private void BOTAO_REFAZER_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_REFAZER_MouseClicked
         limparCampus();
+        HISTORICO.setEnabled(true);
+        TRANSACAO.setEnabled(true);
     }//GEN-LAST:event_BOTAO_REFAZER_MouseClicked
 
     private void BOTAO_SALVA_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_SALVA_MouseClicked
         if (validarObrigatorios()) {
             if ("cadastrar".equals(status)) {
+                if (anuidade) {
+                    AD.alterarStatusPagamento(anoRecebidoAnuidade, id_Sind);
+                }
                 CC.salvar(preenche_Objeto());
                 BANCO1.requestFocus();
                 limparCampus();
@@ -732,43 +728,18 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_BOTAO_SALVA_MouseClicked
 
-    private void BOTAO_CANCELAR_EDIÇÃOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_CANCELAR_EDIÇÃOMouseClicked
-        String ObjButtons[] = {"Sim", "Não"};
-        int escolha = JOptionPane.showOptionDialog(null,
-                "Deseja cancelar a alteração dos dados?", "ATENÇÃO",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                ObjButtons, ObjButtons[1]);
-        if (escolha == 0) {
-            limparCampus();
-            selecionar_guia(1);
-
-        }
-    }//GEN-LAST:event_BOTAO_CANCELAR_EDIÇÃOMouseClicked
-
-    private void BOTAO_CANCELAR_EDIÇÃOMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_CANCELAR_EDIÇÃOMouseEntered
-        BOTAO_CANCELAR_EDIÇÃO.setToolTipText("AVANÇAR");
-    }//GEN-LAST:event_BOTAO_CANCELAR_EDIÇÃOMouseEntered
-
     private void BOTAO_PESQUISAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_MouseClicked
-        int m = Calendar.getInstance().get(Calendar.MONTH);
-
         if (BANCO2.getSelectedIndex() == 0 && data2.equals("") && data1.equals("") && dataUnica1.equals("")) {
-            if (mes == m) {
-                String ObjButtons[] = {"Sim", "Não"};
-                int escolha = JOptionPane.showOptionDialog(null,
-                        "Deseja realizar consultas sobre o mês atual?", "ATENÇÃO",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                        ObjButtons, ObjButtons[1]);
-                if (escolha == 0) {
-                    lista_TABELA_PESQUISAR_ALTERAR_P(banco, data1, data2, dataUnica1, mes);
-                } else if (escolha == 1) {
-                    lista_TABELA_PESQUISAR_ALTERAR();
-                }
-            }
+            lista_TABELA_PESQUISAR_ALTERAR();
         } else {
             banco = String.valueOf(BANCO2.getSelectedItem());
-            System.out.println("clico");
-            lista_TABELA_PESQUISAR_ALTERAR_P(banco, data1, data2, dataUnica1, mes);
+            if ("relatorio".equals(status)) {
+                CC.excluirDatasPesquisa();
+                dt1 = Util_Controller.STRING_DATE(data1);
+                dt2 = Util_Controller.STRING_DATE(data2);
+                CC.salvaDatasPesquisa(dt1, dt2);
+            }
+            lista_TABELA_PESQUISAR_ALTERAR_P(banco, data1, data2, dataUnica1);
         }
     }//GEN-LAST:event_BOTAO_PESQUISAR_MouseClicked
 
@@ -814,25 +785,11 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                     data1 = s; // o (s) ja tem a data formatada em string
                     DATA2.setEnabled(false);
                     DATA2.setDate(null);
-                    MES_.setEnabled(false);
+
                 }
             }
         }
     }//GEN-LAST:event_DATA_INTERVALO1PropertyChange
-
-    private void MES_PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_MES_PropertyChange
-        cont_mes++;
-
-        if (cont_mes > 1) {
-            if (data1.equals("") && data2.equals("") && dataUnica1.equals("")) {
-                mes = MES_.getMonth() + 1; // pega o mes selecionado, a soma de + 1 é porque começa a conta os mes do 0        
-                System.out.println("MES: " + mes);
-                DATA2.setEnabled(false);
-                DATA_INTERVALO1.setEnabled(false);
-                DATA_INTERVALO2.setEnabled(false);
-            }
-        }
-    }//GEN-LAST:event_MES_PropertyChange
 
     private void DATA_INTERVALO2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DATA_INTERVALO2PropertyChange
         cont_data_inter2++;
@@ -843,7 +800,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                     data2 = s; // o (s) ja tem a data formatada em string
                     DATA2.setEnabled(false);
                     DATA2.setDate(null);
-                    MES_.setEnabled(false);
+
                 }
             }
         }
@@ -861,7 +818,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                     DATA_INTERVALO1.setDate(null);
                     DATA_INTERVALO2.setEnabled(false);
                     DATA_INTERVALO2.setDate(null);
-                    MES_.setEnabled(false);
+
                 }
             }
         }
@@ -879,7 +836,10 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
     private void ANUIDADEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ANUIDADEActionPerformed
         if (ANUIDADE.isShowing()) {
+            anuidade = true;
+            listarTabela_Anuidades();
             selecionar_guia(2);
+            limparCamposPesquisa_taxas();
         }
     }//GEN-LAST:event_ANUIDADEActionPerformed
 
@@ -891,7 +851,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         if ("cadastrar".equals(status)) {
             String iid = TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString();
             int i = Integer.parseInt(iid);
-
+            System.out.println("id saindo da tela: " + i);
             nome = TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString();
 
             String a = TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString();
@@ -905,9 +865,20 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             if (escolha == 0) {
                 recebeAnu(i, ano, nome);
                 selecionar_guia(0);
-            }else if (escolha == 1) {
+            } else if (escolha == 1) {
                 JOptionPane.showMessageDialog(null, "Selecione o sindicalizado desejado", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
             }
+        } else if ("alterar".equals(status)) {
+            String iid = TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString();
+            int i = Integer.parseInt(iid);
+
+            nome = TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString();
+
+            String a = TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString();
+            ano = Integer.parseInt(a);
+
+            recebeAnu(i, ano, nome);
+
         }
     }//GEN-LAST:event_TABELAMouseClicked
 
@@ -923,17 +894,64 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_NOME_PesquisarKeyPressed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void STATUS_PAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_STATUS_PAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_STATUS_PAActionPerformed
 
-    private void BOTAO_PESQUISAR_1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_1MouseClicked
+    private void BOTAO_PESQUISAR_MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_MouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_BOTAO_PESQUISAR_1MouseClicked
+    }//GEN-LAST:event_BOTAO_PESQUISAR_MouseEntered
 
-    private void BOTAO_PESQUISAR_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_1ActionPerformed
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        if ("relatorio".equals(status)) {
+            CC.excluirDatasPesquisa();
+        }
+    }//GEN-LAST:event_formInternalFrameClosed
 
-    }//GEN-LAST:event_BOTAO_PESQUISAR_1ActionPerformed
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        String an;
+        if ("".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 0 && ANOS_CADASTRADOS.getSelectedIndex() == 0) {
+            listarTabela_Anuidades();
+        } else {
+            if ("".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 1 && ANOS_CADASTRADOS.getSelectedIndex() == 0) {
+                anuidade = true;
+                listarTabela_Anuidades();
+                anuidade = false;
+            } else if ("".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 2 && ANOS_CADASTRADOS.getSelectedIndex() == 0) {
+                ListaAnuidades_pagas();
+            } else if ("".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 1 && ANOS_CADASTRADOS.getSelectedIndex() > 0) {
+                an = String.valueOf(ANOS_CADASTRADOS.getSelectedItem());
+                ano = Integer.parseInt(an);
+                listaAnuidadeNaoPagaAno(ano);
+            } else if ("".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 2 && ANOS_CADASTRADOS.getSelectedIndex() > 0) {
+                an = String.valueOf(ANOS_CADASTRADOS.getSelectedItem());
+                ano = Integer.parseInt(an);
+                ListaAnuidades_pagas_ANO(ano);
+            } else if (!"".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 1 && ANOS_CADASTRADOS.getSelectedIndex() == 0) {
+                ListaAnuidades_Nao_pagas_Nome(NOME_Pesquisar.getText());
+            } else if (!"".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 2 && ANOS_CADASTRADOS.getSelectedIndex() == 0) {
+                ListaAnuidades_pagas_Nome(NOME_Pesquisar.getText());
+            } else if (!"".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 1 && ANOS_CADASTRADOS.getSelectedIndex() > 0) {
+                an = String.valueOf(ANOS_CADASTRADOS.getSelectedItem());
+                ano = Integer.parseInt(an);
+                ListaAnuidades_Nao_pagas_Nome_Ano(NOME_Pesquisar.getText(), ano);
+            } else if (!"".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 2 && ANOS_CADASTRADOS.getSelectedIndex() > 0) {
+                an = String.valueOf(ANOS_CADASTRADOS.getSelectedItem());
+                ano = Integer.parseInt(an);
+                ListaAnuidades_pagas_Nome_Ano(NOME_Pesquisar.getText(), ano);
+            } else if (!"".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 0 && ANOS_CADASTRADOS.getSelectedIndex() == 0) {
+                ListaAnuidades_Nome(NOME_Pesquisar.getText());
+            } else if ("".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 0 && ANOS_CADASTRADOS.getSelectedIndex() > 0) {
+                an = String.valueOf(ANOS_CADASTRADOS.getSelectedItem());
+                ano = Integer.parseInt(an);
+                ListaAnuidades_ANO(ano);
+            } else if (!"".equals(NOME_Pesquisar.getText()) && STATUS_PA.getSelectedIndex() == 0 && ANOS_CADASTRADOS.getSelectedIndex() > 0) {
+                an = String.valueOf(ANOS_CADASTRADOS.getSelectedItem());
+                ano = Integer.parseInt(an);
+                ListaAnuidades_Nome_ano(NOME_Pesquisar.getText(), ano);
+            }
+        }
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     public boolean validarObrigatorios() {
         boolean ok = false;
@@ -1022,20 +1040,22 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 if ("cadastrar".equals(status)) {
                     this.FORM_GUIAS.setEnabledAt(1, false); // desabilita toda a aba 1        
                     this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 1   
-                    BOTAO_CANCELAR_EDIÇÃO.setVisible(false);
                 } else if ("alterar".equals(status)) {
                     this.FORM_GUIAS.setTitleAt(n, "Alterar Dados");
                 }
                 break;
             case 1:
                 if ("alterar".equals(status)) {
-                    BOTAO_CANCELAR_EDIÇÃO.setVisible(false);
                     this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
                     this.FORM_GUIAS.setEnabledAt(2, true); // desabilita toda a aba 0  
+                } else if ("relatorio".equals(status)) {
+                    this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
+                    this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 0
                 }
             default:
                 break;
         }
+
     }
 
     public void corLinhaJTable() {
@@ -1059,7 +1079,8 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
         DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
         dtma.setNumRows(0);
-        TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(110);
+        TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
+        TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(3).setPreferredWidth(78);
 
         TABELA_PESQUISAR_ALTERAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
@@ -1070,11 +1091,11 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             String d = "", c = "";
             if (con.getDebito() != 0.0) {
                 double t = con.getDebito();
-                d = cc_controler.converteMuedaBR(t);
+                d = Util_Controller.converteMuedaBR(t);
             }
             if (con.getCredito() != 0.0) {
                 double e = con.getCredito();
-                c = cc_controler.converteMuedaBR(e);
+                c = Util_Controller.converteMuedaBR(e);
             }
 
             String da = Util_Controller.DATE_STRING(con.getData());
@@ -1092,17 +1113,16 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         corLinhaJTable();
     }
 
-    public void lista_TABELA_PESQUISAR_ALTERAR_P(String b, String d1, String d2, String d_u, int m) {
+    public void lista_TABELA_PESQUISAR_ALTERAR_P(String banco, String d1, String d2, String d_u) {
 
         ArrayList<Controle_Caixa> C;
-        System.out.println("A1");
-        if ("Selecione".equals(b)) {
-            System.out.println("0");
+
+        if ("Selecione".equals(banco)) {
             if (!d1.equals("") & !d2.equals("")) {
-                System.out.println("1");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(110);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(3).setPreferredWidth(78);
 
                 TABELA_PESQUISAR_ALTERAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
@@ -1116,14 +1136,14 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
                 if (C != null && !C.isEmpty()) {
                     C.forEach((cc) -> {
-                        String de = "", c = "";
+                        String de = "", con = "";
                         if (cc.getDebito() != 0.0) {
                             double t = cc.getDebito();
-                            de = cc_controler.converteMuedaBR(t);
+                            de = Util_Controller.converteMuedaBR(t);
                         }
                         if (cc.getCredito() != 0.0) {
                             double e = cc.getCredito();
-                            c = cc_controler.converteMuedaBR(e);
+                            con = Util_Controller.converteMuedaBR(e);
                         }
                         String d = Util_Controller.DATE_STRING(cc.getData());
 
@@ -1134,10 +1154,19 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                             cc.getHistorico(),
                             cc.getDocumento(),
                             de,
-                            c
+                            con
                         });
                     });
                     corLinhaJTable();
+                    c = new Controle_Caixa();
+                    c = CC.Consultar_Saldo_Atual_data_data(dt1, dt2);
+                    String SALDO = cc_controler.CALCULAR_SALDO_ATUAL(c);
+                    SALDO_ATUAL.setText(SALDO);
+                    String MES = cc_controler.mesRelatorio(data1, data2);
+                    if ("relatorio".equals(status)) {
+                        Relatorios(SALDO, dt1, dt2, MES);
+                        CC.excluirDatasPesquisa();
+                    }
                 } else {
                     dadosNAOencontrados();
                 }
@@ -1151,7 +1180,8 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 System.out.println("2");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(110);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(3).setPreferredWidth(78);
 
                 TABELA_PESQUISAR_ALTERAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
@@ -1165,14 +1195,14 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 if (C != null && !C.isEmpty()) {
                     C.forEach((cc) -> {
 
-                        String de = "", c = "";
+                        String de = "", co = "";
                         if (cc.getDebito() != 0.0) {
                             double t = cc.getDebito();
-                            de = cc_controler.converteMuedaBR(t);
+                            de = Util_Controller.converteMuedaBR(t);
                         }
                         if (cc.getCredito() != 0.0) {
                             double e = cc.getCredito();
-                            c = cc_controler.converteMuedaBR(e);
+                            co = Util_Controller.converteMuedaBR(e);
                         }
 
                         String d = Util_Controller.DATE_STRING(cc.getData());
@@ -1183,53 +1213,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                             cc.getHistorico(),
                             cc.getDocumento(),
                             de,
-                            c
-                        });
-                    });
-                    corLinhaJTable();
-                } else {
-                    dadosNAOencontrados();
-                }
-            } else if (m > 0) {
-                System.out.println("3");
-                DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
-                dtma.setNumRows(0);
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(110);
-
-                TABELA_PESQUISAR_ALTERAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-
-                DATAS = cc_controler.totalDiasMes(mes);
-                dt1 = DATAS.get(0);
-                dt2 = DATAS.get(1);
-                System.out.println("data 2 volta: " + dt2);
-
-                C = CC.consultar_data_data(dt1, dt2);
-
-                if (C != null && !C.isEmpty()) {
-                    C.forEach((cc) -> {
-
-                        String de = "", c = "";
-                        if (cc.getDebito() != 0.0) {
-                            double t = cc.getDebito();
-                            de = cc_controler.converteMuedaBR(t);
-                        }
-                        if (cc.getCredito() != 0.0) {
-                            double e = cc.getCredito();
-                            c = cc_controler.converteMuedaBR(e);
-                        }
-
-                        String d = Util_Controller.DATE_STRING(cc.getData());
-                        dtma.addRow(new Object[]{
-                            cc.getId(),
-                            d,
-                            cc.getBanco(),
-                            cc.getHistorico(),
-                            cc.getDocumento(),
-                            de,
-                            c
+                            co
                         });
                     });
                     corLinhaJTable();
@@ -1238,12 +1222,12 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 }
             }
         } else {
-            System.out.println("00");
             if (!d1.equals("") & !d2.equals("")) {
                 System.out.println("4");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(110);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(3).setPreferredWidth(78);
 
                 TABELA_PESQUISAR_ALTERAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
@@ -1253,19 +1237,20 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 dt1 = Util_Controller.STRING_DATE(d1);
                 dt2 = Util_Controller.STRING_DATE(d2);
 
-                C = CC.consultar_data_data_banco(dt1, dt2, b);
+                C = CC.consultar_data_data_banco(dt1, dt2, banco);
 
                 if (C != null && !C.isEmpty()) {
+
                     C.forEach((cc) -> {
 
-                        String de = "", c = "";
+                        String de = "", cont = "";
                         if (cc.getDebito() != 0.0) {
                             double t = cc.getDebito();
-                            de = cc_controler.converteMuedaBR(t);
+                            de = Util_Controller.converteMuedaBR(t);
                         }
                         if (cc.getCredito() != 0.0) {
                             double e = cc.getCredito();
-                            c = cc_controler.converteMuedaBR(e);
+                            cont = Util_Controller.converteMuedaBR(e);
                         }
 
                         String d = Util_Controller.DATE_STRING(cc.getData());
@@ -1276,23 +1261,28 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                             cc.getHistorico(),
                             cc.getDocumento(),
                             de,
-                            c
+                            cont
                         });
                     });
                     corLinhaJTable();
+                    c = new Controle_Caixa();
+                    c = CC.Consultar_Saldo_Atual_data_data_banco(dt1, dt2, banco);
+                    String SALDO = cc_controler.CALCULAR_SALDO_ATUAL(c);
+                    SALDO_ATUAL.setText(SALDO);
+                    String MES = cc_controler.mesRelatorio(data1, data2);
+                    if ("relatorio".equals(status)) {
+                        Relatorios(SALDO, dt1, dt2, MES);
+                        CC.excluirDatasPesquisa();
+                    }
                 } else {
                     dadosNAOencontrados();
                 }
-
-                c = new Controle_Caixa();
-                c = CC.Consultar_Saldo_Atual_data_data(dt1, dt2, b);
-                SALDO_ATUAL.setText(cc_controler.CALCULAR_SALDO_ATUAL(c));
-
             } else if (!d1.equals("")) {
                 System.out.println("5");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(110);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(3).setPreferredWidth(78);
 
                 TABELA_PESQUISAR_ALTERAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
@@ -1301,7 +1291,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
                 dt1 = Util_Controller.STRING_DATE(d1);
 
-                C = CC.consultar_data_banco(dt1, b);
+                C = CC.consultar_data_banco(dt1, banco);
 
                 if (C != null && !C.isEmpty()) {
                     C.forEach((cc) -> {
@@ -1309,11 +1299,11 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                         String de = "", c = "";
                         if (cc.getDebito() != 0.0) {
                             double t = cc.getDebito();
-                            de = cc_controler.converteMuedaBR(t);
+                            de = Util_Controller.converteMuedaBR(t);
                         }
                         if (cc.getCredito() != 0.0) {
                             double e = cc.getCredito();
-                            c = cc_controler.converteMuedaBR(e);
+                            c = Util_Controller.converteMuedaBR(e);
                         }
 
                         String d = Util_Controller.DATE_STRING(cc.getData());
@@ -1335,7 +1325,8 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 System.out.println("6");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(110);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(3).setPreferredWidth(78);
 
                 TABELA_PESQUISAR_ALTERAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
@@ -1343,7 +1334,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
                 dt2 = Util_Controller.STRING_DATE(d2);
 
-                C = CC.consultar_data_banco(dt2, b);
+                C = CC.consultar_data_banco(dt2, banco);
 
                 if (C != null && !C.isEmpty()) {
                     C.forEach((cc) -> {
@@ -1351,11 +1342,11 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                         String de = "", c = "";
                         if (cc.getDebito() != 0.0) {
                             double t = cc.getDebito();
-                            de = cc_controler.converteMuedaBR(t);
+                            de = Util_Controller.converteMuedaBR(t);
                         }
                         if (cc.getCredito() != 0.0) {
                             double e = cc.getCredito();
-                            c = cc_controler.converteMuedaBR(e);
+                            c = Util_Controller.converteMuedaBR(e);
                         }
 
                         String d = Util_Controller.DATE_STRING(cc.getData());
@@ -1377,16 +1368,17 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 System.out.println("7");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(110);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
+                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(3).setPreferredWidth(78);
 
                 TABELA_PESQUISAR_ALTERAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
 
-                System.out.println("banco: " + b);
+                System.out.println("banco: " + banco);
 
-                C = CC.consultar_banco(b);
+                C = CC.consultar_banco(banco);
 
                 if (C != null && !C.isEmpty()) {
                     C.forEach((cc) -> {
@@ -1394,11 +1386,11 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                         String de = "", c = "";
                         if (cc.getDebito() != 0.0) {
                             double t = cc.getDebito();
-                            de = cc_controler.converteMuedaBR(t);
+                            de = Util_Controller.converteMuedaBR(t);
                         }
                         if (cc.getCredito() != 0.0) {
                             double e = cc.getCredito();
-                            c = cc_controler.converteMuedaBR(e);
+                            c = Util_Controller.converteMuedaBR(e);
                         }
 
                         String d = Util_Controller.DATE_STRING(cc.getData());
@@ -1424,14 +1416,11 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         BANCO2.setSelectedIndex(0);
         BANCO2.setEnabled(true);
 
-        DATA2.setDate(null);
-        DATA2.setEnabled(true);
-        dataUnica1 = "";
-
-        MES_.setEnabled(true);
-        int m = Calendar.getInstance().get(Calendar.MONTH); // pegando o mes atual
-        MES_.setMonth(m); // retornando a combobox de mês para o mês atual
-        mes = 0;
+        if (!"relatorio".equals(status)) {
+            DATA2.setDate(null);
+            DATA2.setEnabled(true);
+            dataUnica1 = "";
+        }
 
         DATA_INTERVALO1.setDate(null);
         DATA_INTERVALO1.setEnabled(true);
@@ -1465,6 +1454,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     public void dadosNAOencontrados() {
         JOptionPane.showMessageDialog(null, "Os dados pesquisados não foram encontrados", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
         lista_TABELA_PESQUISAR_ALTERAR();
+        listarTabela_Anuidades();
     }
 
     public final void LISTA_COMBOBOX() {
@@ -1491,44 +1481,492 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     }
 
     public final void listarTabela_Anuidades() {
+        ArrayList<Anuidade> AN;
+        if (!anuidade) {
+            DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+            dtma.setNumRows(0);
+            TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+            TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+            TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+            TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+            TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+            TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+            AN = AD.listar_anuidades_Geral_Atual();
+            if (AN != null && !AN.isEmpty()) {
+                AN.forEach((A) -> {
+                    boolean a = A.isStatusPagamento();
+                    String s;
+                    if (a) {
+                        s = "Pago";
+                    } else {
+                        s = "Não Pago";
+                    }
+                    dtma.addRow(new Object[]{
+                        A.getId_sindi(),
+                        A.getNome(),
+                        A.getCelular(),
+                        A.getAnoRecebimento(),
+                        s
+                    });
+                });
+                corLinhaTabelaAnuidade();
+                TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+            } else {
+                dadosNAOencontrados();
+            }
+
+        } else {
+            DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+            dtma.setNumRows(0);
+            TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+            TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+            TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+            TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+            TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+            TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+
+            AN = AD.listar_anuidades_NAO_PAGAS();
+            if (AN != null && !AN.isEmpty()) {
+                AN.forEach((A) -> {
+                    boolean a = A.isStatusPagamento();
+                    String s;
+                    if (a) {
+                        s = "Pago";
+                    } else {
+                        s = "Não Pago";
+                    }
+                    dtma.addRow(new Object[]{
+                        A.getId_sindi(),
+                        A.getNome(),
+                        A.getCelular(),
+                        A.getAnoRecebimento(),
+                        s
+                    });
+                });
+                corLinhaTabelaAnuidade();
+                TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+            } else {
+                dadosNAOencontrados();
+            }
+        }
+    }
+
+    public void listaAnuidadeNaoPagaAno(int ano) {
+        ArrayList<Anuidade> AN;
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
-        TABELA.getColumnModel().getColumn(1).setPreferredWidth(110);
-        TABELA.getColumnModel().getColumn(2).setPreferredWidth(110);
-
         TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        TABELA.getColumnModel().getColumn(3).setPreferredWidth(150);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+        TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
 
         TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
 
-        AD.listar_anuidades_Geral_Atual().forEach((A) -> {
-            boolean a = A.isStatusPagamento();
-            String s;
-            if (a) {
-                s = "Pago";
-            } else {
-                s = "Não Pago";
-            }
-            dtma.addRow(new Object[]{
-                A.getId_sindi(),
-                A.getNome(),
-                A.getCelular(),
-                A.getAnoRecebimento(),
-                s
+        AN = AD.anuidades_Nao_pagas_ANO(ano);
+        if (AN != null && !AN.isEmpty()) {
+            AN.forEach((A) -> {
+                boolean a = A.isStatusPagamento();
+                String s;
+                if (a) {
+                    s = "Pago";
+                } else {
+                    s = "Não Pago";
+                }
+                dtma.addRow(new Object[]{
+                    A.getId_sindi(),
+                    A.getNome(),
+                    A.getCelular(),
+                    A.getAnoRecebimento(),
+                    s
+                });
             });
-        });
-        corLinhaTabelaAnuidade();
+            corLinhaTabelaAnuidade();
+            TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        } else {
+            dadosNAOencontrados();
+        }
+    }
+
+    public void ListaAnuidades_pagas_ANO(int ano) {
+        ArrayList<Anuidade> AN;
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+        TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        AN = AD.anuidades_pagas_ANO(ano);
+        if (AN != null && !AN.isEmpty()) {
+            AN.forEach((A) -> {
+                boolean a = A.isStatusPagamento();
+                String s;
+                if (a) {
+                    s = "Pago";
+                } else {
+                    s = "Não Pago";
+                }
+                dtma.addRow(new Object[]{
+                    A.getId_sindi(),
+                    A.getNome(),
+                    A.getCelular(),
+                    A.getAnoRecebimento(),
+                    s
+                });
+            });
+            corLinhaTabelaAnuidade();
+            TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        } else {
+            dadosNAOencontrados();
+        }
+    }
+
+    public void ListaAnuidades_ANO(int ano) {
+        ArrayList<Anuidade> AN;
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+        TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        AN = AD.anuidades_ANO(ano);
+        if (AN != null && !AN.isEmpty()) {
+            AN.forEach((A) -> {
+                boolean a = A.isStatusPagamento();
+                String s;
+                if (a) {
+                    s = "Pago";
+                } else {
+                    s = "Não Pago";
+                }
+                dtma.addRow(new Object[]{
+                    A.getId_sindi(),
+                    A.getNome(),
+                    A.getCelular(),
+                    A.getAnoRecebimento(),
+                    s
+                });
+            });
+            corLinhaTabelaAnuidade();
+            TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        } else {
+            dadosNAOencontrados();
+        }
+    }
+
+    public void ListaAnuidades_pagas() {
+        ArrayList<Anuidade> AN;
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+        TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        AN = AD.listar_anuidades_PAGAS();
+        if (AN != null && !AN.isEmpty()) {
+            AN.forEach((A) -> {
+                boolean a = A.isStatusPagamento();
+                String s;
+                if (a) {
+                    s = "Pago";
+                } else {
+                    s = "Não Pago";
+                }
+                dtma.addRow(new Object[]{
+                    A.getId_sindi(),
+                    A.getNome(),
+                    A.getCelular(),
+                    A.getAnoRecebimento(),
+                    s
+                });
+            });
+            corLinhaTabelaAnuidade();
+            TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        } else {
+            dadosNAOencontrados();
+        }
+    }
+
+    public void ListaAnuidades_Nao_pagas_Nome(String nome) {
+        ArrayList<Anuidade> AN;
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+        TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        AN = AD.anuidades_Nao_pagas_Nome(nome);
+        if (AN != null && !AN.isEmpty()) {
+            AN.forEach((A) -> {
+                boolean a = A.isStatusPagamento();
+                String s;
+                if (a) {
+                    s = "Pago";
+                } else {
+                    s = "Não Pago";
+                }
+                dtma.addRow(new Object[]{
+                    A.getId_sindi(),
+                    A.getNome(),
+                    A.getCelular(),
+                    A.getAnoRecebimento(),
+                    s
+                });
+            });
+            corLinhaTabelaAnuidade();
+            TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        } else {
+            dadosNAOencontrados();
+        }
+    }
+
+    public void ListaAnuidades_pagas_Nome(String nome) {
+        ArrayList<Anuidade> AN;
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+        TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        AN = AD.anuidades_pagas_Nome(nome);
+        if (AN != null && !AN.isEmpty()) {
+            AN.forEach((A) -> {
+                boolean a = A.isStatusPagamento();
+                String s;
+                if (a) {
+                    s = "Pago";
+                } else {
+                    s = "Não Pago";
+                }
+                dtma.addRow(new Object[]{
+                    A.getId_sindi(),
+                    A.getNome(),
+                    A.getCelular(),
+                    A.getAnoRecebimento(),
+                    s
+                });
+            });
+            corLinhaTabelaAnuidade();
+            TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        } else {
+            dadosNAOencontrados();
+        }
+    }
+
+    public void ListaAnuidades_Nao_pagas_Nome_Ano(String nome, int ano) {
+        ArrayList<Anuidade> AN;
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+        TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        AN = AD.anuidades_Nao_pagas_Nome_Ano(nome, ano);
+        if (AN != null && !AN.isEmpty()) {
+            AN.forEach((A) -> {
+                boolean a = A.isStatusPagamento();
+                String s;
+                if (a) {
+                    s = "Pago";
+                } else {
+                    s = "Não Pago";
+                }
+                dtma.addRow(new Object[]{
+                    A.getId_sindi(),
+                    A.getNome(),
+                    A.getCelular(),
+                    A.getAnoRecebimento(),
+                    s
+                });
+            });
+            corLinhaTabelaAnuidade();
+            TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        } else {
+            dadosNAOencontrados();
+        }
+    }
+
+    public void ListaAnuidades_pagas_Nome_Ano(String nome, int ano) {
+        ArrayList<Anuidade> AN;
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+        TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        AN = AD.anuidades_pagas_Nome_Ano(nome, ano);
+        if (AN != null && !AN.isEmpty()) {
+            AN.forEach((A) -> {
+                boolean a = A.isStatusPagamento();
+                String s;
+                if (a) {
+                    s = "Pago";
+                } else {
+                    s = "Não Pago";
+                }
+                dtma.addRow(new Object[]{
+                    A.getId_sindi(),
+                    A.getNome(),
+                    A.getCelular(),
+                    A.getAnoRecebimento(),
+                    s
+                });
+            });
+            corLinhaTabelaAnuidade();
+            TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        } else {
+            dadosNAOencontrados();
+        }
+    }
+
+    public void ListaAnuidades_Nome(String nome) {
+        ArrayList<Anuidade> AN;
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+        TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        AN = AD.anuidades_Nome(nome);
+        if (AN != null && !AN.isEmpty()) {
+            AN.forEach((A) -> {
+                boolean a = A.isStatusPagamento();
+                String s;
+                if (a) {
+                    s = "Pago";
+                } else {
+                    s = "Não Pago";
+                }
+                dtma.addRow(new Object[]{
+                    A.getId_sindi(),
+                    A.getNome(),
+                    A.getCelular(),
+                    A.getAnoRecebimento(),
+                    s
+                });
+            });
+            corLinhaTabelaAnuidade();
+            TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        } else {
+            dadosNAOencontrados();
+        }
+    }
+
+    public void ListaAnuidades_Nome_ano(String nome, int ano) {
+        ArrayList<Anuidade> AN;
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+        TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        AN = AD.anuidades_Nome_Ano(nome, ano);
+        if (AN != null && !AN.isEmpty()) {
+            AN.forEach((A) -> {
+                boolean a = A.isStatusPagamento();
+                String s;
+                if (a) {
+                    s = "Pago";
+                } else {
+                    s = "Não Pago";
+                }
+                dtma.addRow(new Object[]{
+                    A.getId_sindi(),
+                    A.getNome(),
+                    A.getCelular(),
+                    A.getAnoRecebimento(),
+                    s
+                });
+            });
+            corLinhaTabelaAnuidade();
+            TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        } else {
+            dadosNAOencontrados();
+        }
     }
 
     public void recebeAnu(int id, int ano, String nome) {
+        System.out.println("id recebe anu: " + id);
+        String v;
+        if ("cadastrar".equals(status)) {
+            v = AC.calcularAnuidade(id);
+            String[] valor = v.split(" ");
+            VALORF.setText(valor[1]);
 
-        String historico = "Anuidade recebida do Sr.ª " + nome + ", " + "referente ao ano " + ano;
-        HISTORICO.setText(historico);
-        HISTORICO.setEnabled(false);
+            String historico = "Anuidade recebida de " + nome + ", " + "ano: " + ano;
+            HISTORICO.setText(historico);
+            HISTORICO.setEnabled(false);
 
-        TRANSACAO.setSelectedIndex(1);
-        TRANSACAO.setEnabled(false);
+            TRANSACAO.setSelectedIndex(1);
+            TRANSACAO.setEnabled(false);
+            id_Sind = id;
+            anoRecebidoAnuidade = ano;
+        } else if ("alterar".equals(status)) {
+            v = AC.calcularAnuidade(id);
+            JOptionPane.showMessageDialog(null, "O valor da taxa anual de " + nome + ", referente ao ano " + ano + " é: " + v);
+        }
+    }
+
+    public void Relatorios(String saldo, Date data1, Date data2, String mes) {
+        try {
+            HashMap filtro = new HashMap();
+            filtro.put("DATA1", data1);
+            filtro.put("DATA2", data2);
+            filtro.put("SALDO", saldo);
+            filtro.put("MES", mes);
+            JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\TesteCaixa.jasper", filtro, conexao);
+            JasperViewer.viewReport(print, false);
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório");
+            System.out.println(e);
+        }
+    }
+
+    public void limparCamposPesquisa_taxas() {
+        NOME_Pesquisar.setText("");
+        STATUS_PA.setSelectedIndex(0);
+        ANOS_CADASTRADOS.setSelectedIndex(0);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1536,29 +1974,26 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     public javax.swing.JCheckBox ANUIDADE;
     private javax.swing.JComboBox<String> BANCO1;
     private javax.swing.JComboBox<Object> BANCO2;
-    private javax.swing.JLabel BOTAO_CANCELAR_EDIÇÃO;
     private javax.swing.JLabel BOTAO_PESQUISAR_;
-    private javax.swing.JButton BOTAO_PESQUISAR_1;
     private javax.swing.JLabel BOTAO_REFAZER_;
     private javax.swing.JLabel BOTAO_SALVA_;
     private com.toedter.calendar.JDateChooser DATA1;
-    private com.toedter.calendar.JDateChooser DATA2;
+    public com.toedter.calendar.JDateChooser DATA2;
     private com.toedter.calendar.JDateChooser DATA_INTERVALO1;
     private com.toedter.calendar.JDateChooser DATA_INTERVALO2;
     private javax.swing.JTextField DOCUMENTO;
     private javax.swing.JTabbedPane FORM_GUIAS;
     public javax.swing.JTextArea HISTORICO;
-    private com.toedter.calendar.JMonthChooser MES_;
     private javax.swing.JTextField NOME_Pesquisar;
     private javax.swing.JLabel REFAZER_PESQUISA_;
     private javax.swing.JLabel SALDO_ATUAL;
+    private javax.swing.JComboBox<String> STATUS_PA;
     private javax.swing.JTable TABELA;
     private javax.swing.JTable TABELA_PESQUISAR_ALTERAR;
     public javax.swing.JPanel TELA1;
     public javax.swing.JPanel TELA2;
     public javax.swing.JComboBox<String> TRANSACAO;
     public javax.swing.JTextField VALORF;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1569,12 +2004,12 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

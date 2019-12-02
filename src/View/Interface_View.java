@@ -5,7 +5,7 @@
  */
 package View;
 
-import DAO.Sindicalizado_Pessoais_DAO;
+import DAO.Sindicalizado_DAO;
 import DAO.Util_DAO;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
@@ -23,7 +23,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Interface_View extends javax.swing.JFrame {
 
     public int ID = 0;
-    Sindicalizado_Pessoais_DAO dsp = new Sindicalizado_Pessoais_DAO();
+    Sindicalizado_DAO dsp = new Sindicalizado_DAO();
 
     public Interface_View() {
         initComponents();
@@ -91,6 +91,7 @@ public class Interface_View extends javax.swing.JFrame {
         EXCLUIR_SIND_ = new javax.swing.JMenuItem();
         RESTAURAR_ = new javax.swing.JMenuItem();
         MENU_RELA = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
 
@@ -297,6 +298,14 @@ public class Interface_View extends javax.swing.JFrame {
             }
         });
 
+        jMenuItem7.setText("Controde de caixa");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        MENU_RELA.add(jMenuItem7);
+
         jMenuItem8.setText("Sindicalizado");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -345,7 +354,7 @@ public class Interface_View extends javax.swing.JFrame {
     }//GEN-LAST:event_MENU_CAD_USUActionPerformed
 
     private void MENU_CAD_USUMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_CAD_USUMouseEntered
-     
+
     }//GEN-LAST:event_MENU_CAD_USUMouseEntered
 
     private void MENU_CAD_USUMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_CAD_USUMouseClicked
@@ -420,7 +429,7 @@ public class Interface_View extends javax.swing.JFrame {
     private void DESKTOPMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DESKTOPMouseEntered
         boolean n = dsp.niver;
         if (n) {
-            dsp.niver();
+            dsp.anivarsario();
         }
     }//GEN-LAST:event_DESKTOPMouseEntered
 
@@ -460,13 +469,13 @@ public class Interface_View extends javax.swing.JFrame {
         pas.setTitle("Consultar e Gerar Relatório de Sindicalizado");
         pas.setVisible(true);
         pas.setPosicao();
-        pas.status = "relatorio";
+        pas.status = "contrato";
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void DESKTOPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DESKTOPKeyReleased
         boolean n = dsp.niver;
         if (n) {
-            dsp.niver();
+            dsp.anivarsario();
         }
     }//GEN-LAST:event_DESKTOPKeyReleased
 
@@ -477,7 +486,7 @@ public class Interface_View extends javax.swing.JFrame {
         CC.status = "cadastrar";
         CC.setPosicao();
         CC.selecionar_guia(0);
-        
+
     }//GEN-LAST:event_CONTROLE_CAIXA_ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -520,6 +529,17 @@ public class Interface_View extends javax.swing.JFrame {
         av.setTitle("Consultar/Alterar/Gerar Anuidades");
     }//GEN-LAST:event_ANUIDADE_ALRERARActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        ControleCaixa_VIEW CC = new ControleCaixa_VIEW();
+        DESKTOP.add(CC);
+        CC.setTitle("Controle de Caixa - Gerar Relatório");
+        CC.setVisible(true);
+        CC.status = "relatorio";
+        CC.setPosicao();
+        CC.selecionar_guia(1);
+        CC.DATA2.setEnabled(false);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -548,6 +568,7 @@ public class Interface_View extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

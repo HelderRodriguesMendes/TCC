@@ -526,7 +526,7 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel19)
                                 .addGap(32, 32, 32)
                                 .addComponent(BOTAO_EDITAR_DADOS)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addComponent(PAINEL_GERAR_ANUI_A1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32))))
         );
@@ -560,7 +560,7 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        FORM_GUIAS.addTab("tab1", jPanel1);
+        FORM_GUIAS.addTab("", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -570,9 +570,7 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(FORM_GUIAS, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -814,7 +812,7 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
         PORCEN_MEDIO_P.setText(String.valueOf(D_A.getMedioProdutor_porcen()));
         GRANDE_P.setText(String.valueOf(D_A.getGrandeProdutor()));
         PORCEN_GRANDE_P.setText(String.valueOf(D_A.getGrandeProdutor_porcen()));
-        String v = Anuidade_Controller.converteMuedaBR(D_A.getSalario());
+        String v = Util_Controller.converteMuedaBR(D_A.getSalario());
         String[] valor = v.split(" ");
         SALARIO.setText(valor[1]);
     }

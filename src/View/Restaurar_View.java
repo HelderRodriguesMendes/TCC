@@ -8,11 +8,11 @@ package View;
 import Controller.Util_Controller;
 import DAO.AdministradorDAO;
 import DAO.Controle_Caixa_DAO;
-import DAO.Sindicalizado_Pessoais_DAO;
-import DAO.Sindicalizado_Rurais_DAO;
+import DAO.Sindicalizado_DAO;
+import DAO.Propriedades_Rurais_DAO;
 import Model.Administrador;
 import Model.Controle_Caixa;
-import Model.Sindicalizado_Pessoais;
+import Model.Sindicalizado;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -41,8 +41,8 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
     String data1 = "", data2 = "", dataUnica1 = "", nome = "", banco = "";
     Date dt1 = null, dt2 = null, dt_uni = null;
 
-    Sindicalizado_Pessoais_DAO dsp = new Sindicalizado_Pessoais_DAO();
-    Sindicalizado_Rurais_DAO DADOSR = new Sindicalizado_Rurais_DAO();
+    Sindicalizado_DAO dsp = new Sindicalizado_DAO();
+    Propriedades_Rurais_DAO DADOSR = new Propriedades_Rurais_DAO();
      Controle_Caixa_DAO CC = new Controle_Caixa_DAO();
 
     public Restaurar_View() {
@@ -76,7 +76,7 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
     }
 
     public int pesquisar_nome_SIND(String nome) {
-        ArrayList<Sindicalizado_Pessoais> SIND;
+        ArrayList<Sindicalizado> SIND;
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
 
@@ -132,7 +132,7 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
 
         TABELA_P_RESTAURAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        ArrayList<Sindicalizado_Pessoais> SIND;
+        ArrayList<Sindicalizado> SIND;
         SIND = dsp.listar_Tabela_Dados_Pessoais_Restaurar_NOME(Nome);
 
         TABELA_P_RESTAURAR.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
@@ -958,7 +958,7 @@ public void lista_TABELA_RESTAURAR_CC_P(String b, String d1, String d2, String d
                 ObjButtons, ObjButtons[1]);
         if (PromptResult == 0) {
             if (cont == 1) {
-                DADOSR.restaurar_SIND(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
+                dsp.restaurar_SIND(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
                 TXT_NOME.setText("");
                 pesquisar_nome_SIND(TXT_NOME.getText());
             } else if (cont == 2) {

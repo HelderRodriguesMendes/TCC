@@ -63,7 +63,10 @@ public class Controle_caixa_Controller {
         return DATAS;
     }
 
-    public void mesRelatorio(String data1, String data2) {
+    public String mesRelatorio(String data1, String data2) {
+        boolean um = false, dois = false; 
+        String MES_RELATORIO = "";
+        System.out.println("veio na controller");
         String M1 = "", M2 = "";
         String[] da1 = data1.split("/");
         String[] da2 = data2.split("/");
@@ -72,14 +75,10 @@ public class Controle_caixa_Controller {
 
         int mes1 = Integer.parseInt(dt1);
         int mes2 = Integer.parseInt(dt2);
+        int mes3;
+        ArrayList<Integer> MESES = new ArrayList<>();
 
         int cont = 0;
-
-        if (mes1 < mes2) {
-            for (int i = 0; mes1 < mes2; i++) {
-                cont++;
-            }
-        }
 
         if (mes1 != mes2) {
             switch (mes1) {
@@ -163,6 +162,59 @@ public class Controle_caixa_Controller {
                 default:
                     break;
             }
+            System.out.println("meses digitados: " + M1 + " " + M2);
+            dois = true;
+        } else if (mes1 == mes2) {
+            switch (mes1) {
+                case 1:
+                    M1 = "JANEIRO";
+                    break;
+                case 2:
+                    M1 = "FEVEREIRO";
+                    break;
+                case 3:
+                    M1 = "MARÇO";
+                    break;
+                case 4:
+                    M1 = "ABRIL";
+                    break;
+                case 5:
+                    M1 = "MAIO";
+                    break;
+                case 6:
+                    M1 = "JUNHO";
+                    break;
+                case 7:
+                    M1 = "JULHO";
+                    break;
+                case 8:
+                    M1 = "AGOSTO";
+                    break;
+                case 9:
+                    M1 = "SETEMBRO";
+                    break;
+                case 10:
+                    M1 = "OUTUBRO";
+                    break;
+                case 11:
+                    M1 = "NOVEMBRO";
+                    break;
+                case 12:
+                    M1 = "DEZEMBRO";
+                    break;
+                default:
+                    break;
+            }
+            um  = true;
+            System.out.println("meses digitados: " + M1);
         }
+        
+        if(dois){
+            MES_RELATORIO = M1 + " A " + M2;
+        }else if(um){
+            MES_RELATORIO = M1;
+        }
+        System.out.println("mes pro relatório: " + MES_RELATORIO);
+       return MES_RELATORIO;
     }
 }
