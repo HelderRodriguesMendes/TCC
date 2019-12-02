@@ -84,6 +84,33 @@ public class Anuidade_DAO {
         }
     }
 
+    public DadosAnuidade buscarDados() {
+        con = Conexao_banco.conector();
+        DadosAnuidade D = new DadosAnuidade();
+
+        try {
+            pst = con.prepareStatement("select * from dadosAnuidade");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                DadosAnuidade d = new DadosAnuidade();
+                d.setSalario(rs.getDouble("salario"));
+                d.setPequenoProdutor_t1(rs.getInt("pequenoProdutor_t1"));
+                d.setPequenoProdutor_t2(rs.getInt("pequenoProdutor_t2"));
+                d.setPequenoProdutor_porcen(rs.getInt("pequenoProdutor_porcen"));
+                d.setMedioProdutor_t1(rs.getInt("medioProdutor_t1"));
+                d.setMedioProdutor_t2(rs.getInt("medioProdutor_t2"));
+                d.setMedioProdutor_porcen(rs.getInt("medioProdutor_porcen"));
+                d.setGrandeProdutor(rs.getInt("grandeProdutor"));
+                d.setGrandeProdutor_porcen(rs.getInt("grandeProdutor_porcen"));
+                D = d;
+            }
+
+        } catch (SQLException e) {
+        }
+        return D;
+    }
+
     public void alterar(DadosAnuidade DA) {
         con = Conexao_banco.conector();
 
@@ -148,7 +175,7 @@ public class Anuidade_DAO {
     }
 
     public ArrayList verificarAnuidadesGeradas() {
-        
+
         int ano;
         con = Conexao_banco.conector();
         ArrayList<Integer> ANO = new ArrayList<>();
@@ -169,16 +196,18 @@ public class Anuidade_DAO {
 //##########################################################################################################################################################################################################################################################
 //##########################################################################################################################################################################################################################################################
 //##########################################################################################################################################################################################################################################################
+
     public ArrayList<Anuidade> listar_anuidades_Geral_Atual() {
         con = Conexao_banco.conector();
         ArrayList<Anuidade> Anu = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado order by nome, anoRecebimento");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado order by nome, anoRecebimento");
             rs = pst.executeQuery();
 
             while (rs.next()) {
                 Anuidade a = new Anuidade();
+                a.setId_sindi(rs.getInt("id_sindicalizado"));
                 a.setNome(rs.getString("nome"));
                 a.setCelular(rs.getString("celular"));
                 a.setAnoRecebimento(rs.getInt("anoRecebimento"));
@@ -239,7 +268,7 @@ public class Anuidade_DAO {
         }
         return A;
     }
-    
+
     public ArrayList<Anuidade> anuidades_Nao_pagas_Nome(String nome) {
         con = Conexao_banco.conector();
         ArrayList<Anuidade> A = new ArrayList<>();
@@ -263,7 +292,7 @@ public class Anuidade_DAO {
         }
         return A;
     }
-    
+
     public ArrayList<Anuidade> anuidades_pagas_Nome(String nome) {
         con = Conexao_banco.conector();
         ArrayList<Anuidade> A = new ArrayList<>();
@@ -287,7 +316,7 @@ public class Anuidade_DAO {
         }
         return A;
     }
-    
+
     public ArrayList<Anuidade> anuidades_Nao_pagas_Nome_Ano(String nome, int ano) {
         con = Conexao_banco.conector();
         ArrayList<Anuidade> A = new ArrayList<>();
@@ -312,7 +341,7 @@ public class Anuidade_DAO {
         }
         return A;
     }
-    
+
     public ArrayList<Anuidade> anuidades_pagas_Nome_Ano(String nome, int ano) {
         con = Conexao_banco.conector();
         ArrayList<Anuidade> A = new ArrayList<>();

@@ -47,7 +47,7 @@ public class Controle_Caixa_DAO {
         }
     }
 
-    public Controle_Caixa Consultar_Saldo_Atual_data_data(Date data1, Date data2, String banco) {
+    public Controle_Caixa Consultar_Saldo_Atual_data_data_banco(Date data1, Date data2, String banco) {
         Controle_Caixa CC = new Controle_Caixa();
         con = Conexao_banco.conector();
 
@@ -58,6 +58,29 @@ public class Controle_Caixa_DAO {
             java.sql.Date DATASQL2 = new java.sql.Date(data2.getTime());
             pst.setDate(2, DATASQL2);
             pst.setString(3, banco);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                CC.setSoma_debito(rs.getDouble("resultado_Debito"));
+                CC.setSoma_credito(rs.getDouble("resultado_Credito"));
+            }
+            con.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar saldo \n" + ex);
+            System.out.println(ex);
+        }
+        return CC;
+    }
+    public Controle_Caixa Consultar_Saldo_Atual_data_data(Date data1, Date data2) {
+        Controle_Caixa CC = new Controle_Caixa();
+        con = Conexao_banco.conector();
+
+        try {
+            pst = con.prepareStatement("select sum(debito) as resultado_Debito, sum(credito) as resultado_Credito from ControleDeCaixa where data between ? and ? and excluido = '0'"); //BUSCA O ULTIMO SALDO QUE TIVER NO BANCO
+            java.sql.Date DATASQL1 = new java.sql.Date(data1.getTime());
+            pst.setDate(1, DATASQL1);
+            java.sql.Date DATASQL2 = new java.sql.Date(data2.getTime());
+            pst.setDate(2, DATASQL2);
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -265,7 +288,39 @@ public class Controle_Caixa_DAO {
         }
         return C;
     }
+    
+    
+    
+    
+    public double somaHectares(int id){
+       
+        con = Conexao_banco.conector();
+        double soma = 0;
+        
+        try {
+            pst = con.prepareStatement("select sum(areaPropriedade) as somaDasPropiedades from propriedadeRural p "
+                    + "inner join sindicalizado s on p.id_sind = s.id_sindicalizado where id_sind = ?");
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+            if(rs.next()){
+                soma = rs.getInt("somaDasPropiedades");
+                
+            }
+            con.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao somar hectares das propriedades rurais", "Atenção", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Erro ao somar hectares das propriedades rurais: " + e);
+        }
+        return soma;
+    }
 
+    
+    
+    
+    
+    
+    
+    
     public void alterar(Controle_Caixa cc) {
         con = Conexao_banco.conector();
 
@@ -347,4 +402,66 @@ public class Controle_Caixa_DAO {
             System.out.println(e);
         }
     }
+    
+    public void CriarTabelaDatasPesquisa(Date data1, Date data2){
+        con = Conexao_banco.conector();
+        try {
+            pst = con.prepareStatement("create table datas(data1 date, data2 date, idDatas int primary key not null auto_increment)");
+            pst.executeUpdate();
+            System.out.println("TABELA CRIADA");
+            salvaDatasPesquisa(data1, data2);
+            con.close();
+        } catch (Exception e) {
+            System.out.println(" NÃO SALVO AS DASTAS DE PESQUISA");
+        }
+    }
+    public void salvaDatasPesquisa(Date data1, Date data2){
+        System.out.println("helder 2");
+        con = Conexao_banco.conector();
+        try {
+            pst = con.prepareStatement("insert into datas (data1, data2) values (?,?)");
+            java.sql.Date dataSqll = new java.sql.Date(data1.getTime());
+            java.sql.Date dataSql2 = new java.sql.Date(data2.getTime());
+            pst.setDate(1, dataSqll);
+            pst.setDate(2, dataSql2);
+            pst.executeUpdate();
+            System.out.println("SALVO AS DASTAS DE PESQUISA");
+            con.close();
+        } catch (Exception e) {
+            System.out.println(" NÃO SALVO AS DASTAS DE PESQUISA");
+        }
+    }
+    public void excluirDatasPesquisa(){
+        int id = ultimoID();
+
+        con = Conexao_banco.conector();
+        try {
+            pst = con.prepareStatement("delete from datas where idDatas = ?");
+            pst.setInt(1, id);
+            pst.executeUpdate();
+            System.out.println("EXCLUIU A TABELA DASTAS DE PESQUISA");
+            con.close();
+        } catch (Exception e) {
+            System.out.println(" NÃO EXCLUIU A TABELA DASTAS DE PESQUISA");
+        }
+    }
+    public int ultimoID(){
+        int i = 0;
+        con = Conexao_banco.conector();
+        try {
+            pst = con.prepareStatement("select max(idDatas) as ID from datas;");
+            rs = pst.executeQuery();
+            if(rs.next()){
+               i =  rs.getInt("ID");
+            }
+            System.out.println("EXCLUIU A TABELA DASTAS DE PESQUISA");
+            con.close();
+        } catch (Exception e) {
+            System.out.println(" NÃO EXCLUIU A TABELA DASTAS DE PESQUISA");
+        }
+        return i;
+    }
+    
+    
+    
 }

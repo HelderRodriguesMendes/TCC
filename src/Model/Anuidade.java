@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author helde
  */
-public class Anuidade extends Sindicalizado_Pessoais{
+public class Anuidade extends Sindicalizado{
     private int anoRecebimento;
     private boolean statusPagamento;
     private Date dataDoPagamento;

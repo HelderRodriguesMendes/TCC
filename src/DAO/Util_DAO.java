@@ -23,9 +23,9 @@ public class Util_DAO {
     PreparedStatement pst = null;
     Connection con;
 
-    Sindicalizado_Rurais_DAO DRD = new Sindicalizado_Rurais_DAO();
+    Propriedades_Rurais_DAO DRD = new Propriedades_Rurais_DAO();
 
-    public void excluir(int id, String tipo) {
+    public void excluir_S_A(int id, String tipo) {
         boolean ok = false;
         con = Conexao_banco.conector();
 

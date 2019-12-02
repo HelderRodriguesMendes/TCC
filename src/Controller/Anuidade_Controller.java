@@ -8,10 +8,8 @@ package Controller;
 import DAO.Anuidade_DAO;
 import DAO.Controle_Caixa_DAO;
 import Model.DadosAnuidade;
-import Model.Sindicalizado_Rurais;
-import java.text.NumberFormat;
+import Model.Propriedades_Rurais;
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  *
@@ -21,14 +19,11 @@ public class Anuidade_Controller {
 
     Anuidade_DAO AD = new Anuidade_DAO();
     Controle_Caixa_DAO CC = new Controle_Caixa_DAO();
-    Sindicalizado_Rurais sr;
-
-    public static String converteMuedaBR(double valor) {
-        Locale locale = new Locale("pt", "BR");
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
-        String va = currencyFormatter.format(valor);
-        return va;
-    }
+    Propriedades_Rurais sr;
+    String sindicalizado_classificado = "";
+    DadosAnuidade d;
+    
+    
 
     public boolean ultima_Anuidade_Recebida(int anoEscolhido) {
         System.out.println("passo 2");
@@ -50,19 +45,55 @@ public class Anuidade_Controller {
         return ok;
     }
 
-    public Sindicalizado_Rurais calcularAnuidade(int id) {
-        sr = new Sindicalizado_Rurais();
-        sr = CC.somaHectares(id);
-        classificarProdutor(sr.getAreaPropri());
-        double salario;
-        salario = 1.000;
-        sr.setValorAnuidade(salario);
-        return sr;
-    }
     
-    public void classificarProdutor(double propriedade){
-        DadosAnuidade d;
+    
+    
+    
+    
+    public String calcularAnuidade(int id_sindicalizado) {
+        d  = new DadosAnuidade();       
+        double somaTerras, resutado = 0, alqueiros;
+        String valor;
+        somaTerras = CC.somaHectares(id_sindicalizado);
+               
+        alqueiros = somaTerras * 4.8;
+        
+        d = classificarProdutor(alqueiros);
+        
+        if(null != sindicalizado_classificado)switch (sindicalizado_classificado) {
+            case "pequeno":
+                resutado = (d.getSalario() * d.getPequenoProdutor_porcen()) / 100;
+                break;
+            case "medio":
+                resutado = (d.getSalario() * d.getMedioProdutor_porcen()) / 100;
+                break;
+            case "grande":
+                resutado = (d.getSalario() * d.getGrandeProdutor_porcen()) / 100;
+                break;
+            default:
+                break;
+        }       
+        valor = Util_Controller.converteMuedaBR(resutado);
+        return valor;
+    }
+   
+    
+    
+    
+    
+    
+    public DadosAnuidade classificarProdutor(double propriedade){
+        d = new DadosAnuidade();
+        
         d = AD.buscarDados();
-        System.out.println("salario do banco: " + d.getSalario());
+        
+        if(propriedade == d.getPequenoProdutor_t1()||(propriedade > d.getPequenoProdutor_t1()) && propriedade <= d.getPequenoProdutor_t2()){
+            sindicalizado_classificado = "pequeno";
+        }else if(propriedade > d.getMedioProdutor_t1()&& propriedade <= d.getMedioProdutor_t2()){
+            sindicalizado_classificado = "medio";
+        }else if( propriedade > d.getGrandeProdutor() || propriedade == d.getGrandeProdutor()){
+            sindicalizado_classificado = "grande";
+        }
+        return d;
     }
 }

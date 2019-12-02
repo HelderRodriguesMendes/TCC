@@ -22,7 +22,6 @@ public class Controle_Caixa {
     private double Soma_credito;
     private double Soma_debito;
     private double saldo_atual;
-    private double novo_saldo;
     private int id;
     private int excluido;
 
@@ -150,20 +149,6 @@ public class Controle_Caixa {
      */
     public void setSaldo_atual(double saldo_atual) {
         this.saldo_atual = saldo_atual;
-    }
-
-    /**
-     * @return the novo_saldo
-     */
-    public double getNovo_saldo() {
-        return novo_saldo;
-    }
-
-    /**
-     * @param novo_saldo the novo_saldo to set
-     */
-    public void setNovo_saldo(double novo_saldo) {
-        this.novo_saldo = novo_saldo;
     }
 
     /**

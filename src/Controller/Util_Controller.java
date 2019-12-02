@@ -126,4 +126,11 @@ public abstract class Util_Controller {
         }
         return id;
     }   
+    
+    public static String converteMuedaBR(double valor) {
+        Locale locale = new Locale("pt", "BR");
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+        String va = currencyFormatter.format(valor);
+        return va;
+    }
 }

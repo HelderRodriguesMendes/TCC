@@ -5,7 +5,6 @@
  */
 package Controller;
 
-import Model.Administrador;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import javax.swing.JOptionPane;
@@ -17,7 +16,7 @@ import javax.swing.JOptionPane;
 public class Login_Controller {
     public String senha = "";
 
-    public static String encriptografar_senha(String senha) {
+    public static String criptografar_senha(String senha) {
         String retorno = "";
         MessageDigest md;
 
@@ -36,7 +35,7 @@ public class Login_Controller {
         String se = "";
         if(s1.equals(s2)){
             this.senha = s1;
-            se = encriptografar_senha(s1);
+            se = criptografar_senha(s1);
         }else{
             JOptionPane.showMessageDialog(null, "As senhas não correspondem", "ERRO", JOptionPane.ERROR_MESSAGE);
         }

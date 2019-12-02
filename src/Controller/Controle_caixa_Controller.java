@@ -7,12 +7,10 @@ package Controller;
 
 import DAO.Controle_Caixa_DAO;
 import Model.Controle_Caixa;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
 /**
  *
@@ -24,19 +22,12 @@ public class Controle_caixa_Controller {
     Controle_Caixa c;
 
     public String CALCULAR_SALDO_ATUAL(Controle_Caixa cc) {
-        
+
         cc.setSaldo_atual(cc.getSoma_credito() - cc.getSoma_debito());
-        
-        String valo = converteMuedaBR(cc.getSaldo_atual());
-        
+
+        String valo = Util_Controller.converteMuedaBR(cc.getSaldo_atual());
+
         return valo;
-    }
-    
-    public String converteMuedaBR(double valor){
-        Locale locale = new Locale("pt", "BR");
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
-        String va = currencyFormatter.format(valor);
-        return va;
     }
 
     public ArrayList totalDiasMes(int mes) {
@@ -70,5 +61,108 @@ public class Controle_caixa_Controller {
         DATAS.add(d2);
 
         return DATAS;
+    }
+
+    public void mesRelatorio(String data1, String data2) {
+        String M1 = "", M2 = "";
+        String[] da1 = data1.split("/");
+        String[] da2 = data2.split("/");
+        String dt1 = da1[1];
+        String dt2 = da2[1];
+
+        int mes1 = Integer.parseInt(dt1);
+        int mes2 = Integer.parseInt(dt2);
+
+        int cont = 0;
+
+        if (mes1 < mes2) {
+            for (int i = 0; mes1 < mes2; i++) {
+                cont++;
+            }
+        }
+
+        if (mes1 != mes2) {
+            switch (mes1) {
+                case 1:
+                    M1 = "JANEIRO";
+                    break;
+                case 2:
+                    M1 = "FEVEREIRO";
+                    break;
+                case 3:
+                    M1 = "MARÇO";
+                    break;
+                case 4:
+                    M1 = "ABRIL";
+                    break;
+                case 5:
+                    M1 = "MAIO";
+                    break;
+                case 6:
+                    M1 = "JUNHO";
+                    break;
+                case 7:
+                    M1 = "JULHO";
+                    break;
+                case 8:
+                    M1 = "AGOSTO";
+                    break;
+                case 9:
+                    M1 = "SETEMBRO";
+                    break;
+                case 10:
+                    M1 = "OUTUBRO";
+                    break;
+                case 11:
+                    M1 = "NOVEMBRO";
+                    break;
+                case 12:
+                    M1 = "DEZEMBRO";
+                    break;
+                default:
+                    break;
+            }
+
+            switch (mes2) {
+                case 1:
+                    M2 = "JANEIRO";
+                    break;
+                case 2:
+                    M2 = "FEVEREIRO";
+                    break;
+                case 3:
+                    M2 = "MARÇO";
+                    break;
+                case 4:
+                    M2 = "ABRIL";
+                    break;
+                case 5:
+                    M2 = "MAIO";
+                    break;
+                case 6:
+                    M2 = "JUNHO";
+                    break;
+                case 7:
+                    M2 = "JULHO";
+                    break;
+                case 8:
+                    M2 = "AGOSTO";
+                    break;
+                case 9:
+                    M2 = "SETEMBRO";
+                    break;
+                case 10:
+                    M2 = "OUTUBRO";
+                    break;
+                case 11:
+                    M2 = "NOVEMBRO";
+                    break;
+                case 12:
+                    M2 = "DEZEMBRO";
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

@@ -1,8 +1,8 @@
 package Controller;
 
-import DAO.Sindicalizado_Pessoais_DAO;
-import DAO.Sindicalizado_Rurais_DAO;
-import Model.Sindicalizado_Pessoais;
+import DAO.Sindicalizado_DAO;
+import DAO.Propriedades_Rurais_DAO;
+import Model.Sindicalizado;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -15,8 +15,8 @@ public class Sindicalizado_Controller {
 
     boolean z = false;
     public int ANO_Atual = 0, MES_Atual = 0, DIA_Atual = 0;
-    Sindicalizado_Pessoais_DAO dsp = new Sindicalizado_Pessoais_DAO();
-    Sindicalizado_Rurais_DAO dsr = new Sindicalizado_Rurais_DAO();
+    Sindicalizado_DAO dsp = new Sindicalizado_DAO();
+    Propriedades_Rurais_DAO dsr = new Propriedades_Rurais_DAO();
 
     public String validar_CPF(String CPF) {
         if ("000.000.000-00".equals(CPF)) {
@@ -159,7 +159,7 @@ public class Sindicalizado_Controller {
         return i;
     }
 
-    public int aniversario(Sindicalizado_Pessoais se, boolean ok) {
+    public int aniversario(Sindicalizado se, boolean ok) {
         int idade = 0;
         SimpleDateFormat ANO = new SimpleDateFormat("yyyy");
         SimpleDateFormat MES = new SimpleDateFormat("MM");
