@@ -685,4 +685,23 @@ public class Sindicalizado_DAO {
             System.out.println(e);
         }
     }
+    
+    public boolean verificaExclusão(int id){
+        boolean ok = false;
+        con = Conexao_banco.conector();
+        
+        try {
+            pst = con.prepareStatement("select excluidoS from sindicalizado where excluidoS = '1' and id_sindicalizado = ?");
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+            
+            if(rs.next()){
+                ok = true;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao verificar exclusão do sindicalizado", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Erro ao verificar exclusão do sindicalizado: " + e);
+        }
+        return ok;
+    }
 }

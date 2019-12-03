@@ -7,6 +7,7 @@ package View;
 
 import Controller.Sindicalizado_Controller;
 import Controller.Util_Controller;
+import DAO.Anuidade_DAO;
 import DAO.Conexao_banco;
 import DAO.Sindicalizado_DAO;
 import DAO.Propriedades_Rurais_DAO;
@@ -49,6 +50,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
     Sindicalizado_DAO DADOSP = new Sindicalizado_DAO();
     Propriedades_Rurais_DAO DADOSR = new Propriedades_Rurais_DAO();
     Sindicalizado se = new Sindicalizado();
+    Anuidade_DAO AD = new Anuidade_DAO();
     Connection conexao = null;
 
     DateFormat df = DateFormat.getDateInstance();
@@ -325,7 +327,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        FORM_GUIAS.addTab("PESQUISAR  SINDICALIZADO", PESQUISAR_SIND);
+        FORM_GUIAS.addTab("CONSULTAR SINDICALIZADO", PESQUISAR_SIND);
 
         jLabel75.setText("Nome:");
 
@@ -748,7 +750,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                 .addGap(174, 174, 174))
         );
 
-        FORM_GUIAS.addTab("DADOS PESSOAIS", DADOS_PESSOAIS_SIND);
+        FORM_GUIAS.addTab("CADASTRAR DADOS PESSOAIS", DADOS_PESSOAIS_SIND);
 
         jScrollPane4.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
@@ -988,7 +990,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                             .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
                                 .addGap(231, 231, 231)
                                 .addComponent(BOTAO_REFAZER_)
-                                .addGap(61, 61, 61)
+                                .addGap(58, 58, 58)
                                 .addComponent(BOTAO_SALVAR_))
                             .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
                                 .addGap(95, 95, 95)
@@ -1061,7 +1063,14 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         .addComponent(BOTAO_VOLTAR_))
                     .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
                         .addGap(70, 70, 70)
-                        .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                .addGap(193, 193, 193)
+                                .addComponent(ADICONAR_FAZENDA_))
+                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
                                 .addComponent(jLabel64)
                                 .addGap(5, 5, 5)
@@ -1070,19 +1079,16 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                                 .addComponent(TIRALEITE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(BOTAO_REFAZER_, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(BOTAO_SALVAR_)))
-                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                                .addGap(193, 193, 193)
-                                .addComponent(ADICONAR_FAZENDA_))
-                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                        .addComponent(BOTAO_REFAZER_, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(6, 6, 6))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                        .addComponent(BOTAO_SALVAR_)
+                                        .addGap(14, 14, 14)))))))
                 .addGap(25, 25, 25))
         );
 
-        FORM_GUIAS.addTab("DADOS RURAIS", DADOS_RURAIS_SIND);
+        FORM_GUIAS.addTab("CADASTRAR DADOS RURAIS", DADOS_RURAIS_SIND);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1321,7 +1327,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BOTAO_PESQUISAR_ActionPerformed
 
     private void TABELA_SINDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELA_SINDMouseClicked
-
+        Util_DAO ud = new Util_DAO();
         id_sindicalizado = Integer.parseInt(TABELA_SIND.getValueAt(TABELA_SIND.getSelectedRow(), 0).toString());
         if (null != status) {
             switch (status) {
@@ -1349,9 +1355,27 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                             ObjButtons, ObjButtons[1]);
                     if (escolha == 0) {
-                        Util_DAO ud = new Util_DAO();
-                        ud.excluir_S_A(id_sindicalizado, "sind");
-                        listar_Tabela_Sind();
+                        
+                        boolean OK = AD.verificaAnuidadeNaoPaga_Sindicalizado(id_sindicalizado);
+                        if (OK) {
+                            String ObjButtons2[] = {"Sim", "Não"};
+                            int escolha1 = JOptionPane.showOptionDialog(null,
+                                    "Este sindicalizado possui taxas anuais pendentes, deseja exclui-las?", "ATENÇÃO",
+                                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                    ObjButtons2, ObjButtons2[1]);
+                            if (escolha1 == 0) {
+                                AD.excluirTaxasAnuais(id_sindicalizado);
+                                ud.excluir_S_A(id_sindicalizado, "sind");
+                                listar_Tabela_Sind();
+                            } else if (escolha1 == 1) {
+                                ud.excluir_S_A(id_sindicalizado, "sind");
+                                listar_Tabela_Sind();
+                            }
+                        } else {
+                            ud.excluir_S_A(id_sindicalizado, "sind");
+                            AD.excluirTaxasAnuais(id_sindicalizado);
+                            listar_Tabela_Sind();
+                        }
                     } else if (escolha == 1) {
                         LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
                         bloquia_todos_campus_R();
@@ -1413,8 +1437,23 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         this.FORM_GUIAS.setSelectedIndex(n);
         switch (n) {
             case 0:
-                this.FORM_GUIAS.setEnabledAt(1, false); // desabilita toda a aba 1
-                this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 2
+                if ("excluir".equals(status)) {
+                    this.FORM_GUIAS.setEnabledAt(1, false); // desabilita toda a aba 0
+                    this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 0
+                    this.FORM_GUIAS.setTitleAt(0, "Consultar e Excluir");
+                } else if ("alterar".equals(status)) {
+                    this.FORM_GUIAS.setEnabledAt(1, false); // desabilita toda a aba 1
+                    this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 2
+                    this.FORM_GUIAS.setTitleAt(1, "ALTERAR DADOS PESSOAIS");
+                    this.FORM_GUIAS.setTitleAt(2, "ALTERAR DADOS RURAIS");
+                } else if ("cadastrar".equals(status)) {
+                    this.FORM_GUIAS.setEnabledAt(1, false); // desabilita toda a aba 1
+                    this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 2
+                } else if ("contrato".equals(status)) {
+                    this.FORM_GUIAS.setEnabledAt(1, false); // desabilita toda a aba 1
+                    this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 2
+                    JOptionPane.showMessageDialog(null, "Selecione o sindicalizado que deseja criar o relatório", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                }
                 break;
             case 1:
                 this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
@@ -1712,12 +1751,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             AREAFAZENDA.requestFocus();
             erro = 1;
         } else if ("".equals(s) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o tempo de compra da propriedade rural");
+            JOptionPane.showMessageDialog(null, "Informe a data da compra da propriedade rural");
             TEMPOCOMPRA.requestFocus();
-            erro = 1;
-        } else if ("   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o código no Incra da propriedade rural");
-            CODINCRA.requestFocus();
             erro = 1;
         } else if (!"   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
             String codI = si.validaCodIncra(CODINCRA.getText());
@@ -1740,12 +1775,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             }
         }
 
-        if (" .   .   - ".equals(Numero_NIRF.getText()) && erro == 0) {
-            erro = 1;
-            JOptionPane.showMessageDialog(null, "Informe o número da propriedade rural no   NIRF", "Atenção", JOptionPane.ERROR_MESSAGE);
-            Numero_NIRF.setValue("");
-            Numero_NIRF.requestFocus();
-        } else if (!" .   .   - ".equals(Numero_NIRF.getText()) && erro == 0) {
+        if (!" .   .   - ".equals(Numero_NIRF.getText()) && erro == 0) {
             String nirf = si.validarNIRF(Numero_NIRF.getText());
             if ("".equals(nirf)) {
                 erro = 1;
@@ -2101,7 +2131,13 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         dadosp.setDataNasci(Util_Controller.STRING_DATE(dtn));
         dadosp.setCelular(CELULAR.getText());
         dadosp.setNascionalidade(NASCIONALIDADE.getText());
-        dadosp.setEstadoCivil(String.valueOf(ESTADOCIVI.getSelectedItem()));
+        String es;
+        if (ESTADOCIVI.getSelectedIndex() == 0) {
+            es = "";
+        } else {
+            es = String.valueOf(ESTADOCIVI.getSelectedItem());
+        }
+        dadosp.setEstadoCivil(es);
         dadosp.setCpf(CPF.getText());
         System.out.println("CPF: " + dadosp.getCpf());
         dadosp.setRg(RG.getText());
@@ -2447,8 +2483,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
     public void Relatorios(int ID) {
         try {
             HashMap filtro = new HashMap();
-            filtro.put("id", ID); // o "id" é o id que criei como parametro la no select do Ireport
-            JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\Associado.jasper", filtro, conexao);
+            filtro.put("ID", ID); // o "id" é o id que criei como parametro la no select do Ireport
+            JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\SINDICA.jasper", filtro, conexao);
             JasperViewer.viewReport(print, false);
         } catch (JRException e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório");

@@ -27,37 +27,52 @@ public class Anuidade_DAO {
     Connection con;
 
     public DadosAnuidade D_A;
+    
+    public DadosAnuidade buscarDados(){
+        D_A = new DadosAnuidade();
+        int id = 0;
+        con = Conexao_banco.conector();
+        
+        try {
+            pst = con.prepareStatement("select max(id_dadosAnuidade) as ID from dadosAnuidade");
+            rs = pst.executeQuery();
+            if(rs.next()){
+                id = rs.getInt("ID");
+            }
+            if(id > 0){
+                D_A = listarDados(id);
+                con.close();
+            }
+        } catch (Exception e) {
+        }
+        return D_A;
+    }
 
-    public boolean verificaCadastro(String v) {
-        boolean ok = false;
+    public DadosAnuidade listarDados(int id) {
         con = Conexao_banco.conector();
 
         try {
-            pst = con.prepareStatement("select * from dadosAnuidade");
+            pst = con.prepareStatement("select * from dadosAnuidade where id_dadosAnuidade = ?");
+            pst.setInt(1, id);
             rs = pst.executeQuery();
-            if ("verificar".equals(v)) {
-                if (rs.next()) {
-                    ok = true;
-                }
-            } else if ("buscar".equals(v)) {
+            while (rs.next()) {
                 D_A = new DadosAnuidade();
-                while (rs.next()) {
-                    D_A.setId(rs.getInt("id_dadosAnuidade"));
-                    D_A.setSalario(rs.getDouble("salario"));
-                    D_A.setPequenoProdutor_t1(rs.getInt("pequenoProdutor_t1"));
-                    D_A.setPequenoProdutor_t2(rs.getInt("pequenoProdutor_t2"));
-                    D_A.setPequenoProdutor_porcen(rs.getInt("pequenoProdutor_porcen"));
-                    D_A.setMedioProdutor_t1(rs.getInt("medioProdutor_t1"));
-                    D_A.setMedioProdutor_t2(rs.getInt("medioProdutor_t2"));
-                    D_A.setMedioProdutor_porcen(rs.getInt("medioProdutor_porcen"));
-                    D_A.setGrandeProdutor(rs.getInt("grandeProdutor"));
-                    D_A.setGrandeProdutor_porcen(rs.getInt("grandeProdutor_porcen"));
-                }
+                D_A.setId(rs.getInt("id_dadosAnuidade"));
+                D_A.setSalario(rs.getDouble("salario"));
+                D_A.setPequenoProdutor_t1(rs.getInt("pequenoProdutor_t1"));
+                D_A.setPequenoProdutor_t2(rs.getInt("pequenoProdutor_t2"));
+                D_A.setPequenoProdutor_porcen(rs.getInt("pequenoProdutor_porcen"));
+                D_A.setMedioProdutor_t1(rs.getInt("medioProdutor_t1"));
+                D_A.setMedioProdutor_t2(rs.getInt("medioProdutor_t2"));
+                D_A.setMedioProdutor_porcen(rs.getInt("medioProdutor_porcen"));
+                D_A.setGrandeProdutor(rs.getInt("grandeProdutor"));
+                D_A.setGrandeProdutor_porcen(rs.getInt("grandeProdutor_porcen"));
             }
+            con.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao verificar cadastro de dados para calculos da anuidade", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
         }
-        return ok;
+        return D_A;
     }
 
     public void salvar_Dados_Para_Calculos(DadosAnuidade DA) {
@@ -84,38 +99,11 @@ public class Anuidade_DAO {
         }
     }
 
-    public DadosAnuidade buscarDados() {
-        con = Conexao_banco.conector();
-        DadosAnuidade D = new DadosAnuidade();
-
-        try {
-            pst = con.prepareStatement("select * from dadosAnuidade");
-            rs = pst.executeQuery();
-
-            while (rs.next()) {
-                DadosAnuidade d = new DadosAnuidade();
-                d.setSalario(rs.getDouble("salario"));
-                d.setPequenoProdutor_t1(rs.getInt("pequenoProdutor_t1"));
-                d.setPequenoProdutor_t2(rs.getInt("pequenoProdutor_t2"));
-                d.setPequenoProdutor_porcen(rs.getInt("pequenoProdutor_porcen"));
-                d.setMedioProdutor_t1(rs.getInt("medioProdutor_t1"));
-                d.setMedioProdutor_t2(rs.getInt("medioProdutor_t2"));
-                d.setMedioProdutor_porcen(rs.getInt("medioProdutor_porcen"));
-                d.setGrandeProdutor(rs.getInt("grandeProdutor"));
-                d.setGrandeProdutor_porcen(rs.getInt("grandeProdutor_porcen"));
-                D = d;
-            }
-
-        } catch (SQLException e) {
-        }
-        return D;
-    }
-
     public void alterar(DadosAnuidade DA) {
         con = Conexao_banco.conector();
 
         try {
-            pst = con.prepareStatement("update dadosAnuidade set salario = ?, pequenoProdutor_t1 = ?, pequenoProdutor_t2 = ?, pequenoProdutor_porcen = ?, medioProdutor_t1 = ?, medioProdutor_t2 = ?, medioProdutor_porcen = ?, grandeProdutor = ?, grandeProdutor_porcen = ?");
+            pst = con.prepareStatement("update dadosAnuidade set salario = ?, pequenoProdutor_t1 = ?, pequenoProdutor_t2 = ?, pequenoProdutor_porcen = ?, medioProdutor_t1 = ?, medioProdutor_t2 = ?, medioProdutor_porcen = ?, grandeProdutor = ?, grandeProdutor_porcen = ? where id_dadosAnuidade = ?");
             pst.setDouble(1, DA.getSalario());
             pst.setInt(2, DA.getPequenoProdutor_t1());
             pst.setInt(3, DA.getPequenoProdutor_t2());
@@ -125,6 +113,7 @@ public class Anuidade_DAO {
             pst.setInt(7, DA.getMedioProdutor_porcen());
             pst.setInt(8, DA.getGrandeProdutor());
             pst.setInt(9, DA.getGrandeProdutor_porcen());
+            pst.setInt(10, DA.getId());
             pst.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Dados para cálculos alterados com sucesso");
@@ -147,6 +136,7 @@ public class Anuidade_DAO {
                 id = rs.getInt("id_sindicalizado");
                 ID.add(id);
             }
+            con.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao pesquisar sindicalizados para gerar débitos anuais", "Atenção", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao pesquisar sindicalizados para gerar débitos anuais: " + e);
@@ -187,6 +177,7 @@ public class Anuidade_DAO {
                 ano = rs.getInt("anoRecebimento");
                 ANO.add(ano);
             }
+            con.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao buscar os anos de anuidades que já foram gerados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao buscar os anos de anuidades que já foram recebidas: " + e);
@@ -202,7 +193,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> Anu = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado order by nome, anoRecebimento");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0'  order by nome, anoRecebimento");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -214,13 +205,14 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 Anu.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return Anu;
     }
-    
+
     public ArrayList<Anuidade> listar_anuidades_NAO_PAGAS() {
         con = Conexao_banco.conector();
         ArrayList<Anuidade> Anu = new ArrayList<>();
@@ -238,19 +230,20 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 Anu.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return Anu;
     }
-    
+
     public ArrayList<Anuidade> listar_anuidades_PAGAS() {
         con = Conexao_banco.conector();
         ArrayList<Anuidade> Anu = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where statusPagamento = '1' order by nome, anoRecebimento");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '1' order by nome, anoRecebimento");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -262,6 +255,7 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 Anu.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
@@ -274,7 +268,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where statusPagamento = '0' and anoRecebimento = ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '0' and anoRecebimento = ?");
             pst.setInt(1, ano);
             rs = pst.executeQuery();
 
@@ -287,6 +281,7 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 A.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
@@ -299,7 +294,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where statusPagamento = '1' and anoRecebimento = ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '1' and anoRecebimento = ?");
             pst.setInt(1, ano);
             rs = pst.executeQuery();
 
@@ -312,19 +307,20 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 A.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
     }
-    
+
     public ArrayList<Anuidade> anuidades_ANO(int ano) {
         con = Conexao_banco.conector();
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where anoRecebimento = ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and anoRecebimento = ?");
             pst.setInt(1, ano);
             rs = pst.executeQuery();
 
@@ -337,6 +333,7 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 A.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
@@ -349,7 +346,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where statusPagamento = '0' and nome like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '0' and nome like ?");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
 
@@ -362,18 +359,20 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 A.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
     }
+
     public ArrayList<Anuidade> anuidades_Nome(String nome) {
         con = Conexao_banco.conector();
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado,  nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where nome like ?");
+            pst = con.prepareStatement("select id_sindicalizado,  nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and nome like ?");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
 
@@ -386,19 +385,20 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 A.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
     }
-    
+
     public ArrayList<Anuidade> anuidades_Nome_Ano(String nome, int ano) {
         con = Conexao_banco.conector();
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where nome like ? and anoRecebimento = ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and nome like ? and anoRecebimento = ?");
             pst.setString(1, "%" + nome + "%");
             pst.setInt(2, ano);
             rs = pst.executeQuery();
@@ -412,6 +412,7 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 A.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
@@ -424,7 +425,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where statusPagamento = '1' and nome like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '1' and nome like ?");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
 
@@ -437,6 +438,7 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 A.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
@@ -449,8 +451,8 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where statusPagamento = '0' and nome like ? and anoRecebimento = ?");
-             pst.setString(1, "%" + nome + "%");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '0' and nome like ? and anoRecebimento = ?");
+            pst.setString(1, "%" + nome + "%");
             pst.setInt(2, ano);
             rs = pst.executeQuery();
 
@@ -463,6 +465,7 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 A.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
@@ -475,8 +478,8 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where statusPagamento = '1' and nome like ? and anoRecebimento = ?");
-             pst.setString(1, "%" + nome + "%");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '1' and nome like ? and anoRecebimento = ?");
+            pst.setString(1, "%" + nome + "%");
             pst.setInt(2, ano);
             rs = pst.executeQuery();
 
@@ -489,6 +492,7 @@ public class Anuidade_DAO {
                 a.setStatusPagamento(rs.getBoolean("statusPagamento"));
                 A.add(a);
             }
+            con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
@@ -509,6 +513,42 @@ public class Anuidade_DAO {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao atuallizar lista de taxas anuais", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao atuallizar lista de taxas anuais: " + e);
+        }
+    }
+    
+    public boolean verificaAnuidadeNaoPaga_Sindicalizado(int id){
+        boolean ok = false;
+        con = Conexao_banco.conector();
+        
+        try {
+            pst = con.prepareStatement("select statusPagamento from recebimentoAnuidade where statusPagamento = '0' and id_sindica = ?");
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+            
+            if(rs.next()){
+                ok = true;
+            }
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao verificar taxas anuais do sindicalizado", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Erro ao verificar taxas anuais do sindicalizado: " + e);
+        }
+        return ok;
+    }
+    
+    public void excluirTaxasAnuais(int id){
+        System.out.println("id pra excluir: " + id);
+        con = Conexao_banco.conector();
+        
+        try {
+            pst = con.prepareStatement("update recebimentoAnuidade set excluido = '1' where id_sindica = ?");
+            pst.setInt(1, id);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Taxas anuais excluidas com sucesso");
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir taxas anuais", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Erro ao excluir taxas anuais: " + e);
         }
     }
 }

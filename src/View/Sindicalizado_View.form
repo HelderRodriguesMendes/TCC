@@ -52,8 +52,8 @@
         <Container class="javax.swing.JPanel" name="PESQUISAR_SIND">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="PESQUISAR  SINDICALIZADO">
-                <Property name="tabTitle" type="java.lang.String" value="PESQUISAR  SINDICALIZADO"/>
+              <JTabbedPaneConstraints tabName="CONSULTAR SINDICALIZADO">
+                <Property name="tabTitle" type="java.lang.String" value="CONSULTAR SINDICALIZADO"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -295,8 +295,8 @@
         <Container class="javax.swing.JPanel" name="DADOS_PESSOAIS_SIND">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="DADOS PESSOAIS">
-                <Property name="tabTitle" type="java.lang.String" value="DADOS PESSOAIS"/>
+              <JTabbedPaneConstraints tabName="CADASTRAR DADOS PESSOAIS">
+                <Property name="tabTitle" type="java.lang.String" value="CADASTRAR DADOS PESSOAIS"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -931,8 +931,8 @@
         <Container class="javax.swing.JPanel" name="DADOS_RURAIS_SIND">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="DADOS RURAIS">
-                <Property name="tabTitle" type="java.lang.String" value="DADOS RURAIS"/>
+              <JTabbedPaneConstraints tabName="CADASTRAR DADOS RURAIS">
+                <Property name="tabTitle" type="java.lang.String" value="CADASTRAR DADOS RURAIS"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -1054,7 +1054,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="231" max="-2" attributes="0"/>
                                       <Component id="BOTAO_REFAZER_" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                                       <Component id="BOTAO_SALVAR_" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -1151,19 +1151,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel64" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
-                                      <Component id="jScrollPane3" min="-2" pref="65" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                                      <Component id="TIRALEITE" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="BOTAO_REFAZER_" min="-2" pref="24" max="-2" attributes="0"/>
-                                          <Component id="BOTAO_SALVAR_" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="193" max="-2" attributes="0"/>
                                       <Component id="ADICONAR_FAZENDA_" min="-2" max="-2" attributes="0"/>
@@ -1172,6 +1160,24 @@
                                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jScrollPane1" min="-2" pref="232" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel64" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
+                                      <Component id="jScrollPane3" min="-2" pref="65" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                                      <Component id="TIRALEITE" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="BOTAO_REFAZER_" min="-2" pref="24" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="BOTAO_SALVAR_" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                               </Group>
                           </Group>

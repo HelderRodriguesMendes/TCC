@@ -11,6 +11,7 @@ import Controller.Util_Controller;
 import DAO.Anuidade_DAO;
 import DAO.Conexao_banco;
 import DAO.Controle_Caixa_DAO;
+import DAO.Sindicalizado_DAO;
 import Model.Anuidade;
 import Model.Controle_Caixa;
 import Model.Propriedades_Rurais;
@@ -48,7 +49,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
         LISTA_COMBOBOX();
         conexao = Conexao_banco.conector();
-
+        VOLTAR.setVisible(false);
     }
 
     Controle_Caixa c;
@@ -59,6 +60,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     Anuidade_Controller AC = new Anuidade_Controller();
     Propriedades_Rurais sr;
     Anuidade_DAO AD = new Anuidade_DAO();
+    Sindicalizado_DAO SD = new Sindicalizado_DAO();
 
     boolean anuidade = false;
     public String status = "";
@@ -96,10 +98,10 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         BOTAO_SALVA_ = new javax.swing.JLabel();
         BOTAO_REFAZER_ = new javax.swing.JLabel();
+        VOLTAR = new javax.swing.JLabel();
         TELA2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         TABELA_PESQUISAR_ALTERAR = new javax.swing.JTable();
-        BOTAO_PESQUISAR_ = new javax.swing.JLabel();
         BANCO2 = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         DATA_INTERVALO2 = new com.toedter.calendar.JDateChooser();
@@ -108,9 +110,10 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         DATA_INTERVALO1 = new com.toedter.calendar.JDateChooser();
         DATA2 = new com.toedter.calendar.JDateChooser();
         jLabel21 = new javax.swing.JLabel();
-        REFAZER_PESQUISA_ = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         SALDO_ATUAL = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TABELA = new javax.swing.JTable();
@@ -267,6 +270,13 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             }
         });
 
+        VOLTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/proximo.png"))); // NOI18N
+        VOLTAR.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                VOLTARMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -297,11 +307,11 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel14)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(DATA1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(DATA1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel3Layout.createSequentialGroup()
                                                 .addGap(37, 37, 37)
                                                 .addComponent(jLabel2)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGap(0, 0, 0)
                                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(4, 4, 4)
@@ -313,30 +323,33 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(BOTAO_REFAZER_)
+                                        .addGap(32, 32, 32)
+                                        .addComponent(BOTAO_SALVA_))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(29, 29, 29)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(ANUIDADE)
-                                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(VALORF, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, 0)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 71, Short.MAX_VALUE))
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addGap(29, 29, 29)
+                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(ANUIDADE)
+                                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(VALORF, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 71, Short.MAX_VALUE)))
+                                .addContainerGap())
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BOTAO_REFAZER_)
-                                .addGap(32, 32, 32)
-                                .addComponent(BOTAO_SALVA_)))
-                        .addContainerGap())))
+                                .addComponent(VOLTAR))))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(BOTAO_SALVA_)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(ANUIDADE)
@@ -382,7 +395,11 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(82, 82, 82)
-                                .addComponent(BOTAO_REFAZER_)))))
+                                .addComponent(BOTAO_REFAZER_))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(VOLTAR, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BOTAO_SALVA_)))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -428,16 +445,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         });
         jScrollPane3.setViewportView(TABELA_PESQUISAR_ALTERAR);
 
-        BOTAO_PESQUISAR_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
-        BOTAO_PESQUISAR_.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BOTAO_PESQUISAR_MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                BOTAO_PESQUISAR_MouseEntered(evt);
-            }
-        });
-
         BANCO2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Brasil", "Caixa Interno", "Sicredi" }));
 
         jLabel19.setText("Banco:");
@@ -472,16 +479,23 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
         jLabel21.setText("Data:");
 
-        REFAZER_PESQUISA_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
-        REFAZER_PESQUISA_.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                REFAZER_PESQUISA_MouseClicked(evt);
-            }
-        });
-
         jLabel24.setText("Saldo:");
 
         SALDO_ATUAL.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pesquisar.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/atualizaz.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout TELA2Layout = new javax.swing.GroupLayout(TELA2);
         TELA2.setLayout(TELA2Layout);
@@ -490,16 +504,16 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             .addGroup(TELA2Layout.createSequentialGroup()
                 .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(TELA2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(BANCO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(DATA2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(TELA2Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(jLabel19)
                         .addGap(104, 104, 104)
-                        .addComponent(jLabel21)))
-                .addGap(58, 58, 58)
+                        .addComponent(jLabel21))
+                    .addGroup(TELA2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(BANCO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(DATA2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(34, 34, 34)
                 .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(TELA2Layout.createSequentialGroup()
                         .addGap(86, 86, 86)
@@ -510,22 +524,21 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                         .addComponent(jLabel20)
                         .addGap(12, 12, 12)
                         .addComponent(DATA_INTERVALO2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BOTAO_PESQUISAR_)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(REFAZER_PESQUISA_)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TELA2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TELA2Layout.createSequentialGroup()
-                        .addComponent(jLabel24)
-                        .addGap(6, 6, 6)
-                        .addComponent(SALDO_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(188, 188, 188))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TELA2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(109, 109, 109))))
+                .addComponent(jLabel24)
+                .addGap(6, 6, 6)
+                .addComponent(SALDO_ATUAL, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(188, 188, 188))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TELA2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70))
         );
         TELA2Layout.setVerticalGroup(
             TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -533,34 +546,37 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(TELA2Layout.createSequentialGroup()
                         .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel19)
                             .addGroup(TELA2Layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addComponent(jLabel21)))
-                        .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BANCO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel19)
+                                    .addGroup(TELA2Layout.createSequentialGroup()
+                                        .addGap(5, 5, 5)
+                                        .addComponent(jLabel21)))
+                                .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(BANCO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(TELA2Layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(DATA2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(TELA2Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(DATA2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(TELA2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel25)
+                                .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(TELA2Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addComponent(DATA_INTERVALO1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(TELA2Layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jLabel20))
+                                    .addGroup(TELA2Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addComponent(DATA_INTERVALO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(29, 29, 29))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TELA2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(TELA2Layout.createSequentialGroup()
-                                    .addComponent(jLabel25)
-                                    .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(TELA2Layout.createSequentialGroup()
-                                            .addGap(1, 1, 1)
-                                            .addComponent(DATA_INTERVALO1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(TELA2Layout.createSequentialGroup()
-                                            .addGap(6, 6, 6)
-                                            .addComponent(jLabel20))
-                                        .addGroup(TELA2Layout.createSequentialGroup()
-                                            .addGap(1, 1, 1)
-                                            .addComponent(DATA_INTERVALO2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addComponent(BOTAO_PESQUISAR_, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addComponent(REFAZER_PESQUISA_, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addGap(29, 29, 29)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)))
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(TELA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -593,6 +609,9 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         TABELA.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TABELAMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                TABELAMouseEntered(evt);
             }
         });
         jScrollPane2.setViewportView(TABELA);
@@ -707,6 +726,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         limparCampus();
         HISTORICO.setEnabled(true);
         TRANSACAO.setEnabled(true);
+        ANUIDADE.setEnabled(true);
     }//GEN-LAST:event_BOTAO_REFAZER_MouseClicked
 
     private void BOTAO_SALVA_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_SALVA_MouseClicked
@@ -728,21 +748,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_BOTAO_SALVA_MouseClicked
 
-    private void BOTAO_PESQUISAR_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_MouseClicked
-        if (BANCO2.getSelectedIndex() == 0 && data2.equals("") && data1.equals("") && dataUnica1.equals("")) {
-            lista_TABELA_PESQUISAR_ALTERAR();
-        } else {
-            banco = String.valueOf(BANCO2.getSelectedItem());
-            if ("relatorio".equals(status)) {
-                CC.excluirDatasPesquisa();
-                dt1 = Util_Controller.STRING_DATE(data1);
-                dt2 = Util_Controller.STRING_DATE(data2);
-                CC.salvaDatasPesquisa(dt1, dt2);
-            }
-            lista_TABELA_PESQUISAR_ALTERAR_P(banco, data1, data2, dataUnica1);
-        }
-    }//GEN-LAST:event_BOTAO_PESQUISAR_MouseClicked
-
     private void TABELA_PESQUISAR_ALTERARMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELA_PESQUISAR_ALTERARMouseClicked
         linhaSelecionada = TABELA_PESQUISAR_ALTERAR.getSelectedRow();
 
@@ -760,6 +765,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
                 preencherCamposJtable(linhaSelecionada);
                 BOTAO_REFAZER_.setVisible(false);
+                VOLTAR.setVisible(true);
             }
         } else if ("excluir".equals(status)) {
             String ObjButtons[] = {"Sim", "Não"};
@@ -824,12 +830,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_DATA2PropertyChange
 
-    private void REFAZER_PESQUISA_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_REFAZER_PESQUISA_MouseClicked
-        limparCamposPesquisa();
-        SALDO_ATUAL.setText("");
-        lista_TABELA_PESQUISAR_ALTERAR();
-    }//GEN-LAST:event_REFAZER_PESQUISA_MouseClicked
-
     private void DATA2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DATA2MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_DATA2MouseClicked
@@ -840,6 +840,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             listarTabela_Anuidades();
             selecionar_guia(2);
             limparCamposPesquisa_taxas();
+            JOptionPane.showMessageDialog(null, "Selecione o sindicalizado proprietário da taxa anual recebida", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_ANUIDADEActionPerformed
 
@@ -859,7 +860,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
             String ObjButtons[] = {"Sim", "Não"};
             int escolha = JOptionPane.showOptionDialog(null,
-                    "Os dados anuais recebidos realmente são do Sr.ª " + nome + ", " + " referente ao ano " + ano + "?", "ATENÇÃO",
+                    "A taxa anual recebida realmente é de " + nome + ", " + " referente ao ano " + ano + "?", "ATENÇÃO",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                     ObjButtons, ObjButtons[1]);
             if (escolha == 0) {
@@ -897,10 +898,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     private void STATUS_PAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_STATUS_PAActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_STATUS_PAActionPerformed
-
-    private void BOTAO_PESQUISAR_MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BOTAO_PESQUISAR_MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BOTAO_PESQUISAR_MouseEntered
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         if ("relatorio".equals(status)) {
@@ -952,6 +949,43 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void TABELAMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TABELAMouseEntered
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (BANCO2.getSelectedIndex() == 0 && data2.equals("") && data1.equals("") && dataUnica1.equals("")) {
+            lista_TABELA_PESQUISAR_ALTERAR();
+        } else {
+            banco = String.valueOf(BANCO2.getSelectedItem());
+            if ("relatorio".equals(status)) {
+                if (data2.equals("") && data1.equals("")) {
+                    JOptionPane.showMessageDialog(null, "Informe as datas para criar o relatório", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    CC.excluirDatasPesquisa();
+                    dt1 = Util_Controller.STRING_DATE(data1);
+                    dt2 = Util_Controller.STRING_DATE(data2);
+                    CC.salvaDatasPesquisa(dt1, dt2);
+                    lista_TABELA_PESQUISAR_ALTERAR_P(banco, data1, data2, dataUnica1);
+                }
+            } else {
+                lista_TABELA_PESQUISAR_ALTERAR_P(banco, data1, data2, dataUnica1);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        limparCamposPesquisa();
+        SALDO_ATUAL.setText("");
+        lista_TABELA_PESQUISAR_ALTERAR();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void VOLTARMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VOLTARMouseClicked
+        selecionar_guia(1);
+        limparCampus();
+        VOLTAR.setVisible(false);
+    }//GEN-LAST:event_VOLTARMouseClicked
 
     public boolean validarObrigatorios() {
         boolean ok = false;
@@ -1051,7 +1085,17 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 } else if ("relatorio".equals(status)) {
                     this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
                     this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 0
+                } else if ("excluir".equals(status)) {
+                    this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
+                    this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 0
+                    this.FORM_GUIAS.setTitleAt(1, "Consultar e Excluir");
                 }
+                break;
+            case 2:
+                if (anuidade) {
+                    this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
+                }
+                break;
             default:
                 break;
         }
@@ -1942,9 +1986,16 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             TRANSACAO.setEnabled(false);
             id_Sind = id;
             anoRecebidoAnuidade = ano;
+            ANUIDADE.setEnabled(false);
         } else if ("alterar".equals(status)) {
+            boolean ok = SD.verificaExclusão(id);
             v = AC.calcularAnuidade(id);
-            JOptionPane.showMessageDialog(null, "O valor da taxa anual de " + nome + ", referente ao ano " + ano + " é: " + v);
+
+            if (ok) {
+                JOptionPane.showMessageDialog(null, "O sindicalizado " + nome + " está excluido do sistema." + "\n" + "O valor de sua taxa anual é: " + v + ", referente ao ano: " + ano);
+            } else {
+                JOptionPane.showMessageDialog(null, "O valor da taxa anual de " + nome + ", referente ao ano " + ano + " é: " + v);
+            }
         }
     }
 
@@ -1974,7 +2025,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     public javax.swing.JCheckBox ANUIDADE;
     private javax.swing.JComboBox<String> BANCO1;
     private javax.swing.JComboBox<Object> BANCO2;
-    private javax.swing.JLabel BOTAO_PESQUISAR_;
     private javax.swing.JLabel BOTAO_REFAZER_;
     private javax.swing.JLabel BOTAO_SALVA_;
     private com.toedter.calendar.JDateChooser DATA1;
@@ -1985,7 +2035,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane FORM_GUIAS;
     public javax.swing.JTextArea HISTORICO;
     private javax.swing.JTextField NOME_Pesquisar;
-    private javax.swing.JLabel REFAZER_PESQUISA_;
     private javax.swing.JLabel SALDO_ATUAL;
     private javax.swing.JComboBox<String> STATUS_PA;
     private javax.swing.JTable TABELA;
@@ -1994,6 +2043,9 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     public javax.swing.JPanel TELA2;
     public javax.swing.JComboBox<String> TRANSACAO;
     public javax.swing.JTextField VALORF;
+    private javax.swing.JLabel VOLTAR;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

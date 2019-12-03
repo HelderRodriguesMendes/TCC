@@ -25,7 +25,7 @@ public class Util_DAO {
 
     Propriedades_Rurais_DAO DRD = new Propriedades_Rurais_DAO();
 
-    public void excluir_S_A(int id, String tipo) {
+    public boolean excluir_S_A(int id, String tipo) {
         boolean ok = false;
         con = Conexao_banco.conector();
 
@@ -36,21 +36,23 @@ public class Util_DAO {
                 pst.setInt(2, id);
                 pst.executeUpdate();
                 ok = DRD.excluirPropriedade(id);
+                if(ok){
+                    JOptionPane.showMessageDialog(null, "Sindicalizado excluido com sucesso");
+                }
             } else if ("adm".equals(tipo)) {
-                pst = con.prepareStatement("update admin set excluidoP = ? where id_admin = ?");
+                pst = con.prepareStatement("update admin set excluido = ? where id_admin = ?");
                 pst.setInt(1, 1);
                 pst.setInt(2, id);
                 pst.executeUpdate();
-            }
-
-            if (ok) {
-                JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso");
+                ok = true;
+                JOptionPane.showMessageDialog(null, "Administrador excluido com sucesso");
             }
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao excluir os dados");
             System.out.println(e);
         }
+        return ok;
     }
 
     public void Acessar_Facebook() {

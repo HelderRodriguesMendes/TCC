@@ -25,15 +25,13 @@ public class Anuidade_Controller {
     
     
 
-    public boolean ultima_Anuidade_Recebida(int anoEscolhido) {
-        System.out.println("passo 2");
+    public boolean ultima_Anuidade_Recebida(int anoEscolhido) {        
         boolean ok = true;
         int ano, cont = 0;
         ArrayList<Integer> ANO = AD.verificarAnuidadesGeradas();
 
         for (int i = 0; i < ANO.size(); i++) {
             ano = (int) ANO.get(i);
-            System.out.println("ANO DO BANCO: " + ano);
             if (anoEscolhido == ano) {
                 cont++;
             }
@@ -41,15 +39,9 @@ public class Anuidade_Controller {
         if (cont > 0) {
             ok = false;
         }
-
         return ok;
     }
 
-    
-    
-    
-    
-    
     public String calcularAnuidade(int id_sindicalizado) {
         d  = new DadosAnuidade();       
         double somaTerras, resutado = 0, alqueiros;

@@ -119,7 +119,7 @@ public class Interface_View extends javax.swing.JFrame {
         DESKTOP.setLayout(DESKTOPLayout);
         DESKTOPLayout.setHorizontalGroup(
             DESKTOPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1267, Short.MAX_VALUE)
+            .addGap(0, 1279, Short.MAX_VALUE)
         );
         DESKTOPLayout.setVerticalGroup(
             DESKTOPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,7 +172,7 @@ public class Interface_View extends javax.swing.JFrame {
         });
         MENU_SALVAR.add(MENU_CAD_USU);
 
-        jMenuItem5.setText("Anuidade");
+        jMenuItem5.setText("Classificação de sindicalizados/Taxa Anuais");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
@@ -223,7 +223,7 @@ public class Interface_View extends javax.swing.JFrame {
         });
         MENU_PE.add(jMenuItem1);
 
-        ANUIDADE_ALRERAR.setText("Anuidade");
+        ANUIDADE_ALRERAR.setText("Classificação de sindicalizados");
         ANUIDADE_ALRERAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ANUIDADE_ALRERARActionPerformed(evt);
@@ -281,7 +281,7 @@ public class Interface_View extends javax.swing.JFrame {
         });
         MENU_EXCLUIR.add(EXCLUIR_SIND_);
 
-        RESTAURAR_.setText("Restaurar");
+        RESTAURAR_.setText("Restaurar Sindicalizado");
         RESTAURAR_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RESTAURAR_ActionPerformed(evt);
@@ -332,8 +332,7 @@ public class Interface_View extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(DESKTOP)
-                .addContainerGap())
+                .addComponent(DESKTOP))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,7 +368,7 @@ public class Interface_View extends javax.swing.JFrame {
         Sindicalizado_View cs = new Sindicalizado_View() {
         };
         DESKTOP.add(cs);
-        cs.setTitle("Cadastrar Sindicalizado");
+        cs.setTitle("Sindicalizado");
         cs.status = "cadastrar";
         cs.selecionar_guia(1);
         cs.setVisible(true);
@@ -395,7 +394,7 @@ public class Interface_View extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         Sindicalizado_View pas = new Sindicalizado_View();
         DESKTOP.add(pas);
-        pas.setTitle("Consultar e alterar Sindicalizado");
+        pas.setTitle("Sindicalizado");
         pas.status = "alterar";
         pas.selecionar_guia(0);
         pas.setVisible(true);
@@ -405,10 +404,11 @@ public class Interface_View extends javax.swing.JFrame {
     private void EXCLUIR_SIND_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EXCLUIR_SIND_ActionPerformed
         Sindicalizado_View pas = new Sindicalizado_View();
         DESKTOP.add(pas);
-        pas.setTitle("Consultar e Excluir Sindicalizado");
+        pas.setTitle("Sindicalizado");
         pas.setVisible(true);
         pas.setPosicao();
         pas.status = "excluir";
+        pas.selecionar_guia(0);
     }//GEN-LAST:event_EXCLUIR_SIND_ActionPerformed
 
     private void EXCLUIR_ADMIN_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EXCLUIR_ADMIN_ActionPerformed
@@ -470,6 +470,7 @@ public class Interface_View extends javax.swing.JFrame {
         pas.setVisible(true);
         pas.setPosicao();
         pas.status = "contrato";
+        pas.selecionar_guia(0);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void DESKTOPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DESKTOPKeyReleased
@@ -503,7 +504,7 @@ public class Interface_View extends javax.swing.JFrame {
         DESKTOP.add(CC);
         CC.setVisible(true);
         CC.status = "excluir";
-        CC.setPosicao();
+        CC.setPosicao();       
         CC.selecionar_guia(1);
     }//GEN-LAST:event_EXCLUIR_CONTROLE_CAIXA_ActionPerformed
 
@@ -511,28 +512,23 @@ public class Interface_View extends javax.swing.JFrame {
         Anuidade_View av = new Anuidade_View();
         DESKTOP.add(av);
         av.setVisible(true);
-        av.setPosicao();
         av.status = "cadastrar";
-        av.selecionar_guia(0);
-        av.verificaCadastro("cadastrar");
-        av.setTitle("Cadastrar Dados Anuais");
+        av.setPosicao();
+        av.setTitle("Cadastrar Dados/Taxas Anuais");
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void ANUIDADE_ALRERARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ANUIDADE_ALRERARActionPerformed
         Anuidade_View av = new Anuidade_View();
         DESKTOP.add(av);
         av.setVisible(true);
-        av.setPosicao();
         av.status = "alterar";
-        av.selecionar_guia(0);
-        av.verificaCadastro("alterar");
+        av.setPosicao();
         av.setTitle("Consultar/Alterar/Gerar Anuidades");
     }//GEN-LAST:event_ANUIDADE_ALRERARActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         ControleCaixa_VIEW CC = new ControleCaixa_VIEW();
         DESKTOP.add(CC);
-        CC.setTitle("Controle de Caixa - Gerar Relatório");
         CC.setVisible(true);
         CC.status = "relatorio";
         CC.setPosicao();

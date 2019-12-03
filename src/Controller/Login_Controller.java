@@ -40,6 +40,5 @@ public class Login_Controller {
             JOptionPane.showMessageDialog(null, "As senhas não correspondem", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
         return se;
-    }
-
+}
 }

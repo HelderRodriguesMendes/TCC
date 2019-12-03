@@ -33,6 +33,7 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
     Administrador adm = new Administrador();
     AdministradorDAO ad = new AdministradorDAO();
     Login_Controller lo = new Login_Controller();
+    Util_DAO ud = new Util_DAO();
     public boolean excluir = false;
 
     public Pesquisar_Alterar_Admin_View() {
@@ -173,9 +174,12 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
                     ObjButtons, ObjButtons[1]);
             if (escolha == 0) {
                 int id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
-                Util_DAO ud = new Util_DAO();
-                ud.excluir_S_A(id, "adm");
-                LISTAR_TABELA();
+                
+                boolean ok = ud.excluir_S_A(id, "adm");
+                System.out.println("ok da dao: " + ok);
+                if (ok) {
+                    LISTAR_TABELA();
+                }
             }
         }
     }//GEN-LAST:event_TABELAMouseClicked
@@ -185,7 +189,7 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
             ID = 0;
             Pesquisar_Nome(NOME.getText());
             int i = Util_Controller.selectNull(ID);
-            if (i == 1) {
+            if (i == 0) {
                 NOME.setText("");
                 LISTAR_TABELA();
             }
@@ -210,8 +214,10 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_NOMEKeyPressed
 
-    public void LISTAR_TABELA() {
+    public final void LISTAR_TABELA() {
+        System.out.println("entro no metodo");
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
 
         TABELA.getColumnModel().getColumn(2).setPreferredWidth(110);
 
@@ -235,7 +241,6 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
     public void Pesquisar_Nome(String nome) {
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
-        
 
         TABELA.getColumnModel().getColumn(2).setPreferredWidth(110);
 
@@ -272,6 +277,7 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
     public void Limpar_campus() {
         NOME.setText("");
     }
+
     public void corLinhaJTable() {
         TABELA.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override

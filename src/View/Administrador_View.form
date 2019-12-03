@@ -57,7 +57,6 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace pref="66" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="78" pref="78" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="TXTLOGIN" min="-2" pref="160" max="-2" attributes="0"/>

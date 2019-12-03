@@ -50,7 +50,8 @@ public class AdministradorDAO {
 
     public boolean salvar_ADMIN(Administrador usu) {
         login = verificar_login(usu);
-        if (login) {
+        System.out.println("login" + login);
+        if (!login) {
             con = Conexao_banco.conector();
 
             try {
@@ -81,7 +82,7 @@ public class AdministradorDAO {
         ArrayList<Administrador> AD = new ArrayList();
 
         try {
-            pst = con.prepareStatement("select id_admin, nome, celular, login from admin where excluido = '0'");
+            pst = con.prepareStatement("select id_admin, nome, celular, login from admin where excluido = '0' order by nome");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -111,7 +112,7 @@ public class AdministradorDAO {
         ArrayList<Administrador> AD = new ArrayList();
 
         try {
-            pst = con.prepareStatement("select id_admin, nome, celular, login from admin where excluido = '0' and nome like ?");
+            pst = con.prepareStatement("select id_admin, nome, celular, login from admin where excluido = '0' and nome like ? order by nome");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
 
@@ -216,10 +217,11 @@ public class AdministradorDAO {
     }
 
     public boolean verificar_login(Administrador adm) {
+        System.out.println("verifica login");
         con = Conexao_banco.conector();
         boolean lo = false;
         try {
-            pst = con.prepareStatement("select login, id_admin from admin where login = ?");
+            pst = con.prepareStatement("select id_admin from admin where login = ?");
             pst.setString(1, adm.getLogin());
             rs = pst.executeQuery();
 
@@ -231,6 +233,7 @@ public class AdministradorDAO {
         } catch (Exception e) {
             System.out.println(e);
         }
+        System.out.println("lo " + lo);
         return lo;
     }
 
@@ -294,4 +297,5 @@ public class AdministradorDAO {
             System.out.println(e);
         }
     }
+
 }

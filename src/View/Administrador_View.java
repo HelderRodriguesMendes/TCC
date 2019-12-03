@@ -95,7 +95,7 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
             if ("".equals(TXTSENHA.getText())) {
                 JOptionPane.showMessageDialog(null, "Informe a SENHA", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
                 TXTSENHA.requestFocus();
-            }else{
+            } else {
                 v = true;
             }
         } else if (cont == 5) {
@@ -384,7 +384,7 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
                     validacao();
                 } else {
                     login = ud.salvar_ADMIN(preencher_objeto());
-                    if (login) {
+                    if (!login) {
                         limparCampos();
                         TXTNOME.requestFocus();
                     } else {
@@ -459,8 +459,14 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
 
             if (v) {
                 AdministradorDAO ud = new AdministradorDAO();
-                ud.salvar_ADMIN(preencher_objeto());
-                limparCampos();
+                login = ud.salvar_ADMIN(preencher_objeto());
+                if (!login) {
+                    limparCampos();
+                    TXTNOME.requestFocus();
+                } else {
+                    TXTLOGIN.setText("");
+                    TXTLOGIN.requestFocus();
+                }
             }
         }// evento quando o ENTER é apertado
 
@@ -520,10 +526,10 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
 
     private void VOLTARMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VOLTARMouseClicked
         Pesquisar_Alterar_Admin_View paa = new Pesquisar_Alterar_Admin_View();
-            Interface_View.DESKTOP.add(paa);
-            paa.setVisible(true);
-            paa.setPosicao();
-            this.dispose();
+        Interface_View.DESKTOP.add(paa);
+        paa.setVisible(true);
+        paa.setPosicao();
+        this.dispose();
     }//GEN-LAST:event_VOLTARMouseClicked
 
 
