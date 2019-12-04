@@ -9,6 +9,7 @@ import DAO.Anuidade_DAO;
 import DAO.Controle_Caixa_DAO;
 import Model.DadosAnuidade;
 import Model.Propriedades_Rurais;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +23,7 @@ public class Anuidade_Controller {
     Propriedades_Rurais sr;
     String sindicalizado_classificado = "";
     DadosAnuidade d;
-    
+    NumberFormat numberCurrencyFormat = NumberFormat.getCurrencyInstance();
     
 
     public boolean ultima_Anuidade_Recebida(int anoEscolhido) {        
@@ -44,14 +45,14 @@ public class Anuidade_Controller {
 
     public String calcularAnuidade(int id_sindicalizado) {
         d  = new DadosAnuidade();       
-        double somaTerras, resutado = 0, alqueiros;
+        double somaTerras, resutado = 0, alqueires;
         String valor;
-        somaTerras = CC.somaHectares(id_sindicalizado);
-        System.out.println("soma de terras: " + somaTerras);       
-        alqueiros = somaTerras * 4.8;
-        System.out.println("total alqueiros: " + alqueiros);
         
-        d = classificarProdutor(alqueiros);
+        somaTerras = CC.somaHectares(id_sindicalizado);      
+        
+        alqueires = somaTerras * 4.8;
+        
+        d = classificarProdutor(alqueires);
         
         if(null != sindicalizado_classificado)switch (sindicalizado_classificado) {
             case "pequeno":
@@ -69,12 +70,7 @@ public class Anuidade_Controller {
         valor = Util_Controller.converteMuedaBR(resutado);
         return valor;
     }
-   
-    
-    
-    
-    
-    
+
     public DadosAnuidade classificarProdutor(double propriedade){
         d = new DadosAnuidade();
         
@@ -88,5 +84,15 @@ public class Anuidade_Controller {
             sindicalizado_classificado = "grande";
         }
         return d;
+    }
+    
+    public String formatar(String s) {
+        numberCurrencyFormat.setMaximumFractionDigits(2);
+        String replaceable = String.format("[%s\\s,.]", NumberFormat.getCurrencyInstance().getCurrency().getSymbol());
+        String cleanString = s.replaceAll(replaceable, "");
+
+        double parsed = Double.parseDouble(cleanString);
+        String formatted = numberCurrencyFormat.format((parsed / 100));        
+        return formatted;
     }
 }

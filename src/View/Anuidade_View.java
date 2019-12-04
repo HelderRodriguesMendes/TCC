@@ -6,6 +6,7 @@
 package View;
 
 import Controller.Anuidade_Controller;
+import Controller.Formatar_JTextField;
 import Controller.Util_Controller;
 import DAO.Anuidade_DAO;
 import Model.DadosAnuidade;
@@ -27,7 +28,7 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
     public Anuidade_View() {
         initComponents();
         validaNumerosLetras();
-
+        SALARIO.setDocument(new Formatar_JTextField());
     }
 
     @SuppressWarnings("unchecked")
@@ -375,6 +376,12 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
 
         jLabel20.setText("Salário:");
 
+        SALARIO.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                SALARIOKeyReleased(evt);
+            }
+        });
+
         jLabel25.setBackground(new java.awt.Color(204, 0, 102));
         jLabel25.setFont(new java.awt.Font("Dialog", 0, 40)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(204, 0, 102));
@@ -598,6 +605,14 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
                 }
         }
     }//GEN-LAST:event_BOTAO_GERAR_DEBITOS_ANUAIS_1ActionPerformed
+
+    private void SALARIOKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SALARIOKeyReleased
+        String texto = SALARIO.getText();
+        if (!"".equals(texto)) {
+            String valor = ac.formatar(texto);
+            SALARIO.setText(valor);
+        }
+    }//GEN-LAST:event_SALARIOKeyReleased
 
     public void setPosicao() { // faz o formulario aparecer centralizado na tela
         Dimension d = this.getDesktopPane().getSize();

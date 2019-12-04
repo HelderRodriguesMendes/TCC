@@ -19,6 +19,7 @@ public abstract class Util_Controller {
     private static String dia, ano, mes;
     public static int idade = 0;
     public static boolean ok;
+    
 
     public static Date STRING_DATE(String dt) {
         System.out.println("daata: " + dt);
@@ -130,7 +131,9 @@ public abstract class Util_Controller {
     public static String converteMuedaBR(double valor) {
         Locale locale = new Locale("pt", "BR");
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+         
         String va = currencyFormatter.format(valor);
         return va;
     }
+    
 }

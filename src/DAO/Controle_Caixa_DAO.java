@@ -293,7 +293,6 @@ public class Controle_Caixa_DAO {
     
     
     public double somaHectares(int id){
-        System.out.println("id na dao da soma de terras: " + id);
         con = Conexao_banco.conector();
         double soma = 0;
         
@@ -304,7 +303,6 @@ public class Controle_Caixa_DAO {
             rs = pst.executeQuery();
             if(rs.next()){
                 soma = rs.getInt("somaDasPropiedades");
-                System.out.println("soma: " + soma);
             }
             con.close();
         } catch (SQLException e) {

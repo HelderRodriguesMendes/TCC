@@ -5,6 +5,8 @@
  */
 package View;
 
+import Controller.Anuidade_Controller;
+import Controller.Formatar_JTextField;
 import Controller.Sindicalizado_Controller;
 import Controller.Util_Controller;
 import DAO.Anuidade_DAO;
@@ -51,6 +53,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
     Propriedades_Rurais_DAO DADOSR = new Propriedades_Rurais_DAO();
     Sindicalizado se = new Sindicalizado();
     Anuidade_DAO AD = new Anuidade_DAO();
+    Anuidade_Controller AC = new Anuidade_Controller();
     Connection conexao = null;
 
     DateFormat df = DateFormat.getDateInstance();
@@ -65,6 +68,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
 
     public Sindicalizado_View() {
         initComponents();
+        AREAFAZENDA.setDocument( new Formatar_JTextField());
         conexao = Conexao_banco.conector();
 
         try {
@@ -791,6 +795,12 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
 
         jLabel61.setText("Numero NIRF:");
 
+        AREAFAZENDA.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                AREAFAZENDAKeyReleased(evt);
+            }
+        });
+
         jLabel62.setText("Area da prorpiedade:");
 
         jLabel70.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -911,21 +921,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         .addGap(12, 12, 12)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1187, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel45)
-                            .addComponent(NOMEFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel67)
-                        .addGap(83, 83, 83)
-                        .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel62)
-                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(AREAFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(jLabel70)))
-                        .addGap(128, 128, 128)
+                        .addGap(565, 565, 565)
                         .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel59)
                             .addComponent(MUNICEDE, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -934,44 +930,63 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel63)
                             .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(TEMPOCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
+                                .addGap(12, 12, 12)
+                                .addComponent(TEMPOCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel71))))
                     .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                                .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                                        .addComponent(BOTAO_VOLTAR_)
-                                        .addGap(315, 315, 315)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ADICONAR_FAZENDA_))
-                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                                .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
+                                .addGap(52, 52, 52)
+                                .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
                                         .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                                                .addGap(30, 30, 30)
-                                                .addComponent(jLabel46))
-                                            .addComponent(LOGRADOURO, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(4, 4, 4)
-                                        .addComponent(jLabel68)
-                                        .addGap(124, 124, 124)
+                                                .addComponent(BOTAO_VOLTAR_)
+                                                .addGap(315, 315, 315)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(ADICONAR_FAZENDA_))
+                                    .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                        .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel2)
+                                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                                .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                                        .addGap(30, 30, 30)
+                                                        .addComponent(jLabel46))
+                                                    .addComponent(LOGRADOURO, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(4, 4, 4)
+                                                .addComponent(jLabel68)
+                                                .addGap(194, 194, 194)))
+                                        .addGap(136, 136, 136)
+                                        .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel60)
+                                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                                .addGap(10, 10, 10)
+                                                .addComponent(CODINCRA, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                .addGap(73, 73, 73)
+                                .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel45)
+                                    .addComponent(NOMEFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabel67)
+                                .addGap(99, 99, 99)
+                                .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel62)
+                                    .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                        .addGap(24, 24, 24)
                                         .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
                                                 .addGap(5, 5, 5)
                                                 .addComponent(jLabel61))
-                                            .addComponent(Numero_NIRF, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(136, 136, 136)
-                                .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel60)
+                                            .addComponent(Numero_NIRF, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(CODINCRA, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addGap(12, 12, 12)
+                                        .addComponent(AREAFAZENDA)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(jLabel70)))))
                         .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
                                 .addGap(81, 81, 81)
@@ -1003,37 +1018,41 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                 .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(VOLTAR1_, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
                 .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel45)
-                        .addGap(5, 5, 5)
-                        .addComponent(NOMEFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel67))
-                    .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel62)
-                        .addGap(5, 5, 5)
+                        .addGap(6, 6, 6)
                         .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(AREAFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel70)))
+                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                .addComponent(jLabel59)
+                                .addGap(5, 5, 5)
+                                .addComponent(MUNICEDE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel69))
+                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                .addComponent(jLabel63)
+                                .addGap(5, 5, 5)
+                                .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(TEMPOCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel71)))))
                     .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                        .addComponent(jLabel59)
-                        .addGap(5, 5, 5)
-                        .addComponent(MUNICEDE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel69))
-                    .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
-                        .addComponent(jLabel63)
-                        .addGap(5, 5, 5)
-                        .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TEMPOCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel71))))
-                .addGap(64, 64, 64)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                    .addComponent(jLabel45)
+                                    .addGap(5, 5, 5)
+                                    .addComponent(NOMEFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                    .addGap(20, 20, 20)
+                                    .addComponent(jLabel67)))
+                            .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
+                                .addComponent(jLabel62)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(AREAFAZENDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel70))))))
+                .addGap(84, 84, 84)
                 .addGroup(DADOS_RURAIS_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(DADOS_RURAIS_SINDLayout.createSequentialGroup()
                         .addComponent(jLabel46)
@@ -1355,7 +1374,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                             ObjButtons, ObjButtons[1]);
                     if (escolha == 0) {
-                        
+
                         boolean OK = AD.verificaAnuidadeNaoPaga_Sindicalizado(id_sindicalizado);
                         if (OK) {
                             String ObjButtons2[] = {"Sim", "Não"};
@@ -1431,6 +1450,14 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
     private void TIRALEITEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TIRALEITEActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TIRALEITEActionPerformed
+
+    private void AREAFAZENDAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AREAFAZENDAKeyReleased
+        String texto = AREAFAZENDA.getText();
+        if (!"".equals(texto)) {
+            String valor = AC.formatar(texto);
+            AREAFAZENDA.setText(valor);
+        }
+    }//GEN-LAST:event_AREAFAZENDAKeyReleased
 
     public void selecionar_guia(int n) {
         this.FORM_GUIAS.setEnabledAt(n, true); // desabilita toda a aba 1
@@ -1735,30 +1762,40 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         String s = ((JTextField) TEMPOCOMPRA.getDateEditor().getUiComponent()).getText();
         erro = 0;
         if ("".equals(NOMEFAZENDA.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural");
+            JOptionPane.showMessageDialog(null, "Informe o nome da propriedade rural", "Atenção", JOptionPane.INFORMATION_MESSAGE);
             NOMEFAZENDA.requestFocus();
             erro = 1;
         } else if ("".equals(LOGRADOURO.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o logradouro da propriedade rural");
+            JOptionPane.showMessageDialog(null, "Informe o logradouro da propriedade rural", "Atenção", JOptionPane.INFORMATION_MESSAGE);
             LOGRADOURO.requestFocus();
             erro = 1;
         } else if ("".equals(MUNICEDE.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe o municipio cede da propriedade rural");
+            JOptionPane.showMessageDialog(null, "Informe o municipio cede da propriedade rural", "Atenção", JOptionPane.INFORMATION_MESSAGE);
             MUNICEDE.requestFocus();
             erro = 1;
         } else if ("".equals(AREAFAZENDA.getText()) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe a area da propriedade rural");
+            JOptionPane.showMessageDialog(null, "Informe a area da propriedade rural", "Atenção", JOptionPane.INFORMATION_MESSAGE);
             AREAFAZENDA.requestFocus();
             erro = 1;
         } else if ("".equals(s) && erro == 0) {
-            JOptionPane.showMessageDialog(null, "Informe a data da compra da propriedade rural");
+            JOptionPane.showMessageDialog(null, "Informe a data da compra da propriedade rural", "Atenção", JOptionPane.INFORMATION_MESSAGE);
             TEMPOCOMPRA.requestFocus();
             erro = 1;
-        } else if (!"   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
+        } else {
+            String data = Util_Controller.verificar_Data(df.format(TEMPOCOMPRA.getDate()), false);
+            if ("//".equals(data)) {
+                JOptionPane.showMessageDialog(null, "A data informada é invalida", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                erro = 1;
+                TEMPOCOMPRA.setDate(null);
+                TEMPOCOMPRA.requestFocus();
+            }
+        }
+
+        if (!"   .   .   .   - ".equals(CODINCRA.getText()) && erro == 0) {
             String codI = si.validaCodIncra(CODINCRA.getText());
             if ("".equals(codI)) {
                 erro = 1;
-                JOptionPane.showMessageDialog(null, "O código no INCRA da propriedade rural informado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O código no INCRA da propriedade rural informado é invalido.", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 CODINCRA.setValue("");
                 CODINCRA.requestFocus();
             } else {
@@ -1767,7 +1804,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                 System.out.println("valor do i: " + i);
                 if ("tem dono".equals(i)) {
                     erro = 1;
-                    JOptionPane.showMessageDialog(null, "O código no INCRA da propriedade rural informado ja é cadastrado no sistema.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "O código no INCRA da propriedade rural informado ja é cadastrado no sistema.", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                     CODINCRA.setValue("");
                     CODINCRA.requestFocus();
                 }
@@ -1779,7 +1816,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             String nirf = si.validarNIRF(Numero_NIRF.getText());
             if ("".equals(nirf)) {
                 erro = 1;
-                JOptionPane.showMessageDialog(null, "O número do NIRF do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O número do NIRF do sindicalizado é invalido.", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 Numero_NIRF.setValue("");
                 Numero_NIRF.requestFocus();
             } else {
@@ -1791,7 +1828,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                 }
                 if ("tem dono".equals(i)) {
                     erro = 1;
-                    JOptionPane.showMessageDialog(null, "O número do NIRF informado já esta cadastrado", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "O número do NIRF informado já esta cadastrado", "Atenção RG invalido", JOptionPane.INFORMATION_MESSAGE);
                     Numero_NIRF.setValue("");
                     Numero_NIRF.requestFocus();
                 }
@@ -1862,8 +1899,16 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         pr.setNomeFazenda(NOMEFAZENDA.getText());
         pr.setLogradouro(LOGRADOURO.getText());
         pr.setMuniciSede(MUNICEDE.getText());
-        pr.setCodINCRA(CODINCRA.getText());
-        pr.setNIRF(Numero_NIRF.getText());
+        if ("   .   .   .   - ".equals(CODINCRA.getText())) {
+            pr.setCodINCRA("");
+        } else {
+            pr.setCodINCRA(CODINCRA.getText());
+        }
+        if (" .   .   - ".equals(Numero_NIRF.getText())) {
+            pr.setNIRF("");
+        } else {
+            pr.setNIRF(Numero_NIRF.getText());
+        }
         String cr = AREAFAZENDA.getText();
         String cre = cr.replace(",", ".");
         pr.setAreaPropri(Double.parseDouble(cre));
@@ -1937,10 +1982,10 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
 
             if ("//".equals(data)) {
                 if (idade < 18) {
-                    JOptionPane.showMessageDialog(null, "Não é permitido o cadastramento de sindicalizado menor de idade", "Atenção", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Não é permitido o cadastramento de sindicalizado menor de idade", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                     erro = 1;
                 } else {
-                    JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "A data de nascimento do sindicalizado é invalida", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                     erro = 1;
                 }
                 NASCIMENTO.setDate(null);
@@ -1954,7 +1999,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             cpf = si.validar_CPF(CPF.getText());
             if ("".equals(cpf) && erro == 0) {
                 erro = 1;
-                JOptionPane.showMessageDialog(null, "O CPF do sindicalizado é invalido", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O CPF do sindicalizado é invalido", "Atenção CPF invalido", JOptionPane.INFORMATION_MESSAGE);
                 CPF.setValue("");
                 CPF.requestFocus();
             } else if (erro == 0) {
@@ -1966,7 +2011,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                 }
                 if ("tem dono".equals(i)) {
                     erro = 1;
-                    JOptionPane.showMessageDialog(null, "O CPF informado já esta cadastrado", "Atenção CPF invalido", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "O CPF informado já esta cadastrado", "Atenção CPF invalido", JOptionPane.INFORMATION_MESSAGE);
                     CPF.setValue("");
                     CPF.requestFocus();
                 }
@@ -1981,7 +2026,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             String R_G = si.validadar_RG(RG.getText());
             if ("".equals(R_G) && erro == 0) {
                 erro = 1;
-                JOptionPane.showMessageDialog(null, "O RG do sindicalizado é invalido", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O RG do sindicalizado é invalido", "Atenção RG invalido", JOptionPane.INFORMATION_MESSAGE);
                 RG.setValue("");
                 RG.requestFocus();
             } else if (erro == 0) {
@@ -1993,7 +2038,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                 }
                 if ("tem dono".equals(i)) {
                     erro = 1;
-                    JOptionPane.showMessageDialog(null, "O RG informado já esta cadastrado", "Atenção RG invalido", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "O RG informado já esta cadastrado", "Atenção RG invalido", JOptionPane.INFORMATION_MESSAGE);
                     RG.setValue("");
                     RG.requestFocus();
                 }
@@ -2006,7 +2051,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         } else if (erro == 0) {
             String data = Util_Controller.verificar_Data(df.format(DATAEXPE.getDate()), false);
             if ("//".equals(data)) {
-                JOptionPane.showMessageDialog(null, "A data de Expedição do RG do sindicalizado é invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "A data de Expedição do RG do sindicalizado é invalida", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 erro = 1;
                 DATAEXPE.setDate(null);
                 DATAEXPE.requestFocus();
@@ -2028,7 +2073,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             String TEL = si.validadar_Telefone(CELULAR.getText());
             if ("".equals(TEL)) {
                 erro = 1;
-                JOptionPane.showMessageDialog(null, "O telefone do sindicalizado é invalido", "Atenção", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O telefone do sindicalizado é invalido", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 CELULAR.setValue("");
                 CELULAR.requestFocus();
             }
@@ -2036,7 +2081,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             String RESER = si.validarReservista(RESERVISTA.getText());
             if ("".equals(RESER)) {
                 erro = 1;
-                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O número da reservista do sindicalizado é invalido.", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 RESERVISTA.setValue("");
                 RESERVISTA.requestFocus();
             }
@@ -2044,7 +2089,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             String titu = si.validar_Titulo_Eleitor(TITULO_ELEITO.getText());
             if ("".equals(titu)) {
                 erro = 1;
-                JOptionPane.showMessageDialog(null, "O titulo de eleitor do sindicalizado é invalido.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O titulo de eleitor do sindicalizado é invalido.", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 TITULO_ELEITO.setValue("");
                 TITULO_ELEITO.requestFocus();
             }
@@ -2052,7 +2097,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             String zona = si.validar_zona(ZONA.getText());
             if ("".equals(zona)) {
                 erro = 1;
-                JOptionPane.showMessageDialog(null, "A zona do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "A zona do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 ZONA.setValue("");
                 ZONA.requestFocus();
             }
@@ -2060,7 +2105,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             String secao = si.validar_secao(SECAO.getText());
             if ("".equals(secao)) {
                 erro = 1;
-                JOptionPane.showMessageDialog(null, "A seção do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "A seção do titulo de eleitor do sindicalizado é invalida.", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 SECAO.setValue("");
                 SECAO.requestFocus();
             }

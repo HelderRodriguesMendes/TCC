@@ -7,6 +7,7 @@ package View;
 
 import Controller.Anuidade_Controller;
 import Controller.Controle_caixa_Controller;
+import Controller.Formatar_JTextField;
 import Controller.Util_Controller;
 import DAO.Anuidade_DAO;
 import DAO.Conexao_banco;
@@ -20,6 +21,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.sql.Connection;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,6 +42,7 @@ import net.sf.jasperreports.view.JasperViewer;
 public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
     Connection conexao = null;
+    NumberFormat numberCurrencyFormat = NumberFormat.getCurrencyInstance();
 
     public ControleCaixa_VIEW() {
         initComponents();
@@ -50,8 +53,10 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         LISTA_COMBOBOX();
         conexao = Conexao_banco.conector();
         VOLTAR.setVisible(false);
+        VALORF.setDocument(new Formatar_JTextField());
+        VALORF.setHorizontalAlignment(JTextField.RIGHT);
+       
     }
-
     Controle_Caixa c;
     DateFormat df = DateFormat.getDateInstance();
     Controle_Caixa_DAO CC = new Controle_Caixa_DAO();
@@ -219,6 +224,12 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jLabel7.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         jLabel8.setText("Valor Financeiro:");
+
+        VALORF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                VALORFKeyReleased(evt);
+            }
+        });
 
         jLabel10.setBackground(new java.awt.Color(204, 0, 102));
         jLabel10.setFont(new java.awt.Font("Dialog", 0, 40)); // NOI18N
@@ -778,6 +789,17 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 lista_TABELA_PESQUISAR_ALTERAR();
                 limparCampus();
             }
+        } else if ("restaurar".equals(status)) {
+            String ObjButtons[] = {"Sim", "Não"};
+            int escolha = JOptionPane.showOptionDialog(null,
+                    "Deseja restalrar os dados financeiros selecionados?", "ATENÇÃO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    ObjButtons, ObjButtons[0]);
+            if (escolha == 0) {
+                CC.restaurar(id_controleCaixa);
+                lista_TABELA_RESTAURA_CC();
+                limparCamposPesquisa();
+            }
         }
     }//GEN-LAST:event_TABELA_PESQUISAR_ALTERARMouseClicked
 
@@ -987,6 +1009,14 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         VOLTAR.setVisible(false);
     }//GEN-LAST:event_VOLTARMouseClicked
 
+    private void VALORFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_VALORFKeyReleased
+        String texto = VALORF.getText();
+        if (!"".equals(texto)) {
+            String valor = AC.formatar(texto);
+            VALORF.setText(valor);
+        }
+    }//GEN-LAST:event_VALORFKeyReleased
+
     public boolean validarObrigatorios() {
         boolean ok = false;
         int cont = 0;
@@ -999,7 +1029,17 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Informe a data desejada para a transação", "Atenção", JOptionPane.INFORMATION_MESSAGE);
             DATA1.requestFocus();
             cont++;
-        } else if (TRANSACAO.getSelectedIndex() == 0 && cont == 0) {
+        } else {
+            String data = Util_Controller.verificar_Data(df.format(DATA1.getDate()), false);
+            if ("//".equals(data)) {
+                JOptionPane.showMessageDialog(null, "A data informada é invalida", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                cont++;
+                DATA1.setDate(null);
+                DATA1.requestFocus();
+            }
+        }
+
+        if (TRANSACAO.getSelectedIndex() == 0 && cont == 0) {
             JOptionPane.showMessageDialog(null, "Informe o tipo de transação financeira", "Atenção", JOptionPane.INFORMATION_MESSAGE);
             TRANSACAO.requestFocus();
             cont++;
@@ -1131,29 +1171,56 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
 
-        CC.listar_tabela_alterar().forEach((con) -> {
-            String d = "", c = "";
-            if (con.getDebito() != 0.0) {
-                double t = con.getDebito();
-                d = Util_Controller.converteMuedaBR(t);
-            }
-            if (con.getCredito() != 0.0) {
-                double e = con.getCredito();
-                c = Util_Controller.converteMuedaBR(e);
-            }
+        if ("restaurar".equals(status)) {
+            CC.pesquisar_restaurar().forEach((con) -> {
+                String d = "", c = "";
+                if (con.getDebito() != 0.0) {
+                    double t = con.getDebito();
+                    d = Util_Controller.converteMuedaBR(t);
+                }
+                if (con.getCredito() != 0.0) {
+                    double e = con.getCredito();
+                    c = Util_Controller.converteMuedaBR(e);
+                }
 
-            String da = Util_Controller.DATE_STRING(con.getData());
+                String da = Util_Controller.DATE_STRING(con.getData());
 
-            dtma.addRow(new Object[]{
-                con.getId(),
-                da,
-                con.getBanco(),
-                con.getHistorico(),
-                con.getDocumento(),
-                d,
-                c
+                dtma.addRow(new Object[]{
+                    con.getId(),
+                    da,
+                    con.getBanco(),
+                    con.getHistorico(),
+                    con.getDocumento(),
+                    d,
+                    c
+                });
             });
-        });
+        } else {
+            CC.listar_tabela_alterar().forEach((con) -> {
+                String d = "", c = "";
+                if (con.getDebito() != 0.0) {
+                    double t = con.getDebito();
+                    d = Util_Controller.converteMuedaBR(t);
+                }
+                if (con.getCredito() != 0.0) {
+                    double e = con.getCredito();
+                    c = Util_Controller.converteMuedaBR(e);
+                }
+
+                String da = Util_Controller.DATE_STRING(con.getData());
+
+                dtma.addRow(new Object[]{
+                    con.getId(),
+                    da,
+                    con.getBanco(),
+                    con.getHistorico(),
+                    con.getDocumento(),
+                    d,
+                    c
+                });
+            });
+        }
+
         corLinhaJTable();
     }
 
@@ -2019,6 +2086,45 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         STATUS_PA.setSelectedIndex(0);
         ANOS_CADASTRADOS.setSelectedIndex(0);
     }
+    
+    public void lista_TABELA_RESTAURA_CC() {
+
+        DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
+        dtma.setNumRows(0);
+        TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(110);
+
+        TABELA_PESQUISAR_ALTERAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+
+        CC.pesquisar_restaurar().forEach((con) -> {
+            String d = "", c = "";
+            if (con.getDebito() != 0.0) {
+                double t = con.getDebito();
+                d = String.valueOf(t);
+            }
+            if (con.getCredito() != 0.0) {
+                double e = con.getCredito();
+                c = String.valueOf(e);
+            }
+
+            String da = Util_Controller.DATE_STRING(con.getData());
+
+            dtma.addRow(new Object[]{
+                con.getId(),
+                da,
+                con.getBanco(),
+                con.getHistorico(),
+                con.getDocumento(),
+                d,
+                c
+            });
+        });
+        corLinhaJTable();
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ANOS_CADASTRADOS;
