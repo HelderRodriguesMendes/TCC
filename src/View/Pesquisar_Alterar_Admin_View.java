@@ -34,7 +34,7 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
     AdministradorDAO ad = new AdministradorDAO();
     Login_Controller lo = new Login_Controller();
     Util_DAO ud = new Util_DAO();
-    public boolean excluir = false;
+    public String status = "";
 
     public Pesquisar_Alterar_Admin_View() {
         initComponents();
@@ -149,7 +149,9 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
-        if (!excluir) {
+        ID = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
+        System.out.println("ID: " + ID);
+        if ("alterar".equals(status)) {
             String ObjButtons[] = {"Sim", "Não"};
             int escolha = JOptionPane.showOptionDialog(null,
                     "Deseja alterar os dados selecionados?", "ATENÇÃO",
@@ -165,33 +167,54 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
                 cadm.setPosicao();
                 this.dispose();
             }
-        } else {
+        } else if ("excluir".equals(status)) {
 
             String ObjButtons[] = {"Sim", "Não"};
             int escolha = JOptionPane.showOptionDialog(null,
-                    "Tem certeza que deseja excluir esses dados?", "ATENÇÃO",
+                    "Deseja excluir os dados selecionados?", "ATENÇÃO",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                     ObjButtons, ObjButtons[1]);
             if (escolha == 0) {
-                int id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
-                
-                boolean ok = ud.excluir_S_A(id, "adm");
+
+                boolean ok = ud.excluir_S_A(ID, "adm");
                 System.out.println("ok da dao: " + ok);
                 if (ok) {
                     LISTAR_TABELA();
                 }
+            }
+        } else if ("restaurar".equals(status)) {
+            String ObjButtons[] = {"Sim", "Não"};
+            int PromptResult = JOptionPane.showOptionDialog(null,
+                    "Deseja restaurar os dados selecionados?", "ATENÇÃO",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    ObjButtons, ObjButtons[1]);
+            if (PromptResult == 0) {
+                ad.restaurar(ID);
+                LISTAR_TABELA_restaurar();
+                NOME.setText("");
+
             }
         }
     }//GEN-LAST:event_TABELAMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (!"".equals(NOME.getText())) {
-            ID = 0;
-            Pesquisar_Nome(NOME.getText());
-            int i = Util_Controller.selectNull(ID);
-            if (i == 0) {
-                NOME.setText("");
-                LISTAR_TABELA();
+            if ("restaurar".equals(status)) {
+                Pesquisar_Nome_restaurar(NOME.getText());
+                ID = 0;
+                int i = Util_Controller.selectNull(ID);
+                if (i == 0) {
+                    NOME.setText("");
+                    LISTAR_TABELA();
+                }
+            } else {
+                ID = 0;
+                Pesquisar_Nome(NOME.getText());
+                int i = Util_Controller.selectNull(ID);
+                if (i == 0) {
+                    NOME.setText("");
+                    LISTAR_TABELA();
+                }
             }
         } else {
             LISTAR_TABELA();
@@ -199,23 +222,10 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void NOMEKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NOMEKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (!"".equals(NOME.getText())) {
-                ID = 0;
-                Pesquisar_Nome(NOME.getText());
-                int i = Util_Controller.selectNull(ID);
-                if (i == 1) {
-                    NOME.setText("");
-                    LISTAR_TABELA();
-                }
-            } else {
-                LISTAR_TABELA();
-            }
-        }
+
     }//GEN-LAST:event_NOMEKeyPressed
 
     public final void LISTAR_TABELA() {
-        System.out.println("entro no metodo");
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
 
@@ -227,6 +237,29 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
         TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
 
         ad.list_JTable().forEach((admin) -> {
+
+            dtma.addRow(new Object[]{
+                admin.getId(),
+                admin.getNome(),
+                admin.getCelular(),
+                admin.getLogin()
+            });
+        });
+        corLinhaJTable();
+    }
+
+    public final void LISTAR_TABELA_restaurar() {
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(110);
+
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+
+        ad.lista_restaurar().forEach((admin) -> {
 
             dtma.addRow(new Object[]{
                 admin.getId(),
@@ -261,8 +294,31 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
         corLinhaJTable();
     }
 
+    public void Pesquisar_Nome_restaurar(String nome) {
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(110);
+
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+
+        ad.pesquisar_restaurar(nome).forEach((admi) -> {
+            ID = admi.getId();
+            System.out.println("ID: " + ID);
+            dtma.addRow(new Object[]{
+                admi.getId(),
+                admi.getNome(),
+                admi.getCelular(),
+                admi.getLogin()
+            });
+        });
+        corLinhaJTable();
+    }
+
     public Administrador preencher_Objeto() {
-        adm.setId(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
+        adm.setId(ID);
         adm.setNome(TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString());
         if (TABELA.getValueAt(TABELA.getSelectedRow(), 2) != null) {
             adm.setCelular(TABELA.getValueAt(TABELA.getSelectedRow(), 2).toString());

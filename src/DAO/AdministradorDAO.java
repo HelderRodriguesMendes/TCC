@@ -237,51 +237,6 @@ public class AdministradorDAO {
         return lo;
     }
 
-    public ArrayList<Administrador> pesquisar_restaurar(String no) {
-        con = Conexao_banco.conector();
-        ArrayList<Administrador> AD = new ArrayList();
-
-        if (!"".equals(no)) {
-            try {
-                pst = con.prepareStatement("select id_admin, nome, celular from admin where excluido = '1' and nome like ?");
-                pst.setString(1, "%" + no + "%");
-                rs = pst.executeQuery();
-
-                while (rs.next()) {
-                    Administrador ad = new Administrador();
-                    ad.setId(rs.getInt("id_admin"));
-                    ad.setNome(rs.getString("nome"));
-                    ad.setCelular(rs.getString("celular"));
-                    AD.add(ad);
-                }
-
-                con.close();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao restaturar Administrador 1");
-                System.out.println(e);
-            }
-        } else {
-            try {
-                pst = con.prepareStatement("select id_admin, nome, celular from admin where excluido = '1'");
-                rs = pst.executeQuery();
-
-                while (rs.next()) {
-                    Administrador ad = new Administrador();
-                    ad.setId(rs.getInt("id_admin"));
-                    ad.setNome(rs.getString("nome"));
-                    ad.setCelular(rs.getString("celular"));
-                    AD.add(ad);
-                }
-                con.close();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao restaturar Administrador 2");
-                System.out.println(e);
-            }
-        }
-
-        return AD;
-    }
-
     public void restaurar(int id) {
         int a = 0;
         con = Conexao_banco.conector();
@@ -296,6 +251,55 @@ public class AdministradorDAO {
             JOptionPane.showMessageDialog(null, "Erro ao restaurar administrador");
             System.out.println(e);
         }
+    }
+
+    public ArrayList<Administrador> lista_restaurar() {
+        con = Conexao_banco.conector();
+        ArrayList<Administrador> AD = new ArrayList();
+
+        try {
+            pst = con.prepareStatement("select id_admin, nome, celular, login from admin where excluido = '1'");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Administrador ad = new Administrador();
+                ad.setId(rs.getInt("id_admin"));
+                ad.setNome(rs.getString("nome"));
+                ad.setCelular(rs.getString("celular"));
+                ad.setLogin(rs.getString("login"));
+                AD.add(ad);
+            }
+
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao restaturar Administrador 1");
+            System.out.println(e);
+        }
+        return AD;
+    }
+
+    public ArrayList<Administrador> pesquisar_restaurar(String no) {
+        con = Conexao_banco.conector();
+        ArrayList<Administrador> AD = new ArrayList();
+
+        try {
+            pst = con.prepareStatement("select id_admin, nome, celular from admin where excluido = '1' and nome like ?");
+            pst.setString(1, "%" + no + "%");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Administrador ad = new Administrador();
+                ad.setId(rs.getInt("id_admin"));
+                ad.setNome(rs.getString("nome"));
+                ad.setCelular(rs.getString("celular"));
+                AD.add(ad);
+            }
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao restaturar Administrador 1");
+            System.out.println(e);
+        }
+        return AD;
     }
 
 }

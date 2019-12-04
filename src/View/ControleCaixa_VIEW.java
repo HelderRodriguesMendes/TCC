@@ -55,7 +55,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         VOLTAR.setVisible(false);
         VALORF.setDocument(new Formatar_JTextField());
         VALORF.setHorizontalAlignment(JTextField.RIGHT);
-       
+
     }
     Controle_Caixa c;
     DateFormat df = DateFormat.getDateInstance();
@@ -765,40 +765,51 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         String iid = TABELA_PESQUISAR_ALTERAR.getValueAt(linhaSelecionada, 0).toString();
         id_controleCaixa = Integer.parseInt(iid);
 
-        if ("alterar".equals(status)) {
-            String ObjButtons[] = {"Sim", "Não"};
-            int escolha = JOptionPane.showOptionDialog(null,
-                    "Deseja alterar os dados selecionados?", "ATENÇÃO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                    ObjButtons, ObjButtons[1]);
-            if (escolha == 0) {
-                selecionar_guia(0);
+        if (null != status) {
+            switch (status) {
+                case "alterar": {
+                    String ObjButtons[] = {"Sim", "Não"};
+                    int escolha = JOptionPane.showOptionDialog(null,
+                            "Deseja alterar os dados selecionados?", "ATENÇÃO",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                            ObjButtons, ObjButtons[1]);
+                    if (escolha == 0) {
+                        selecionar_guia(0);
 
-                preencherCamposJtable(linhaSelecionada);
-                BOTAO_REFAZER_.setVisible(false);
-                VOLTAR.setVisible(true);
-            }
-        } else if ("excluir".equals(status)) {
-            String ObjButtons[] = {"Sim", "Não"};
-            int escolha = JOptionPane.showOptionDialog(null,
-                    "Deseja escluir os dados financeiros celecionados?", "ATENÇÃO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                    ObjButtons, ObjButtons[1]);
-            if (escolha == 0) {
-                CC.excluir(id_controleCaixa);
-                lista_TABELA_PESQUISAR_ALTERAR();
-                limparCampus();
-            }
-        } else if ("restaurar".equals(status)) {
-            String ObjButtons[] = {"Sim", "Não"};
-            int escolha = JOptionPane.showOptionDialog(null,
-                    "Deseja restalrar os dados financeiros selecionados?", "ATENÇÃO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                    ObjButtons, ObjButtons[0]);
-            if (escolha == 0) {
-                CC.restaurar(id_controleCaixa);
-                lista_TABELA_RESTAURA_CC();
-                limparCamposPesquisa();
+                        preencherCamposJtable(linhaSelecionada);
+                        BOTAO_REFAZER_.setVisible(false);
+                        VOLTAR.setVisible(true);
+                    }
+                    break;
+                }
+                case "excluir": {
+                    String ObjButtons[] = {"Sim", "Não"};
+                    int escolha = JOptionPane.showOptionDialog(null,
+                            "Deseja escluir os dados financeiros celecionados?", "ATENÇÃO",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                            ObjButtons, ObjButtons[1]);
+                    if (escolha == 0) {
+                        CC.excluir(id_controleCaixa);
+                        lista_TABELA_PESQUISAR_ALTERAR();
+                        limparCampus();
+                    }
+                    break;
+                }
+                case "restaurar": {
+                    String ObjButtons[] = {"Sim", "Não"};
+                    int escolha = JOptionPane.showOptionDialog(null,
+                            "Deseja restalrar os dados financeiros selecionados?", "ATENÇÃO",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                            ObjButtons, ObjButtons[0]);
+                    if (escolha == 0) {
+                        CC.restaurar(id_controleCaixa);
+                        lista_TABELA_RESTAURA_CC();
+                        limparCamposPesquisa();
+                    }
+                    break;
+                }
+                default:
+                    break;
             }
         }
     }//GEN-LAST:event_TABELA_PESQUISAR_ALTERARMouseClicked
@@ -1119,16 +1130,30 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 }
                 break;
             case 1:
-                if ("alterar".equals(status)) {
-                    this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
-                    this.FORM_GUIAS.setEnabledAt(2, true); // desabilita toda a aba 0  
-                } else if ("relatorio".equals(status)) {
-                    this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
-                    this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 0
-                } else if ("excluir".equals(status)) {
-                    this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
-                    this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 0
-                    this.FORM_GUIAS.setTitleAt(1, "Consultar e Excluir");
+                if (null != status) {
+                    switch (status) {
+                        case "alterar":
+                            this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
+                            this.FORM_GUIAS.setEnabledAt(2, true); // desabilita toda a aba 0  
+                            break;
+                        case "relatorio":
+                            this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
+                            this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 0
+                            break;
+                        case "excluir":
+                            this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
+                            this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 0
+                            this.FORM_GUIAS.setTitleAt(1, "Consultar e Excluir");
+                            break;
+                        case "restaurar":
+                            this.FORM_GUIAS.setEnabledAt(0, false); // desabilita toda a aba 0
+                            this.FORM_GUIAS.setEnabledAt(2, false); // desabilita toda a aba 0
+                            this.FORM_GUIAS.setTitleAt(1, "Consultar e Restaurar");
+                            lista_TABELA_RESTAURA_CC();
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 break;
             case 2:
@@ -1139,7 +1164,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             default:
                 break;
         }
-
+        
     }
 
     public void corLinhaJTable() {
@@ -1388,7 +1413,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 } else {
                     dadosNAOencontrados();
                 }
-            } else if (!d1.equals("")) {
+            } else if (!d_u.equals("")) {
                 System.out.println("5");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
@@ -1399,53 +1424,11 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+                Date DATAU;
 
-                dt1 = Util_Controller.STRING_DATE(d1);
+                DATAU = Util_Controller.STRING_DATE(d_u);
 
-                C = CC.consultar_data_banco(dt1, banco);
-
-                if (C != null && !C.isEmpty()) {
-                    C.forEach((cc) -> {
-
-                        String de = "", c = "";
-                        if (cc.getDebito() != 0.0) {
-                            double t = cc.getDebito();
-                            de = Util_Controller.converteMuedaBR(t);
-                        }
-                        if (cc.getCredito() != 0.0) {
-                            double e = cc.getCredito();
-                            c = Util_Controller.converteMuedaBR(e);
-                        }
-
-                        String d = Util_Controller.DATE_STRING(cc.getData());
-                        dtma.addRow(new Object[]{
-                            cc.getId(),
-                            d,
-                            cc.getBanco(),
-                            cc.getHistorico(),
-                            cc.getDocumento(),
-                            de,
-                            c
-                        });
-                    });
-                    corLinhaJTable();
-                } else {
-                    dadosNAOencontrados();
-                }
-            } else if (!d2.equals("")) {
-                System.out.println("6");
-                DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
-                dtma.setNumRows(0);
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(3).setPreferredWidth(78);
-
-                TABELA_PESQUISAR_ALTERAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-                TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-                dt2 = Util_Controller.STRING_DATE(d2);
-
-                C = CC.consultar_data_banco(dt2, banco);
+                C = CC.consultar_data_banco(DATAU, banco);
 
                 if (C != null && !C.isEmpty()) {
                     C.forEach((cc) -> {
@@ -1475,7 +1458,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 } else {
                     dadosNAOencontrados();
                 }
-            } else {
+            } else{
                 System.out.println("7");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
@@ -2086,7 +2069,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         STATUS_PA.setSelectedIndex(0);
         ANOS_CADASTRADOS.setSelectedIndex(0);
     }
-    
+
     public void lista_TABELA_RESTAURA_CC() {
 
         DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
@@ -2123,8 +2106,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         });
         corLinhaJTable();
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ANOS_CADASTRADOS;

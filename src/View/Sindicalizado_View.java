@@ -1239,11 +1239,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         ok = DADOSR.excluir_1_Propriedade(id_propriedade_rural);
                         if (ok) {
                             JOptionPane.showMessageDialog(null, "Exclusão realizada com sucesso");
-                            limparTabela();
-                            selecionar_guia(0);
-                            limparCampus_Pessoais();
-                            limparCampus_pesquisa();
-                            desbloquia_todos_campus_R();
+                            LISTAR_TABELA_Rural(DADOSR.listar_Tabela_RURAL(id_sindicalizado));
                         }
                     }
                     break;
@@ -1430,6 +1426,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             limparTabela();
             limparCampus_Pessoais();
             limparCampus_pesquisa();
+            desbloquia_todos_campus_R();
         } else {
             selecionar_guia(1);
         }
@@ -1452,11 +1449,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TIRALEITEActionPerformed
 
     private void AREAFAZENDAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AREAFAZENDAKeyReleased
-        String texto = AREAFAZENDA.getText();
-        if (!"".equals(texto)) {
-            String valor = AC.formatar(texto);
-            AREAFAZENDA.setText(valor);
-        }
+        
     }//GEN-LAST:event_AREAFAZENDAKeyReleased
 
     public void selecionar_guia(int n) {

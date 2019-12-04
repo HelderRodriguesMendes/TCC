@@ -89,7 +89,9 @@ public class Interface_View extends javax.swing.JFrame {
         EXCLUIR_ADMIN_ = new javax.swing.JMenuItem();
         EXCLUIR_CONTROLE_CAIXA_ = new javax.swing.JMenuItem();
         EXCLUIR_SIND_ = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         RESTAURAR_ = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
         MENU_RELA = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -281,6 +283,14 @@ public class Interface_View extends javax.swing.JFrame {
         });
         MENU_EXCLUIR.add(EXCLUIR_SIND_);
 
+        jMenuItem10.setText("Restaurar Administrador");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        MENU_EXCLUIR.add(jMenuItem10);
+
         RESTAURAR_.setText("Restaurar Sindicalizado");
         RESTAURAR_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -288,6 +298,14 @@ public class Interface_View extends javax.swing.JFrame {
             }
         });
         MENU_EXCLUIR.add(RESTAURAR_);
+
+        jMenuItem9.setText("Restaurar Controle de Caixa");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        MENU_EXCLUIR.add(jMenuItem9);
 
         BARRAMENU.add(MENU_EXCLUIR);
 
@@ -389,6 +407,7 @@ public class Interface_View extends javax.swing.JFrame {
         paa.setTitle("Consultar e Alterar Administrador");
         paa.setVisible(true);
         paa.setPosicao();
+        paa.status = "alterar";
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -418,7 +437,7 @@ public class Interface_View extends javax.swing.JFrame {
         caa.setTitle("Consultar e Excluir Administrador");
         caa.setVisible(true);
         caa.setPosicao();
-        caa.excluir = true;
+        caa.status = "excluir";
 
     }//GEN-LAST:event_EXCLUIR_ADMIN_ActionPerformed
 
@@ -449,6 +468,8 @@ public class Interface_View extends javax.swing.JFrame {
         DESKTOP.add(r);
         r.setVisible(true);
         r.setPosicao();
+        r.pesquisar_nome_SIND("");
+        r.setTitle("Restaurar Sindicalizado - Propriedade Rural");
     }//GEN-LAST:event_RESTAURAR_ActionPerformed
 
     private void MENU_PEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MENU_PEMouseEntered
@@ -536,6 +557,26 @@ public class Interface_View extends javax.swing.JFrame {
         CC.DATA2.setEnabled(false);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        ControleCaixa_VIEW cv = new ControleCaixa_VIEW();
+        DESKTOP.add(cv);
+        cv.status = "restaurar";
+        cv.setPosicao();
+        cv.selecionar_guia(1);
+        cv.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        Pesquisar_Alterar_Admin_View caa = new Pesquisar_Alterar_Admin_View() {
+        };
+        DESKTOP.add(caa);
+        caa.setTitle("Consultar e Restaurar Administrador");
+        caa.setVisible(true);
+        caa.setPosicao();
+        caa.status = "restaurar";
+        caa.LISTAR_TABELA_restaurar();
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -559,6 +600,7 @@ public class Interface_View extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -566,6 +608,7 @@ public class Interface_View extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

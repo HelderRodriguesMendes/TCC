@@ -194,7 +194,7 @@ public class Sindicalizado_DAO {
 
         if (!"".equals(nome)) {
             try {
-                pst = con.prepareStatement("select id_sindicalizado, nome, celular, rg, cpf from sindicalizado where excluidoS = '1'  and nome like ?");
+                pst = con.prepareStatement("select id_sindicalizado, nome, celular, rg, cpf from sindicalizado where excluidoS = '1'  and nome like ? order by nome");
                 pst.setString(1, "%" + nome + "%");
                 rs = pst.executeQuery();
                 while (rs.next()) {
@@ -206,8 +206,6 @@ public class Sindicalizado_DAO {
                     si.setRg(rs.getString("rg"));
                     SIND.add(si);
                 }
-                
-                Restaurar_View R = new Restaurar_View();
 
                 con.close();
             } catch (Exception e) {
@@ -621,7 +619,7 @@ public class Sindicalizado_DAO {
         ArrayList<Sindicalizado> SIND = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, cpf, rg from sindicalizado where excluidoS = '0'");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, cpf, rg from sindicalizado where excluidoS = '0' order by nome");
             rs = pst.executeQuery();
             while (rs.next()) {
                 Sindicalizado si = new Sindicalizado();
@@ -704,4 +702,6 @@ public class Sindicalizado_DAO {
         }
         return ok;
     }
+     
+    
 }
