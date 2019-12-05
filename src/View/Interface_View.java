@@ -44,6 +44,7 @@ public class Interface_View extends javax.swing.JFrame {
 
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Interface_View.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {

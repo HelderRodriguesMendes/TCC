@@ -214,7 +214,7 @@ public class Sindicalizado_DAO {
             }
         } else {
             try {
-                pst = con.prepareStatement("select id_sindicalizado, nome, celular, rg, cpf from sindicalizado where excluidoS = '1'");
+                pst = con.prepareStatement("select id_sindicalizado, nome, celular, rg, cpf from sindicalizado where excluidoS = '1' order by nome");
                 rs = pst.executeQuery();
                 while (rs.next()) {
                     Sindicalizado si = new Sindicalizado();

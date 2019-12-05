@@ -293,7 +293,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(90, Short.MAX_VALUE)
+                .addContainerGap(88, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel11)
@@ -309,9 +309,12 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                                         .addComponent(DOCUMENTO, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel3Layout.createSequentialGroup()
                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jLabel3)
-                                                .addComponent(BANCO1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(4, 4, 4)
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(jLabel3)
+                                                    .addGap(4, 4, 4))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(BANCO1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(0, 0, 0)))
                                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(73, 73, 73)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,7 +352,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                                                     .addComponent(VALORF, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 71, Short.MAX_VALUE)))
+                                        .addGap(0, 70, Short.MAX_VALUE)))
                                 .addContainerGap())
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -606,7 +609,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Celular", "Ano há  Receber", "Status de pagamento"
+                "ID", "Nome", "Celular", "Ano á  Receber", "Status de pagamento"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -1164,7 +1167,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             default:
                 break;
         }
-        
+
     }
 
     public void corLinhaJTable() {
@@ -1458,7 +1461,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 } else {
                     dadosNAOencontrados();
                 }
-            } else{
+            } else {
                 System.out.println("7");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
@@ -1576,77 +1579,41 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
     public final void listarTabela_Anuidades() {
         ArrayList<Anuidade> AN;
-        if (!anuidade) {
-            DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
-            dtma.setNumRows(0);
-            TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
-            TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
-            TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
-            TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
+        DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
+        dtma.setNumRows(0);
+        TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
+        TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
+        TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
 
-            TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-            TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-            AN = AD.listar_anuidades_Geral_Atual();
-            if (AN != null && !AN.isEmpty()) {
-                AN.forEach((A) -> {
-                    boolean a = A.isStatusPagamento();
-                    String s;
-                    if (a) {
-                        s = "Pago";
-                    } else {
-                        s = "Não Pago";
-                    }
-                    dtma.addRow(new Object[]{
-                        A.getId_sindi(),
-                        A.getNome(),
-                        A.getCelular(),
-                        A.getAnoRecebimento(),
-                        s
-                    });
+        TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+
+        AN = AD.listar_anuidades_NAO_PAGAS();
+        if (AN != null && !AN.isEmpty()) {
+            AN.forEach((A) -> {
+                boolean a = A.isStatusPagamento();
+                String s;
+                if (a) {
+                    s = "Pago";
+                } else {
+                    s = "Não Pago";
+                }
+                dtma.addRow(new Object[]{
+                    A.getId_sindi(),
+                    A.getNome(),
+                    A.getCelular(),
+                    A.getAnoRecebimento(),
+                    s
                 });
-                corLinhaTabelaAnuidade();
-                TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
-            } else {
-                dadosNAOencontrados();
-            }
-
+            });
+            corLinhaTabelaAnuidade();
+            TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
         } else {
-            DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
-            dtma.setNumRows(0);
-            TABELA.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            TABELA.getColumnModel().getColumn(1).setPreferredWidth(80);
-            TABELA.getColumnModel().getColumn(2).setPreferredWidth(80);
-            TABELA.getColumnModel().getColumn(3).setPreferredWidth(100);
-            TABELA.getColumnModel().getColumn(4).setPreferredWidth(150);
-
-            TABELA.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-            TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-
-            AN = AD.listar_anuidades_NAO_PAGAS();
-            if (AN != null && !AN.isEmpty()) {
-                AN.forEach((A) -> {
-                    boolean a = A.isStatusPagamento();
-                    String s;
-                    if (a) {
-                        s = "Pago";
-                    } else {
-                        s = "Não Pago";
-                    }
-                    dtma.addRow(new Object[]{
-                        A.getId_sindi(),
-                        A.getNome(),
-                        A.getCelular(),
-                        A.getAnoRecebimento(),
-                        s
-                    });
-                });
-                corLinhaTabelaAnuidade();
-                TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
-            } else {
-                dadosNAOencontrados();
-            }
+            dadosNAOencontrados();
         }
+
     }
 
     public void listaAnuidadeNaoPagaAno(int ano) {
@@ -2021,9 +1988,10 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     }
 
     public void recebeAnu(int id, int ano, String nome) {
-        System.out.println("id recebe anu: " + id);
         String v;
         if ("cadastrar".equals(status)) {
+            Date data = new Date();
+            DATA1.setDate(data);
             v = AC.calcularAnuidade(id);
             String[] valor = v.split(" ");
             VALORF.setText(valor[1]);
@@ -2031,6 +1999,8 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             String historico = "Anuidade recebida de " + nome + ", " + "ano: " + ano;
             HISTORICO.setText(historico);
             HISTORICO.setEnabled(false);
+            
+            BANCO1.setSelectedIndex(2);
 
             TRANSACAO.setSelectedIndex(1);
             TRANSACAO.setEnabled(false);
@@ -2085,11 +2055,12 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             String d = "", c = "";
             if (con.getDebito() != 0.0) {
                 double t = con.getDebito();
-                d = String.valueOf(t);
+                d = Util_Controller.converteMuedaBR(t);
             }
             if (con.getCredito() != 0.0) {
                 double e = con.getCredito();
-                c = String.valueOf(e);
+                
+                c = Util_Controller.converteMuedaBR(e);
             }
 
             String da = Util_Controller.DATE_STRING(con.getData());

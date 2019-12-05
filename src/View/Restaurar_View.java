@@ -6,24 +6,19 @@
 package View;
 
 import Controller.Util_Controller;
-import DAO.AdministradorDAO;
 import DAO.Controle_Caixa_DAO;
 import DAO.Sindicalizado_DAO;
 import DAO.Propriedades_Rurais_DAO;
-import Model.Administrador;
-import Model.Controle_Caixa;
 import Model.Sindicalizado;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;

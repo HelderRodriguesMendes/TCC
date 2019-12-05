@@ -298,7 +298,7 @@ public class Controle_Caixa_DAO {
         
         try {
             pst = con.prepareStatement("select sum(areaPropriedade) as somaDasPropiedades from propriedadeRural p "
-                    + "inner join sindicalizado s on p.id_sind = s.id_sindicalizado where excluidoP = '0' and id_sind = ?");
+                    + "inner join sindicalizado s on p.id_sind = s.id_sindicalizado where id_sind = ?");
             pst.setInt(1, id);
             rs = pst.executeQuery();
             if(rs.next()){

@@ -12,6 +12,7 @@ import DAO.Anuidade_DAO;
 import Model.DadosAnuidade;
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -29,6 +30,7 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
         initComponents();
         validaNumerosLetras();
         SALARIO.setDocument(new Formatar_JTextField());
+        SALARIO.setHorizontalAlignment(JTextField.RIGHT);
     }
 
     @SuppressWarnings("unchecked")

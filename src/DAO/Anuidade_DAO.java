@@ -188,30 +188,6 @@ public class Anuidade_DAO {
 //##########################################################################################################################################################################################################################################################
 //##########################################################################################################################################################################################################################################################
 
-    public ArrayList<Anuidade> listar_anuidades_Geral_Atual() {
-        con = Conexao_banco.conector();
-        ArrayList<Anuidade> Anu = new ArrayList<>();
-
-        try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0'  order by nome, anoRecebimento");
-            rs = pst.executeQuery();
-
-            while (rs.next()) {
-                Anuidade a = new Anuidade();
-                a.setId_sindi(rs.getInt("id_sindicalizado"));
-                a.setNome(rs.getString("nome"));
-                a.setCelular(rs.getString("celular"));
-                a.setAnoRecebimento(rs.getInt("anoRecebimento"));
-                a.setStatusPagamento(rs.getBoolean("statusPagamento"));
-                Anu.add(a);
-            }
-            con.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
-            System.out.println("Erro ao listar débitos anuais não pagos: " + e);
-        }
-        return Anu;
-    }
 
     public ArrayList<Anuidade> listar_anuidades_NAO_PAGAS() {
         con = Conexao_banco.conector();

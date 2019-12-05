@@ -90,7 +90,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace pref="90" max="32767" attributes="0"/>
+                          <EmptySpace pref="88" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
@@ -108,10 +108,12 @@
                                                   <Component id="DOCUMENTO" alignment="0" max="32767" attributes="0"/>
                                                   <Group type="102" alignment="1" attributes="0">
                                                       <Group type="103" groupAlignment="1" attributes="0">
-                                                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="BANCO1" min="-2" pref="80" max="-2" attributes="0"/>
+                                                          <Group type="102" attributes="0">
+                                                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <Component id="BANCO1" alignment="1" min="-2" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                                                       <Component id="jLabel4" min="-2" pref="22" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
@@ -163,7 +165,7 @@
                                                       </Group>
                                                       <Component id="jLabel9" min="-2" pref="22" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <EmptySpace min="0" pref="71" max="32767" attributes="0"/>
+                                                  <EmptySpace min="0" pref="70" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
@@ -926,7 +928,7 @@
                         <Column editable="false" title="ID" type="java.lang.Object"/>
                         <Column editable="false" title="Nome" type="java.lang.Object"/>
                         <Column editable="false" title="Celular" type="java.lang.Object"/>
-                        <Column editable="false" title="Ano h&#xe1;  Receber" type="java.lang.Object"/>
+                        <Column editable="false" title="Ano &#xe1;  Receber" type="java.lang.Object"/>
                         <Column editable="false" title="Status de pagamento" type="java.lang.Object"/>
                       </Table>
                     </Property>
