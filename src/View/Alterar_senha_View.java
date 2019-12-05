@@ -109,7 +109,7 @@ public class Alterar_senha_View extends javax.swing.JInternalFrame {
                 .addGap(26, 26, 26))
         );
 
-        jButton1.setText("VALIDAR");
+        jButton1.setText("Confirmar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

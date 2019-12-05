@@ -166,7 +166,7 @@ public class Propriedades_Rurais_DAO {
             pst.setInt(1, a);
             pst.setInt(2, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Restautação das propriedade rurais realizada com sucesso");
+            JOptionPane.showMessageDialog(null, "Restautação das propriedades rurais realizada com sucesso");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao restaurar sindicalizado");
             System.out.println(e);
@@ -324,7 +324,7 @@ public class Propriedades_Rurais_DAO {
             }
 
             if (cont == 1) {
-                JOptionPane.showMessageDialog(null, "Não a propriedades rurais excluidas de " + no);
+                JOptionPane.showMessageDialog(null, "Não há propriedades rurais excluidas de " + no);
             }
             con.close();
         } catch (Exception e) {

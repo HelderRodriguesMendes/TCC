@@ -136,7 +136,6 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        TXTSENHA = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -151,6 +150,7 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
         jLabel10 = new javax.swing.JLabel();
         VOLTAR = new javax.swing.JLabel();
         USO = new javax.swing.JLabel();
+        TXTSENHA = new javax.swing.JPasswordField();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -158,30 +158,6 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);
-            }
-        });
-
-        TXTSENHA.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                TXTSENHAFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                TXTSENHAFocusLost(evt);
-            }
-        });
-        TXTSENHA.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TXTSENHAMouseClicked(evt);
-            }
-        });
-        TXTSENHA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TXTSENHAActionPerformed(evt);
-            }
-        });
-        TXTSENHA.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TXTSENHAKeyPressed(evt);
             }
         });
 
@@ -262,6 +238,12 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
             }
         });
 
+        TXTSENHA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TXTSENHAMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -290,20 +272,21 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
                 .addGap(4, 4, 4)
                 .addComponent(jLabel10))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(TXTSENHA, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(63, 63, 63))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(BOTAO_SALVAR_)
                         .addGap(35, 35, 35)
-                        .addComponent(BT_ATU, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(4, 4, 4)
+                        .addComponent(BT_ATU, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(jLabel4)
+                        .addGap(67, 67, 67))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(TXTSENHA)
+                        .addGap(4, 4, 4)))
                 .addComponent(jLabel9))
             .addGroup(layout.createSequentialGroup()
                 .addGap(61, 61, 61)
@@ -344,7 +327,7 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(TXTSENHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(23, 23, 23)
@@ -357,10 +340,6 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void TXTSENHAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTSENHAActionPerformed
-
-    }//GEN-LAST:event_TXTSENHAActionPerformed
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
 
@@ -398,6 +377,8 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
                             paa.setVisible(true);
                             Interface_View.DESKTOP.add(paa);
                             paa.setPosicao();
+                            paa.setTitle("Consultar e Alterar Administrador");
+                            paa.status = "alterar";
                             this.dispose();
                         } else {
                             TXTLOGIN.setText("");
@@ -416,6 +397,8 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
                                 paa.setVisible(true);
                                 Interface_View.DESKTOP.add(paa);
                                 paa.setPosicao();
+                                paa.setTitle("Consultar e Alterar Administrador");
+                                paa.status = "alterar";
                                 this.dispose();
                             } else {
                                 TXTLOGIN.setText("");
@@ -433,6 +416,8 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
                         paa.setVisible(true);
                         Interface_View.DESKTOP.add(paa);
                         paa.setPosicao();
+                        paa.setTitle("Consultar e Alterar Administrador");
+                        paa.status = "alterar";
                         this.dispose();
                     } else {
                         TXTLOGIN.setText("");
@@ -447,67 +432,9 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
         limparCampos();
     }//GEN-LAST:event_BT_ATUMouseClicked
 
-    private void TXTSENHAKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXTSENHAKeyPressed
-
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            boolean v;
-
-            v = validacao();
-
-            if (v) {
-                AdministradorDAO ud = new AdministradorDAO();
-                login = ud.salvar_ADMIN(preencher_objeto());
-                if (!login) {
-                    limparCampos();
-                    TXTNOME.requestFocus();
-                } else {
-                    TXTLOGIN.setText("");
-                    TXTLOGIN.requestFocus();
-                }
-            }
-        }// evento quando o ENTER é apertado
-
-    }//GEN-LAST:event_TXTSENHAKeyPressed
-
-    private void TXTSENHAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TXTSENHAMouseClicked
-
-        if (evt.getSource() == TXTSENHA) {
-            //System.out.println("ganho foco");
-
-            Alterar_senha_View as = new Alterar_senha_View(this);
-            Interface_View.DESKTOP.add(as);
-            as.setVisible(true);
-            as.setPosicao();
-            cont = 1;
-
-        }
-
-
-    }//GEN-LAST:event_TXTSENHAMouseClicked
-
     private void TXTLOGINKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TXTLOGINKeyPressed
 
     }//GEN-LAST:event_TXTLOGINKeyPressed
-
-    private void TXTSENHAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TXTSENHAFocusGained
-        if (!"".equals(TXTLOGIN.getText())) {
-            if (evt.getSource() == TXTSENHA) {
-                //System.out.println("ganho foco");
-
-                Alterar_senha_View as = new Alterar_senha_View(this);
-                Interface_View.DESKTOP.add(as);
-                as.setVisible(true);
-                as.setPosicao();
-                cont = 1;
-                TXTNOME.requestFocus();
-            }
-        }
-
-    }//GEN-LAST:event_TXTSENHAFocusGained
-
-    private void TXTSENHAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TXTSENHAFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TXTSENHAFocusLost
 
     private void TXTLOGINFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TXTLOGINFocusLost
         // TODO add your handling code here:
@@ -529,6 +456,19 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
         this.dispose();
     }//GEN-LAST:event_VOLTARMouseClicked
 
+    private void TXTSENHAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TXTSENHAMouseClicked
+        if (evt.getSource() == TXTSENHA) {
+            //System.out.println("ganho foco");
+
+            Alterar_senha_View as = new Alterar_senha_View(this);
+            Interface_View.DESKTOP.add(as);
+            as.setVisible(true);
+            as.setPosicao();
+            cont = 1;
+
+        }
+    }//GEN-LAST:event_TXTSENHAMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BOTAO_SALVAR_;
@@ -536,7 +476,7 @@ public abstract class Administrador_View extends javax.swing.JInternalFrame impl
     private javax.swing.JFormattedTextField TXTFONE;
     private javax.swing.JTextField TXTLOGIN;
     private javax.swing.JTextField TXTNOME;
-    private javax.swing.JTextField TXTSENHA;
+    private javax.swing.JPasswordField TXTSENHA;
     private javax.swing.JLabel USO;
     private javax.swing.JLabel VOLTAR;
     private javax.swing.JLabel jLabel1;

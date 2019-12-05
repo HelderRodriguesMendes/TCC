@@ -37,7 +37,7 @@ public class Login_Controller {
             this.senha = s1;
             se = criptografar_senha(s1);
         }else{
-            JOptionPane.showMessageDialog(null, "As senhas não correspondem", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "As senhas não correspondem", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
         }
         return se;
 }

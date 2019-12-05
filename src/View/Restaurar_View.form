@@ -328,7 +328,7 @@
                               <Table columnCount="5" rowCount="0">
                                 <Column editable="false" title="ID" type="java.lang.Object"/>
                                 <Column editable="false" title="Nome da propriedade" type="java.lang.Object"/>
-                                <Column editable="false" title="Munic&#xed;pio cede" type="java.lang.Object"/>
+                                <Column editable="false" title="Munic&#xed;pio Sede" type="java.lang.Object"/>
                                 <Column editable="false" title="N&#xfa;mero do Im&#xf3;vel no NIRF" type="java.lang.Object"/>
                                 <Column editable="false" title="N&#xfa;mero do Im&#xf3;vel no INCRA" type="java.lang.Object"/>
                               </Table>

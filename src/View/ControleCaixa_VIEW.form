@@ -90,7 +90,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace pref="88" max="32767" attributes="0"/>
+                          <EmptySpace pref="90" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
@@ -165,7 +165,7 @@
                                                       </Group>
                                                       <Component id="jLabel9" min="-2" pref="22" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <EmptySpace min="0" pref="70" max="32767" attributes="0"/>
+                                                  <EmptySpace min="0" pref="71" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
@@ -263,7 +263,7 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Banco:"/>
+                    <Property name="text" type="java.lang.String" value="Conta Bac&#xe1;ria"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="BANCO1">
@@ -272,7 +272,7 @@
                       <StringArray count="4">
                         <StringItem index="0" value="Selecione"/>
                         <StringItem index="1" value="Brasil"/>
-                        <StringItem index="2" value="Caixa Interno"/>
+                        <StringItem index="2" value="Caixa "/>
                         <StringItem index="3" value="Sicredi"/>
                       </StringArray>
                     </Property>
@@ -371,7 +371,7 @@
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="0" green="0" red="0" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Transa&#xe7;&#xe3;o financeira:"/>
+                    <Property name="text" type="java.lang.String" value="Transa&#xe7;&#xe3;o Financeira:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="TRANSACAO">
@@ -429,6 +429,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="VALORF">
                   <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="VALORFKeyPressed"/>
                     <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="VALORFKeyReleased"/>
                   </Events>
                   <AuxValues>
@@ -600,7 +601,7 @@
                       <Component id="jButton1" min="-2" pref="44" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jButton2" min="-2" pref="32" max="-2" attributes="0"/>
-                      <EmptySpace pref="14" max="32767" attributes="0"/>
+                      <EmptySpace pref="37" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -755,7 +756,7 @@
                   <StringArray count="4">
                     <StringItem index="0" value="Selecione"/>
                     <StringItem index="1" value="Brasil"/>
-                    <StringItem index="2" value="Caixa Interno"/>
+                    <StringItem index="2" value="Caixa "/>
                     <StringItem index="3" value="Sicredi"/>
                   </StringArray>
                 </Property>
@@ -784,7 +785,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="10" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="H&#xe1;"/>
+                <Property name="text" type="java.lang.String" value="&#xe1;"/>
               </Properties>
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="DATA_INTERVALO1">
@@ -928,7 +929,7 @@
                         <Column editable="false" title="ID" type="java.lang.Object"/>
                         <Column editable="false" title="Nome" type="java.lang.Object"/>
                         <Column editable="false" title="Celular" type="java.lang.Object"/>
-                        <Column editable="false" title="Ano &#xe1;  Receber" type="java.lang.Object"/>
+                        <Column editable="false" title="Ano a  receber" type="java.lang.Object"/>
                         <Column editable="false" title="Status de pagamento" type="java.lang.Object"/>
                       </Table>
                     </Property>

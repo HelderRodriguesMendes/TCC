@@ -153,9 +153,9 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel1.setText("Banco:");
+        jLabel1.setText("Conta Bacária");
 
-        BANCO1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Brasil", "Caixa Interno", "Sicredi" }));
+        BANCO1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Brasil", "Caixa ", "Sicredi" }));
 
         jLabel2.setText("Data:");
 
@@ -199,7 +199,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jLabel6.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         jLabel14.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel14.setText("Transação financeira:");
+        jLabel14.setText("Transação Financeira:");
 
         TRANSACAO.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Crédito", "Débito" }));
         TRANSACAO.addActionListener(new java.awt.event.ActionListener() {
@@ -226,6 +226,9 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jLabel8.setText("Valor Financeiro:");
 
         VALORF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                VALORFKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 VALORFKeyReleased(evt);
             }
@@ -293,7 +296,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(88, Short.MAX_VALUE)
+                .addContainerGap(90, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel11)
@@ -312,9 +315,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                                                 .addGroup(jPanel3Layout.createSequentialGroup()
                                                     .addComponent(jLabel3)
                                                     .addGap(4, 4, 4))
-                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                    .addComponent(BANCO1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(0, 0, 0)))
+                                                .addComponent(BANCO1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(73, 73, 73)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,7 +353,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                                                     .addComponent(VALORF, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 70, Short.MAX_VALUE)))
+                                        .addGap(0, 71, Short.MAX_VALUE)))
                                 .addContainerGap())
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -459,7 +460,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         });
         jScrollPane3.setViewportView(TABELA_PESQUISAR_ALTERAR);
 
-        BANCO2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Brasil", "Caixa Interno", "Sicredi" }));
+        BANCO2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Brasil", "Caixa ", "Sicredi" }));
 
         jLabel19.setText("Banco:");
 
@@ -472,7 +473,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         jLabel25.setText("Intervalo de datas:");
 
         jLabel20.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
-        jLabel20.setText("Há");
+        jLabel20.setText("á");
 
         DATA_INTERVALO1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -542,7 +543,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TELA2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel24)
@@ -609,7 +610,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Celular", "Ano á  Receber", "Status de pagamento"
+                "ID", "Nome", "Celular", "Ano a  receber", "Status de pagamento"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -788,7 +789,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 case "excluir": {
                     String ObjButtons[] = {"Sim", "Não"};
                     int escolha = JOptionPane.showOptionDialog(null,
-                            "Deseja escluir os dados financeiros celecionados?", "ATENÇÃO",
+                            "Deseja excluir os dados financeiros celecionados?", "ATENÇÃO",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                             ObjButtons, ObjButtons[1]);
                     if (escolha == 0) {
@@ -801,7 +802,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 case "restaurar": {
                     String ObjButtons[] = {"Sim", "Não"};
                     int escolha = JOptionPane.showOptionDialog(null,
-                            "Deseja restalrar os dados financeiros selecionados?", "ATENÇÃO",
+                            "Deseja restaurar os dados financeiros selecionados?", "ATENÇÃO",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                             ObjButtons, ObjButtons[0]);
                     if (escolha == 0) {
@@ -997,7 +998,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             banco = String.valueOf(BANCO2.getSelectedItem());
             if ("relatorio".equals(status)) {
                 if (data2.equals("") && data1.equals("")) {
-                    JOptionPane.showMessageDialog(null, "Informe as datas para criar o relatório", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Informe as datas para gerar o relatório", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     CC.excluirDatasPesquisa();
                     dt1 = Util_Controller.STRING_DATE(data1);
@@ -1031,6 +1032,10 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_VALORFKeyReleased
 
+    private void VALORFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_VALORFKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VALORFKeyPressed
+
     public boolean validarObrigatorios() {
         boolean ok = false;
         int cont = 0;
@@ -1046,7 +1051,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         } else {
             String data = Util_Controller.verificar_Data(df.format(DATA1.getDate()), false);
             if ("//".equals(data)) {
-                JOptionPane.showMessageDialog(null, "A data informada é invalida", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "A data informada é inválida", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 cont++;
                 DATA1.setDate(null);
                 DATA1.requestFocus();
@@ -1310,10 +1315,10 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                     dadosNAOencontrados();
                 }
             } else if (d1.equals("") & !d2.equals("")) {
-                JOptionPane.showMessageDialog(null, "Informe as duas datas para realizar uma busca por intervalo de datas", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Informe duas datas para realizar uma busca por intervalo de datas", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
                 DATA_INTERVALO1.setFocusable(true);
             } else if (!d1.equals("") & d2.equals("")) {
-                JOptionPane.showMessageDialog(null, "Informe as duas datas para realizar uma busca por intervalo de datas", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Informe duas datas para realizar uma busca por intervalo de datas", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
                 DATA_INTERVALO2.setFocusable(true);
             } else if (!d_u.equals("")) {
                 System.out.println("2");

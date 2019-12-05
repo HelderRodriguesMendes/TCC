@@ -205,7 +205,7 @@ public class Login_View extends javax.swing.JFrame {
             if (adi.getId() > 0 && !adi.getExcluido()) {
                 abrirInterface(adi);
             }else if(adi.getExcluido()){
-                JOptionPane.showMessageDialog(null, "Este administrador está desabilitado do sistema" , "Atenção", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Este administrador está excluido do sistema" , "Atenção", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_BOTAO_ENTRARActionPerformed

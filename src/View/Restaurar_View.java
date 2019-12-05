@@ -32,13 +32,13 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
 
     int cont = 0, ID = 0, cont_data = 0, cont_data_inter1 = 0, cont_data_inter2 = 0, dataUnica2 = 0, linhaSelecionada, id_controleCaixa = 0;
     public int NULL = 0;
-    boolean nulo = false;        
+    boolean nulo = false;
     String data1 = "", data2 = "", dataUnica1 = "", nome = "", banco = "";
     Date dt1 = null, dt2 = null, dt_uni = null;
 
     Sindicalizado_DAO dsp = new Sindicalizado_DAO();
     Propriedades_Rurais_DAO DADOSR = new Propriedades_Rurais_DAO();
-     Controle_Caixa_DAO CC = new Controle_Caixa_DAO();
+    Controle_Caixa_DAO CC = new Controle_Caixa_DAO();
 
     public Restaurar_View() {
         initComponents();
@@ -57,10 +57,18 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
 
         Util_Controller.soLetras(TXT_NOME);
         TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        TABELA_DADOS_EXCLUIDOS.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
+        TABELA_P_RESTAURAR.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
         listarTabela_P_Restau();
-        
+
         TABELA_DADOS_EXCLUIDOS.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA_DADOS_EXCLUIDOS.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
+        
+        TABELA_DADOS_EXCLUIDOS.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TABELA_DADOS_EXCLUIDOS.getColumnModel().getColumn(1).setPreferredWidth(130);
+        TABELA_DADOS_EXCLUIDOS.getColumnModel().getColumn(2).setPreferredWidth(110);
+        TABELA_DADOS_EXCLUIDOS.getColumnModel().getColumn(3).setPreferredWidth(180);
+        TABELA_DADOS_EXCLUIDOS.getColumnModel().getColumn(4).setPreferredWidth(180);
     }
 
     public void setPosicao() { // faz o formulario aparecer centralizado na tela
@@ -69,6 +77,7 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
     }
 
     public int pesquisar_nome_SIND(String nome) {
+
         ArrayList<Sindicalizado> SIND;
         DefaultTableModel dtma = (DefaultTableModel) TABELA.getModel();
         dtma.setNumRows(0);
@@ -81,18 +90,25 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
         SIND = dsp.pesquisar_restaurar(nome);
 
         if (SIND != null && !SIND.isEmpty()) { // SE O ARRAY N ESTA NULO
+
             SIND.forEach((sind) -> {
+                String c;
+                if ("(  ) 9     -     ".equals(sind.getCelular())) {
+                    c = "";
+                } else {
+                    c = sind.getCelular();
+                }
                 ID = sind.getId_sindi();
                 dtma.addRow(new Object[]{
                     sind.getId_sindi(),
                     sind.getNome(),
-                    sind.getCelular(),
+                    c,
                     sind.getRg(),
                     sind.getCpf()
                 });
             });
         } else {
-            JOptionPane.showMessageDialog(null, "Não há sindicalizado excluido chamado " + nome);
+            JOptionPane.showMessageDialog(null, "Não há sindicalizado excluido por nome de: " + nome);
         }
         corLinhaJTable();
         return ID;
@@ -133,17 +149,23 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
 
         if (SIND != null && !SIND.isEmpty()) {              //SE O ArrayList NÃO ESTIVER VAZIO
             SIND.forEach((sind) -> {
+                String c;
+                if ("(  ) 9     -     ".equals(sind.getCelular())) {
+                    c = "";
+                } else {
+                    c = sind.getCelular();
+                }
                 dtma.addRow(new Object[]{
                     sind.getId_sindi(),
                     sind.getNome(),
-                    sind.getCelular(),
+                    c,
                     sind.getRg(),
                     sind.getCpf()
                 });
             });
             corLinhaJTable_Tabela_P_R();
         } else {
-            JOptionPane.showMessageDialog(null, "Não há cadastro de sindicalizado chamado " + Nome);
+            JOptionPane.showMessageDialog(null, "Não há cadastro de sindicalizado por nome de: " + Nome);
             listarTabela_P_Restau();
             NOME_RESTAU.setText("");
         }
@@ -153,7 +175,7 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
 
         DefaultTableModel dtma = (DefaultTableModel) TABELA_DADOS_EXCLUIDOS.getModel();
         dtma.setNumRows(0);
-        TABELA_DADOS_EXCLUIDOS.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);        
+        
 
         DADOSR.lista_tabela_propri_res(i, nome).forEach((propri) -> {
             dtma.addRow(new Object[]{
@@ -166,8 +188,6 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
         });
         corLinhaJTable_Tabela_Dados_Excluidos();
     }
-
-    
 
     public void corLinhaJTable() {
         TABELA.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
@@ -224,16 +244,10 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
         TXT_NOME.setText("");
         NOME_RESTAU.setText("");
     }
-    
-    
 
-    
-    
     public void dadosNAOencontrados() {
         JOptionPane.showMessageDialog(null, "Os dados pesquisados não foram encontrados", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
     }
-    
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -360,7 +374,7 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Nome da propriedade", "Município cede", "Número do Imóvel no NIRF", "Número do Imóvel no INCRA"
+                "ID", "Nome da propriedade", "Município Sede", "Número do Imóvel no NIRF", "Número do Imóvel no INCRA"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -478,11 +492,13 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                 ObjButtons, ObjButtons[1]);
         if (PromptResult == 0) {
-            if (cont == 1) {
-                dsp.restaurar_SIND(Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString()));
-                TXT_NOME.setText("");
-                pesquisar_nome_SIND(TXT_NOME.getText());
-            } 
+
+            int id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
+            System.out.println("ID EXCLUIR: " + id);
+            dsp.restaurar_SIND(id);
+            TXT_NOME.setText("");
+            pesquisar_nome_SIND(TXT_NOME.getText());
+
         }
     }//GEN-LAST:event_TABELAMouseClicked
 
@@ -497,7 +513,7 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
     private void TABELA_DADOS_EXCLUIDOSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELA_DADOS_EXCLUIDOSMouseClicked
         String ObjButtons[] = {"Sim", "Não"};
         int PromptResult = JOptionPane.showOptionDialog(null,
-                "Deseja restaurar os dados desta propriedade rural?", "ATENÇÃO",
+                "Deseja realmente restaurar os dados desta propriedade rural?", "ATENÇÃO",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                 ObjButtons, ObjButtons[1]);
         if (PromptResult == 0) {

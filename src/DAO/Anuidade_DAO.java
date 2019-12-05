@@ -27,19 +27,19 @@ public class Anuidade_DAO {
     Connection con;
 
     public DadosAnuidade D_A;
-    
-    public DadosAnuidade buscarDados(){
+
+    public DadosAnuidade buscarDados() {
         D_A = new DadosAnuidade();
         int id = 0;
         con = Conexao_banco.conector();
-        
+
         try {
             pst = con.prepareStatement("select max(id_dadosAnuidade) as ID from dadosAnuidade");
             rs = pst.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 id = rs.getInt("ID");
             }
-            if(id > 0){
+            if (id > 0) {
                 D_A = listarDados(id);
                 con.close();
             }
@@ -70,7 +70,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao verificar cadastro de dados para calculos da anuidade", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao verificar cadastro de dados para cálculos da anuidade", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
         }
         return D_A;
     }
@@ -164,6 +164,23 @@ public class Anuidade_DAO {
 
     }
 
+    public void gerarDebitoAnualNovoSind(int ano, int ID) {
+        con = Conexao_banco.conector();
+        try {
+            pst = con.prepareStatement("insert into recebimentoAnuidade (anoRecebimento, statusPagamento, id_sindica, excluido) values (?,?,?,?)");
+            pst.setInt(1, ano);
+            pst.setBoolean(2, false);
+            pst.setInt(3, ID);
+            pst.setBoolean(4, false);
+            pst.executeUpdate();
+            con.close();
+            JOptionPane.showMessageDialog(null, "Taxa anual cadastrada com sucesso");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar taxa anual do sindicalizado", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Erro ao cadastrar taxa anual do sindicalizado: " + e);
+        }
+    }
+
     public ArrayList verificarAnuidadesGeradas() {
 
         int ano;
@@ -179,7 +196,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar os anos de anuidades que já foram gerados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao buscar os anos de anuidades  já gerados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao buscar os anos de anuidades que já foram recebidas: " + e);
         }
         return ANO;
@@ -187,7 +204,6 @@ public class Anuidade_DAO {
 //##########################################################################################################################################################################################################################################################
 //##########################################################################################################################################################################################################################################################
 //##########################################################################################################################################################################################################################################################
-
 
     public ArrayList<Anuidade> listar_anuidades_NAO_PAGAS() {
         con = Conexao_banco.conector();
@@ -233,7 +249,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não quitados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return Anu;
@@ -259,7 +275,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não quitados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
@@ -285,7 +301,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não quitados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
@@ -311,7 +327,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não quitados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
@@ -337,7 +353,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não quitados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
@@ -363,7 +379,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não quitados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
@@ -390,7 +406,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não quitados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
@@ -416,7 +432,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não quitados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
@@ -443,7 +459,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não quitados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
@@ -470,7 +486,7 @@ public class Anuidade_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não pagos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao listar débitos anuais não quitados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao listar débitos anuais não pagos: " + e);
         }
         return A;
@@ -491,17 +507,17 @@ public class Anuidade_DAO {
             System.out.println("Erro ao atuallizar lista de taxas anuais: " + e);
         }
     }
-    
-    public boolean verificaAnuidadeNaoPaga_Sindicalizado(int id){
+
+    public boolean verificaAnuidadeNaoPaga_Sindicalizado(int id) {
         boolean ok = false;
         con = Conexao_banco.conector();
-        
+
         try {
             pst = con.prepareStatement("select statusPagamento from recebimentoAnuidade where statusPagamento = '0' and id_sindica = ?");
             pst.setInt(1, id);
             rs = pst.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 ok = true;
             }
             con.close();
@@ -511,16 +527,16 @@ public class Anuidade_DAO {
         }
         return ok;
     }
-    
-    public void excluirTaxasAnuais(int id){
+
+    public void excluirTaxasAnuais(int id) {
         System.out.println("id pra excluir: " + id);
         con = Conexao_banco.conector();
-        
+
         try {
             pst = con.prepareStatement("update recebimentoAnuidade set excluido = '1' where id_sindica = ?");
             pst.setInt(1, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Taxas anuais excluidas com sucesso");
+            JOptionPane.showMessageDialog(null, "Taxas anuais excluídas com sucesso");
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao excluir taxas anuais", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);

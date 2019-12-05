@@ -71,7 +71,7 @@ public class AdministradorDAO {
                 System.out.println(e);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "O login desejado ja existe no sistema", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "O login desejado já existe no sistema", "Atenção", JOptionPane.INFORMATION_MESSAGE);
         }
         return login;
     }
@@ -154,7 +154,7 @@ public class AdministradorDAO {
                     JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
                     con.close();
                 } catch (HeadlessException | SQLException e) {
-                    JOptionPane.showMessageDialog(null, "Erro ao alterar dados administrador");
+                    JOptionPane.showMessageDialog(null, "Erro ao alterar dados do administrador");
                     System.out.println(e);
                 }
             } else {
@@ -169,7 +169,7 @@ public class AdministradorDAO {
                     JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
                     con.close();
                 } catch (HeadlessException | SQLException e) {
-                    JOptionPane.showMessageDialog(null, "Erro ao alterar dados administrador");
+                    JOptionPane.showMessageDialog(null, "Erro ao alterar dados do administrador");
                     System.out.println(e);
                 }
             }
@@ -190,7 +190,7 @@ public class AdministradorDAO {
                     JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
                     con.close();
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Erro ao alterar dados administrador");
+                    JOptionPane.showMessageDialog(null, "Erro ao alterar dados do administrador");
                     System.out.println(e);
                 }
             } else {
@@ -205,13 +205,13 @@ public class AdministradorDAO {
                     JOptionPane.showMessageDialog(null, "Dados alterados com sucesso");
                     con.close();
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Erro ao alterar dados administrador");
+                    JOptionPane.showMessageDialog(null, "Erro ao alterar dados do administrador");
                     System.out.println(e);
                 }
             }
             login = true;
         } else {
-            JOptionPane.showMessageDialog(null, "O login desejado ja existe no sistema", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "O login desejado já existe no sistema", "Atenção", JOptionPane.INFORMATION_MESSAGE);
         }
         return login;
     }
@@ -246,7 +246,7 @@ public class AdministradorDAO {
             pst.setInt(1, a);
             pst.setInt(2, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Restautação realizada com sucesso");
+            JOptionPane.showMessageDialog(null, "Restauração realizada com sucesso");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao restaurar administrador");
             System.out.println(e);
@@ -272,7 +272,7 @@ public class AdministradorDAO {
 
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao restaturar Administrador 1");
+            JOptionPane.showMessageDialog(null, "Erro ao restaurar Administrador 1");
             System.out.println(e);
         }
         return AD;
@@ -296,7 +296,7 @@ public class AdministradorDAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao restaturar Administrador 1");
+            JOptionPane.showMessageDialog(null, "Erro ao restaurar Administrador 1");
             System.out.println(e);
         }
         return AD;

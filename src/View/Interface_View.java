@@ -122,7 +122,7 @@ public class Interface_View extends javax.swing.JFrame {
         DESKTOP.setLayout(DESKTOPLayout);
         DESKTOPLayout.setHorizontalGroup(
             DESKTOPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1279, Short.MAX_VALUE)
+            .addGap(0, 1290, Short.MAX_VALUE)
         );
         DESKTOPLayout.setVerticalGroup(
             DESKTOPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,7 +175,7 @@ public class Interface_View extends javax.swing.JFrame {
         });
         MENU_SALVAR.add(MENU_CAD_USU);
 
-        jMenuItem5.setText("Classificação de sindicalizados/Taxa Anuais");
+        jMenuItem5.setText("Classificação de sindicalizado/Taxas Anuais");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
@@ -226,7 +226,7 @@ public class Interface_View extends javax.swing.JFrame {
         });
         MENU_PE.add(jMenuItem1);
 
-        ANUIDADE_ALRERAR.setText("Classificação de sindicalizados");
+        ANUIDADE_ALRERAR.setText("Classificação de sindicalizado");
         ANUIDADE_ALRERAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ANUIDADE_ALRERARActionPerformed(evt);
@@ -317,7 +317,7 @@ public class Interface_View extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem7.setText("Controde de caixa");
+        jMenuItem7.setText("Controle de caixa");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
@@ -350,8 +350,8 @@ public class Interface_View extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DESKTOP))
+                .addComponent(DESKTOP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -31,21 +31,21 @@ public class Util_DAO {
 
         try {
             if ("sind".equals(tipo)) {
-                pst = con.prepareStatement("update sindicalizado set excluidoS = ? where id_sindicalizado = ?");
+                pst = con.prepareStatement("update sindicalizado set excluídoS = ? where id_sindicalizado = ?");
                 pst.setInt(1, 1);
                 pst.setInt(2, id);
                 pst.executeUpdate();
                 ok = DRD.excluirPropriedade(id);
                 if(ok){
-                    JOptionPane.showMessageDialog(null, "Sindicalizado excluido com sucesso");
+                    JOptionPane.showMessageDialog(null, "Sindicalizado excluído com sucesso");
                 }
             } else if ("adm".equals(tipo)) {
-                pst = con.prepareStatement("update admin set excluido = ? where id_admin = ?");
+                pst = con.prepareStatement("update admin set excluído = ? where id_admin = ?");
                 pst.setInt(1, 1);
                 pst.setInt(2, id);
                 pst.executeUpdate();
                 ok = true;
-                JOptionPane.showMessageDialog(null, "Administrador excluido com sucesso");
+                JOptionPane.showMessageDialog(null, "Administrador excluído com sucesso");
             }
             con.close();
         } catch (Exception e) {

@@ -209,7 +209,7 @@ public class Sindicalizado_DAO {
 
                 con.close();
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao restaturar sindicalizado");
+                JOptionPane.showMessageDialog(null, "Erro ao restaurar sindicalizado");
                 System.out.println(e);
             }
         } else {
@@ -227,7 +227,7 @@ public class Sindicalizado_DAO {
                 }
                 con.close();
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao restaturar sindicalizado");
+                JOptionPane.showMessageDialog(null, "Erro ao restaurar sindicalizado");
                 System.out.println(e);
             }
         }
@@ -299,7 +299,7 @@ public class Sindicalizado_DAO {
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar dados na tabela");
-            System.out.println(e);
+            System.out.println("Erro ao listar dados na tabela: " +e);
         }
         return SIND;
     }
@@ -344,7 +344,7 @@ public class Sindicalizado_DAO {
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao listar dados na tabela", JOptionPane.ERROR_MESSAGE);
-            System.out.println(e);
+            System.out.println("Erro ao listar dados na tabela: " + e);
         }
         return SIND;
     }
@@ -390,7 +390,7 @@ public class Sindicalizado_DAO {
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao listar dados na tabela", JOptionPane.ERROR_MESSAGE);
-            System.out.println(e);
+            System.out.println("Erro ao listar dados na tabela" + e);
         }
         return SIND;
     }
@@ -676,7 +676,7 @@ public class Sindicalizado_DAO {
             pst.setInt(1, a);
             pst.setInt(2, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Restautação do sindicalizado realizada com sucesso");
+            JOptionPane.showMessageDialog(null, "Restauração do sindicalizado realizada com sucesso");
             prd.restaurar_Muitas_Propri(id);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao restaurar sindicalizado");

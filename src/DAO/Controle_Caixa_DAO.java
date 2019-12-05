@@ -117,7 +117,7 @@ public class Controle_Caixa_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do contre de caixa", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do contre de caixa", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao lista dados na tabela de consultas do contre de caixa: " + e);
         }
         return C;
@@ -156,7 +156,7 @@ public class Controle_Caixa_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do contre de caixa", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do controle de caixa", "ERRO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao lista dados na tabela de consultas do contre de caixa: " + e);
         }
         return C;
@@ -188,7 +188,7 @@ public class Controle_Caixa_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do contre de caixa", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do controle de caixa", "ERRO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao lista dados na tabela de consultas do contre de caixa: " + e);
         }
         return C;
@@ -222,7 +222,7 @@ public class Controle_Caixa_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do contre de caixa", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do controle de caixa", "ERRO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao lista dados na tabela de consultas do contre de caixa: " + e);
         }
         return C;
@@ -253,7 +253,7 @@ public class Controle_Caixa_DAO {
             }
             con.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do contre de caixa", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do controle de caixa", "ERRO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao lista dados na tabela de consultas do contre de caixa: " + e);
         }
         return C;
@@ -283,7 +283,7 @@ public class Controle_Caixa_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do contre de caixa", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de consultas do controle de caixa", "ERRO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao lista dados na tabela de consultas do contre de caixa: " + e);
         }
         return C;
@@ -350,7 +350,7 @@ public class Controle_Caixa_DAO {
             pst = con.prepareStatement("update ControleDeCaixa set excluido = '1' where id_controleCaixa = ?");
             pst.setInt(1, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Dados financeiros excluidos com sucesso");
+            JOptionPane.showMessageDialog(null, "Dados financeiros excluídos com sucesso");
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao excluir dados financeiros", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
@@ -380,7 +380,7 @@ public class Controle_Caixa_DAO {
             }
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao lista dados na tabela de contre de caixa excluidos", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao listar dados na tabela de contre de caixa excluídos", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println("Erro ao lista dados na tabela de consultas do contre de caixa: " + e);
         }
         return C;
@@ -393,7 +393,7 @@ public class Controle_Caixa_DAO {
             pst = con.prepareStatement("update ControleDeCaixa set excluido = '0' where id_controleCaixa = ?");
             pst.setInt(1, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Restautação realizada com sucesso");
+            JOptionPane.showMessageDialog(null, "Restauração realizada com sucesso");
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao restaurar dados financeiros");
