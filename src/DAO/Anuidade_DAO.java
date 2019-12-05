@@ -529,7 +529,6 @@ public class Anuidade_DAO {
     }
 
     public void excluirTaxasAnuais(int id) {
-        System.out.println("id pra excluir: " + id);
         con = Conexao_banco.conector();
 
         try {

@@ -150,7 +150,7 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
 
     private void TABELAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TABELAMouseClicked
         ID = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
-        System.out.println("ID: " + ID);
+
         if ("alterar".equals(status)) {
             String ObjButtons[] = {"Sim", "Não"};
             int escolha = JOptionPane.showOptionDialog(null,
@@ -177,7 +177,6 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
             if (escolha == 0) {
 
                 boolean ok = ud.excluir_S_A(ID, "adm");
-                System.out.println("ok da dao: " + ok);
                 if (ok) {
                     LISTAR_TABELA();
                 }
@@ -283,7 +282,6 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
 
         ad.select_Name(nome).forEach((admi) -> {
             ID = admi.getId();
-            System.out.println("ID: " + ID);
             dtma.addRow(new Object[]{
                 admi.getId(),
                 admi.getNome(),
@@ -306,7 +304,6 @@ public class Pesquisar_Alterar_Admin_View extends javax.swing.JInternalFrame {
 
         ad.pesquisar_restaurar(nome).forEach((admi) -> {
             ID = admi.getId();
-            System.out.println("ID: " + ID);
             dtma.addRow(new Object[]{
                 admi.getId(),
                 admi.getNome(),

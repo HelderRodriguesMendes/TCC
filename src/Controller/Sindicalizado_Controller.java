@@ -123,7 +123,6 @@ public class Sindicalizado_Controller {
       
         i = dsr.verificarINCRA_BANCO(incra, id);
         if (!"".equals(i) && !"nao cadastrado".equals(i) && !"tem dono".equals(i)) {
-            System.out.println("helder");
             ID = Integer.parseInt(i);
             if (ID == id) {
                 i = "mesmo dono";

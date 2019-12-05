@@ -31,12 +31,10 @@ public class Controle_caixa_Controller {
     }
 
     public ArrayList totalDiasMes(int mes) {
-        System.out.println("aqui 1");
         ArrayList<Date> DATAS1;
         Calendar datas = new GregorianCalendar();
         datas.set(Calendar.MONTH, mes - 1);//2
         int quantidadeDias = datas.getActualMaximum(Calendar.DAY_OF_MONTH);
-        System.out.println("aqui 2");
         DATAS1 = montarDatas(quantidadeDias, mes);
 
         return DATAS1;
@@ -64,8 +62,6 @@ public class Controle_caixa_Controller {
     }
 
     public String mesRelatorio(String data1, String data2) {
-        System.out.println("data 1 he: " + data1);
-        System.out.println("data 2 he: " + data2);
         String MES_RELATORIO = "";
 
         String M1 = "";

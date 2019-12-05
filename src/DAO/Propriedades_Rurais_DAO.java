@@ -59,7 +59,7 @@ public class Propriedades_Rurais_DAO {
 
     public String verificarINCRA_BANCO(String incra, int id) {
         String ID = "";
-        System.out.println("ID INCRA: " + id);
+
         if (id > 0) {
             con = Conexao_banco.conector();
             try {

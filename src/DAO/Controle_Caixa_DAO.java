@@ -406,7 +406,6 @@ public class Controle_Caixa_DAO {
         try {
             pst = con.prepareStatement("create table datas(data1 date, data2 date, idDatas int primary key not null auto_increment)");
             pst.executeUpdate();
-            System.out.println("TABELA CRIADA");
             salvaDatasPesquisa(data1, data2);
             con.close();
         } catch (Exception e) {
@@ -414,7 +413,6 @@ public class Controle_Caixa_DAO {
         }
     }
     public void salvaDatasPesquisa(Date data1, Date data2){
-        System.out.println("helder 2");
         con = Conexao_banco.conector();
         try {
             pst = con.prepareStatement("insert into datas (data1, data2) values (?,?)");
@@ -423,7 +421,6 @@ public class Controle_Caixa_DAO {
             pst.setDate(1, dataSqll);
             pst.setDate(2, dataSql2);
             pst.executeUpdate();
-            System.out.println("SALVO AS DASTAS DE PESQUISA");
             con.close();
         } catch (Exception e) {
             System.out.println(" NÃO SALVO AS DASTAS DE PESQUISA");
@@ -437,7 +434,6 @@ public class Controle_Caixa_DAO {
             pst = con.prepareStatement("delete from datas where idDatas = ?");
             pst.setInt(1, id);
             pst.executeUpdate();
-            System.out.println("EXCLUIU A TABELA DASTAS DE PESQUISA");
             con.close();
         } catch (Exception e) {
             System.out.println(" NÃO EXCLUIU A TABELA DASTAS DE PESQUISA");
@@ -452,7 +448,6 @@ public class Controle_Caixa_DAO {
             if(rs.next()){
                i =  rs.getInt("ID");
             }
-            System.out.println("EXCLUIU A TABELA DASTAS DE PESQUISA");
             con.close();
         } catch (Exception e) {
             System.out.println(" NÃO EXCLUIU A TABELA DASTAS DE PESQUISA");

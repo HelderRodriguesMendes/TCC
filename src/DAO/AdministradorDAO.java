@@ -50,7 +50,6 @@ public class AdministradorDAO {
 
     public boolean salvar_ADMIN(Administrador usu) {
         login = verificar_login(usu);
-        System.out.println("login" + login);
         if (!login) {
             con = Conexao_banco.conector();
 
@@ -217,7 +216,6 @@ public class AdministradorDAO {
     }
 
     public boolean verificar_login(Administrador adm) {
-        System.out.println("verifica login");
         con = Conexao_banco.conector();
         boolean lo = false;
         try {
@@ -233,7 +231,6 @@ public class AdministradorDAO {
         } catch (Exception e) {
             System.out.println(e);
         }
-        System.out.println("lo " + lo);
         return lo;
     }
 

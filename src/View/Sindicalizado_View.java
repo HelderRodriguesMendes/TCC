@@ -1179,7 +1179,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                     }
                     break;
                 case "alterar":
-                    System.out.println("aqui helder");
                     linhaSelecionada = TABELA_PROPRIEDADE_RURAL.getSelectedRow();
                     altera_dados_JTABLE(linhaSelecionada);
                     clicoTabela_R = true;
@@ -1657,14 +1656,12 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         if (!"".equals(RESIDEN_ATUAL.getText())) {
             campu++;
         }
-
         if (obri == 5) {      // SE ESTIVE PREENCHIDO TODOS OS CAMPUS OBRIGATÓRIOS
             campus = "preencher";
         } else if (obri < 5 && obri > 0) {         // SE ESTIVE PREENCHIDO SÓ ALGUNS DOS CAMPUS OBRIGATÓRIOS
-            System.out.println("aqui 1");
+
             validar_obrigatorios_rurais();
         } else if (campu > 0 && obri == 0) { // SE ESTIVE PREENCHIDO SÓ ALGUNS DOS CAMPUS NÃO OBRIGATÓRIOS
-            System.out.println("aqui 2");
             validar_obrigatorios_rurais();
         } else if (campu == 0 && obri == 0) {
             if ("cadastrar".equals(status)) {
@@ -1733,7 +1730,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             } else {
                 String i;
                 i = si.verificar_INCRA(codI, id_sindicalizado);
-                System.out.println("valor do i: " + i);
+
                 if ("tem dono".equals(i)) {
                     erro = 1;
                     JOptionPane.showMessageDialog(null, "O código no INCRA da propriedade rural informada já está cadastrado no sistema.", "Atenção", JOptionPane.INFORMATION_MESSAGE);
@@ -2114,7 +2111,6 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         }
         dadosp.setEstadoCivil(es);
         dadosp.setCpf(CPF.getText());
-        System.out.println("CPF: " + dadosp.getCpf());
         dadosp.setRg(RG.getText());
         String dte = df.format(DATAEXPE.getDate());
         dadosp.setDataExpedicao(Util_Controller.STRING_DATE(dte));

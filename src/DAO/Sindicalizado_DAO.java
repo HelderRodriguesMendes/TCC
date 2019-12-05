@@ -48,7 +48,6 @@ public class Sindicalizado_DAO {
             pst.setString(3, dp.getCelular());
             pst.setString(4, dp.getNascionalidade());
             pst.setString(5, dp.getEstadoCivil());
-            System.out.println("CPF 2: " + dp.getCpf());
             pst.setString(6, dp.getCpf());
             pst.setString(7, dp.getRg());
             java.sql.Date DATA = new java.sql.Date(dp.getDataExpedicao().getTime());
@@ -350,14 +349,12 @@ public class Sindicalizado_DAO {
     }
 
     public ArrayList<Sindicalizado> pesquisar_nome_cpf(String nome, String cpf) {
-        System.out.println("aqii");
         con = Conexao_banco.conector();
 
         ArrayList<Sindicalizado> SIND = new ArrayList<>();
 
         try {
             pst = con.prepareStatement("select id_sindicalizado, nome, dataNasci, celular, nacionalidade, estadoCivil, cpf, rg, dataExpedi, tituloEleito, zona, secao, reservista, categoria, pai, mae from sindicalizado where excluidoS = '0' and nome like ? and cpf like ?");
-            System.out.println("helde");
             pst.setString(1, "%" + nome + "%");
             pst.setString(2, "%" + cpf + "%");
             rs = pst.executeQuery();
@@ -454,7 +451,6 @@ public class Sindicalizado_DAO {
 
                 si.setId_sindi(rs.getInt("id_sindicalizado"));
                 si.setNome(rs.getString("nome"));
-                System.out.println("nome: " + si.getNome());
                 java.util.Date DATA_U = rs.getDate("dataNasci");
                 si.setDataNasci(DATA_U);
                 si.setCelular(rs.getString("celular"));

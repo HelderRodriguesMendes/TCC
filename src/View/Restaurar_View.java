@@ -494,7 +494,6 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
         if (PromptResult == 0) {
 
             int id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
-            System.out.println("ID EXCLUIR: " + id);
             dsp.restaurar_SIND(id);
             TXT_NOME.setText("");
             pesquisar_nome_SIND(TXT_NOME.getText());

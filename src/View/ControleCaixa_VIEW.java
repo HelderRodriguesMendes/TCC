@@ -856,7 +856,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             if (!s.equals("")) {
                 if (data1.equals("") && data2.equals("") & mes == 0) {
                     dataUnica1 = s;
-                    System.out.println("data unica: " + dataUnica1);
+                  
                     DATA_INTERVALO1.setEnabled(false);
                     DATA_INTERVALO1.setDate(null);
                     DATA_INTERVALO2.setEnabled(false);
@@ -889,7 +889,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         if ("cadastrar".equals(status)) {
             String iid = TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString();
             int i = Integer.parseInt(iid);
-            System.out.println("id saindo da tela: " + i);
+            
             nome = TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString();
 
             String a = TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString();
@@ -1095,7 +1095,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             String de = VALORF.getText().replace(".", "");
             String deb = de.replace(",", ".");
             c.setDebito(Double.parseDouble(deb));
-            System.out.println("debito formatado: " + deb);
+           
             c.setCredito(0.0);
         }
 
@@ -1321,7 +1321,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Informe duas datas para realizar uma busca por intervalo de datas", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
                 DATA_INTERVALO2.setFocusable(true);
             } else if (!d_u.equals("")) {
-                System.out.println("2");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
@@ -1367,7 +1366,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             }
         } else {
             if (!d1.equals("") & !d2.equals("")) {
-                System.out.println("4");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
@@ -1422,7 +1420,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                     dadosNAOencontrados();
                 }
             } else if (!d_u.equals("")) {
-                System.out.println("5");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
@@ -1467,7 +1464,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                     dadosNAOencontrados();
                 }
             } else {
-                System.out.println("7");
                 DefaultTableModel dtma = (DefaultTableModel) TABELA_PESQUISAR_ALTERAR.getModel();
                 dtma.setNumRows(0);
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(2).setPreferredWidth(60);
@@ -1478,7 +1474,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
 
-                System.out.println("banco: " + banco);
 
                 C = CC.consultar_banco(banco);
 
