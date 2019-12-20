@@ -210,7 +210,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> Anu = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where statusPagamento = '0' order by nome, anoRecebimento");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where statusPagamento = '0' and excluido = '0' order by nome, anoRecebimento");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -312,7 +312,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and anoRecebimento = ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and anoRecebimento = ? order by nome");
             pst.setInt(1, ano);
             rs = pst.executeQuery();
 

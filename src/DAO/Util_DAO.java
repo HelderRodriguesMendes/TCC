@@ -31,7 +31,7 @@ public class Util_DAO {
 
         try {
             if ("sind".equals(tipo)) {
-                pst = con.prepareStatement("update sindicalizado set excluídoS = ? where id_sindicalizado = ?");
+                pst = con.prepareStatement("update sindicalizado set excluidoS = ? where id_sindicalizado = ?");
                 pst.setInt(1, 1);
                 pst.setInt(2, id);
                 pst.executeUpdate();

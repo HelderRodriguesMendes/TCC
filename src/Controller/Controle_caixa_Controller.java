@@ -75,7 +75,7 @@ public class Controle_caixa_Controller {
         int mes2 = Integer.parseInt(dt2);
 
         if (mes1 != mes2) {
-            MES_RELATORIO = data1 + " Á " + data2;
+            MES_RELATORIO = data1 + " A " + data2;
         } else if (mes1 == mes2) {
             switch (mes1) {
                 case 1:

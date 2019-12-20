@@ -937,9 +937,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_STATUS_PAActionPerformed
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        if ("relatorio".equals(status)) {
-            CC.excluirDatasPesquisa();
-        }
+       
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -1000,7 +998,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 if (data2.equals("") && data1.equals("")) {
                     JOptionPane.showMessageDialog(null, "Informe as datas para gerar o relatório", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    CC.excluirDatasPesquisa();
                     dt1 = Util_Controller.STRING_DATE(data1);
                     dt2 = Util_Controller.STRING_DATE(data2);
                     CC.salvaDatasPesquisa(dt1, dt2);
@@ -2022,8 +2019,8 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     public void Relatorios(String saldo, Date data1, Date data2, String mes) {
         try {
             HashMap filtro = new HashMap();
-            filtro.put("DATA1", data1);
-            filtro.put("DATA2", data2);
+            filtro.put("data1", data1);
+            filtro.put("data2", data2);
             filtro.put("SALDO", saldo);
             filtro.put("MES", mes);
             JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\TesteCaixa.jasper", filtro, conexao);
