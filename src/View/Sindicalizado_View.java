@@ -70,7 +70,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
 
     public Sindicalizado_View() {
         initComponents();
-        AREAFAZENDA.setDocument( new Formatar_JTextField());
+        AREAFAZENDA.setDocument(new Formatar_JTextField());
         conexao = Conexao_banco.conector();
 
         try {
@@ -84,8 +84,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
 
         TABELA_PROPRIEDADE_RURAL.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
         TABELA_SIND.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
-        
-        
+
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(1).setPreferredWidth(130);
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(2).setPreferredWidth(130);
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(3).setPreferredWidth(100);
@@ -1361,11 +1360,11 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TIRALEITEActionPerformed
 
     private void AREAFAZENDAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AREAFAZENDAKeyReleased
-        
+
     }//GEN-LAST:event_AREAFAZENDAKeyReleased
 
     private void RG_PesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RG_PesquisaKeyPressed
-       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if ("".equals(NOME.getText()) && "   .   .    -   ".equals(CPF.getText()) && "       ".equals(RG.getText())) {
                 listar_Tabela_Sind();
             } else {
@@ -1466,7 +1465,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
 
     public void confirma_salvamento_fazenda(String botao) {
         Calendar cal = GregorianCalendar.getInstance();
-        int ano = cal.get(Calendar.YEAR); 
+        int ano = cal.get(Calendar.YEAR);
         if ("cadastrar".equals(status)) {
             if ("salvar".equals(botao)) { // clico no botao salvar para cadastrar
                 String ObjButtons[] = {"Sim", "Não"};
@@ -1475,7 +1474,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                         ObjButtons, ObjButtons[0]);
                 if (PromptResult == 0) {
-                        if (!ok) {
+                    if (!ok) {
                         id_sindicalizado = DADOSP.salvar_Dados_P(dadosp);
                     }
                     DADOSR.salvar_Dados_R(preencher_objeto_Rural(), id_sindicalizado);
@@ -1775,7 +1774,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
 
     public void LISTAR_TABELA_Rural(ArrayList<Propriedades_Rurais> DADOS_RU) {
         DefaultTableModel dtma = (DefaultTableModel) TABELA_PROPRIEDADE_RURAL.getModel();
-        dtma.setNumRows(0);  
+        dtma.setNumRows(0);
 
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA_PROPRIEDADE_RURAL.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
@@ -2165,8 +2164,18 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
             String de = Util_Controller.DATE_STRING(sin.getDataExpedicao());
 
             String fone = sin.getCelular();
+
             if ("(  ) 9     -     ".equals(fone)) {
                 fone = "";
+            }
+
+            String zo = sin.getZona();
+            String sec = sin.getSecao();
+            if ("0".equals(zo)) {
+                zo = "";
+            }
+            if ("0".equals(sec)) {
+                sec = "";
             }
 
             dtma.addRow(new Object[]{
@@ -2180,8 +2189,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                 sin.getRg(),
                 de,
                 sin.getTituloEleito(),
-                sin.getZona(),
-                sin.getSecao(),
+                zo,
+                sec,
                 sin.getReservista(),
                 sin.getCategoria(),
                 sin.getPai(),
@@ -2213,6 +2222,14 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                     fone = "";
                 }
 
+                String zo = "", sec = "";
+                if (!"0".equals(sin.getZona())) {
+                    zo = sin.getZona();
+                }
+                if (!"0".equals(sin.getSecao())) {
+                    sec = sin.getSecao();
+                }
+
                 dtma.addRow(new Object[]{
                     sin.getId_sindi(),
                     sin.getNome(),
@@ -2224,8 +2241,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                     sin.getRg(),
                     de,
                     sin.getTituloEleito(),
-                    sin.getZona(),
-                    sin.getSecao(),
+                    zo,
+                    sec,
                     sin.getReservista(),
                     sin.getCategoria(),
                     sin.getPai(),

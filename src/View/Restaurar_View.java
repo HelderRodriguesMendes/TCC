@@ -6,6 +6,7 @@
 package View;
 
 import Controller.Util_Controller;
+import DAO.Anuidade_DAO;
 import DAO.Controle_Caixa_DAO;
 import DAO.Sindicalizado_DAO;
 import DAO.Propriedades_Rurais_DAO;
@@ -14,7 +15,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -39,6 +42,7 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
     Sindicalizado_DAO dsp = new Sindicalizado_DAO();
     Propriedades_Rurais_DAO DADOSR = new Propriedades_Rurais_DAO();
     Controle_Caixa_DAO CC = new Controle_Caixa_DAO();
+    Anuidade_DAO AD = new Anuidade_DAO();
 
     public Restaurar_View() {
         initComponents();
@@ -495,6 +499,11 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
 
             int id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
             dsp.restaurar_SIND(id);
+            
+             Calendar cal = GregorianCalendar.getInstance();
+            int ano = cal.get(Calendar.YEAR);
+            AD.gerarDebitoAnualNovoSind(ano, id);
+            
             TXT_NOME.setText("");
             pesquisar_nome_SIND(TXT_NOME.getText());
 
