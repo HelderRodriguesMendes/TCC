@@ -81,13 +81,13 @@ public class Anuidade_DAO {
         try {
             pst = con.prepareStatement("insert into dadosAnuidade (salario, pequenoProdutor_t1, pequenoProdutor_t2, pequenoProdutor_porcen, medioProdutor_t1, medioProdutor_t2, medioProdutor_porcen, grandeProdutor, grandeProdutor_porcen) values (?,?,?,?,?,?,?,?,?)");
             pst.setDouble(1, DA.getSalario());
-            pst.setInt(2, DA.getPequenoProdutor_t1());
-            pst.setInt(3, DA.getPequenoProdutor_t2());
+            pst.setDouble(2, DA.getPequenoProdutor_t1());
+            pst.setDouble(3, DA.getPequenoProdutor_t2());
             pst.setInt(4, DA.getPequenoProdutor_porcen());
-            pst.setInt(5, DA.getMedioProdutor_t1());
-            pst.setInt(6, DA.getMedioProdutor_t2());
+            pst.setDouble(5, DA.getMedioProdutor_t1());
+            pst.setDouble(6, DA.getMedioProdutor_t2());
             pst.setInt(7, DA.getMedioProdutor_porcen());
-            pst.setInt(8, DA.getGrandeProdutor());
+            pst.setDouble(8, DA.getGrandeProdutor());
             pst.setInt(9, DA.getGrandeProdutor_porcen());
             pst.executeUpdate();
 
@@ -105,13 +105,13 @@ public class Anuidade_DAO {
         try {
             pst = con.prepareStatement("update dadosAnuidade set salario = ?, pequenoProdutor_t1 = ?, pequenoProdutor_t2 = ?, pequenoProdutor_porcen = ?, medioProdutor_t1 = ?, medioProdutor_t2 = ?, medioProdutor_porcen = ?, grandeProdutor = ?, grandeProdutor_porcen = ? where id_dadosAnuidade = ?");
             pst.setDouble(1, DA.getSalario());
-            pst.setInt(2, DA.getPequenoProdutor_t1());
-            pst.setInt(3, DA.getPequenoProdutor_t2());
+            pst.setDouble(2, DA.getPequenoProdutor_t1());
+            pst.setDouble(3, DA.getPequenoProdutor_t2());
             pst.setInt(4, DA.getPequenoProdutor_porcen());
-            pst.setInt(5, DA.getMedioProdutor_t1());
-            pst.setInt(6, DA.getMedioProdutor_t2());
+            pst.setDouble(5, DA.getMedioProdutor_t1());
+            pst.setDouble(6, DA.getMedioProdutor_t2());
             pst.setInt(7, DA.getMedioProdutor_porcen());
-            pst.setInt(8, DA.getGrandeProdutor());
+            pst.setDouble(8, DA.getGrandeProdutor());
             pst.setInt(9, DA.getGrandeProdutor_porcen());
             pst.setInt(10, DA.getId());
             pst.executeUpdate();
@@ -201,6 +201,27 @@ public class Anuidade_DAO {
         }
         return ANO;
     }
+    public ArrayList verificarAnuidadesGeradas_sindEXcluido(int id) {
+
+        int ano;
+        con = Conexao_banco.conector();
+        ArrayList<Integer> ANO = new ArrayList<>();
+        try {
+            pst = con.prepareStatement("select distinct(anoRecebimento) from recebimentoAnuidade where id_sindica = ? order by anoRecebimento desc");
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                ano = rs.getInt("anoRecebimento");
+                ANO.add(ano);
+            }
+            con.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar os anos de anuidades  já gerados", "ATENÇÃO", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Erro ao buscar os anos de anuidades que já foram recebidas: " + e);
+        }
+        return ANO;
+    }
 //##########################################################################################################################################################################################################################################################
 //##########################################################################################################################################################################################################################################################
 //##########################################################################################################################################################################################################################################################
@@ -260,7 +281,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '0' and anoRecebimento = ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '0' and anoRecebimento = ? order by nome, anoRecebimento");
             pst.setInt(1, ano);
             rs = pst.executeQuery();
 
@@ -286,7 +307,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '1' and anoRecebimento = ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '1' and anoRecebimento = ? order by nome, anoRecebimento");
             pst.setInt(1, ano);
             rs = pst.executeQuery();
 
@@ -312,7 +333,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and anoRecebimento = ? order by nome");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and anoRecebimento = ? order by nome, anoRecebimento");
             pst.setInt(1, ano);
             rs = pst.executeQuery();
 
@@ -338,7 +359,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '0' and nome like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '0' and nome like ? order by nome, anoRecebimento");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
 
@@ -364,7 +385,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado,  nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and nome like ?");
+            pst = con.prepareStatement("select id_sindicalizado,  nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and nome like ? order by nome, anoRecebimento");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
 
@@ -390,7 +411,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and nome like ? and anoRecebimento = ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and nome like ? and anoRecebimento = ? order by nome, anoRecebimento");
             pst.setString(1, "%" + nome + "%");
             pst.setInt(2, ano);
             rs = pst.executeQuery();
@@ -417,7 +438,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '1' and nome like ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '1' and nome like ? order by nome, anoRecebimento");
             pst.setString(1, "%" + nome + "%");
             rs = pst.executeQuery();
 
@@ -443,7 +464,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '0' and nome like ? and anoRecebimento = ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '0' and nome like ? and anoRecebimento = ? order by nome, anoRecebimento");
             pst.setString(1, "%" + nome + "%");
             pst.setInt(2, ano);
             rs = pst.executeQuery();
@@ -470,7 +491,7 @@ public class Anuidade_DAO {
         ArrayList<Anuidade> A = new ArrayList<>();
 
         try {
-            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '1' and nome like ? and anoRecebimento = ?");
+            pst = con.prepareStatement("select id_sindicalizado, nome, celular, anoRecebimento, statusPagamento from recebimentoAnuidade a inner join sindicalizado s on a.id_sindica = s.id_sindicalizado where excluido = '0' and statusPagamento = '1' and nome like ? and anoRecebimento = ? order by nome, anoRecebimento");
             pst.setString(1, "%" + nome + "%");
             pst.setInt(2, ano);
             rs = pst.executeQuery();

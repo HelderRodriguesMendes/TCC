@@ -11,13 +11,13 @@ package Model;
  */
 public class DadosAnuidade {
 
-    private int pequenoProdutor_t1;
-    private int pequenoProdutor_t2;
+    private double pequenoProdutor_t1;
+    private double pequenoProdutor_t2;
     private int pequenoProdutor_porcen;
-    private int medioProdutor_t1;
-    private int medioProdutor_t2;
+    private double medioProdutor_t1;
+    private double medioProdutor_t2;
     private int medioProdutor_porcen;
-    private int grandeProdutor; 
+    private double grandeProdutor; 
     private int grandeProdutor_porcen;
     private double salario;
     private int id;
@@ -25,28 +25,28 @@ public class DadosAnuidade {
     /**
      * @return the pequenoProdutor_t1
      */
-    public int getPequenoProdutor_t1() {
+    public double getPequenoProdutor_t1() {
         return pequenoProdutor_t1;
     }
 
     /**
      * @param pequenoProdutor_t1 the pequenoProdutor_t1 to set
      */
-    public void setPequenoProdutor_t1(int pequenoProdutor_t1) {
+    public void setPequenoProdutor_t1(double pequenoProdutor_t1) {
         this.pequenoProdutor_t1 = pequenoProdutor_t1;
     }
 
     /**
      * @return the pequenoProdutor_t2
      */
-    public int getPequenoProdutor_t2() {
+    public double getPequenoProdutor_t2() {
         return pequenoProdutor_t2;
     }
 
     /**
      * @param pequenoProdutor_t2 the pequenoProdutor_t2 to set
      */
-    public void setPequenoProdutor_t2(int pequenoProdutor_t2) {
+    public void setPequenoProdutor_t2(double pequenoProdutor_t2) {
         this.pequenoProdutor_t2 = pequenoProdutor_t2;
     }
 
@@ -67,28 +67,28 @@ public class DadosAnuidade {
     /**
      * @return the medioProdutor_t1
      */
-    public int getMedioProdutor_t1() {
+    public double getMedioProdutor_t1() {
         return medioProdutor_t1;
     }
 
     /**
      * @param medioProdutor_t1 the medioProdutor_t1 to set
      */
-    public void setMedioProdutor_t1(int medioProdutor_t1) {
+    public void setMedioProdutor_t1(double medioProdutor_t1) {
         this.medioProdutor_t1 = medioProdutor_t1;
     }
 
     /**
      * @return the medioProdutor_t2
      */
-    public int getMedioProdutor_t2() {
+    public double getMedioProdutor_t2() {
         return medioProdutor_t2;
     }
 
     /**
      * @param medioProdutor_t2 the medioProdutor_t2 to set
      */
-    public void setMedioProdutor_t2(int medioProdutor_t2) {
+    public void setMedioProdutor_t2(double medioProdutor_t2) {
         this.medioProdutor_t2 = medioProdutor_t2;
     }
 
@@ -105,19 +105,21 @@ public class DadosAnuidade {
     public void setMedioProdutor_porcen(int medioProdutor_porcen) {
         this.medioProdutor_porcen = medioProdutor_porcen;
     }
+
     /**
      * @return the grandeProdutor
      */
-    public int getGrandeProdutor() {
+    public double getGrandeProdutor() {
         return grandeProdutor;
     }
 
     /**
      * @param grandeProdutor the grandeProdutor to set
      */
-    public void setGrandeProdutor(int grandeProdutor) {
+    public void setGrandeProdutor(double grandeProdutor) {
         this.grandeProdutor = grandeProdutor;
     }
+
     /**
      * @return the grandeProdutor_porcen
      */
@@ -159,4 +161,5 @@ public class DadosAnuidade {
     public void setId(int id) {
         this.id = id;
     }
+
 }

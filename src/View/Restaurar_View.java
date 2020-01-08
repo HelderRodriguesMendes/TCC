@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controller.Anuidade_Controller;
 import Controller.Util_Controller;
 import DAO.Anuidade_DAO;
 import DAO.Controle_Caixa_DAO;
@@ -43,6 +44,7 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
     Propriedades_Rurais_DAO DADOSR = new Propriedades_Rurais_DAO();
     Controle_Caixa_DAO CC = new Controle_Caixa_DAO();
     Anuidade_DAO AD = new Anuidade_DAO();
+    Anuidade_Controller anuidade_Controller = new Anuidade_Controller();
 
     public Restaurar_View() {
         initComponents();
@@ -67,7 +69,7 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
 
         TABELA_DADOS_EXCLUIDOS.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
         TABELA_DADOS_EXCLUIDOS.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-        
+
         TABELA_DADOS_EXCLUIDOS.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TABELA_DADOS_EXCLUIDOS.getColumnModel().getColumn(1).setPreferredWidth(130);
         TABELA_DADOS_EXCLUIDOS.getColumnModel().getColumn(2).setPreferredWidth(110);
@@ -179,7 +181,6 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
 
         DefaultTableModel dtma = (DefaultTableModel) TABELA_DADOS_EXCLUIDOS.getModel();
         dtma.setNumRows(0);
-        
 
         DADOSR.lista_tabela_propri_res(i, nome).forEach((propri) -> {
             dtma.addRow(new Object[]{
@@ -499,11 +500,14 @@ public final class Restaurar_View extends javax.swing.JInternalFrame {
 
             int id = Integer.parseInt(TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString());
             dsp.restaurar_SIND(id);
-            
-             Calendar cal = GregorianCalendar.getInstance();
+
+            Calendar cal = GregorianCalendar.getInstance();
             int ano = cal.get(Calendar.YEAR);
-            AD.gerarDebitoAnualNovoSind(ano, id);
-            
+
+            boolean ok = anuidade_Controller.ultima_Anuidade_Recebida_sindRestaurado(id, ano);
+            if (ok) {
+                AD.gerarDebitoAnualNovoSind(ano, id);
+            }
             TXT_NOME.setText("");
             pesquisar_nome_SIND(TXT_NOME.getText());
 
