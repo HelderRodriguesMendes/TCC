@@ -871,7 +871,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             if (!s.equals("")) {
                 if (data1.equals("") && data2.equals("") & mes == 0) {
                     dataUnica1 = s;
-                  
+
                     DATA_INTERVALO1.setEnabled(false);
                     DATA_INTERVALO1.setDate(null);
                     DATA_INTERVALO2.setEnabled(false);
@@ -904,7 +904,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         if ("cadastrar".equals(status)) {
             String iid = TABELA.getValueAt(TABELA.getSelectedRow(), 0).toString();
             int i = Integer.parseInt(iid);
-            
+
             nome = TABELA.getValueAt(TABELA.getSelectedRow(), 1).toString();
 
             String a = TABELA.getValueAt(TABELA.getSelectedRow(), 3).toString();
@@ -952,7 +952,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_STATUS_PAActionPerformed
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-       
+
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -1114,7 +1114,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             String de = VALORF.getText().replace(".", "");
             String deb = de.replace(",", ".");
             c.setDebito(Double.parseDouble(deb));
-           
+
             c.setCredito(0.0);
         }
 
@@ -1492,7 +1492,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
 
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMinWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
                 TABELA_PESQUISAR_ALTERAR.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
-
 
                 C = CC.consultar_banco(banco);
 
@@ -2007,7 +2006,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
     }
 
     public void recebeAnu(int id, int ano, String nome) {
-        String v;
+        String v, classificacao;
         if ("cadastrar".equals(status)) {
             Date data = new Date();
             DATA1.setDate(data);
@@ -2018,7 +2017,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             String historico = "Anuidade recebida de " + nome + ", " + "ano: " + ano;
             HISTORICO.setText(historico);
             HISTORICO.setEnabled(false);
-            
+
             BANCO1.setSelectedIndex(2);
 
             TRANSACAO.setSelectedIndex(1);
@@ -2029,11 +2028,24 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         } else if ("alterar".equals(status)) {
             boolean ok = SD.verificaExclusão(id);
             v = AC.calcularAnuidade(id);
-
+            classificacao = AC.sindicalizado_classificado;
             if (ok) {
                 JOptionPane.showMessageDialog(null, "O sindicalizado " + nome + " está excluido do sistema." + "\n" + "O valor de sua taxa anual é: " + v + ", referente ao ano: " + ano);
             } else {
-                JOptionPane.showMessageDialog(null, "O valor da taxa anual de " + nome + ", referente ao ano " + ano + " é: " + v);
+                switch (classificacao) {
+                    case "pequeno":
+                        JOptionPane.showMessageDialog(null, "O valor da taxa anual de " + nome + ", referente ao ano " + ano + " é: " + v + "\n" + "Classificação: Pequeno produtor");
+                        break;
+                    case "medio":
+                        JOptionPane.showMessageDialog(null, "O valor da taxa anual de " + nome + ", referente ao ano " + ano + " é: " + v + "\n" + "Classificação: Médio produtor");
+                        break;
+                    case "grande":
+                        JOptionPane.showMessageDialog(null, "O valor da taxa anual de " + nome + ", referente ao ano " + ano + " é: " + v + "\n" + "Classificação: Grande produtor");
+                        break;
+                    default:
+                        break;
+                }
+
             }
         }
     }
@@ -2078,7 +2090,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             }
             if (con.getCredito() != 0.0) {
                 double e = con.getCredito();
-                
+
                 c = Util_Controller.converteMuedaBR(e);
             }
 

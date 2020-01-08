@@ -21,7 +21,7 @@ public class Anuidade_Controller {
     Anuidade_DAO AD = new Anuidade_DAO();
     Controle_Caixa_DAO CC = new Controle_Caixa_DAO();
     Propriedades_Rurais sr;
-    String sindicalizado_classificado = "";
+    public String sindicalizado_classificado = "";
     DadosAnuidade d;
     NumberFormat numberCurrencyFormat = NumberFormat.getCurrencyInstance();
 

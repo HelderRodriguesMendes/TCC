@@ -631,13 +631,20 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
     }
 
     public final void validaNumerosLetras() {
-        Util_Controller.soNumeros(PEQUENO_P1);
-        Util_Controller.soNumeros(PEQUENO_P2);
+        PEQUENO_P1.setDocument(new Formatar_JTextField());
+        PEQUENO_P1.setHorizontalAlignment(JTextField.RIGHT);
+        PEQUENO_P2.setDocument(new Formatar_JTextField());
+        PEQUENO_P2.setHorizontalAlignment(JTextField.RIGHT);                
         Util_Controller.soNumeros(PORCEN_PEQUENO_P);
-        Util_Controller.soNumeros(MEDIO_P1);
-        Util_Controller.soNumeros(MEDIO_P2);
+        
+        MEDIO_P1.setDocument(new Formatar_JTextField());
+        MEDIO_P1.setHorizontalAlignment(JTextField.RIGHT);
+        MEDIO_P2.setDocument(new Formatar_JTextField());
+        MEDIO_P2.setHorizontalAlignment(JTextField.RIGHT);
         Util_Controller.soNumeros(PORCEN_MEDIO_P);
-        Util_Controller.soNumeros(GRANDE_P);
+        
+        GRANDE_P.setDocument(new Formatar_JTextField());
+        GRANDE_P.setHorizontalAlignment(JTextField.RIGHT);
         Util_Controller.soNumeros(PORCEN_GRANDE_P);
     }
 
@@ -691,13 +698,13 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
     public DadosAnuidade preencher_objeto() {
         D_A = new DadosAnuidade();
 
-        D_A.setPequenoProdutor_t1(Integer.parseInt(PEQUENO_P1.getText()));
-        D_A.setPequenoProdutor_t2(Integer.parseInt(PEQUENO_P2.getText()));
+        D_A.setPequenoProdutor_t1(Double.parseDouble(PEQUENO_P1.getText().replace(",", ".")));
+        D_A.setPequenoProdutor_t2(Double.parseDouble(PEQUENO_P2.getText().replace(",", ".")));
         D_A.setPequenoProdutor_porcen(Integer.parseInt(PORCEN_PEQUENO_P.getText()));
-        D_A.setMedioProdutor_t1(Integer.parseInt(MEDIO_P1.getText()));
-        D_A.setMedioProdutor_t2(Integer.parseInt(MEDIO_P2.getText()));
+        D_A.setMedioProdutor_t1(Double.parseDouble(MEDIO_P1.getText().replace(",", ".")));
+        D_A.setMedioProdutor_t2(Double.parseDouble(MEDIO_P2.getText().replace(",", ".")));
         D_A.setMedioProdutor_porcen(Integer.parseInt(PORCEN_MEDIO_P.getText()));
-        D_A.setGrandeProdutor(Integer.parseInt(GRANDE_P.getText()));
+        D_A.setGrandeProdutor(Double.parseDouble(GRANDE_P.getText().replace(",", ".")));
         D_A.setGrandeProdutor_porcen(Integer.parseInt(PORCEN_GRANDE_P.getText()));
         String cr = SALARIO.getText().replace(".", "");
         String cre = cr.replace(",", ".");
