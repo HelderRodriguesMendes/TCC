@@ -400,45 +400,7 @@ public class Controle_Caixa_DAO {
             System.out.println(e);
         }
     }
-    
-    public void CriarTabelaDatasPesquisa(Date data1, Date data2){
-        con = Conexao_banco.conector();
-        try {
-            pst = con.prepareStatement("create table datas(data1 date, data2 date, idDatas int primary key not null auto_increment)");
-            pst.executeUpdate();
-            salvaDatasPesquisa(data1, data2);
-            con.close();
-        } catch (Exception e) {
-            System.out.println(" NÃO SALVO AS DASTAS DE PESQUISA");
-        }
-    }
-    public void salvaDatasPesquisa(Date data1, Date data2){
-        con = Conexao_banco.conector();
-        try {
-            pst = con.prepareStatement("insert into datas (data1, data2) values (?,?)");
-            java.sql.Date dataSqll = new java.sql.Date(data1.getTime());
-            java.sql.Date dataSql2 = new java.sql.Date(data2.getTime());
-            pst.setDate(1, dataSqll);
-            pst.setDate(2, dataSql2);
-            pst.executeUpdate();
-            con.close();
-        } catch (Exception e) {
-            System.out.println(" NÃO SALVO AS DASTAS DE PESQUISA");
-        }
-    }
-    public void excluirDatasPesquisa(){
-        int id = ultimoID();
-
-        con = Conexao_banco.conector();
-        try {
-            pst = con.prepareStatement("delete from datas where idDatas = ?");
-            pst.setInt(1, id);
-            pst.executeUpdate();
-            con.close();
-        } catch (Exception e) {
-            System.out.println(" NÃO EXCLUIU A TABELA DASTAS DE PESQUISA");
-        }
-    }
+ 
     public int ultimoID(){
         int i = 0;
         con = Conexao_banco.conector();

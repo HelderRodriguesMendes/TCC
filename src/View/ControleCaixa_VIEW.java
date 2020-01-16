@@ -1014,8 +1014,6 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Informe as datas para gerar o relatório", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     dt1 = Util_Controller.STRING_DATE(data1);
-                    dt2 = Util_Controller.STRING_DATE(data2);
-                    CC.salvaDatasPesquisa(dt1, dt2);
                     lista_TABELA_PESQUISAR_ALTERAR_P(banco, data1, data2, dataUnica1);
                 }
             } else {
@@ -1327,8 +1325,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                     SALDO_ATUAL.setText(SALDO);
                     String MES = cc_controler.mesRelatorio(data1, data2);
                     if ("relatorio".equals(status)) {
-                        Relatorios(SALDO, dt1, dt2, MES);
-                        CC.excluirDatasPesquisa();
+                        Relatorios(SALDO, dt1, dt2, MES, "");
                     }
                 } else {
                     dadosNAOencontrados();
@@ -1432,8 +1429,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                     SALDO_ATUAL.setText(SALDO);
                     String MES = cc_controler.mesRelatorio(data1, data2);
                     if ("relatorio".equals(status)) {
-                        Relatorios(SALDO, dt1, dt2, MES);
-                        CC.excluirDatasPesquisa();
+                        Relatorios(SALDO, dt1, dt2, MES, banco);
                     }
                 } else {
                     dadosNAOencontrados();
@@ -2050,18 +2046,35 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         }
     }
 
-    public void Relatorios(String saldo, Date data1, Date data2, String mes) {
-        try {
-            HashMap filtro = new HashMap();
-            filtro.put("data1", data1);
-            filtro.put("data2", data2);
-            filtro.put("SALDO", saldo);
-            filtro.put("MES", mes);
-            JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\TesteCaixa.jasper", filtro, conexao);
-            JasperViewer.viewReport(print, false);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório");
-            System.out.println(e);
+    public void Relatorios(String saldo, Date data1, Date data2, String mes, String banco) {
+
+        if ("".equals(banco)) {
+            try {
+                HashMap filtro = new HashMap();
+                filtro.put("data1", data1);
+                filtro.put("data2", data2);
+                filtro.put("SALDO", saldo);
+                filtro.put("MES", mes);
+                JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\TesteCaixa.jasper", filtro, conexao);
+                JasperViewer.viewReport(print, false);
+            } catch (JRException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao gerar relatório");
+                System.out.println(e);
+            }
+        } else {
+            try {
+                HashMap filtro = new HashMap();
+                filtro.put("data1", data1);
+                filtro.put("data2", data2);
+                filtro.put("saldo", saldo);
+                filtro.put("MES", mes);
+                filtro.put("banco", banco);
+                JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\controleCaixaSIRA.jasper", filtro, conexao);
+                JasperViewer.viewReport(print, false);
+            } catch (JRException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao gerar relatório");
+                System.out.println(e);
+            }
         }
     }
 
