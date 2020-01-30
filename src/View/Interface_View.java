@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controller.Util_Controller;
 import DAO.Sindicalizado_DAO;
 import DAO.Util_DAO;
 import java.awt.GridBagLayout;
@@ -27,6 +28,7 @@ public class Interface_View extends javax.swing.JFrame {
 
     public Interface_View() {
         initComponents();
+         Util_Controller.inserirIcone(this);
 
         addWindowListener(new WindowAdapter() { // para confirna se deseja ralmente sair do sistema
             @Override

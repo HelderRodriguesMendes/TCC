@@ -568,7 +568,7 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
     private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
         if ("cadastrar".equals(status)) {
             limparCampos();
-        }else if ("alterar".equals(status)) {
+        } else if ("alterar".equals(status)) {
             limparCampos();
             BOTAO_SALVAR.setEnabled(false);
             BOTAO_EDITAR_DADOS.setVisible(true);
@@ -592,12 +592,16 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
 
     private void BOTAO_GERAR_DEBITOS_ANUAIS_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAO_GERAR_DEBITOS_ANUAIS_1ActionPerformed
         ano = ANO1.getYear();
-        boolean ok = false;
+        String ok;
         ok = ac.ultima_Anuidade_Recebida(ano);
-        if(!ok){
-            JOptionPane.showMessageDialog(null, "O sistema já possui taxas anuais cadastradas para o ano escolhido");
-        }else{
-            String ObjButtons[] = {"Sim", "Não"};
+
+        if ("nao possui cadastros".equals(ok)) {
+            JOptionPane.showMessageDialog(null, "Não há sindicalizados cadastrados no sistema para poder gerar débitos anuais", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            if ("ja possui".equals(ok)) {
+                JOptionPane.showMessageDialog(null, "O sistema já possui taxas anuais cadastradas para o ano escolhido", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+            } else if ("".equals(ok)) {
+                String ObjButtons[] = {"Sim", "Não"};
                 int PromptResult = JOptionPane.showOptionDialog(null,
                         "Deseja cadastrar taxas anuais para os sindicalizados referente ao ano " + ano + "?", "ATENÇÃO",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
@@ -605,7 +609,9 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
                 if (PromptResult == 0) {
                     AD.buscarSindicalizadosAnuais(ano);
                 }
+            }
         }
+
     }//GEN-LAST:event_BOTAO_GERAR_DEBITOS_ANUAIS_1ActionPerformed
 
     private void SALARIOKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SALARIOKeyReleased
@@ -634,15 +640,15 @@ public class Anuidade_View extends javax.swing.JInternalFrame {
         PEQUENO_P1.setDocument(new Formatar_JTextField());
         PEQUENO_P1.setHorizontalAlignment(JTextField.RIGHT);
         PEQUENO_P2.setDocument(new Formatar_JTextField());
-        PEQUENO_P2.setHorizontalAlignment(JTextField.RIGHT);                
+        PEQUENO_P2.setHorizontalAlignment(JTextField.RIGHT);
         Util_Controller.soNumeros(PORCEN_PEQUENO_P);
-        
+
         MEDIO_P1.setDocument(new Formatar_JTextField());
         MEDIO_P1.setHorizontalAlignment(JTextField.RIGHT);
         MEDIO_P2.setDocument(new Formatar_JTextField());
         MEDIO_P2.setHorizontalAlignment(JTextField.RIGHT);
         Util_Controller.soNumeros(PORCEN_MEDIO_P);
-        
+
         GRANDE_P.setDocument(new Formatar_JTextField());
         GRANDE_P.setHorizontalAlignment(JTextField.RIGHT);
         Util_Controller.soNumeros(PORCEN_GRANDE_P);

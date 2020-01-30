@@ -7,8 +7,11 @@ package Controller;
 
 import DAO.Anuidade_DAO;
 import DAO.Controle_Caixa_DAO;
+import DAO.Sindicalizado_DAO;
 import Model.DadosAnuidade;
 import Model.Propriedades_Rurais;
+import Model.Sindicalizado;
+import View.Anuidade_View;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -20,32 +23,40 @@ public class Anuidade_Controller {
 
     Anuidade_DAO AD = new Anuidade_DAO();
     Controle_Caixa_DAO CC = new Controle_Caixa_DAO();
+    Sindicalizado_DAO SD = new Sindicalizado_DAO();
     Propriedades_Rurais sr;
     public String sindicalizado_classificado = "";
     DadosAnuidade d;
     NumberFormat numberCurrencyFormat = NumberFormat.getCurrencyInstance();
 
-    public boolean ultima_Anuidade_Recebida(int anoEscolhido) {
-        boolean ok = true;
+    public String ultima_Anuidade_Recebida(int anoEscolhido) {
+        String ok = "";
         int ano, cont = 0;
         ArrayList<Integer> ANO = AD.verificarAnuidadesGeradas();
+        ArrayList<Sindicalizado>SIND = SD.listar_Tabela_Dados_Pessoais();
 
-        for (int i = 0; i < ANO.size(); i++) {
-            ano = (int) ANO.get(i);
-            if (anoEscolhido == ano) {
-                cont++;
+        if (SIND != null && !SIND.isEmpty()) {
+            System.out.println("entro");
+            for (int i = 0; i < ANO.size(); i++) {
+                ano = (int) ANO.get(i);
+                if (anoEscolhido == ano) {
+                    cont++;
+                }
             }
+            if (cont > 0) {
+                ok = "ja possui";
+            }
+        }else{
+            ok = "nao possui cadastros";
         }
-        if (cont > 0) {
-            ok = false;
-        }
+
         return ok;
     }
 
     public boolean ultima_Anuidade_Recebida_sindRestaurado(int id, int ANO_ATUAL) {
         boolean ok = true;
         int ano, cont = 0;
-        ArrayList<Integer> ANO = AD.verificarAnuidadesGeradas_sindEXcluido(id);       
+        ArrayList<Integer> ANO = AD.verificarAnuidadesGeradas_sindEXcluido(id);
 
         for (int i = 0; i < ANO.size(); i++) {
             ano = (int) ANO.get(i);

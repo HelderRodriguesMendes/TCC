@@ -306,12 +306,10 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RG_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
                 .addComponent(BOTAO_PESQUISAR_, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(PESQUISAR_SINDLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane2)
         );
         PESQUISAR_SINDLayout.setVerticalGroup(
             PESQUISAR_SINDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,8 +329,7 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel4)
                                 .addComponent(RG_Pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(34, 34, 34)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))
         );
 
         FORM_GUIAS.addTab("CONSULTAR SINDICALIZADO", PESQUISAR_SIND);
@@ -2472,7 +2469,8 @@ public class Sindicalizado_View extends javax.swing.JInternalFrame {
         try {
             HashMap filtro = new HashMap();
             filtro.put("ID", ID); // o "id" é o id que criei como parametro la no select do Ireport
-            JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\SINDICA.jasper", filtro, conexao);
+            //JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\SINDICA.jasper", filtro, conexao);
+            JasperPrint print = JasperFillManager.fillReport("C:\\Users\\Public\\relatorios\\SINDICA.jasper", filtro, conexao);
             JasperViewer.viewReport(print, false);
         } catch (JRException e) {
             JOptionPane.showMessageDialog(null, "Erro ao gerar relatório");

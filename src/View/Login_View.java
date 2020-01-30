@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Login_Controller;
+import Controller.Util_Controller;
 import DAO.AdministradorDAO;
 import Model.Administrador;
 import Model.Sindicalizado;
@@ -27,6 +28,7 @@ public class Login_View extends javax.swing.JFrame {
         this.setTitle("LOGIN DE ACESSO");
         initComponents();
         setResizable(false);
+        Util_Controller.inserirIcone(this);
     }
 
     /**

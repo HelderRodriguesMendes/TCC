@@ -1605,7 +1605,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
         TABELA.getColumnModel().getColumn(0).setMaxWidth(0); // OCULTA A COLUNA (ID) DA TABELA PARA NÃO APARECER PARA O USUARIO
 
         AN = AD.listar_anuidades_NAO_PAGAS();
-        if (AN != null && !AN.isEmpty()) {
+
             AN.forEach((A) -> {
                 boolean a = A.isStatusPagamento();
                 String s;
@@ -1624,9 +1624,7 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
             });
             corLinhaTabelaAnuidade();
             TABELA.getTableHeader().setReorderingAllowed(false);      // BLOQUIA AS COLUNAS DA TABELA PARA NÃO MOVELAS DO LUGAR
-        } else {
-            dadosNAOencontrados();
-        }
+       
 
     }
 
@@ -2055,7 +2053,8 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 filtro.put("data2", data2);
                 filtro.put("SALDO", saldo);
                 filtro.put("MES", mes);
-                JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\TesteCaixa.jasper", filtro, conexao);
+                //JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\TesteCaixa.jasper", filtro, conexao);
+                JasperPrint print = JasperFillManager.fillReport("C:\\Users\\Public\\relatorios\\TesteCaixa.jasper", filtro, conexao);
                 JasperViewer.viewReport(print, false);
             } catch (JRException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao gerar relatório");
@@ -2069,7 +2068,8 @@ public class ControleCaixa_VIEW extends javax.swing.JInternalFrame {
                 filtro.put("saldo", saldo);
                 filtro.put("MES", mes);
                 filtro.put("banco", banco);
-                JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\controleCaixaSIRA.jasper", filtro, conexao);
+//                JasperPrint print = JasperFillManager.fillReport("C:\\Users\\helde\\relatorios\\controleCaixaSIRA.jasper", filtro, conexao);
+                JasperPrint print = JasperFillManager.fillReport("C:\\Users\\Heitor Rodrigues\\relatorios\\controleCaixaSIRA.jasper", filtro, conexao);
                 JasperViewer.viewReport(print, false);
             } catch (JRException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao gerar relatório");

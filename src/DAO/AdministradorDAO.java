@@ -42,7 +42,7 @@ public class AdministradorDAO {
             }
             con.close();
         } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao logar no sistema");
+            JOptionPane.showMessageDialog(null, "O sistema não está conectado com a base de dados", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
             System.out.println(e);
         }
         return ad;
